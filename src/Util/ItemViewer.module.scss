@@ -1,0 +1,15 @@
+.viewer {
+  display: flex;
+  flex-direction: row;
+  height: 32px;
+  width: 100%
+}
+
+.image {
+  max-width: 32px;
+  max-height: 32px;
+}
+
+.name {
+  flex-grow: 1
+}

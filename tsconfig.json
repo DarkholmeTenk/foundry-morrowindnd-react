@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "typeRoots": ["node_modules/@types", "node_modules/foundry-pc-types"],
+    "target": "esnext",
+    "moduleResolution": "Node",
+    "types": ["foundry-pc-types", "React", "react-dom"],
+    "jsx": "react"
+  }
+}
