@@ -24,7 +24,7 @@
       "manifest": "https://raw.githubusercontent.com/DarkholmeTenk/FoundryReactCore/main/module.json"
     }
   ],
-  "url": "https://github.com/DarkholmeTenk/foundry-morrowindnd",
-  "manifest": "https://raw.githubusercontent.com/DarkholmeTenk/foundry-morrowindnd/master/module.json",
-  "download": "https://github.com/DarkholmeTenk/foundry-morrowindnd/archive/master.zip"
+  "url": "https://github.com/DarkholmeTenk/foundry-morrowindnd-react",
+  "manifest": "https://raw.githubusercontent.com/DarkholmeTenk/foundry-morrowindnd-react/master/module.json",
+  "download": "https://github.com/DarkholmeTenk/foundry-morrowindnd-react/archive/master.zip"
 }
