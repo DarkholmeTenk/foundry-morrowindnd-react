@@ -27,15 +27,23 @@ async function fillSoulGem(item: Item, size: SoulSize) {
     }
 }
 
-export async function fillActorSoulGem(actor: Actor, deadActor: Actor) {
-    let soulSize = getSoulLevel(deadActor)
-    let gem = actor.items.find(item=>{
+export function getSoulGems(actor: Actor, filter?: (soulInfo: SoulInfo)=>boolean): Item[] {
+    return actor.items.filter(item=>{
         let soulInfo = isSoulGem(item)
-        if(soulInfo && !soulInfo.fillSize) {
-            return soulInfo.size.size >= soulSize.size
+        if(soulInfo) {
+            if(filter) {
+                return filter(soulInfo)
+            } else {
+                return true
+            }
         }
         return false
     })
+}
+
+export async function fillActorSoulGem(actor: Actor, deadActor: Actor) {
+    let soulSize = getSoulLevel(deadActor)
+    let gem = getSoulGems(actor, info=>!info.fillSize && info.size.size >= soulSize.size).find(()=>true)
 
     if(gem) {
         let qty = (gem.data.data as any).quantity || 1

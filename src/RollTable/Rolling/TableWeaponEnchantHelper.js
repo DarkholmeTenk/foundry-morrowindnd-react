@@ -4,7 +4,7 @@ export class WeaponEnchantment {
     }
     applyItemModification(weaponData) {
         if (weaponData.type !== "weapon")
-            return;
+            return weaponData;
         let { attackBonus, damageParts, prefix, suffix, valueAdd, valueMult } = this.data;
         if (attackBonus && attackBonus != "0") {
             weaponData.data.attackBonus += ` + ${this.data.attackBonus}`;
@@ -24,6 +24,7 @@ export class WeaponEnchantment {
         if (valueAdd) {
             weaponData.data.price += parseInt(valueAdd);
         }
+        return weaponData;
     }
     getItemData() {
         return [];

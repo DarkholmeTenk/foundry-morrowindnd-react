@@ -13,23 +13,22 @@ class EncapsulatingRollData implements RollData {
     }
 
     applyItemModification(itemData: any) {
-        this.rolls.forEach(r=>r.applyItemModification(itemData))
+        return this.rolls.reduce((acc, value)=>value.applyItemModification(acc), itemData)
     }
 
     getItemData(): any[] {
         return this.rolls.flatMap(r=>r.getItemData())
             .map(itemData=>{
-                return this.modifiers.reduce((acc, value)=>value.applyItemModification(acc) ,itemData)
+                let mods = this.modifiers || []
+                return mods.reduce((acc, value)=>value.applyItemModification(acc) ,itemData)
             })
     }
 
     getModifications(actorData: any): { [p: string]: any } {
         let map = {};
         this.rolls.forEach(r=>{
-            this.rolls.forEach(r=>{
-                let mods = r.getModifications(actorData)
-                Object.keys(mods).forEach(key=>map[key] = mods[key])
-            })
+            let mods = r.getModifications(actorData)
+            Object.assign(map, mods)
         })
         return map
     }

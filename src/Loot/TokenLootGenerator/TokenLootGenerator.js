@@ -12,7 +12,7 @@ Hooks.on("createTokenMutate", async (update, { actor, token }) => {
             log.debug("Items rolled", flatData, result);
             return flatData;
         }))).flatMap(i => i);
-        let items = rollResult.flatMap(d => d.getItemData()).map(x => new Item(x, null));
+        let items = rollResult.flatMap(d => d.getItemData());
         let modifications = {};
         rollResult.map(x => x.getModifications(actor.data)).forEach(modObj => Object.assign(modifications, modObj));
         log("Giving NPC items", token, items, modifications);

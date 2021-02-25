@@ -19,15 +19,23 @@ async function fillSoulGem(item, size) {
         await setData({ ...data, soulGem: newSoulGem });
     }
 }
-export async function fillActorSoulGem(actor, deadActor) {
-    let soulSize = getSoulLevel(deadActor);
-    let gem = actor.items.find(item => {
+export function getSoulGems(actor, filter) {
+    return actor.items.filter(item => {
         let soulInfo = isSoulGem(item);
-        if (soulInfo && !soulInfo.fillSize) {
-            return soulInfo.size.size >= soulSize.size;
+        if (soulInfo) {
+            if (filter) {
+                return filter(soulInfo);
+            }
+            else {
+                return true;
+            }
         }
         return false;
     });
+}
+export async function fillActorSoulGem(actor, deadActor) {
+    let soulSize = getSoulLevel(deadActor);
+    let gem = getSoulGems(actor, info => !info.fillSize && info.size.size >= soulSize.size).find(() => true);
     if (gem) {
         let qty = gem.data.data.quantity || 1;
         if (qty > 1) {

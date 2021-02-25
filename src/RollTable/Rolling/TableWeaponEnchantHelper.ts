@@ -14,7 +14,7 @@ export class WeaponEnchantment implements RollData {
 	}
 
 	applyItemModification(weaponData: any) {
-		if(weaponData.type !== "weapon") return
+		if(weaponData.type !== "weapon") return weaponData
 		let {attackBonus, damageParts, prefix, suffix, valueAdd, valueMult} = this.data
 		if(attackBonus && attackBonus != "0") {
 			weaponData.data.attackBonus += ` + ${this.data.attackBonus}`
@@ -34,6 +34,7 @@ export class WeaponEnchantment implements RollData {
 		if(valueAdd) {
 			weaponData.data.price += parseInt(valueAdd)
 		}
+		return weaponData
 	}
 
 	getItemData(): any[] {
