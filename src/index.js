@@ -1,5 +1,3 @@
-import "react-hot-loader/patch"
-
 import "./NPCMaker/NPCMaker"
 import "./Enchanting"
 import "./RollTable"

@@ -3,6 +3,7 @@ import {SimpleReactApplication} from "@darkholme/foundry-react-core/src/Util/Rea
 import React from "react";
 
 function loadedStart() {
+    if(!game.user.isGM) return
     let gameSettings = document.getElementById("actors").getElementsByClassName("directory-footer").item(0)
     if(!gameSettings) return;
     if(gameSettings.getElementsByClassName('morrowindnd-generate-npc').length > 0) return

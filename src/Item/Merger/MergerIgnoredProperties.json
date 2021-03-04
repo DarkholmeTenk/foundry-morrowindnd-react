@@ -1,0 +1,29 @@
+{
+  "_id": true,
+  "permission": true,
+  "folder": true,
+  "sort": true,
+  "flags": {
+    "betternpcsheet5e": true,
+    "core": true
+  },
+  "data": {
+    "quantity": true,
+    "attuned": true,
+    "attunement": true,
+    "preparation": {
+      "prepared": true
+    },
+    "uses": {
+      "value": true
+    }
+  },
+  "toggleClass": true,
+  "toggleTitle": true,
+  "toggleWeight": true,
+  "isStack": true,
+  "labels": true,
+  "hasUses": true,
+  "hasTarget": true,
+  "totalWeight": true
+}

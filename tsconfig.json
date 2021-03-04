@@ -4,6 +4,7 @@
     "target": "esnext",
     "moduleResolution": "Node",
     "types": ["foundry-pc-types", "React", "react-dom"],
-    "jsx": "react"
+    "jsx": "react",
+    "resolveJsonModule": true
   }
 }

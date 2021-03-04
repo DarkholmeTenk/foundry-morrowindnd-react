@@ -1,0 +1,36 @@
+.dropzone {
+  border: 1px brown inset;
+  padding: 2px;
+  margin: 2px;
+  min-height: 150px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.itemContainer {
+  display: flex;
+  flex-direction: column;
+  padding-top: 5px;
+  border-top: 1px black solid;
+}
+
+.itemRow {
+  display: flex;
+  flex-direction: row;
+}
+
+.itemImage {
+  width: 32px;
+  height: 32px
+}
+
+.settingsContainer {
+  border: 1px brown inset;
+  padding: 2px;
+  margin: 2px;
+  min-height: 150px;
+}
