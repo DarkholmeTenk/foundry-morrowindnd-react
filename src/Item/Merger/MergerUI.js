@@ -4,7 +4,7 @@ import {getItemMapping} from "./Merger";
 
 Hooks.on("renderActorSheet", (app, html)=>{
     let actor = app.object
-    if(actor.data.type === "character" && (game.user.isGM || actor.owner)) {
+    if(actor.data.type === "character" && game.user.isGM) {
         let mappings = getItemMapping(actor.items.entries)
         if(Object.keys(mappings).length > 0) {
             let part = html.find('.inventory-filters .filter-list')

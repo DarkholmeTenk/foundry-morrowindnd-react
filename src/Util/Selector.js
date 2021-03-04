@@ -5,7 +5,7 @@ export default function Selector({values, value, setValue, labelFunction=(s)=>`$
         if(map[label]) throw Error("Value already exists for " + label + " - " + v)
         map[label] = v
     })
-    let selected = value === null ? "" : labelFunction(value)
+    let selected = !value ? "" : labelFunction(value)
     return <select value={selected} onChange={(e)=>setValue(map[e.target.value])}>
         {includeNull ? <option value="" /> : null}
         {values.map((v)=>{
