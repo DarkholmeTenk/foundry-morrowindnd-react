@@ -6,7 +6,7 @@ import TableItemRollData from "./TableItemRollData";
 
 const log = LoggerFactory("TableSpellHelper")
 
-async function getAllSpells(): Promise<Item[]> {
+export async function getAllSpells(): Promise<Item[]> {
 	let packSpells = await loadPackItems(["Spells"], {failOnNoPack: false})
 	let byName: {[name: string]: Item} = {}
 	packSpells.forEach(s=>byName[s.name] = s)

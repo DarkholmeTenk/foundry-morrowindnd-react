@@ -3,7 +3,7 @@ import LoggerFactory from "../../Util/LoggerFactory";
 import { loadPackItems } from "@darkholme/foundry-react-core/src/Util/PackHelper";
 import TableItemRollData from "./TableItemRollData";
 const log = LoggerFactory("TableSpellHelper");
-async function getAllSpells() {
+export async function getAllSpells() {
     let packSpells = await loadPackItems(["Spells"], { failOnNoPack: false });
     let byName = {};
     packSpells.forEach(s => byName[s.name] = s);

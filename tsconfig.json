@@ -5,6 +5,7 @@
     "moduleResolution": "Node",
     "types": ["foundry-pc-types", "React", "react-dom"],
     "jsx": "react",
-    "resolveJsonModule": true
-  }
+    "resolveJsonModule": true,
+    "experimentalDecorators": true
+  },
 }

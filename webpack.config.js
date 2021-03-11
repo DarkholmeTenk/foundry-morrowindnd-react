@@ -55,7 +55,7 @@ module.exports = (env, argv) => {
             }
         },
         devtool: "source-map",
-        externals: [{"react": "React", "react-dom": "ReactDOM"}, function({context, request, contextInfo, getResolve}, callback) {
+        externals: [{"react": "React", "react-dom": "ReactDOM", "@reduxjs/toolkit": "RTK"}, function({context, request, contextInfo, getResolve}, callback) {
             if( /^.*darkholme\/foundry-react-core.*$/.test(request)) {
                 let secondBit = request.match(/^.*darkholme\/foundry-react-core(.*)$/)[1].split("/").filter(x=>x !== "src")
                 secondBit[0] = "FoundryReactCore"

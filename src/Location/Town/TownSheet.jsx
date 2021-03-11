@@ -1,6 +1,6 @@
 import PropTypes from "prop-types"
 import {TownScene} from "./TownScene";
-import TownMerchantViewer from "./TownMerchantViewer";
+import TownMerchantViewer from "./Merchant/TownMerchantViewer";
 
 export default function TownSheet({townScene}) {
     let merchants = townScene.getMerchants()
