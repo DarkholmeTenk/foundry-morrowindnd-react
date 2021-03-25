@@ -12020,7 +12020,7 @@ const BlacklistedTypes = ["class", "spell", "feat"];
 
 function isLootSheet(actor) {
   log("Sheet", actor._sheetClass.name);
-  return actor.isToken && (actor._sheetClass.name === "LootSheet5eNPC" || actor._sheetClass.name === _Token_LootSheet_LootSheet__WEBPACK_IMPORTED_MODULE_2__.LootSheet.constructor.name);
+  return actor.isToken && (actor._sheetClass.name === "LootSheet5eNPC" || actor._sheetClass.name.includes("Loot"));
 }
 
 function canBeLooted(token, lootContainer) {
