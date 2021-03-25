@@ -1,0 +1,15 @@
+.sliderRow {
+  display: flex;
+  flex-direction: row;
+}
+
+.sliderHolder {
+  flex-grow: 1;
+}
+
+.numbers {
+  display: flex;
+  flex-direction: row;
+  min-width: 20%;
+  justify-content: space-evenly;
+}

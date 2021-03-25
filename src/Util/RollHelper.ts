@@ -1,14 +1,9 @@
 import {registerSocket} from "../Socket/SocketHelper";
 
-export interface RollResult {
-    actor: string,
-    roll: Roll
-}
-
 interface CurrentAsk {
-    resolve: (responses: RollResult[])=>void
+    resolve: (responses: RollResponse[])=>void
     requests: RollRequest[]
-    responses: RollResult[]
+    responses: RollResponse[]
 }
 
 let currentAsk: CurrentAsk = null
@@ -33,17 +28,23 @@ const socket = registerSocket<RollRequest[]>("RollRequest", (data)=>{
     })
 })
 
-interface RollResponse {
+export interface RollResponse {
     actor: string,
     result: string
 }
 
+export type RollResult = {[actorId: string]: Roll}
+export function processRollResponse(responses: RollResponse[]): RollResult {
+    let map = {}
+    responses.forEach(({actor, result})=>{
+        map[actor] = Roll.fromJSON(result)
+    })
+    return map
+}
+
 const rollSocket = registerSocket<RollResponse>("RollResponse", (data)=>{
     if(!currentAsk) return;
-    currentAsk.responses.push({
-        actor: data.actor,
-        roll: Roll.fromJSON(data.result)
-    })
+    currentAsk.responses.push(data)
     resolveCurrentAsk()
 })
 
@@ -51,7 +52,7 @@ interface RequestOptions {
     timeout?: number
 }
 
-export async function requestRolls(requests: RollRequest[], options: RequestOptions = {}): Promise<RollResult[]> {
+export async function requestRolls(requests: RollRequest[], options: RequestOptions = {}): Promise<RollResponse[]> {
     return new Promise((resolve)=>{
         currentAsk = {
             resolve,

@@ -1,12 +1,21 @@
-import {SimpleReactApplication} from "../../../FoundryReactCore/src/Util/ReactApplication";
+import {SimpleReactApplication} from "@darkholme/foundry-react-core/src/Util/ReactApplication.jsx";
 import {connect, Provider} from "react-redux";
 import {refreshTravelState, TravelStore} from "./State/TravelStore";
-import TravelUIComponent from "./TravelUIComponent";
+import TravelUIComponent from "./UI/TravelUIComponent";
+import {setupSetting} from "../Constants/Config";
 
 const Wrapped = connect((state)=>({state}))(TravelUIComponent)
 
+const IS_ENABLED = setupSetting({
+    key: "Travel.UI.Enabled",
+    name: "Enable Travel UI",
+    default: false,
+    type: Boolean,
+})
+
 Hooks.on("getSceneControlButtons", (controls) => {
-    controls.find(x=>x.name=="token").tools.push({
+    if(!IS_ENABLED.value) return
+    controls.find(x => x.name == "token").tools.push({
         name: "morrowindnd.travel",
         title: "morrowindnd.travel",
         icon: "fas fa-compass",

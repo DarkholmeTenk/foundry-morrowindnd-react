@@ -1,9 +1,10 @@
 import "@darkholme/foundry-react-core/src/Util/AsyncHelper"
 import {useCallback, useContext, useState} from "react";
-import {CircularProgress, Slider} from "@material-ui/core"
+import {Button, CircularProgress, Slider} from "@material-ui/core"
 import {onDrop} from "@darkholme/foundry-react-core/src/Util/DropHelper";
 import Styles from "./SalesUI.module.scss"
 import AppContext from "@darkholme/foundry-react-core/src/Util/AppContext";
+import GoldDisplay from "../../Util/Components/GoldDisplay";
 
 function add(prev, newOne) {
     if(prev.some(x=>x.item.id === newOne.id))
@@ -28,7 +29,7 @@ function ItemDisplay({data: {item, qty}, update, rate}) {
         <div className={Styles.itemRow} >
             <img className={Styles.itemImage} src={item.img} />
             <div style={{flexGrow: 1}}> {item.name} </div>
-            <div><i className="fas fa-coins" />{value} [{realValue}]</div>
+            <div><i className="fas fa-coins" /><GoldDisplay value={value}/> [<GoldDisplay value={realValue} />]</div>
         </div>
         <div className={Styles.itemRow}>
             <Slider value={qty} max={maxQty} min={0} valueLabelDisplay="auto" onChange={(_,v)=>update({item, qty: v || 0})} />
@@ -41,7 +42,7 @@ function FlagUpdater({flag, setFlag, save}) {
     return <div className={Styles.settingsContainer}>
         Sales Rate
         <Slider value={flag.rate} min={0} max={1} step={0.05} valueLabelDisplay="auto" onChange={(_,v)=>setFlag({...flag, rate: v})} />
-        <button onClick={save}>Save</button>
+        <Button onClick={save}>Save</Button>
     </div>
 }
 
@@ -90,7 +91,7 @@ export default function SalesUI({flag, setFlag, self}) {
                 })
             return <ItemDisplay rate={rate} key={i} data={data} update={update} />
         })}
-        <button onClick={async ()=>{
+        <Button onClick={async ()=>{
             setProcessing(true)
             await items.forEachAsync(async ({item,qty}) => {
                 let maxQty = getMaxQty(item)
@@ -102,6 +103,6 @@ export default function SalesUI({flag, setFlag, self}) {
             })
             await self.update(buildGoldUpdate(totalValue, self))
             app.close()
-        }}>Complete Sale <i className="fas fa-coins" /> {totalValue} [{totalRealValue}]</button>
+        }}>Complete Sale <i className="fas fa-coins" /> {totalValue} [{totalRealValue}]</Button>
     </div>
 }

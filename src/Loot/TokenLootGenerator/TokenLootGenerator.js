@@ -2,6 +2,18 @@ import doRollTable from "../../RollTable/Rolling/TableRoller";
 import getLogger from "../../Util/LoggerFactory";
 const log = getLogger("TokenLootGenerator");
 export const ACTOR_FLAG = "extraActorData";
+function fixTokenModifications(o) {
+    let nO = {};
+    Object.keys(o).forEach(k => {
+        if (k.startsWith("actorData")) {
+            nO[k] = o[k];
+        }
+        else {
+            nO[`actorData.${k}`] = o[k];
+        }
+    });
+    return nO;
+}
 Hooks.on("createTokenMutate", async (update, { actor, token }) => {
     update(async () => {
         let rollTableIds = actor.getFlag("morrowindnd", ACTOR_FLAG)?.rollTableIds || [];
@@ -14,7 +26,7 @@ Hooks.on("createTokenMutate", async (update, { actor, token }) => {
         }))).flatMap(i => i);
         let items = rollResult.flatMap(d => d.getItemData());
         let modifications = {};
-        rollResult.map(x => x.getModifications(actor.data)).forEach(modObj => Object.assign(modifications, modObj));
+        rollResult.map(x => x.getModifications(actor.data)).forEach(modObj => Object.assign(modifications, fixTokenModifications(modObj)));
         log("Giving NPC items", token, items, modifications);
         return { "items": items, ...modifications };
     });

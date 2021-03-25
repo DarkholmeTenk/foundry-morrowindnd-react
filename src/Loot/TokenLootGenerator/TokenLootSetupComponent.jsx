@@ -1,4 +1,5 @@
 import {useCallback, useContext, useState} from "react";
+import {e} from '../../Util/Helper/DomEventHelper'
 import Selector from "../../Util/Selector";
 import AppContext from "@darkholme/foundry-react-core/src/Util/AppContext";
 
@@ -6,14 +7,14 @@ export default function TokenLootSetupComponent({flag, setFlag}) {
     let tables = game.tables
     let [rollTables, setRollTables] = useState(flag?.rollTableIds || [])
     let app = useContext(AppContext)
-    let removeTable = useCallback((slot)=>{
+    let removeTable = useCallback(e((slot)=>{
         let newRollTables = [...rollTables]
         newRollTables.splice(slot, 1)
         setRollTables(newRollTables)
-    }, [rollTables])
-    let addTable = useCallback(()=>{
+    }), [rollTables])
+    let addTable = useCallback(e(()=>{
         setRollTables([...rollTables, {id: null, qty: "1"}])
-    }, [rollTables])
+    }), [rollTables])
     let updateTable = useCallback((slot, newValue)=>{
         let newTables = [...rollTables]
         newTables[slot] = newValue
@@ -30,9 +31,9 @@ export default function TokenLootSetupComponent({flag, setFlag}) {
             </div>
         })}
         <button onClick={addTable}>+</button>
-        <button onClick={async ()=>{
+        <button onClick={e(async ()=>{
             await setFlag({rollTableIds: rollTables})
             app.close()
-        }}>Save</button>
+        })}>Save</button>
     </div>
 }

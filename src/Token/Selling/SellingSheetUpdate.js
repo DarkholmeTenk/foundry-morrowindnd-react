@@ -12,7 +12,7 @@ Hooks.on("renderActorSheet", (app, html)=>{
         button.click((e)=>{
             let [flag, setFlag] = getFlag(actor, "seller_data", {rate: 0.2})
             let me = game.user.character
-            me.sheet.render(true)
+            me?.sheet?.render(true)
             new SimpleReactApplication(<SalesUI flag={flag} setFlag={setFlag} self={me} />, {width: 600, height: 800 } ).render(true)
         })
         section.append(button)

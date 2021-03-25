@@ -24,6 +24,10 @@ export function registerSocket<X>(id: string, callback: DataCallback<X>): DataCa
 
 export function registerGMSocket<X>(id: string, callback: DataCallback<X>): DataCallback<X> {
     return registerSocket(id, (x)=>{
+        if(!game.users.entities.some(u=>u.isGM)) {
+            ui.notifications.error("A GM must be online to perform this action")
+            throw new Error("No GM Available")
+        }
         if(game.user.isGM) {
             callback(x)
         }

@@ -1,11 +1,5 @@
-var CurrencyLevel;
-(function (CurrencyLevel) {
-    CurrencyLevel["pp"] = "pp";
-    CurrencyLevel["gp"] = "sp";
-    CurrencyLevel["sp"] = "sp";
-    CurrencyLevel["cp"] = "cp";
-})(CurrencyLevel || (CurrencyLevel = {}));
-const CurrencyLevels = [CurrencyLevel.pp, CurrencyLevel.gp, CurrencyLevel.sp, CurrencyLevel.cp];
+import { CurrencyType, getActorDataCurrencyAmount } from "../../Util/Helper/GoldHelper";
+const CurrencyLevels = [CurrencyType.pp, CurrencyType.gp, CurrencyType.sp, CurrencyType.cp];
 const defaultLevel = "gp";
 export class CurrencyItem {
     constructor(values) {
@@ -38,8 +32,8 @@ export class CurrencyItem {
         this.map((value, type) => {
             if (!value)
                 return;
-            let existingValue = (currency[type]?.value || 0);
-            let modString = `data.currency.${type}.value`;
+            let existingValue = getActorDataCurrencyAmount(currency[type]) || 0;
+            let modString = `data.currency.${type}`;
             modifications[modString] = existingValue + value;
         });
         return modifications;

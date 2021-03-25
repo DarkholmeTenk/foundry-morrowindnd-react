@@ -1,15 +1,11 @@
 import {RollData, RollTableArguments, TableHelper} from "./TableHelper";
+import {CurrencyType, getActorDataCurrencyAmount, GoldBreakdown} from "../../Util/Helper/GoldHelper";
 
-enum CurrencyLevel {
-	"pp"= "pp",
-	"gp"= "sp",
-	"sp"= "sp",
-	"cp"= "cp"
-}
-const CurrencyLevels: CurrencyLevel[] = [CurrencyLevel.pp, CurrencyLevel.gp, CurrencyLevel.sp, CurrencyLevel.cp]
+type CurrencyLevel = CurrencyType
+const CurrencyLevels: CurrencyLevel[] = [CurrencyType.pp, CurrencyType.gp, CurrencyType.sp, CurrencyType.cp]
 const defaultLevel = "gp"
 
-type CurrencyValues = {[level in CurrencyLevel]?: number}
+type CurrencyValues = GoldBreakdown
 
 export class CurrencyItem implements RollData {
 	constructor(private readonly values: CurrencyValues) {
@@ -45,8 +41,8 @@ export class CurrencyItem implements RollData {
 		let currency = actorData?.data?.currency || {}
 		this.map((value, type)=>{
 			if(!value) return;
-			let existingValue = (currency[type]?.value || 0);
-			let modString = `data.currency.${type}.value`;
+			let existingValue = getActorDataCurrencyAmount(currency[type]) || 0;
+			let modString = `data.currency.${type}`;
 			modifications[modString] = existingValue + value
 		})
 		return modifications

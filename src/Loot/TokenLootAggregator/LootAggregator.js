@@ -1,5 +1,6 @@
 import getLogger from "../../Util/LoggerFactory";
 import {mergeItemData} from "@darkholme/foundry-react-core/src/Util/ItemHelper";
+import {LootSheet} from "../../Token/LootSheet/LootSheet";
 
 const log = getLogger("LootSheetCreator")
 const FLAG = "LootedFlag"
@@ -7,7 +8,7 @@ const BlacklistedTypes = ["class", "spell", "feat"]
 
 function isLootSheet(actor) {
     log("Sheet", actor._sheetClass.name)
-    return actor.isToken && actor._sheetClass.name === "LootSheet5eNPC"
+    return actor.isToken && (actor._sheetClass.name === "LootSheet5eNPC" || actor._sheetClass.name === LootSheet.constructor.name)
 }
 
 function canBeLooted(token, lootContainer) {

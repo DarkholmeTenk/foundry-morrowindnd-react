@@ -8,8 +8,17 @@ import {Provider} from "react-redux";
 import NPCViewer from "./NPCs/NPCViewer";
 import {NPC} from "./NPCs/NPCData";
 import {JobType} from "./NPCs/JobTypes";
+import {setupSetting} from "../../Constants/Config";
+
+const IS_ENABLED = setupSetting({
+    key: "Town.UI.Enabled",
+    name: "Enable Town UI",
+    default: false,
+    type: Boolean,
+})
 
 Hooks.on("journalSheetMenuItems", async (addMenuItem, app)=>{
+    if(!IS_ENABLED.value) return
     let journal = app.object
     let [flag, setFlag] = getFlag(journal, "town_settings", {})
     if(game.user.isGM) {
@@ -38,6 +47,7 @@ Hooks.on("journalSheetMenuItems", async (addMenuItem, app)=>{
 })
 
 Hooks.on("getSceneControlButtons", (controls) => {
+    if(!IS_ENABLED.value) return
     controls.find(x=>x.name=="token").tools.push({
         name: "morrowindnd.town",
         title: "morrowindnd.town",
