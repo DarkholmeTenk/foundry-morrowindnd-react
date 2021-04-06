@@ -1,6 +1,7 @@
 import {useContext, useState} from "react";
 import {doMerge} from "./Merger";
 import AppContext from "@darkholme/foundry-react-core/src/Util/AppContext";
+import {Button} from "@material-ui/core";
 
 function SingleRow({selected, setSelected, item, matchedItem, differences}) {
     return <div>
@@ -28,9 +29,9 @@ export default function MergerUIComponent({actor, mappings}) {
             let setRowSelected = (v)=>setSelected({...selected, [itemId]: v})
             return <SingleRow selected={selected[itemId]} setSelected={setRowSelected} item={item} matchedItem={mappedItem} differences={differences} key={itemId} />
         })}
-        <button onClick={async ()=>{
+        <Button onClick={async ()=>{
             await doMerge(actor, mappings, selected)
             app.close()
-        }}>Merge</button>
+        }}>Merge</Button>
     </div>
 }

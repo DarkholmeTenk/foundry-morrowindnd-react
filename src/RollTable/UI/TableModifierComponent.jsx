@@ -1,6 +1,7 @@
 import Selector from "../../Util/Selector";
 import {useContext, useState} from "react";
 import AppContext from "@darkholme/foundry-react-core/src/Util/AppContext";
+import {Button} from "@material-ui/core";
 
 export default function TableModifierComponent({flag, setFlag}) {
     let tables = game.tables
@@ -9,9 +10,9 @@ export default function TableModifierComponent({flag, setFlag}) {
     return <div>
         Roll Table
         <Selector values={tables.entities} value={table} setValue={setTable} labelFunction={t=>t.name} includeNull />
-        <button onClick={async ()=>{
+        <Button onClick={async ()=>{
             await setFlag({tableId: table.id})
             app.close()
-        }}>Save</button>
+        }}>Save</Button>
     </div>
 }

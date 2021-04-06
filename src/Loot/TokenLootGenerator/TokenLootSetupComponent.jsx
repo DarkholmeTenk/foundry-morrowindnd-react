@@ -2,6 +2,7 @@ import {useCallback, useContext, useState} from "react";
 import {e} from '../../Util/Helper/DomEventHelper'
 import Selector from "../../Util/Selector";
 import AppContext from "@darkholme/foundry-react-core/src/Util/AppContext";
+import {Button} from "@material-ui/core";
 
 export default function TokenLootSetupComponent({flag, setFlag}) {
     let tables = game.tables
@@ -27,13 +28,13 @@ export default function TokenLootSetupComponent({flag, setFlag}) {
             return <div>
                 Qty: <input value={table.qty} onChange={(e)=>updateTable(index, {...table, qty: e.target.value})} />
                 Table: <Selector values={tables.entities} value={rolltable} setValue={(n)=>updateTable(index, {...table, id: n.id})} labelFunction={n=>n.name} />
-                <button onClick={()=>removeTable(index)}>-</button>
+                <Button onClick={()=>removeTable(index)}>-</Button>
             </div>
         })}
-        <button onClick={addTable}>+</button>
-        <button onClick={e(async ()=>{
+        <Button onClick={addTable}>+</Button>
+        <Button onClick={e(async ()=>{
             await setFlag({rollTableIds: rollTables})
             app.close()
-        })}>Save</button>
+        })}>Save</Button>
     </div>
 }
