@@ -1,22 +1,47 @@
-interface SettingData<X> {
-    key: string,
-    name: string,
-    hint?: string,
-    scope?: string,
-    config?: boolean
-    default: X,
-    type: any
-}
+//@ts-ignore
+import {SimpleReactFormSheet} from "../Util/Helper/ReactFormApplication"
+import * as React from "react";
 
 const MODULE = "morrowindnd"
 let isInitialised = false
 
-const settings: Setting<any>[] = [
+const settings: BaseSetting<any, any>[] = [
 
 ]
+function addSetting<Z extends BaseSetting<any, any>>(x: Z): Z {
+    settings.push(x)
+    if(isInitialised) x.register()
+    return x
+}
 
-export class Setting<X> {
+interface BaseSettingData<X> {
+    key: string,
+    name: string,
+    hint?: string
+    default: X,
+    scope?: string,
+    type: any
+}
+class BaseSetting<Y extends BaseSettingData<X>, X> {
+    constructor(public readonly data: Y) {}
+
+    get value(): X {
+        return isInitialised ? game.settings.get(MODULE, this.data.key) : this.data.default
+    }
+
+    set value(newValue) {
+        game.settings.set(MODULE, this.data.key, newValue)
+    }
+
+    register() {}
+}
+
+interface SettingData<X> extends BaseSettingData<X> {
+    config?: boolean
+}
+export class Setting<X> extends BaseSetting<SettingData<X>, X> {
     constructor(public data: SettingData<X>) {
+        super(data)
         if(!data.scope) data.scope = "world"
         if(data.config === undefined || data.config === null) data.config = true
     }
@@ -26,23 +51,55 @@ export class Setting<X> {
             ...this.data
         })
     }
+}
+export function setupSetting<X>(data: SettingData<X>): Setting<X> {
+    return addSetting(new Setting<X>(data))
+}
 
-    get value(): X {
-        return isInitialised ? game.settings.get(MODULE, this.data.key) : this.data.default
+interface SettingMenuData<X> extends BaseSettingData<X>{
+    label: string,
+    icon?: string,
+    sheetOptions?: any,
+    restricted: boolean
+}
+export class SettingMenu<X> extends BaseSetting<SettingMenuData<X>, X> {
+    constructor(private readonly setting: Setting<X>, data: SettingMenuData<X>) {
+        super(data);
     }
 
-    set value(newValue) {
-        game.settings.set(MODULE, this.data.key, newValue)
+    register() {
+        let type = this.data.type
+        let self = this
+        class TempClass extends SimpleReactFormSheet {
+            constructor(...args) {
+                super(React.createElement(type, {setting: self.setting}), ...args)
+            }
+
+            static get defaultOptions() {
+                return mergeObject(super.defaultOptions, {
+                    ...self.data.sheetOptions || {}
+                })
+            }
+        }
+
+        game.settings.registerMenu(MODULE, this.data.key, {
+            ...this.data,
+            type: TempClass
+        })
     }
 }
+export function setupSettingMenu<X>(data: SettingMenuData<X>): SettingMenu<X> {
+    let settingData: SettingData<X> = {
+        ...data,
+        key: data.key + '.value',
+        config: false,
+        type: null
+    }
+    let setting = setupSetting(settingData)
+    return addSetting(new SettingMenu(setting, data))
+}
+
 Hooks.on("init", ()=>{
     settings.forEach(x=>x.register())
     isInitialised = true
 })
-
-export function setupSetting<X>(data: SettingData<X>): Setting<X> {
-    let setting = new Setting<X>(data)
-    settings.push(setting)
-    if(isInitialised) setting.register()
-    return setting
-}

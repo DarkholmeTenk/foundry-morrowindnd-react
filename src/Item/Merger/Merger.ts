@@ -22,9 +22,9 @@ function buildUpdate(item: Item, differences: any, key: string = "", result: any
     Object.keys(differences).forEach(dKey=>{
         let newKey = key == "" ? dKey : `${key}.${dKey}`
         let diffVal = differences[dKey]
-        if(diffVal === true) {
-            let prop = getProperty(item.data, newKey)
-            result[newKey] = prop === undefined ? null : prop
+        let val = getProperty(item.data, newKey)
+        if(diffVal === true || (typeof(val) === "object" && Array.isArray(val))) {
+            result[newKey] = val === undefined ? null : val
         } else {
             buildUpdate(item, diffVal, newKey, result)
         }

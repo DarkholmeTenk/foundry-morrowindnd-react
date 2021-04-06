@@ -1,11 +1,12 @@
-import VoiceData from "./VoiceData.json"
-import {useCallback, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import RefreshButton from "../Util/RefreshButton";
+import {useNpcVoiceData} from "./NPCMakerApi";
 
-function generateVoice() {
+function generateVoice(data) {
+    if(!data) return {}
     let voice = {}
-    Object.keys(VoiceData).forEach(key=>{
-        let array = VoiceData[key]
+    Object.keys(data).forEach(key=>{
+        let array = data[key]
         let choice = Math.floor(Math.random() * array.length)
         voice[key] = array[choice]
     })
@@ -20,10 +21,12 @@ function VoiceDisplay({voice, refreshVoice}) {
 }
 
 export function useVoice() {
-    let [voice, setVoice] = useState(generateVoice())
+    let {loading, data} = useNpcVoiceData()
+    let [voice, setVoice] = useState({})
     let refresh = useCallback(()=>{
-        setVoice(generateVoice())
+        setVoice(generateVoice(data))
     })
+    useEffect(refresh, [data])
     let component = <VoiceDisplay voice={voice} refreshVoice={refresh} />
     let table = `<table><tbody>${Object.keys(voice).map(x=>`<tr><td>${x}</td><td>${voice[x]}</td></tr>`).join("")}</tbody></table>`
     return {voice: table, component}

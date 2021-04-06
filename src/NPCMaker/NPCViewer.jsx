@@ -5,14 +5,17 @@ import {useVoice} from "./VoiceChooser";
 import styles from "./NPCViewer.module.scss"
 import {useImageChooser} from "./ImageChooser";
 import {setupFolder} from "@darkholme/foundry-react-core/src/Util/FolderHelper";
+import {Button} from "@material-ui/core";
+import {useNpcNameData} from "./NPCMakerApi";
 
 export default function NPCViewer({filtered, choice}) {
     let appContext = useContext(AppContext)
+    let {loading, data} = useNpcNameData()
     let {image, component: imageComponent} = useImageChooser(filtered)
-    let {name, component: nameComponent} = useName(image, choice)
+    let {name, component: nameComponent} = useName(data, image, choice)
     let {voice, component: voiceComponent} = useVoice()
 
-    if(image == null) {
+    if(loading || image == null) {
         return <div>
             No possible NPC
         </div>
@@ -22,7 +25,7 @@ export default function NPCViewer({filtered, choice}) {
             <div className={styles.attributes}>
                 {nameComponent}
                 {voiceComponent}
-                <button onClick={async ()=>{
+                <Button onClick={async ()=>{
                     let folder = await setupFolder("npcs/generated", "Actor")
                     let actorData = {
                         name,
@@ -39,7 +42,7 @@ export default function NPCViewer({filtered, choice}) {
                     }
                     await Actor.create(actorData, {renderSheet: true})
                     appContext.close()
-                }}>Save</button>
+                }}>Save</Button>
             </div>
         </div>
     }
