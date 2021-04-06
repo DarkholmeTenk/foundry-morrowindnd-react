@@ -30,7 +30,7 @@ export function useNPC<T extends Actor>(actor: Actor) {
         let type = actor.isToken ? "Token": "Actor"
         if(actor.isToken) {
             hookID = Hooks.on(`updateToken`, (scene, newData, change)=>{
-                if(newData.id !== actor.id && newData._id !== actor.id) return
+                if(newData.id !== actor.id && newData._id !== actor.id && newData.id !== actor.token.id && newData._id !== actor.token.id) return
                 setCurrent({actor: new Token(newData, scene).actor})
             })
         } else {
