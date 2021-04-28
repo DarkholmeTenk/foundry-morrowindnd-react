@@ -25,6 +25,11 @@ class EncapsulatingRollData {
         });
         return map;
     }
+    multiply(num) {
+        let newRolls = this.rolls.map(r => r.multiply(num));
+        let newMods = this.modifiers.map(r => r.multiply(num));
+        return new EncapsulatingRollData(newRolls, newMods);
+    }
 }
 export default async function doRollTable(id) {
     if (!id)

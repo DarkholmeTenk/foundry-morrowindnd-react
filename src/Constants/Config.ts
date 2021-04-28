@@ -67,6 +67,9 @@ export class SettingMenu<X> extends BaseSetting<SettingMenuData<X>, X> {
         super(data);
     }
 
+    get value() { return this.setting.value }
+    set value(newValue) { this.setting.value = newValue}
+
     register() {
         let type = this.data.type
         let self = this

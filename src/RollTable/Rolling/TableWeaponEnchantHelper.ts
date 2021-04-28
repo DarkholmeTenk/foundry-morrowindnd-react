@@ -44,6 +44,10 @@ export class WeaponEnchantment implements RollData {
 	getModifications(actorData: any): { [p: string]: any } {
 		return {};
 	}
+
+	multiply(num: number): RollData {
+		return this
+	}
 }
 
 export default class TableWeaponEnchantHelper implements TableHelper {

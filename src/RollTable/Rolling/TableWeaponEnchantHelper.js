@@ -32,6 +32,9 @@ export class WeaponEnchantment {
     getModifications(actorData) {
         return {};
     }
+    multiply(num) {
+        return this;
+    }
 }
 export default class TableWeaponEnchantHelper {
     async getRollData({ args }) {

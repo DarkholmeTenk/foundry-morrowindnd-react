@@ -32,6 +32,12 @@ class EncapsulatingRollData implements RollData {
         })
         return map
     }
+
+    multiply(num: number): RollData {
+        let newRolls = this.rolls.map(r=>r.multiply(num))
+        let newMods = this.modifiers.map(r=>r.multiply(num))
+        return new EncapsulatingRollData(newRolls, newMods)
+    }
 }
 
 interface TableRollResult {

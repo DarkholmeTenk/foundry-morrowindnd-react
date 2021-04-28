@@ -13,7 +13,7 @@ function getCompareFunction(comparator, target) {
 		case "<": return (v)=>v < target;
 		case ">": return (v)=>v > target;
 		case "!=": return  (v)=>v != target
-		case "  in ": return (v)=>target.split(",").includes(v)
+		case " in ": return (v)=>target.split(",").includes(v)
 		case " !in ": return (v)=>!target.split(",").includes(v)
 		case " includes ": return (v)=>v.includes(target)
 		case " !includes ": return (v)=>!v.includes(target)
@@ -42,7 +42,11 @@ const specialFilters = {
 	},
 	"enchanted": ()=>{
 		return (_,itemData)=>itemData.flags.morrowindnd?.enchanter_data
-	}
+	},
+	"melee": ()=>(_,itemData)=>itemData.data.weaponType?.endsWith("M") || false,
+	"ranged": ()=>(_,itemData)=>itemData.data.weaponType?.endsWith("R") || false,
+	"spell": ()=>(_,itemData)=>itemData.type === "spell",
+	"weapon": ()=>(_,itemData)=>itemData.type === "weapon"
 }
 
 function getFilter(argument) {

@@ -1,7 +1,8 @@
 import {setupSettingMenu} from "../../Constants/Config";
 import PackSelectorComponent, {PackSelectorOptions} from "../../Constants/Packs/PackSelectorComponent";
+import {PackId} from "../../Util/Identifiers/PackId";
 
-export const ItemPackSetting = setupSettingMenu({
+export const ItemPackSetting = setupSettingMenu<PackId[]>({
     key: "rolltable.itempack",
     name: "Item Packs",
     label: "Item Packs",
@@ -12,7 +13,7 @@ export const ItemPackSetting = setupSettingMenu({
 })
 
 
-export const SpellPackSetting = setupSettingMenu({
+export const SpellPackSetting = setupSettingMenu<PackId[]>({
     key: "rolltable.spellpack",
     name: "Spell Packs",
     label: "Spell Packs",

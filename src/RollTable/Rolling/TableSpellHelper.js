@@ -1,14 +1,12 @@
 import LoggerFactory from "../../Util/LoggerFactory";
-// @ts-ignore
-import { loadPackItems } from "@darkholme/foundry-react-core/src/Util/PackHelper";
 import TableItemRollData from "./TableItemRollData";
+import { loadPacks } from "../../Util/Identifiers/PackId";
+import { SpellPackSetting } from "./Settings";
 const log = LoggerFactory("TableSpellHelper");
 export async function getAllSpells() {
-    let packSpells = await loadPackItems(["Spells"], { failOnNoPack: false });
+    let packSpells = await loadPacks(SpellPackSetting.value);
     let byName = {};
     packSpells.forEach(s => byName[s.name] = s);
-    game.items.filter(i => i.type === "spell")
-        .forEach(s => byName[s.name] = s);
     return Object.values(byName);
 }
 export default class TableSpellHelper {

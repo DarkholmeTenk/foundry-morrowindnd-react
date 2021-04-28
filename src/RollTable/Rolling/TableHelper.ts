@@ -15,6 +15,8 @@ export interface RollData  {
 	getItemData(): any[]
 
 	applyItemModification(itemData: any): any
+
+	multiply(num: number): RollData
 }
 
 export interface RollTableArguments {
