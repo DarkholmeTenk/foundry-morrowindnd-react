@@ -1,4 +1,3 @@
-
 export interface SceneTokenId {
     sceneId: string,
     tokenId: string

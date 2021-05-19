@@ -1,21 +1,18 @@
 import {useNPC} from "../../Util/EntityHelper";
-import {NumberFormat, ItemTable} from "../../Util/Components/ItemTable";
+import ItemTable, {NumberFormat} from "../../Util/Components/ItemTable";
 import {LootTakeSocket} from "./LootAction";
-import {openItemQuantitySelect} from "./ItemQuantitySelector";
+import {openItemQuantitySelect} from "./ItemQuantitySelector.tsx";
 import {getActorId} from "../../Util/Identifiers/ActorID";
 import TokenPermission from "../../Util/Components/TokenPermission";
 import GoldSection from "./GoldSection";
 import Style from "./LootSheet.module.scss"
-import {Card, CardContent, CardHeader} from "@material-ui/core";
 import GoldDisplay from "../../Util/Components/GoldDisplay";
-
-
 
 export default function LootSheetComponent({npc: npcInput, self: selfInput}) {
     let {value: npc} = useNPC(npcInput)
     let {value: self} = useNPC(selfInput)
 
-    let takeControls = (item)=>{
+    let takeControls = ({item})=>{
         let controls = []
         if(item.owner) {
             controls.push({title: "Delete", text: <i className="fas fa-trash" />, classes: "item-delete", onClick: ()=>item.delete()})
@@ -33,13 +30,13 @@ export default function LootSheetComponent({npc: npcInput, self: selfInput}) {
     let extraColumns = [
         {
             title: "Value (i)",
-            getter: (i)=><GoldDisplay value={i.data.data.price}/>
+            getter: ({item})=><GoldDisplay value={item.data.data.price}/>
         }, {
             title: "Value (t)",
-            getter: (i)=><GoldDisplay value={i.data.data.price * (i.data.data.quantity || 1)}/>
+            getter: ({item})=><GoldDisplay value={item.data.data.price * (item.data.data.quantity || 1)}/>
         }, {
             title: "V/W",
-            getter: (i)=>i.data.data.weight > 0 ? NumberFormat.format(i.data.data.price / i.data.data.weight) : "-"
+            getter: ({item})=>item.data.data.weight > 0 ? NumberFormat.format(item.data.data.price / item.data.data.weight) : "-"
         }
     ]
 

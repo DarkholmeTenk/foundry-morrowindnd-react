@@ -1,14 +1,16 @@
 import {ItemId, OwnedItemId} from "../../Util/Identifiers/ItemID";
+import {SellableSource} from "./Sellable/SellableData";
 
 interface MerchantItem {
     itemId: ItemId,
     qty?: number
 }
 
-interface MerchantFlag {
+export interface MerchantFlag {
     items: MerchantItem[],
     buyRate: number,
-    sellRate: number
+    sellRate: number,
+    sellables?: string
 }
 
 const defaultMerchantFlag: MerchantFlag = {

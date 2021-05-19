@@ -3,9 +3,12 @@
     "typeRoots": ["node_modules/@types", "node_modules/foundry-pc-types"],
     "target": "esnext",
     "moduleResolution": "Node",
-    "types": ["foundry-pc-types", "React", "react-dom"],
+    "types": ["foundry-pc-types", "React", "react-dom", "node"],
     "jsx": "react",
     "resolveJsonModule": true,
-    "experimentalDecorators": true
-  },
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "outDir": "build/"
+  }
 }

@@ -84,7 +84,8 @@ export function parseArguments(args) {
 	let filterArguments = args.filter(a=>!a.startsWith("@")).map(a=>getFilter(a)).filter(a=>a)
 	let result = {
 		args: {},
-		filters: []
+		filters: [],
+		filterItem: (item)=>true
 	}
 	specialArguments.forEach(a=>{
 		let match = a.match(/(.+?)=(.+)/)

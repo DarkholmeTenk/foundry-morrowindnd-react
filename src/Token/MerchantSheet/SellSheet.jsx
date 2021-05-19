@@ -2,16 +2,18 @@ import {Fragment, useState} from "react";
 import GoldDisplay from "../../Util/Components/GoldDisplay";
 import {getSellPrice} from "./MerchantFlag";
 import {onDrop} from "@darkholme/foundry-react-core/src/Util/DropHelper";
-import {openItemQuantitySelect} from "../LootSheet/ItemQuantitySelector";
+import {openItemQuantitySelect} from "../LootSheet/ItemQuantitySelector.tsx";
 import {getActorId} from "../../Util/Identifiers/ActorID";
 import {MerchantSell} from "./MerchantAction";
 import {Button, Paper} from "@material-ui/core";
-import {ItemTable} from "../../Util/Components/ItemTable";
+import ItemTable, {generateControlsColumn, ItemColumnDefaults} from "../../Util/Components/ItemTable";
 import Styles from "./MerchantSheet.module.scss"
+
+
 
 export default function SellSheet({self, merchant, merchantFlag}) {
     let [items, setItems] = useState([])
-    let sellControls = (item, index) => {
+    let sellControls = ({item, index}) => {
         let remove = () => {
             let newArr = [...items];
             newArr.splice(index, 1);
@@ -23,19 +25,21 @@ export default function SellSheet({self, merchant, merchantFlag}) {
         return controls
     }
 
-    let extraColumns = [
+    let columns = [
+        ...ItemColumnDefaults,
         {
             title: "Selling",
-            getter: (i, c, x, index) => items[index].qty
+            getter: ({index}) => items[index].qty
         },
         {
             title: "Sell Price",
-            getter: (i, c, x, index) => <GoldDisplay value={getSellPrice(i, items[index].qty, merchantFlag)}/>
+            getter: ({item, index}) => <GoldDisplay value={getSellPrice(item, items[index].qty, merchantFlag)}/>
         },
         {
             title: "Value",
-            getter: (i) => <GoldDisplay value={i.data.data.price}/>
-        }
+            getter: ({item}) => <GoldDisplay value={item.data.data.price}/>
+        },
+        generateControlsColumn(sellControls)
     ]
 
     let onDropFunction = onDrop((item) => {
@@ -71,8 +75,7 @@ export default function SellSheet({self, merchant, merchantFlag}) {
                 Open Character Sheet
             </Button>
         </div>
-        {items.length > 0 ? <ItemTable items={items.map(i => i.item)} controls={sellControls}
-                                       extraColumns={extraColumns}/> : "Drop Items Here"}
+        {items.length > 0 ? <ItemTable items={items.map(i => i.item)} columns={columns}/> : "Drop Items Here"}
         <Button onClick={sell}>
             Sell
             <GoldDisplay value={totalPrice}/>

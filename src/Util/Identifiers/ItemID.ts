@@ -17,11 +17,11 @@ export interface OwnedItemId {
 
 export type ItemId = ItemDirectoryId | ItemPackId | OwnedItemId
 
-function isPackItem(id: ItemId): id is ItemPackId {
+export function isPackItem(id: ItemId): id is ItemPackId {
     return (id as any).packId
 }
 
-function isOwnedItem(id: ItemId): id is OwnedItemId {
+export function isOwnedItem(id: ItemId): id is OwnedItemId {
     return (id as any).actorId
 }
 

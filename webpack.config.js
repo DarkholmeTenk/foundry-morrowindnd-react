@@ -1,5 +1,8 @@
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const webpack = require('webpack');
+const ReactRefreshTypeScript = require('react-refresh-typescript');
 
 module.exports = (env, argv) => {
     let dev = argv.mode === "development"
@@ -7,26 +10,17 @@ module.exports = (env, argv) => {
         loader: 'babel-loader',
         options: {
             presets: [["@babel/preset-react", {"runtime": "automatic"}]],
-            plugins: ["@babel/plugin-proposal-class-properties"]
+            plugins: ["@babel/plugin-proposal-class-properties", dev && require.resolve('react-refresh/babel')].filter(Boolean)
         }
     }
     let loaders = [babelLoader]
-    if(dev) {
-        babelLoader.options.plugins.push("react-hot-loader/babel")
-        loaders.push({loader: 'react-hot-loader-loader'})
-    }
 
     return {
         entry: path.resolve(__dirname, './src/index.js'),
         module: {
             rules: [
                 {
-                    test: /\.(js)$/,
-                    exclude: /node_modules/,
-                    use: [babelLoader],
-                },
-                {
-                    test: /\.(jsx)$/,
+                    test: /\.jsx?$/,
                     exclude: /node_modules/,
                     use: loaders,
                 },
@@ -36,10 +30,21 @@ module.exports = (env, argv) => {
                 },
                 {
                     test: /\.tsx?$/,
-                    loader: 'awesome-typescript-loader'
+                    use: [babelLoader, {
+                        loader: 'ts-loader',
+                        options: {
+                            getCustomTransformers: () => ({
+                                before: dev ? [ReactRefreshTypeScript()] : [],
+                            })
+                        }
+                    }]
                 }
             ],
         },
+        plugins: [
+            dev && new webpack.HotModuleReplacementPlugin(),
+            dev && new ReactRefreshWebpackPlugin({overlay: false}),
+        ].filter(Boolean),
         resolve: {
             extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
         },
@@ -49,6 +54,7 @@ module.exports = (env, argv) => {
         },
         devServer: {
             contentBase: path.resolve(__dirname, './dist'),
+            hot: true,
             headers: {
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
@@ -56,16 +62,23 @@ module.exports = (env, argv) => {
             }
         },
         devtool: "source-map",
-        externals: [{"react": "React", "react-dom": "ReactDOM", "@reduxjs/toolkit": "RTK"}, function({context, request, contextInfo, getResolve}, callback) {
-            if( /^.*darkholme\/foundry-react-core.*$/.test(request)) {
-                let secondBit = request.match(/^.*darkholme\/foundry-react-core(.*)$/)[1].split("/").filter(x=>x !== "src")
-                secondBit[0] = "FoundryReactCore"
-                console.log("Mapping FRC", request, secondBit)
-                return callback(null, secondBit)
-            } else {
-                return callback()
+        externals: [
+            {
+                "react": "React",
+                "react-dom": "ReactDOM",
+                "@reduxjs/toolkit": "RTK"
+            },
+            function({context, request, contextInfo, getResolve}, callback) {
+                if (/^.*darkholme\/foundry-react-core.*$/.test(request)) {
+                    let secondBit = request.match(/^.*darkholme\/foundry-react-core(.*)$/)[1].split("/").filter(x => x !== "src")
+                    secondBit[0] = "FoundryReactCore"
+                    console.log("Mapping FRC", request, secondBit)
+                    return callback(null, secondBit)
+                } else {
+                    return callback()
+                }
             }
-        }],
+        ],
         optimization: {
             minimize: !dev,
             minimizer: [

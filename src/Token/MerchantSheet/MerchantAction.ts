@@ -1,25 +1,26 @@
 import {registerGMSocket} from "../../Socket/SocketHelper";
 import {ActorId, getActor, getActorId} from "../../Util/Identifiers/ActorID";
-import {getItem, OwnedItemId} from "../../Util/Identifiers/ItemID";
+import {getItem, isOwnedItem, ItemId, OwnedItemId} from "../../Util/Identifiers/ItemID";
 import {getBuyPrice, getMerchantFlag, getSellPrice} from "./MerchantFlag";
 import {addGold, getGoldAmountFromActor, removeGold} from "../../Util/Helper/GoldHelper";
 import {addItem, removeItem} from "../../Util/Helper/ItemTransferHelper";
 
 interface BuyAction {
     self: ActorId,
-    item: OwnedItemId,
+    merchant: ActorId,
+    item: ItemId,
     qty: number
 }
 
-export const MerchantBuy = registerGMSocket<BuyAction>("MerchantSheet_Buy", async ({self: selfId, item: itemId, qty})=>{
-    let merchant = await getActor(itemId.actorId)
+export const MerchantBuy = registerGMSocket<BuyAction>("MerchantSheet_Buy", async ({self: selfId, merchant: merchantId, item: itemId, qty})=>{
+    let merchant = await getActor(merchantId)
     let self = await getActor(selfId)
     let item = await getItem(itemId)
     let [merchantFlag] = getMerchantFlag(merchant)
     let price = getBuyPrice(item, qty, merchantFlag)
     let myGold = getGoldAmountFromActor(self.data)
     if(myGold >= price) {
-        await removeItem(itemId, qty)
+        if(isOwnedItem(itemId)) await removeItem(itemId, qty)
         await addItem(item.data, selfId, qty)
         await removeGold(self, price)
     }

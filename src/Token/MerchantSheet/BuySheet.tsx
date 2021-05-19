@@ -1,0 +1,102 @@
+import {getBuyPrice, MerchantFlag} from "./MerchantFlag";
+import {MerchantBuy} from "./MerchantAction";
+import {getActorId} from "../../Util/Identifiers/ActorID";
+import {openItemQuantitySelect} from "../LootSheet/ItemQuantitySelector";
+import React, {Fragment} from "react";
+import GoldDisplay from "../../Util/Components/GoldDisplay";
+import {Paper} from "@material-ui/core";
+import ItemTable, {
+    Control,
+    generateControlsColumn,
+    getEditControl,
+    ItemColumnDefaults, ItemColumnImage, ItemColumnName, ItemColumnWeight
+} from "../../Util/Components/ItemTable";
+import {getItemId} from "../../Util/Identifiers/ItemID";
+import {SellableItem, SellableSource} from "./Sellable/SellableData";
+// @ts-ignore
+import Styles from "./MerchantSheet.module.scss"
+
+function getGetQty(sellables: SellableItem[]): ((Item)=>number | undefined) {
+    return (item: Item<any>)=>{
+        let found = sellables.find(x=>x.item === item)
+        if(found) {
+            return found.qty
+        } else {
+            return item.data.data.quantity
+        }
+    }
+}
+
+interface BuySheetArgs {
+    self?: Actor<any>,
+    merchant: Actor<any>,
+    sellables: SellableItem[],
+    merchantFlag: MerchantFlag,
+    myGoldAmount: number
+}
+export default function BuySheet({self, merchant, sellables, merchantFlag, myGoldAmount}: BuySheetArgs) {
+    let getQty = getGetQty(sellables)
+    let buyControls = ({item}) => {
+        let controls: Control[] = [getEditControl(item)]
+        let found = sellables.find(x=>x.item === item)
+        if (item.owner && !found) {
+            controls.push({
+                title: "Delete",
+                text: <i className="fas fa-trash"/>,
+                classes: "item-delete",
+                onClick: () => item.delete()
+            })
+        }
+        if (self) {
+            let itemPrice = getBuyPrice(item, 1, merchantFlag)
+            if (myGoldAmount >= itemPrice) {
+                controls.push({
+                    title: "Buy",
+                    text: <i className="fas fa-hand-holding"/>,
+                    onClick: () => {
+                        let buy = (qty) => MerchantBuy({
+                            self: getActorId(self),
+                            merchant: getActorId(merchant),
+                            item: getItemId(item),
+                            qty
+                        })
+                        openItemQuantitySelect({
+                            item,
+                            max: Math.min(getQty(item) || 10, Math.floor(myGoldAmount / itemPrice)),
+                            buttonText: (qty) => <Fragment>
+                                Buy
+                                <GoldDisplay value={getBuyPrice(item, qty, merchantFlag)}/>
+                            </Fragment>,
+                            onConfirm: buy
+                        })
+                    }
+                })
+            }
+        }
+        return controls
+    }
+
+    let columns = [
+        ItemColumnImage,
+        ItemColumnName,
+        ItemColumnWeight,
+        {
+            title: "Qty",
+            getter: ({item}) => getQty(item)
+        },
+        {
+            title: "Price",
+            getter: ({item}) => <GoldDisplay value={getBuyPrice(item, 1, merchantFlag)}/>
+        },
+        {
+            title: "Value",
+            getter: ({item}) => <GoldDisplay value={item.data.data.price}/>
+        },
+        generateControlsColumn(buyControls)
+    ]
+
+    return <Paper classes={{root: Styles.paperDiv}}>
+        Buy:
+        <ItemTable items={[...merchant.items.entries as any as Item<any>[], ...sellables.map(x=>x.item)]} columns={columns}/>
+    </Paper>
+}

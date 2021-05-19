@@ -40,10 +40,10 @@ const TextHelpers: {[name: string]: TableHelper} = {
 	"@WeaponEnchant": new TableWeaponEnchantHelper()
 }
 
-function getArguments(text): RollTableArguments {
+export function getArguments(text): RollTableArguments {
 	let results = text.match(/\[([^\]]+)\]/g)?.map(text=>text.substr(1, text.length - 2)) || []
 	log.debug("Found roll helper arguments", results, text)
-	return parseArguments(results)
+	return parseArguments(results) as any as RollTableArguments
 }
 
 export async function getRollTableData({type, text, resultId, collection}): Promise<RollData[]> {

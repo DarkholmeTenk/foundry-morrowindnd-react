@@ -1,4 +1,7 @@
 import getLogger from "../Util/LoggerFactory";
+import {NPCImage} from "../NPCMaker/NPCMakerUtils";
+import {getNpcNameData} from "../NPCMaker/NPCMakerApi";
+import {generateName} from "../NPCMaker/NameHelper";
 
 const log = getLogger("TokenTraitModifier")
 
@@ -19,6 +22,13 @@ Hooks.on("createTokenMutate", async (update, {token, actor})=>{
             Object.assign(updateData, trait)
         })
         updateData["actorData.img"] = token.img
+        let imageObj = new NPCImage({name: image})
+        let {race, gender} = imageObj.getTags()
+        if(race && gender && !token.actorLink) {
+            let nameData = await getNpcNameData()
+            let name = generateName(nameData, race, gender)
+            updateData["name"] = name
+        }
         log("Adding traits", matchedTraits, updateData)
         return updateData
     })

@@ -3,7 +3,7 @@ import {onDrop} from "@darkholme/foundry-react-core/src/Util/DropHelper";
 import AppContext from "@darkholme/foundry-react-core/src/Util/AppContext";
 
 import EnchantConfig from "./EnchantConfig";
-import ItemViewer from "../Util/ItemViewer";
+import ItemViewer from "../Util/ItemViewer.tsx";
 import Selector from "../Util/Selector";
 import {getEnchantData} from "./Enchanter";
 

@@ -14,26 +14,38 @@ interface Loading<X> {
     data?: X
 }
 
-let cache: {[id: string]: Promise<any>} = {}
+let nameCache: Promise<NameData> | undefined
+let voiceCache: Promise<VoiceData> | undefined
 
-function load<X>(id, url) {
+export function getNpcNameData(): Promise<NameData> {
+    if(!nameCache) {
+        nameCache = window.fetch("https://foundry-darkcraft-bucket.s3.eu-west-2.amazonaws.com/data/NPCData.json").then(r=>r.json())
+    }
+    return nameCache
+}
+
+export function getNpcVoiceData(): Promise<VoiceData> {
+    if(!voiceCache) {
+        voiceCache = window.fetch("https://foundry-darkcraft-bucket.s3.eu-west-2.amazonaws.com/data/VoiceData.json").then(r=>r.json())
+    }
+    return voiceCache
+}
+
+function load<T>(getter: ()=>Promise<T>): Loading<T> {
     let [loading, setLoading] = useState(true)
     let [data, setData] = useState(null)
     useEffect(()=>{
         setLoading(true)
-        if(!cache[id]) {
-            cache[id] = window.fetch(url).then(r=>r.json())
-        }
-        cache[id].then((d)=>{
+        getter().then((d)=>{
             setLoading(false)
-            setData(d as X)
+            setData(d)
         })
     },  [])
     return {loading, data}
 }
 
 export function useNpcNameData(): Loading<NameData> {
-    return load("NpcNameData", "https://foundry-darkcraft-bucket.s3.eu-west-2.amazonaws.com/data/NPCData.json")
+    return load(getNpcNameData)
 }
 
 interface VoiceData {
@@ -45,5 +57,5 @@ interface VoiceData {
 }
 
 export function useNpcVoiceData(): Loading<VoiceData> {
-    return load("NpcVoiceData", "https://foundry-darkcraft-bucket.s3.eu-west-2.amazonaws.com/data/VoiceData.json")
+    return load(getNpcVoiceData)
 }
