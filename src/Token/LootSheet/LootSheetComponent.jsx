@@ -1,5 +1,10 @@
 import {useNPC} from "../../Util/EntityHelper";
-import ItemTable, {NumberFormat} from "../../Util/Components/ItemTable";
+import ItemTable, {
+    generateControlsColumn,
+    getEditControl,
+    ItemColumnDefaults,
+    NumberFormat
+} from "../../Util/Components/ItemTable";
 import {LootTakeSocket} from "./LootAction";
 import {openItemQuantitySelect} from "./ItemQuantitySelector.tsx";
 import {getActorId} from "../../Util/Identifiers/ActorID";
@@ -13,7 +18,7 @@ export default function LootSheetComponent({npc: npcInput, self: selfInput}) {
     let {value: self} = useNPC(selfInput)
 
     let takeControls = ({item})=>{
-        let controls = []
+        let controls = [getEditControl(item)]
         if(item.owner) {
             controls.push({title: "Delete", text: <i className="fas fa-trash" />, classes: "item-delete", onClick: ()=>item.delete()})
         }
@@ -27,7 +32,8 @@ export default function LootSheetComponent({npc: npcInput, self: selfInput}) {
     }
 
     let items = npc.items.filter(i=>i.type !== "spell")
-    let extraColumns = [
+    let columns = [
+        ...ItemColumnDefaults,
         {
             title: "Value (i)",
             getter: ({item})=><GoldDisplay value={item.data.data.price}/>
@@ -37,7 +43,8 @@ export default function LootSheetComponent({npc: npcInput, self: selfInput}) {
         }, {
             title: "V/W",
             getter: ({item})=>item.data.data.weight > 0 ? NumberFormat.format(item.data.data.price / item.data.data.weight) : "-"
-        }
+        },
+        generateControlsColumn(takeControls)
     ]
 
     return <div>
@@ -47,6 +54,6 @@ export default function LootSheetComponent({npc: npcInput, self: selfInput}) {
             />
             {npc.owner ? <TokenPermission token={npc} /> : null }
         </div>
-        {items.length > 0 ? <ItemTable items={items} extraColumns={extraColumns} controls={takeControls}/> : null}
+        {items.length > 0 ? <ItemTable items={items} columns={columns}/> : null}
     </div>
 }

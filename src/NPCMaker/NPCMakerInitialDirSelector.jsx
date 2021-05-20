@@ -14,7 +14,7 @@ export default function NPCMakerInitialDirSelector({setDir}) {
     if(dirs == null) {
         return "Loading..."
     } else {
-        return <div>
+        return <div>x
             {Object.keys(dirs).map(dir=><button key={dir} onClick={()=>setDir(dirs[dir])}>{dir}</button> )}
         </div>
     }

@@ -1,8 +1,19 @@
 import React, {Fragment, useCallback, useState} from "react"
-import {Collapse, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
+import {
+    Collapse,
+    InputAdornment,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    TextField
+} from "@material-ui/core";
 import GoldDisplay from "./GoldDisplay";
 import ItemDescription from "./ItemDescription";
-import {ReactNodeLike} from "prop-types";
+import {bool, ReactNodeLike} from "prop-types";
+import IconButton from "./IconButton";
 
 type ControlGetter = (columnArgs: ColumnArguments) => Control[]
 export interface ColumnArguments {
@@ -13,7 +24,8 @@ export interface ColumnArguments {
 
 export interface Column {
     title: string,
-    getter: (columnArgs: ColumnArguments) => ReactNodeLike
+    getter: (columnArgs: ColumnArguments) => ReactNodeLike,
+    sortable?: boolean
 }
 
 export const ItemColumnImage: Column = {
@@ -22,15 +34,18 @@ export const ItemColumnImage: Column = {
 }
 export const ItemColumnName: Column = {
     title: "Name",
-    getter: ({item: i})=>i.name
+    getter: ({item: i})=>i.name,
+    sortable: true
 }
 export const ItemColumnWeight: Column = {
     title: "Weight",
-    getter: ({item: i})=>NumberFormat.format(i.data.data.weight)
+    getter: ({item: i})=>NumberFormat.format(i.data.data.weight),
+    sortable: true
 }
 export const ItemColumnQty: Column = {
     title: "Qty",
-    getter: ({item: i})=>i.data.data.quantity
+    getter: ({item: i})=>i.data.data.quantity,
+    sortable: true
 }
 
 export const ItemColumnDefaults: Column[] = [ItemColumnImage, ItemColumnName, ItemColumnWeight, ItemColumnQty]
@@ -109,24 +124,46 @@ export function ItemTableRow({item, columns, index}: ItemTableRowArguments) {
 }
 
 
+export function ItemTableFilter({items, filter, setFilter}) {
+    let setName = useCallback((e)=>setFilter(f=>({...f, name: e.target.value})),  [setFilter])
+    let clearName = useCallback(()=>setFilter(f=>({...f, name: ""})), [setFilter])
+    return <div className="flexrow">
+        <TextField label="Filter" value={filter?.name || ""} onChange={setName} InputProps={{
+            endAdornment: filter.name && <InputAdornment position="end"><IconButton clz="fas fa-backspace" onClick={clearName}  /></InputAdornment>
+        }} />
+    </div>
+}
+
+function filterFunction(filter): ((item: Item<any>)=>boolean) {
+    return (item: Item<any>) => {
+        return !(filter.name && !item.name.toLowerCase().includes(filter.name.toLowerCase()));
+    }
+}
+
 interface ItemTableArguments {
     items: Item<any>[],
     columns: Column[],
 }
-
 export default function ItemTable({items, columns}: ItemTableArguments) {
-    return <TableContainer>
-        <Table size="small">
-            <TableHead>
-                <TableRow>
-                    {columns.map((c,i)=><TableCell key={i}>{c.title}</TableCell>)}
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {items.map((item, index)=>
-                    <ItemTableRow key={item.id} {...{item, index, columns}}/>)
-                }
-            </TableBody>
-        </Table>
-    </TableContainer>
+    let [filterData, setFilterData] = useState("")
+    let [sortCol, setSortCol] = useState(null)
+    let [sortDir, setSortDir] = useState(null)
+    let filter = filterFunction(filterData)
+    return <div style={{all: 'initial'}}>
+        <ItemTableFilter items={items} filter={filterData} setFilter={setFilterData} />
+        <TableContainer>
+            <Table size="small">
+                <TableHead>
+                    <TableRow>
+                        {columns.map((c,i)=><TableCell key={i}>{c.title}</TableCell>)}
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {items.filter(filter).map((item, index)=>
+                        <ItemTableRow key={item.id} {...{item, index, columns}}/>)
+                    }
+                </TableBody>
+            </Table>
+        </TableContainer>
+    </div>
 }
