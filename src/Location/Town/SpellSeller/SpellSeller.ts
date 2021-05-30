@@ -1,4 +1,3 @@
-import {NPCData} from "../NPCs/NPCData";
 import {getAllSpells} from "../../../RollTable/Rolling/TableSpellHelper";
 import {calculatePrice} from "./SpellPrices";
 

@@ -1,12 +1,12 @@
 import {useContext} from "react";
-import AppContext from "@darkholme/foundry-react-core/src/Util/AppContext";
 import {useName} from "./NameHelper";
 import {useVoice} from "./VoiceChooser";
 import styles from "./NPCViewer.module.scss"
 import {useImageChooser} from "./ImageChooser";
-import {setupFolder} from "@darkholme/foundry-react-core/src/Util/FolderHelper";
 import {Button} from "@material-ui/core";
 import {useNpcNameData} from "./NPCMakerApi";
+import {setupFolder} from "../Util/Helper/FolderHelper";
+import AppContext from "../Util/React/AppContext";
 
 export default function NPCViewer({filtered, choice}) {
     let appContext = useContext(AppContext)
@@ -38,10 +38,14 @@ export default function NPCViewer({filtered, choice}) {
                                     value: voice
                                 }
                             }
+                        },
+                        token: {
+                            img: image.path,
+                            actorLink: true
                         }
                     }
                     await Actor.create(actorData, {renderSheet: true})
-                    appContext.close()
+                    await appContext.close()
                 }}>Save</Button>
             </div>
         </div>

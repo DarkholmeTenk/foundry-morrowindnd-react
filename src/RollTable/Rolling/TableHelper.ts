@@ -1,7 +1,7 @@
-import LoggerFactory from "../../Util/LoggerFactory"
+import LoggerFactory from "../../Util/Logging"
 import TableSpellHelper from "./TableSpellHelper"
 import TableGoldHelper from "./TableGoldHelper"
-import { parseArguments } from "./tableHelperUtils"
+import {parseArguments} from "./tableHelperUtils"
 import TableItemHelper from "./TableItemHelper"
 import TableWeaponEnchantHelper from "./TableWeaponEnchantHelper"
 import TableItemRollData from "./TableItemRollData";

@@ -1,7 +1,7 @@
-import {SimpleReactApplication} from "@darkholme/foundry-react-core/src/Util/ReactApplication";
-import getLogger from "../../Util/LoggerFactory";
+import getLogger from "../../Util/Logging";
 import doRollTable from "../Rolling/TableRoller";
 import TableModifierComponent from "./TableModifierComponent";
+import {SimpleReactApplication} from "../../Util/React/ReactApplication";
 
 const log = getLogger("TableModifier")
 

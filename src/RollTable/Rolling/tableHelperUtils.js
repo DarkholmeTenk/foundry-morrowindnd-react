@@ -1,7 +1,7 @@
-import getLogger from "../../Util/LoggerFactory";
-import {getSubFolders} from "@darkholme/foundry-react-core/src/Util/FolderHelper";
+import {getSubFolders} from "../../Util/Helper/FolderHelper";
+import LogFactory from "../../Util/Logging";
 
-const log = getLogger("TableHelperUtils")
+const log = LogFactory("TableHelperUtils")
 
 const rarity = ["common", "uncommon", "rare", "very rare", "legendary", "artifact"]
 

@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState} from "react";
-import RefreshButton from "../Util/RefreshButton";
+import RefreshButton from "./RefreshButton";
 import {useNpcVoiceData} from "./NPCMakerApi";
 
 function generateVoice(data) {

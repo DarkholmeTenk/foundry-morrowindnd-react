@@ -1,5 +1,4 @@
-import {SimpleReactApplication} from "@darkholme/foundry-react-core/src/Util/ReactApplication";
-import {getFlag} from "../../Util/FlagHelper";
+import {getFlag} from "../../Util/Helper/FlagHelper";
 import TownSettingsSheet from "./TownSettingsSheet";
 import {TownScene} from "./TownScene";
 import TownSheet from "./TownSheet";
@@ -7,6 +6,7 @@ import NPCViewer from "./NPCs/NPCViewer";
 import {NPC} from "./NPCs/NPCData";
 import {JobType} from "./NPCs/JobTypes";
 import {setupSetting} from "../../Constants/Config";
+import {SimpleReactApplication} from "../../Util/React/ReactApplication";
 
 const IS_ENABLED = setupSetting({
     key: "Town.UI.Enabled",

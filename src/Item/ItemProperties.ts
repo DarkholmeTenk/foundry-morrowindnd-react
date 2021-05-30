@@ -1,5 +1,5 @@
 // @ts-ignore
-import {getFlag} from "../Util/FlagHelper"
+import {getFlag} from "../Util/Helper/FlagHelper"
 
 export interface ItemProperties {
     soulGem?: {

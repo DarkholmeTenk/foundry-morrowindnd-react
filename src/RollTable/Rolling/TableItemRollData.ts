@@ -1,7 +1,7 @@
 import {RollData} from "./TableHelper";
 // @ts-ignore
-import {clone} from "@darkholme/foundry-react-core/src/Util/Util"
-import {getEnchantData, getRandomCharge, isSpellEnchantable} from "../../Enchanting/Enchanter";
+import {clone} from "../../Util"
+import {getEnchantData, getRandomCharge, isSpellEnchantable} from "../../Item/Enchanting/Enchanter";
 
 export default class TableItemRollData implements RollData {
     constructor(private readonly item: Item, private readonly qtyMult: number = 1) {}

@@ -2,7 +2,7 @@
   "name": "MorrowinDnDReact",
   "title": "MorrowinDnD React",
   "description": "A module that provides some MorrowinDnD specific functionality",
-  "version": "1.4.8",
+  "version": "1.5.0",
   "author": "shane_booth",
   "scripts": [
     "load.js"
@@ -18,12 +18,7 @@
   "minimumCoreVersion": "0.7.9",
   "compatibleCoreVersion": "0.7.9",
   "system": "dnd5e",
-  "dependencies": [
-    {
-      "name": "FoundryReactCore",
-      "manifest": "https://raw.githubusercontent.com/DarkholmeTenk/FoundryReactCore/main/module.json"
-    }
-  ],
+  "dependencies": [],
   "url": "https://github.com/DarkholmeTenk/foundry-morrowindnd-react",
   "manifest": "https://raw.githubusercontent.com/DarkholmeTenk/foundry-morrowindnd-react/main/module.json",
   "download": "https://github.com/DarkholmeTenk/foundry-morrowindnd-react/archive/main.zip"

@@ -8,7 +8,7 @@ export function usePromise<T>(generator: ()=>Promise<T>, dependants?: any[]): Us
     let [loading, setLoading] =  useState(true)
     let [result, setResult] = useState(undefined)
     useEffect(()=>{
-        console.log("Running promise", generator, dependants)
+        console.debug("Running promise", generator, dependants)
         setLoading(true)
         setResult(undefined)
         generator().then(r=>{

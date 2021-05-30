@@ -1,4 +1,3 @@
-import {genders, races} from "./NPCMakerUtils";
 import styles from "./NPCTagChooser.module.scss"
 
 function increment(obj, part, ignore) {

@@ -1,5 +1,6 @@
-import { createAction, createAsyncThunk, createReducer } from "@reduxjs/toolkit";
-import { registerGMSocket, registerPlayerSocket } from "../../Socket/SocketHelper";
+import {createAction, createAsyncThunk, createReducer} from "@reduxjs/toolkit";
+import {registerGMSocket, registerPlayerSocket} from "../../Socket/SocketHelper";
+
 let reducers = {};
 let sockets = {};
 export function StateUpdate(name) {

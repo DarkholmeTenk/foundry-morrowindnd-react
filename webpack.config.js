@@ -32,25 +32,27 @@ module.exports = (env, argv) => {
                     test: /\.tsx?$/,
                     use: [babelLoader, {
                         loader: 'ts-loader',
-                        options: {
+                        /*options: {
                             getCustomTransformers: () => ({
                                 before: dev ? [ReactRefreshTypeScript()] : [],
                             })
-                        }
+                        }*/
                     }]
                 }
             ],
         },
         plugins: [
             dev && new webpack.HotModuleReplacementPlugin(),
-            dev && new ReactRefreshWebpackPlugin({overlay: false}),
+            dev && new ReactRefreshWebpackPlugin({overlay: false, }),
         ].filter(Boolean),
         resolve: {
             extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
         },
         output: {
             path: path.resolve(__dirname, './dist'),
-            filename: 'bundle.js'
+            publicPath: 'http://localhost:8080/',
+            filename: 'bundle.js',
+            library: "MorrowinDnD"
         },
         devServer: {
             contentBase: path.resolve(__dirname, './dist'),
@@ -62,23 +64,6 @@ module.exports = (env, argv) => {
             }
         },
         devtool: "source-map",
-        externals: [
-            {
-                "react": "React",
-                "react-dom": "ReactDOM",
-                "@reduxjs/toolkit": "RTK"
-            },
-            function({context, request, contextInfo, getResolve}, callback) {
-                if (/^.*darkholme\/foundry-react-core.*$/.test(request)) {
-                    let secondBit = request.match(/^.*darkholme\/foundry-react-core(.*)$/)[1].split("/").filter(x => x !== "src")
-                    secondBit[0] = "FoundryReactCore"
-                    console.log("Mapping FRC", request, secondBit)
-                    return callback(null, secondBit)
-                } else {
-                    return callback()
-                }
-            }
-        ],
         optimization: {
             minimize: !dev,
             minimizer: [

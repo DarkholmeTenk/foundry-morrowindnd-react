@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useState} from "react";
-import {randomIndex} from "@darkholme/foundry-react-core/src/Util/Util";
-import RefreshButton from "../Util/RefreshButton";
+import RefreshButton from "./RefreshButton";
 import styles from "./ImageChooser.module.scss"
+import {randomIndex} from "../Util";
 
 function ImageChooser({length, index, setIndex, setRandom}) {
     return <div className={styles.buttonHolder}>

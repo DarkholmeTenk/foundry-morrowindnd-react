@@ -1,6 +1,6 @@
 import {useCallback, useEffect, useState} from "react";
-import RefreshButton from "../Util/RefreshButton";
-import Selector from "../Util/Selector";
+import RefreshButton from "./RefreshButton";
+import Selector from "../Util/Components/Selector";
 import {genders, races} from "./NPCMakerUtils";
 
 const raceMap = {

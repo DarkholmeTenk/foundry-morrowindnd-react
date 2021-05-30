@@ -1,7 +1,7 @@
-import Selector from "../../Util/Selector";
+import Selector from "../../Util/Components/Selector";
 import {useContext, useState} from "react";
-import AppContext from "@darkholme/foundry-react-core/src/Util/AppContext";
 import {Button} from "@material-ui/core";
+import AppContext from "../../Util/React/AppContext";
 
 export default function TableModifierComponent({flag, setFlag}) {
     let tables = game.tables

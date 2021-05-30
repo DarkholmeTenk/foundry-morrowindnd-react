@@ -1,5 +1,4 @@
-import {useEffect, useState} from "react";
-import {generateName} from "./NameHelper";
+import {useState} from "react";
 import NPCTypedMaker from "./NPCTypedMaker";
 import NPCMakerInitialDirSelector from "./NPCMakerInitialDirSelector";
 
@@ -15,7 +14,7 @@ function TypeSelector({types, selectType}) {
 
 
 
-export default function NPCMakerComponent() {
+export default function NPCMakerComponent({}) {
     let [dir, setDir] = useState(null)
 
     if(dir != null) {

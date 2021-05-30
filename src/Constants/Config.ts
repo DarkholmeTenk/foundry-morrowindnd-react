@@ -1,5 +1,5 @@
 //@ts-ignore
-import {SimpleReactFormSheet} from "../Util/Helper/ReactFormApplication"
+import {SimpleReactFormSheet} from "../Util/React/ReactFormApplication"
 import * as React from "react";
 
 const MODULE = "morrowindnd"
@@ -102,7 +102,11 @@ export function setupSettingMenu<X>(data: SettingMenuData<X>): SettingMenu<X> {
     return addSetting(new SettingMenu(setting, data))
 }
 
-Hooks.on("init", ()=>{
+function init() {
+    if(isInitialised) return
     settings.forEach(x=>x.register())
     isInitialised = true
-})
+}
+
+Hooks.on("init", init)
+Hooks.on("ready", init)

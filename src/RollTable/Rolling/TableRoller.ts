@@ -1,8 +1,7 @@
 import {getRollTableData, RollData} from "./TableHelper";
-import "@darkholme/foundry-react-core/src/Util/AsyncHelper"
-import getLogger from "../../Util/LoggerFactory"
+import LogFactory from "../../Util/Logging";
 
-const log = getLogger("TableRoller")
+const log = LogFactory("TableRoller")
 
 interface ModifierData {
     tableId?: string

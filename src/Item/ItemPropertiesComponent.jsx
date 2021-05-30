@@ -1,6 +1,6 @@
 import {useContext, useState} from "react";
-import SoulGemPropertiesComponent from "../Enchanting/SoulGems/SoulGemPropertiesComponent";
-import AppContext from "@darkholme/foundry-react-core/src/Util/AppContext";
+import SoulGemPropertiesComponent from "./Enchanting/SoulGems/SoulGemPropertiesComponent";
+import AppContext from "../Util/React/AppContext";
 
 export default function ItemPropertiesComponent({flag, setFlag}) {
     let app = useContext(AppContext)
@@ -12,7 +12,7 @@ export default function ItemPropertiesComponent({flag, setFlag}) {
         </div>
         <button onClick={async ()=>{
             await setFlag(state)
-            app.close()
+            await app.close()
         }}>Save</button>
     </div>
 }

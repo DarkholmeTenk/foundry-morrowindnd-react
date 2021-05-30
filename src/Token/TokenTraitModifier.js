@@ -1,9 +1,9 @@
-import getLogger from "../Util/LoggerFactory";
 import {NPCImage} from "../NPCMaker/NPCMakerUtils";
 import {getNpcNameData} from "../NPCMaker/NPCMakerApi";
 import {generateName} from "../NPCMaker/NameHelper";
+import LogFactory from "../Util/Logging";
 
-const log = getLogger("TokenTraitModifier")
+const log = LogFactory("TokenTraitModifier")
 
 let traits = {
     "dunmer": ()=>({"actorData.data.traits.dr.value": ["fire"]}),

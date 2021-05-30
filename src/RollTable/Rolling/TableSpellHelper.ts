@@ -1,6 +1,4 @@
-import LoggerFactory from "../../Util/LoggerFactory"
-// @ts-ignore
-import {loadPackItems} from "@darkholme/foundry-react-core/src/Util/PackHelper"
+import LoggerFactory from "../../Util/Logging"
 import {RollData, RollTableArguments, TableHelper} from "./TableHelper";
 import TableItemRollData from "./TableItemRollData";
 import {loadPacks} from "../../Util/Identifiers/PackId";

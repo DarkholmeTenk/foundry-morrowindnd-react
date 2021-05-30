@@ -1,6 +1,6 @@
 import * as React from "react";
 import PackSelectorComponent from "./PackSelectorComponent";
-import {SimpleReactFormSheet} from "../../Util/Helper/ReactFormApplication";
+import {SimpleReactFormSheet} from "../../Util/React/ReactFormApplication";
 
 export class PackSelector extends SimpleReactFormSheet {
     constructor(...args) {

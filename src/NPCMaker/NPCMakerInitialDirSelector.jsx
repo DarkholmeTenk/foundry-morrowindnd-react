@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {listFiles} from "@darkholme/foundry-react-core/src/Util/FilesHelper";
+import {listFiles} from "../Util/Helper/FilesHelper";
 
 export default function NPCMakerInitialDirSelector({setDir}) {
     let [dirs, setDirs] = useState(null)
@@ -14,7 +14,7 @@ export default function NPCMakerInitialDirSelector({setDir}) {
     if(dirs == null) {
         return "Loading..."
     } else {
-        return <div>x
+        return <div>xd
             {Object.keys(dirs).map(dir=><button key={dir} onClick={()=>setDir(dirs[dir])}>{dir}</button> )}
         </div>
     }

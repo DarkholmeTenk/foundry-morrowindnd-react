@@ -1,6 +1,4 @@
-import {setupFolder} from "@darkholme/foundry-react-core/src/Util/FolderHelper"
-import {isActorMerchant} from "../../Util/LootSheetHelper";
-import {string} from "prop-types";
+import {setupFolder} from "../../Util/Helper/FolderHelper";
 
 interface TownSize {
     name: string
@@ -26,7 +24,7 @@ export class TownScene {
     getMerchants(): Token[] {
         return this.scene.getEmbeddedCollection("Token")
             .map((d)=>this.getToken(d))
-            .filter(t=>isActorMerchant(t.actor))
+            //.filter(t=>isActorMerchant(t.actor))
     }
 
     static async getTownScene(townName: string): Promise<TownScene> {

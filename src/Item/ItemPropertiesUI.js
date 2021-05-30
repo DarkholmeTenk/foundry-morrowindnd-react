@@ -1,7 +1,6 @@
-import {SimpleReactApplication} from "@darkholme/foundry-react-core/src/Util/ReactApplication";
 import ItemPropertiesComponent from "./ItemPropertiesComponent";
-import {getFlag} from "../Util/FlagHelper.ts";
 import {getProperties} from "./ItemProperties";
+import {SimpleReactApplication} from "../Util/React/ReactApplication";
 
 Hooks.on("itemSheetMenuItems", async (addMenuItem, app)=>{
     let item = app.object

@@ -1,6 +1,6 @@
 import NPCMakerComponent from "./NPCMakerComponent";
-import {SimpleReactApplication} from "@darkholme/foundry-react-core/src/Util/ReactApplication";
 import React from "react";
+import {SimpleReactApplication} from "../Util/React/ReactApplication";
 
 function loadedStart() {
     if(!game.user.isGM) return

@@ -1,0 +1,11 @@
+.shrunk .text{
+  display:none;
+}
+
+.shrunk:hover .text {
+  display: inline !important;
+}
+
+.text {
+  display: inline;
+}

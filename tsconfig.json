@@ -4,7 +4,7 @@
     "target": "esnext",
     "moduleResolution": "Node",
     "types": ["foundry-pc-types", "React", "react-dom", "node"],
-    "jsx": "react",
+    "jsx": "preserve",
     "resolveJsonModule": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
