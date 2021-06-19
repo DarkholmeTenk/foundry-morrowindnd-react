@@ -1,10 +1,8 @@
 import React, {useCallback} from "react";
 import {
     FormControl,
-    FormControlLabel,
     Input,
     InputAdornment,
-    InputBase,
     InputLabel,
     TextField, Tooltip
 } from "@material-ui/core";

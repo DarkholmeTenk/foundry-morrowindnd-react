@@ -14,16 +14,15 @@ import {generateControlsColumn} from "../../Util/Components/ItemTable/ItemTableC
 
 export default function SellSheet({self, merchant, merchantFlag}) {
     let [items, setItems] = useState([])
-    let sellControls = ({item, index}) => {
+    let sellControls = ({index}) => {
         let remove = () => {
             let newArr = [...items];
             newArr.splice(index, 1);
             setItems(newArr);
         }
-        let controls = [
+        return [
             {title: "Delete", text: <i className="fas fa-trash"/>, classes: "item-delete", onClick: remove}
         ]
-        return controls
     }
 
     let columns = [

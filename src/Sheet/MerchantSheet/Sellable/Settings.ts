@@ -14,7 +14,13 @@ export const SellableItemPacks = setupSettingMenu<PackId[]>({
     sheetOptions: PackSelectorOptions
 })
 
-type StoredSellable = Record<string, SellableSource>
+export interface SellableSourceExtra {
+    icon?: string
+    name?: string
+}
+type IdentifiableSellable = SellableSource & SellableSourceExtra
+
+type StoredSellable = Record<string, IdentifiableSellable>
 
 export const StoredSellables = setupSettingMenu<StoredSellable>({
     key: "sellable.stored",
@@ -25,3 +31,7 @@ export const StoredSellables = setupSettingMenu<StoredSellable>({
     restricted: true,
     sheetOptions: StoredSellableComponentOptions
 })
+
+export function getIdentifiableSellable(id: string): IdentifiableSellable | undefined {
+    return StoredSellables.value[id]
+}

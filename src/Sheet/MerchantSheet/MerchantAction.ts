@@ -1,4 +1,4 @@
-import {registerGMSocket} from "../../Socket/SocketHelper";
+import {registerGMSocket} from "../../Util/Socket/SocketHelper";
 import {ActorId, getActor} from "../../Util/Identifiers/ActorID";
 import {getItem, isOwnedItem, ItemId, OwnedItemId} from "../../Util/Identifiers/ItemID";
 import {getBuyPrice, getMerchantFlag, getSellPrice} from "./MerchantFlag";

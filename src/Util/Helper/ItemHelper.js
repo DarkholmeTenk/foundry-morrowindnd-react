@@ -18,8 +18,7 @@ export function mergeItemData(items) {
         let qty = parseInt(i.data.quantity || 1)
         let nameArr = nameArrs[name] || []
         let found = nameArr.find(({item})=>{
-            let val = isEqual(i, item, ignore)
-            return val
+            return isEqual(i, item, ignore)
         })
         if(found) {
             log.debug("Found item for " + name, nameArr, i)
@@ -32,7 +31,7 @@ export function mergeItemData(items) {
     })
     let mergedItems = Object.values(nameArrs).flatMap(nameArr=>{
         return nameArr.map(({item, qty})=>{
-            if(qty == item.data.quantity || qty == 1) {
+            if(qty === item.data.quantity || qty === 1) {
                 return item
             } else {
                 let newItem = clone(item)

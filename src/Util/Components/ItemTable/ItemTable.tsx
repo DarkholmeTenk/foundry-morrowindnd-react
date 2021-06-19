@@ -40,7 +40,7 @@ export function ItemTableRow({item, columns, index, extraProps}: ItemTableRowArg
     let columnArgs = {item, index, toggleDescriptionPanel: toggleOpen}
     return <Fragment>
         <TableRow onClick={toggleOpen}>
-            {columns.map((c,i)=><TableCell key={i}>{c.getter(columnArgs)}</TableCell>)}
+            {columns.map((c,i)=><TableCell padding="none" key={i}>{c.getter(columnArgs)}</TableCell>)}
         </TableRow>
         <TableRow onClick={toggleOpen}>
             <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={columns.length} >

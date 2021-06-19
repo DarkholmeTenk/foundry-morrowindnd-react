@@ -2,6 +2,7 @@ import React, {useRef} from "react";
 import {useCallback, useState} from "react";
 import {useNPC} from "../Helper/EntityHelper";
 import {Button, Menu, MenuItem} from "@material-ui/core";
+import {getActorId, RawActorId} from "../Identifiers/ActorID";
 
 function ActorDisplay({actor}) {
     if(actor) {
@@ -48,5 +49,6 @@ export default function useSelf() {
     if(potentialActors.length > 1) {
         component = <ActorChooser potentialActors={potentialActors} actor={actor} setChosenActor={setChosenActor} />
     }
-    return {actor, component, actorRef}
+    let actorId: RawActorId = {actorId: actor.id}
+    return {actor, actorId, component, actorRef}
 }

@@ -21,11 +21,11 @@ function VoiceDisplay({voice, refreshVoice}) {
 }
 
 export function useVoice() {
-    let {loading, data} = useNpcVoiceData()
+    let {data} = useNpcVoiceData()
     let [voice, setVoice] = useState({})
     let refresh = useCallback(()=>{
         setVoice(generateVoice(data))
-    })
+    }, [data])
     useEffect(refresh, [data])
     let component = <VoiceDisplay voice={voice} refreshVoice={refresh} />
     let table = `<table><tbody>${Object.keys(voice).map(x=>`<tr><td>${x}</td><td>${voice[x]}</td></tr>`).join("")}</tbody></table>`

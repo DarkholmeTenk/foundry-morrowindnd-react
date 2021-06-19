@@ -1,10 +1,13 @@
-import {registerGMSocket} from "../../Socket/SocketHelper";
+import {registerGMSocket} from "../../Util/Socket/SocketHelper";
 import {ActorId, getActor} from "../../Util/Identifiers/ActorID";
 import {getGoldDetails} from "./LootSheetGoldUtil";
 import {getGoldBreakdown, NoActorCurrency} from "../../Util/Helper/GoldHelper";
 import {CurrencyItem} from "../../RollTable/Rolling/TableGoldHelper";
 import {addItem, removeItem} from "../../Util/Helper/ItemTransferHelper";
 import {OwnedItemId} from "../../Util/Identifiers/ItemID";
+import {DEFAULT_LOOT_FLAG, Desire, ItemDesire, LOOT_FLAG_ID} from "./LootFlags";
+import getFlag from "../../Util/Helper/FlagHelper";
+import {isEqual} from "../../Util";
 
 interface LootTakeSocketAction {
     selfId: ActorId,
@@ -36,4 +39,40 @@ export const LootSplitGold = registerGMSocket<LootSplitGoldAction>("LootSheet_Sp
     if(count > 0) {
         await actor.update({"data.currency": NoActorCurrency})
     }
+})
+
+interface MarkLootDesireAction {
+    selfId: ActorId,
+    lootId: OwnedItemId,
+    desire: Desire | null
+}
+export const MarkLootDesire = registerGMSocket<MarkLootDesireAction>(LOOT_FLAG_ID, async({selfId, lootId, desire})=>{
+    let loot = getActor(lootId.actorId)
+    let [flag, setFlag] = getFlag(loot, LOOT_FLAG_ID, DEFAULT_LOOT_FLAG)
+    let existing : ItemDesire = flag.desires.find(x=>x.itemId === lootId.itemId) || {itemId: lootId.itemId, players: []}
+    let op = existing.players.filter(x=>!isEqual(x.player, selfId))
+    let np = desire !== null ? [
+            ...op,
+            {player: selfId, desire}
+        ] : op
+    let newFlag = {
+        ...flag,
+        desires: [
+            ...flag.desires.filter(x=>x.itemId !== lootId.itemId),
+            {
+                ...existing,
+                players: np
+            }
+        ]
+    }
+    await setFlag(newFlag)
+})
+
+interface LootSplitNGSArgs {
+    lootId:  ActorId
+}
+export const LootSplitNGS = registerGMSocket<LootSplitNGSArgs>("LootSheet_SplitNGS", ({lootId})=> {
+    let loot = getActor(lootId)
+    let [flag] = getFlag(loot, LOOT_FLAG_ID, DEFAULT_LOOT_FLAG)
+
 })

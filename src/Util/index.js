@@ -1,5 +1,7 @@
 import "./Hooks"
+import "./Socket"
 import "./Helper/AsyncHelper"
+import "./Render"
 import ReactDOM from "react-dom";
 
 export function createReactElement(parentContainer, reactComponent) {

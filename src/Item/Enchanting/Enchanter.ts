@@ -60,7 +60,7 @@ export function getEnchantData({itemData, charges, spellData}) {
         armor: itemData.data.armor,
         rarity: getRarity(newValue)
     }
-    let newData = {
+    return {
         name: newName,
         permission: itemData.permission,
         type: "consumable",
@@ -72,7 +72,6 @@ export function getEnchantData({itemData, charges, spellData}) {
             }
         }
     }
-    return newData
 }
 
 export function isSpellEnchantable(itemData) {

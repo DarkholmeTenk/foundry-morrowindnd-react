@@ -1,5 +1,4 @@
-// @ts-ignore
-import {getFlag} from "../Util/Helper/FlagHelper"
+import getFlag from "../Util/Helper/FlagHelper"
 
 export interface ItemProperties {
     soulGem?: {
@@ -12,5 +11,5 @@ export interface ItemProperties {
 export const ITEM_FLAG = "extra_properties"
 
 export function getProperties(item): [ItemProperties, (newProperties: ItemProperties)=>Promise<any>] {
-    return getFlag(item, ITEM_FLAG, {})
+    return getFlag<ItemProperties>(item, ITEM_FLAG, {})
 }

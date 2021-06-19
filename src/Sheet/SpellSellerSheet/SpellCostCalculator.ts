@@ -1,4 +1,4 @@
-import {SpellClass, SpellClassData, SpellSubClass} from "../../Data/SpellData";
+import {SpellClassData} from "../../Data/SpellData";
 import {SpellSchools} from "../../Util/Components/ItemTable/ItemTypes";
 import {getClasses} from "../../Data/ActorData";
 

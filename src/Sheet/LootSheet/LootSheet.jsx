@@ -1,4 +1,4 @@
-import LootSheetComponent from "./LootSheetComponent";
+import LootSheetComponent from "./LootSheetComponent.tsx";
 import {ReactActorSheet} from "../../Util/React/SheetHelper";
 
 export class LootSheet extends ReactActorSheet {

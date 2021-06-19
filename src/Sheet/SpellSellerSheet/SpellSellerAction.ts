@@ -1,9 +1,8 @@
-import {registerGMSocket} from "../../Socket/SocketHelper";
+import {registerGMSocket} from "../../Util/Socket/SocketHelper";
 import {ActorId, getActor} from "../../Util/Identifiers/ActorID";
-import {getItem, isOwnedItem, ItemId} from "../../Util/Identifiers/ItemID";
-import {getBuyPrice, getMerchantFlag} from "./SpellSellertFlag";
+import {getItem, ItemId} from "../../Util/Identifiers/ItemID";
 import {getGoldAmountFromActor, removeGold} from "../../Util/Helper/GoldHelper";
-import {addItem, removeItem} from "../../Util/Helper/ItemTransferHelper";
+import {addItem} from "../../Util/Helper/ItemTransferHelper";
 import {getSpellClasses} from "../../Data/SpellData";
 import {calculateSpellCost} from "./SpellCostCalculator";
 

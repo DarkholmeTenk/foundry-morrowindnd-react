@@ -4,8 +4,8 @@ import TokenPermission from "../../Util/Components/TokenPermission";
 import {getGoldAmountFromActor} from "../../Util/Helper/GoldHelper";
 import GoldDisplay from "../../Util/Components/GoldDisplay";
 import SpellSellerFlagComponent from "./SpellSellerFlagComponent";
-import {CircularProgress, Paper, Tooltip} from "@material-ui/core";
-import React, {useCallback, useMemo} from "react"
+import {CircularProgress, Tooltip} from "@material-ui/core";
+import React, {useMemo} from "react"
 // @ts-ignore
 import Styles from "./SpellSellerSheet.module.scss"
 import {usePromise} from "../../Util/Helper/PromiseHelper";
@@ -18,7 +18,7 @@ import {ItemColumnImage, ItemColumnName} from "../../Util/Components/ItemTable/I
 import {getSpellClasses} from "../../Data/SpellData";
 import {SpellSchools} from "../../Util/Components/ItemTable/ItemTypes";
 import {calculateSpellCost, getMatches, SpellMatches} from "./SpellCostCalculator";
-import {Control, generateControlsColumn, ItemControl} from "../../Util/Components/ItemTable/ItemTableControl";
+import {Control, generateControlsColumn} from "../../Util/Components/ItemTable/ItemTableControl";
 import {SpellSellerBuy} from "./SpellSellerAction";
 import {getActorId} from "../../Util/Identifiers/ActorID";
 import {getItemId} from "../../Util/Identifiers/ItemID";

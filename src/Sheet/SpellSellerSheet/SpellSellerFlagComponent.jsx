@@ -1,4 +1,4 @@
-import {Button, MenuItem, Paper, Select, Slider} from "@material-ui/core";
+import {Button, Paper, Slider} from "@material-ui/core";
 import {useState} from "react";
 
 export default function SpellSellerFlagComponent({merchantFlag, setMerchantFlag}) {

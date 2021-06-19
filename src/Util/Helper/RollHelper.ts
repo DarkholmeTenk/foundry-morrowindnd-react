@@ -1,4 +1,4 @@
-import {registerSocket} from "../../Socket/SocketHelper";
+import {registerSocket} from "../Socket/SocketHelper";
 
 interface CurrentAsk {
     resolve: (responses: RollResponse[])=>void

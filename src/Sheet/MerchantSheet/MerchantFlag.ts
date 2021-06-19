@@ -1,4 +1,5 @@
 import {ItemId} from "../../Util/Identifiers/ItemID";
+import getFlag, {FlagResult} from "../../Util/Helper/FlagHelper";
 
 interface MerchantItem {
     itemId: ItemId,
@@ -18,9 +19,8 @@ const defaultMerchantFlag: MerchantFlag = {
     sellRate: 0.2
 }
 
-export function getMerchantFlag(actor: Actor): [MerchantFlag, (MerchantFlag)=>Promise<any>] {
-    let flag: MerchantFlag = {...defaultMerchantFlag, ...(actor.getFlag("morrowindnd", "MerchantSheetData") || {})}
-    return [flag, (newFlag)=>actor.setFlag("morrowindnd", "MerchantSheetData", newFlag)]
+export function getMerchantFlag(actor: Actor): FlagResult<MerchantFlag> {
+    return getFlag(actor, "MerchantSheetData", defaultMerchantFlag)
 }
 
 export function getBuyPrice(item: Item, qty: number, merchantFlag?: MerchantFlag): number {

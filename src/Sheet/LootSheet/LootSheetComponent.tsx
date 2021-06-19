@@ -3,7 +3,7 @@ import ItemTable, {
     NumberFormat
 } from "../../Util/Components/ItemTable/ItemTable";
 import {LootTakeSocket} from "./LootAction";
-import {openItemQuantitySelect} from "./ItemQuantitySelector.tsx";
+import {openItemQuantitySelect} from "./ItemQuantitySelector";
 import {getActorId} from "../../Util/Identifiers/ActorID";
 import TokenPermission from "../../Util/Components/TokenPermission";
 import GoldSection from "./GoldSection";
@@ -12,10 +12,15 @@ import GoldDisplay from "../../Util/Components/GoldDisplay";
 import {ItemColumnDefaults} from "../../Util/Components/ItemTable/ItemTableDefaults";
 import {generateControlsColumn, getEditControl} from "../../Util/Components/ItemTable/ItemTableControl";
 import useSelf from "../../Util/Components/SelfActorSelector";
+import getFlag from "../../Util/Helper/FlagHelper";
+import {buildDesireMap, DEFAULT_LOOT_FLAG, LOOT_FLAG_ID, LootFlag} from "./LootFlags";
+import LootSheetDesireComponent from "./LootSheetDesireComponent";
 
 export default function LootSheetComponent({npc: npcInput, self: selfInput}) {
     let {value: npc} = useNPC(npcInput)
-    let {actor: self, component: selfChooser} = useSelf()
+    let {actor: self, actorId: selfId, component: selfChooser} = useSelf()
+    let [flag, setFlag] = getFlag<LootFlag>(npc, LOOT_FLAG_ID, DEFAULT_LOOT_FLAG)
+    let mappedDesires = buildDesireMap(flag.desires)
 
     let takeControls = ({item})=>{
         let controls = [getEditControl(item)]
@@ -44,7 +49,10 @@ export default function LootSheetComponent({npc: npcInput, self: selfInput}) {
             title: "V/W",
             getter: ({item})=>item.data.data.weight > 0 ? NumberFormat.format(item.data.data.price / item.data.data.weight) : "-"
         },
-        generateControlsColumn(takeControls)
+        generateControlsColumn(takeControls), {
+            title: "Desire",
+            getter: ({item})=><LootSheetDesireComponent item={item} selfId={selfId} desires={mappedDesires} />
+        }
     ]
 
     return <div>
@@ -55,6 +63,6 @@ export default function LootSheetComponent({npc: npcInput, self: selfInput}) {
             {npc.owner ? <TokenPermission token={npc} /> : null }
         </div>
         {selfChooser}
-        {items.length > 0 ? <ItemTable items={items} columns={columns}/> : null}
+        {items.length > 0 ? <ItemTable items={items} columns={columns} extraProps={{mappedDesires}}/> : null}
     </div>
 }

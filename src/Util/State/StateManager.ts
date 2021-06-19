@@ -1,5 +1,5 @@
 import {createAction, createAsyncThunk, createReducer} from "@reduxjs/toolkit";
-import {registerGMSocket, registerPlayerSocket} from "../../Socket/SocketHelper";
+import {registerGMSocket, registerPlayerSocket} from "../Socket/SocketHelper";
 
 let reducers: any = {}
 let sockets: any = {}
