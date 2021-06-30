@@ -5,20 +5,13 @@ import {getGoldDetails, useLootSheetFlag} from "./LootSheetGoldUtil";
 import {LootSplitGold} from "./LootAction";
 import {getActorId} from "../../Util/Identifiers/ActorID";
 import {addGold, removeGold} from "../../Util/Helper/GoldHelper";
+import {UserGroupSelector} from "../../Util/Helper/UserHelper";
 
-
-function GoldTakerUser({user, takers, setTakers, disabled}) {
-    let checked = takers[user.id] || false
-    return <div>
-        <Checkbox checked={checked} disabled={disabled} onClick={()=>setTakers({...takers, [user.id]: !checked })} />
-        {user.name} - {user.character?.name}
-    </div>
-}
 
 export default function GoldSection({npc, disabled}) {
     let {flag, setFlag} = useLootSheetFlag(npc)
 
-    let {users, takers, amount, splitAmount, takeCount} = getGoldDetails(npc)
+    let {takers, amount, splitAmount, takeCount} = getGoldDetails(npc)
     let [newGold, setNewGold] = useState("0")
     let setTakers=useCallback((newTakers)=> {
         setFlag({...flag, goldTakers: newTakers})
@@ -39,7 +32,7 @@ export default function GoldSection({npc, disabled}) {
     return <Card>
         <CardHeader title="Gold" />
         <CardContent>
-            {users.map(user=><GoldTakerUser key={user} {...{user, takers, setTakers, disabled}}/>)}
+            <UserGroupSelector selected={takers} setSelected={setTakers} disabled={disabled} />
             <div>
                 Total:
                 <GoldDisplay value={amount} />

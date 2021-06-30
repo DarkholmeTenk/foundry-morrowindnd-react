@@ -2,7 +2,7 @@ import {useNPC} from "../../Util/Helper/EntityHelper";
 import ItemTable, {
     NumberFormat
 } from "../../Util/Components/ItemTable/ItemTable";
-import {LootTakeSocket} from "./LootAction";
+import {LootSplitNGS, LootTakeSocket} from "./LootAction";
 import {openItemQuantitySelect} from "./ItemQuantitySelector";
 import {getActorId} from "../../Util/Identifiers/ActorID";
 import TokenPermission from "../../Util/Components/TokenPermission";
@@ -15,6 +15,8 @@ import useSelf from "../../Util/Components/SelfActorSelector";
 import getFlag from "../../Util/Helper/FlagHelper";
 import {buildDesireMap, DEFAULT_LOOT_FLAG, LOOT_FLAG_ID, LootFlag} from "./LootFlags";
 import LootSheetDesireComponent from "./LootSheetDesireComponent";
+import {Button} from "@material-ui/core";
+import {useCallback} from "react";
 
 export default function LootSheetComponent({npc: npcInput, self: selfInput}) {
     let {value: npc} = useNPC(npcInput)
@@ -55,6 +57,7 @@ export default function LootSheetComponent({npc: npcInput, self: selfInput}) {
         }
     ]
 
+    let splitNGS = useCallback(()=>LootSplitNGS({lootId: getActorId(npc)}), [npc])
     return <div>
         <div className={Style.header}>
             <GoldSection npc={npc}
@@ -63,6 +66,7 @@ export default function LootSheetComponent({npc: npcInput, self: selfInput}) {
             {npc.owner ? <TokenPermission token={npc} /> : null }
         </div>
         {selfChooser}
+        <Button onClick={splitNGS}>Split NGS</Button>
         {items.length > 0 ? <ItemTable items={items} columns={columns} extraProps={{mappedDesires}}/> : null}
     </div>
 }

@@ -10,6 +10,7 @@ import Styles from "./MerchantSheet.module.scss"
 import {onDrop} from "../../Util/Helper/DropHelper";
 import {ItemColumnDefaults} from "../../Util/Components/ItemTable/ItemTableDefaults";
 import {generateControlsColumn} from "../../Util/Components/ItemTable/ItemTableControl";
+import SellDesireButton from "../LootSheet/Desire/SellDesireButton";
 
 
 export default function SellSheet({self, merchant, merchantFlag}) {
@@ -69,6 +70,7 @@ export default function SellSheet({self, merchant, merchantFlag}) {
     let totalPrice = items.map(i => getSellPrice(i.item, i.qty, merchantFlag)).reduce((p,c)=>p+c,0)
 
     return <Paper classes={{root: Styles.paperDiv}} onDrop={onDropFunction}>
+        <SellDesireButton merchant={merchant} merchantFlag={merchantFlag}/>
         <div className="flexrow">
             Sell:
             <Button onClick={()=>self.sheet.render(true)}>

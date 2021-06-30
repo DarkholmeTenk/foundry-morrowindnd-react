@@ -8,6 +8,7 @@ import {OwnedItemId} from "../../Util/Identifiers/ItemID";
 import {DEFAULT_LOOT_FLAG, Desire, ItemDesire, LOOT_FLAG_ID} from "./LootFlags";
 import getFlag from "../../Util/Helper/FlagHelper";
 import {isEqual} from "../../Util";
+import {distributeDesires} from "./Desire/DesireDistribute";
 
 interface LootTakeSocketAction {
     selfId: ActorId,
@@ -71,8 +72,9 @@ export const MarkLootDesire = registerGMSocket<MarkLootDesireAction>(LOOT_FLAG_I
 interface LootSplitNGSArgs {
     lootId:  ActorId
 }
-export const LootSplitNGS = registerGMSocket<LootSplitNGSArgs>("LootSheet_SplitNGS", ({lootId})=> {
+export const LootSplitNGS = registerGMSocket<LootSplitNGSArgs>("LootSheet_SplitNGS", async ({lootId})=> {
     let loot = getActor(lootId)
-    let [flag] = getFlag(loot, LOOT_FLAG_ID, DEFAULT_LOOT_FLAG)
-
+    let results = await distributeDesires(loot)
+    let chatContent = results.join("<br/>")
+    await ChatMessage.create({content: chatContent})
 })

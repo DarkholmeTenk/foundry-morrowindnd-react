@@ -1,4 +1,9 @@
 import {useEffect, useState} from "react";
+import {ActorId, getActor} from "../Identifiers/ActorID";
+import {usePromise} from "./PromiseHelper";
+import LogFactory from "../Logging";
+
+const log = LogFactory("EntityHelper")
 
 interface UseEntityParams<T extends Entity> {
     type: string,
@@ -37,6 +42,7 @@ export function useNPC<T extends Actor>(actor: Actor) {
         } else {
             hookID = Hooks.on(`updateActor`, (newActor)=>{
                 if(newActor.id !== actor.id) return
+                log.debug("Updating watched actor", actor, newActor)
                 setCurrent({actor: newActor})
             })
         }
@@ -44,4 +50,12 @@ export function useNPC<T extends Actor>(actor: Actor) {
     }, [actor?.id])
 
     return {value: current.actor}
+}
+
+export function useActor(actorId?: ActorId): {value: Actor<any, Item<any>> | null, loading: Boolean} {
+    console.log("UseActor", actorId)
+    let {result, loading} = usePromise(async ()=>actorId ? getActor(actorId) : null, [actorId])
+    let {value} = useNPC(loading ? null : result)
+    if(loading) return {value: null, loading}
+    return {value, loading}
 }

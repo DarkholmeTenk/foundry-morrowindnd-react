@@ -22,7 +22,7 @@ function ActorItem({actor, onClick}) {
     </MenuItem>
 }
 
-function ActorChooser({potentialActors, actor, setChosenActor}) {
+export function ActorChooser({potentialActors, actor, setChosenActor}) {
     let [menuOpen, setMenuOpen] = useState(false)
     let open = useCallback(()=>setMenuOpen(true), [setMenuOpen])
     let close = useCallback(()=>setMenuOpen(false), [setMenuOpen])
