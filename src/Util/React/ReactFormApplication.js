@@ -6,7 +6,7 @@ export class ReactFormSheet extends FormApplication {
 
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
-            template: "modules/MorrowindndReact/templates/ReactApplication.hbs",
+            template: "modules/MorrowinDnDReact/templates/ReactApplication.hbs",
         })
     }
 
