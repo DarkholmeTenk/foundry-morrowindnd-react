@@ -13,7 +13,8 @@ import {SellableItemPacks, StoredSellables} from "./Settings";
 
 const log = console.log
 
-export async function loadSellable(source: SellableSource): Promise<SellableItem[]> {
+type NullSell = SellableItem | null
+async function loadSellableInternal(source: SellableSource): Promise<NullSell[]> {
     if(isSimpleSellable(source)) {
         return [{item: await getItem(source.itemId), qty: source.qty}]
     } else if(isFilterSellable(source)) {
@@ -34,4 +35,9 @@ export async function loadSellable(source: SellableSource): Promise<SellableItem
     } else {
         throw Error("Unknown sellable type")
     }
+}
+
+export async function loadSellable(source: SellableSource): Promise<SellableItem[]> {
+    let result = await loadSellableInternal(source)
+    return result.filter(x=>x && x.item)
 }
