@@ -13,8 +13,8 @@ export default function GoldSection({npc, disabled}) {
 
     let {takers, amount, splitAmount, takeCount} = getGoldDetails(npc)
     let [newGold, setNewGold] = useState("0")
-    let setTakers=useCallback((newTakers)=> {
-        setFlag({...flag, goldTakers: newTakers})
+    let setTakers=useCallback((takerUpdate)=> {
+        setFlag({...flag, goldTakers: takerUpdate(flag.goldTakers || {})})
     }, [takers, setFlag])
     let loot = useCallback(()=>{
         LootSplitGold({lootId: getActorId(npc)})
