@@ -20,7 +20,7 @@ export interface SellableStuff {
     extra: SellableSourceExtra | null
 }
 
-export default function MerchantSheetComponent({self: selfInput, merchant: merchantInput}) {
+export default function MerchantSheetComponent({merchant: merchantInput}) {
     let {actor: self, component: selfSelector} = useSelf()
     let {value: merchant} = useNPC(merchantInput)
     let [merchantFlag, setMerchantFlag] = getMerchantFlag(merchant)

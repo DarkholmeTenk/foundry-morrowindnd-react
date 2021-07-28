@@ -1,4 +1,4 @@
-const {mergeItemData} = require("../Helper/ItemHelper");
+const {mergeItemData} = require("../Helper/ItemHelper.ts");
 
 Hooks.on('createToken', async (scene, data)=>{
     let {_id: id, actorId, actorLink} = data

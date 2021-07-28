@@ -25,7 +25,7 @@ export function isOwnedItem(id: ItemId): id is OwnedItemId {
     return (id as any).actorId
 }
 
-export async function getItem(id: ItemId): Promise<Item> {
+export async function getItem(id: ItemId): Promise<Item<any>> {
     if(isPackItem(id)) {
         return (await getPack(id.packId).getEntity(id.itemId)) as Item
     } else if(isOwnedItem(id)) {
@@ -33,6 +33,13 @@ export async function getItem(id: ItemId): Promise<Item> {
     } else {
         return game.items.get(id.itemId)
     }
+}
+export async function getItems(ids: ItemId[]): Promise<Item[]> {
+    let items = []
+    for(let id of ids) {
+        items.push(await getItem(id))
+    }
+    return items
 }
 
 export function getItemId(item: Item): ItemId {

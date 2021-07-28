@@ -6,10 +6,16 @@ export interface ItemProperties {
         size: string,
         fillSize: string
     }
+    alchemy?: {
+        effects: {
+            id: string,
+            bonus?: number
+        }[]
+    }
 }
 
 export const ITEM_FLAG = "extra_properties"
 
-export function getProperties(item): [ItemProperties, (newProperties: ItemProperties)=>Promise<any>] {
+export function getProperties(item: Item<any>): [ItemProperties, (newProperties: ItemProperties)=>Promise<any>] {
     return getFlag<ItemProperties>(item, ITEM_FLAG, {})
 }

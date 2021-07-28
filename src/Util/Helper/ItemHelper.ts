@@ -10,9 +10,9 @@ let ignore = {data:{}}
 ignorableProperties.forEach(p=>ignore[p] = true)
 ignorableDataProperties.forEach(p=>ignore.data[p] = true)
 
-export function mergeItemData(items) {
+export function mergeItemData(items: any[]) {
     log.debug("Merging Items", items)
-    let nameArrs = {}
+    let nameArrs: {[key: string]: any} = {}
     items.forEach(i=>{
         let name = i.name
         let qty = parseInt(i.data.quantity || 1)
@@ -30,7 +30,7 @@ export function mergeItemData(items) {
         nameArrs[name] = nameArr
     })
     let mergedItems = Object.values(nameArrs).flatMap(nameArr=>{
-        return nameArr.map(({item, qty})=>{
+        return (nameArr.map(({item, qty})=>{
             if(qty === item.data.quantity || qty === 1) {
                 return item
             } else {
@@ -40,8 +40,12 @@ export function mergeItemData(items) {
                 newItem.isStack = qty > 1
                 return newItem
             }
-        })
+        }))
     })
     log.debug("Merged items", mergedItems)
     return mergedItems
+}
+
+export async function getActorItems(actor: Actor<any, Item<any>>): Promise<Item<any>[]> {
+    return actor.items.map(x=>x)
 }

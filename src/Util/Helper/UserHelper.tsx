@@ -12,7 +12,7 @@ export function getActivePlayerUsers() {
 export function UserCheckbox({user, checked, toggle, disabled}) {
     let toggleMe = useCallback(()=>toggle(user), [user, toggle])
     return <div>
-        <Checkbox checked={checked} disabled={disabled} onClick={toggleMe} />
+        <Checkbox size="small" checked={checked} disabled={disabled} onClick={toggleMe} />
         {user.name} - {user.character?.name}
     </div>
 }

@@ -1,18 +1,32 @@
 import {getItem, OwnedItemId} from "../Identifiers/ItemID";
 import {ActorId, getActor} from "../Identifiers/ActorID";
+import LogFactory from "../Logging";
+
+const Log = LogFactory("ItemTransferHelper")
+
+function getExisting(itemData: any, actor: Actor<any, Item<any>>): Item<any> | undefined {
+    return actor.items.getName(itemData.name)
+}
 
 export async function addItem(itemData: any, actorId: ActorId, qty: number) {
     let actor = await getActor(actorId)
-    if(itemData.data.quantity !== qty) {
-        itemData = {
-            ...itemData,
-            data: {
-                ...itemData.data,
-                quantity: qty
+    let existing = getExisting(itemData, actor)
+    if(existing) {
+        let newQty = existing.data.data.quantity + qty
+        Log.debug("Updating item quantity", actor, existing, newQty)
+        await existing.update({"data.quantity": newQty})
+    } else {
+        if(itemData.data.quantity !== qty) {
+            itemData = {
+                ...itemData,
+                data: {
+                    ...itemData.data,
+                    quantity: qty
+                }
             }
         }
+        await actor.createOwnedItem(itemData)
     }
-    await actor.createOwnedItem(itemData)
 }
 
 export async function removeItem(itemId: OwnedItemId, qty: number): Promise<any> {

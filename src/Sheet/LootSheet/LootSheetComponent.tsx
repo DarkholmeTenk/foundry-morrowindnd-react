@@ -63,10 +63,12 @@ export default function LootSheetComponent({npc: npcInput, self: selfInput}) {
             <GoldSection npc={npc}
                          disabled={!npc.owner}
             />
+            <div className="flex-row">
+                {selfChooser}
+                <Button onClick={splitNGS}>Split NGS</Button>
+            </div>
             {npc.owner ? <TokenPermission token={npc} /> : null }
         </div>
-        {selfChooser}
-        <Button onClick={splitNGS}>Split NGS</Button>
         {items.length > 0 ? <ItemTable items={items} columns={columns} extraProps={{mappedDesires}}/> : null}
     </div>
 }

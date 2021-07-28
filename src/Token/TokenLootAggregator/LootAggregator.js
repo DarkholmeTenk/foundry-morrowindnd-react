@@ -1,4 +1,4 @@
-import {mergeItemData} from "../../Util/Helper/ItemHelper";
+import {mergeItemData} from "../../Util/Helper/ItemHelper.ts";
 import LogFactory from "../../Util/Logging";
 
 const log = LogFactory("LootSheetCreator")

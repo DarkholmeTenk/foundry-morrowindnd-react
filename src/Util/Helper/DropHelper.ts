@@ -35,7 +35,7 @@ async function loadThing(event) {
     }
 }
 
-export function onDrop(callback) {
+export function onDrop(callback: (i: Entity<any>)=>void) {
     return async (e)=>{
         e.preventDefault()
         e.stopPropagation()
@@ -44,4 +44,12 @@ export function onDrop(callback) {
             callback(object)
         }
     }
+}
+
+export function onItemDrop(callback: (i: Item<any>)=>void) {
+    return onDrop(x=>{
+        if(x instanceof Item) {
+            callback(x)
+        }
+    })
 }

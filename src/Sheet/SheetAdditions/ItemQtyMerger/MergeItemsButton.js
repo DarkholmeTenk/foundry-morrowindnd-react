@@ -1,6 +1,6 @@
 import LogFactory from "../../../Util/Logging";
 
-const {mergeItemData} = require("../../../Util/Helper/ItemHelper");
+const {mergeItemData} = require("../../../Util/Helper/ItemHelper.ts");
 
 const log = LogFactory("MergeItemsButton")
 

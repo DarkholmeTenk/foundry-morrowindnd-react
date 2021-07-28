@@ -1,4 +1,4 @@
-export default function Selector({values, value, setValue, labelFunction=(s)=>`${s}`, includeNull=true}) {
+export default function Selector({values, value, setValue, labelFunction=(s)=>`${s}`, includeNull=true, label=""}) {
     let map = {}
     values.forEach((v)=>{
         let label = labelFunction(v)
@@ -6,7 +6,7 @@ export default function Selector({values, value, setValue, labelFunction=(s)=>`$
         map[label] = v
     })
     let selected = !value ? "" : labelFunction(value)
-    return <select value={selected} onChange={(e)=>setValue(map[e.target.value])}>
+    return <select value={selected} onChange={(e)=>setValue(map[e.target.value])} aria-label={label}>
         {includeNull ? <option value="" /> : null}
         {values.map((v)=>{
             let label = labelFunction(v)

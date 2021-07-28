@@ -1,6 +1,6 @@
 import GoldDisplay from "../../Util/Components/GoldDisplay";
-import {Button, Card, CardActions, CardContent, CardHeader, Checkbox, Input} from "@material-ui/core";
-import {useCallback, useState} from "react";
+import {Button, Card, CardActions, CardContent, CardHeader, Input, Typography} from "@material-ui/core";
+import React, {useCallback, useState} from "react";
 import {getGoldDetails, useLootSheetFlag} from "./LootSheetGoldUtil";
 import {LootSplitGold} from "./LootAction";
 import {getActorId} from "../../Util/Identifiers/ActorID";
@@ -30,8 +30,8 @@ export default function GoldSection({npc, disabled}) {
     let owner = npc.owner
 
     return <Card>
-        <CardHeader title="Gold" />
         <CardContent>
+            <Typography>Gold Loot</Typography>
             <UserGroupSelector selected={takers} setSelected={setTakers} disabled={disabled} />
             <div>
                 Total:
@@ -46,8 +46,8 @@ export default function GoldSection({npc, disabled}) {
             </div> : null}
         </CardContent>
         <CardActions>
-            <Button disabled={takeCount === 0 || amount === 0} onClick={loot}>Loot Gold</Button>
-            {owner ? <Button onClick={setGold}>Add Gold</Button> : null}
+            <Button size="small" disabled={takeCount === 0 || amount === 0} onClick={loot}>Loot Gold</Button>
+            {owner ? <Button size="small" onClick={setGold}>Add Gold</Button> : null}
         </CardActions>
     </Card>
 }
