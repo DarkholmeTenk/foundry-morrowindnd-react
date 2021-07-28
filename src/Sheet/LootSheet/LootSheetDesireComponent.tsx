@@ -1,5 +1,5 @@
 import {Desire, MappedDesires} from "./LootFlags";
-import {Chip, Tooltip} from "@material-ui/core";
+import {Chip, CircularProgress, Tooltip} from "@material-ui/core";
 import {ActorId, getActorId, RawActorId} from "../../Util/Identifiers/ActorID";
 import {getItemId, OwnedItemId} from "../../Util/Identifiers/ItemID";
 import {useCallback} from "react";
@@ -59,8 +59,11 @@ interface LootSheetDesireComponentArgs {
 }
 export default function LootSheetDesireComponent({item, selfId, desires}: LootSheetDesireComponentArgs) {
     let xd = desires.get(item.id) || new Map<string, Desire>()
+    let users = game.users.filter(x=>x.active && !x.isGM)
+    let progress = Math.max(1, users.length > 0 ? 100 * xd.size / users.length : 1)
     let desireButtons = Object.keys(DESIRE_INFOS).map(desire=><DesireButton desires={xd} desire={desire as any as Desire} selfId={selfId} item={item}/>)
     return <div>
         {desireButtons}
+        <CircularProgress variant="determinate" size={18} value={progress} />
     </div>
 }

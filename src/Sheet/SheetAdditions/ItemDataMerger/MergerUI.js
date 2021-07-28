@@ -3,7 +3,7 @@ import {getItemMapping} from "./Merger";
 import {SimpleReactApplication} from "../../../Util/React/ReactApplication";
 
 Hooks.on("renderActorSheet", (app, html)=>{
-    let actor = app.object
+    /*let actor = app.object
     if(actor.data.type === "character" && game.user.isGM) {
         let mappings = getItemMapping(actor.items.entries)
         if(Object.keys(mappings).length > 0) {
@@ -15,5 +15,5 @@ Hooks.on("renderActorSheet", (app, html)=>{
             })
             part.append(button)
         }
-    }
+    }*/
 })
