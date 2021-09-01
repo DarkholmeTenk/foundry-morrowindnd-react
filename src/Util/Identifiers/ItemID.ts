@@ -1,5 +1,5 @@
 import {ActorId, getActor, getActorId} from "./ActorID";
-import {getPack, getPackId, PackId} from "./PackId";
+import {getPack, getPackId, loadPack, PackId} from "./PackId";
 
 export interface ItemDirectoryId {
     itemId: string
@@ -27,7 +27,8 @@ export function isOwnedItem(id: ItemId): id is OwnedItemId {
 
 export async function getItem(id: ItemId): Promise<Item<any>> {
     if(isPackItem(id)) {
-        return (await getPack(id.packId).getEntity(id.itemId)) as Item
+        let pack = await loadPack<Item<any>>(id.packId)
+        return pack?.find(x=>x.id === id.itemId)
     } else if(isOwnedItem(id)) {
         return (await getActor(id.actorId)).items.get(id.itemId)
     } else {
