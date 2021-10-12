@@ -9,7 +9,8 @@ export const ItemPackSetting = setupSettingMenu<PackId[]>({
     type: PackSelectorComponent,
     default: [{package: "dnd5e", name: "items"}],
     restricted: true,
-    sheetOptions: PackSelectorOptions
+    sheetOptions: PackSelectorOptions,
+    scope: "world"
 })
 
 
@@ -20,5 +21,6 @@ export const SpellPackSetting = setupSettingMenu<PackId[]>({
     type: PackSelectorComponent,
     default: [{package: "dnd5e", name: "spells"}],
     restricted: true,
-    sheetOptions: PackSelectorOptions
+    sheetOptions: PackSelectorOptions,
+    scope: "world"
 })

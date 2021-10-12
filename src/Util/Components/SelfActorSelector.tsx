@@ -1,8 +1,8 @@
-import React, {useRef} from "react";
+import React, {ReactElement, useRef} from "react";
 import {useCallback, useState} from "react";
-import {useNPC} from "../Helper/EntityHelper";
+import {useEntity, useNPC} from "../Helper/EntityHelper";
 import {Button, Menu, MenuItem} from "@material-ui/core";
-import {getActorId, RawActorId} from "../Identifiers/ActorID";
+import {RawActorId} from "../Identifiers/ActorID";
 
 function ActorDisplay({actor}) {
     if(actor) {
@@ -30,7 +30,7 @@ export function ActorChooser({potentialActors, actor, setChosenActor}) {
         setChosenActor(actor.id)
         close()
     }, [close, setChosenActor])
-    let ref = useRef()
+    let ref = useRef<any>()
     let choices = potentialActors.map(actor=><ActorItem key={actor.id} actor={actor} onClick={setActor} />)
     return <React.Fragment>
         <Button onClick={open} ref={ref}>Selected Actor: <ActorDisplay actor={actor}/></Button>
@@ -40,15 +40,26 @@ export function ActorChooser({potentialActors, actor, setChosenActor}) {
     </React.Fragment>
 }
 
-export default function useSelf() {
-    let potentialActors = game.actors.filter(x=>x.owner)
-    let [chosenActor, setChosenActor] = useState(game.user.character?.id)
-    let actorRef = useNPC(chosenActor ? game.actors.get(chosenActor) : null)
+export function useParty() {
+    let actor = canvas?.scene?.tokens?.map(x=>x.actor)?.find(x=>x?.name?.toLowerCase() == "party") ?? undefined
+    return useSelf(actor)
+}
+
+export default function useSelf(defaultActor?: Actor5e) {
+    let potentialActors = game.actors!.filter(x=>x.isOwner)
+    let [chosenActor, setChosenActor] = useState(defaultActor?.id ?? game.user!.character?.id)
+    let actorRef = useNPC(chosenActor ? game.actors!.get(chosenActor)! : null)
     let {value: actor} = actorRef
-    let component = null
+    let component: ReactElement | null = null
     if(potentialActors.length > 1) {
         component = <ActorChooser potentialActors={potentialActors} actor={actor} setChosenActor={setChosenActor} />
     }
-    let actorId: RawActorId = {actorId: actor.id}
+    let actorId: RawActorId = {actorId: actor!.id!}
     return {actor, actorId, component, actorRef}
+}
+
+export function useCanvasToken(scene: Scene, actor: Actor5e | null): TokenDocument | null {
+    let token = actor ? scene.tokens.find(x=>x.actor?.uuid === actor.uuid) as TokenDocument5e : null
+    let {value} = useEntity({entity: token, type: "Token"})
+    return value
 }

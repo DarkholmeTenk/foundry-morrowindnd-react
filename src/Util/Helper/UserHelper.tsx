@@ -1,12 +1,13 @@
 import {useCallback, useState} from "react";
 import {Checkbox} from "@material-ui/core";
+import {ReactNodeLike} from "prop-types";
 
 function getState(selected: {[key: string]: boolean}, user, defaultState): boolean {
     return selected[user.id] !== undefined ? selected[user.id] : defaultState
 }
 
 export function getActivePlayerUsers() {
-    return game.users.filter(u=>!u.isGM && u.active)
+    return game.users!.filter(u=>!u.isGM && u.active)
 }
 
 export function UserCheckbox({user, checked, toggle, disabled}) {
@@ -20,13 +21,13 @@ export function UserCheckbox({user, checked, toggle, disabled}) {
 export function UserGroupSelector({selected, setSelected, defaultState = false, disabled = false}) {
     let users = getActivePlayerUsers()
     let toggle = useCallback((user)=>setSelected(s=>({...s, [user.id]: !getState(s, user, defaultState)})), [defaultState])
-    let map = users.map(u=><UserCheckbox user={u} key={u.id} checked={selected[u.id] !== undefined ? selected[u.id] : defaultState} toggle={toggle} disabled={disabled} /> )
+    let map = users.map(u=><UserCheckbox user={u} key={u.id} checked={selected[u.id!] !== undefined ? selected[u.id!] : defaultState} toggle={toggle} disabled={disabled} /> )
     return <div>
         {map}
     </div>
 }
 
-export function useUserGroupSelector({defaultState = false, disabled = false}) {
+export function useUserGroupSelector({defaultState = false, disabled = false}): {component: ReactNodeLike, selectedUsers: User[]} {
     let [selected, setSelected] = useState({})
     let component = <UserGroupSelector {...{selected, setSelected, defaultState, disabled}} />
     let selectedUsers = getActivePlayerUsers().filter(u=>getState(selected, u, defaultState))

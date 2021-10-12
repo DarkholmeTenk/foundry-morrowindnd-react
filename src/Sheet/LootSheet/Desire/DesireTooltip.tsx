@@ -1,8 +1,8 @@
 function DesireTooltipThing({desirer}) {
-    let actor = game.actors.get(desirer)
+    let actor = game.actors!.get(desirer)
     if(!actor) return null
     return <div>
-        <img style={{width: "20px", height: "20px"}} src={actor.img} />
+        <img style={{width: "20px", height: "20px"}} src={actor.img!} />
         {actor.name}
     </div>
 }

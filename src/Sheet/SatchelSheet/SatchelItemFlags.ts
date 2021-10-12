@@ -1,6 +1,7 @@
 import {getItem, isOwnedItem, isPackItem, ItemId, ItemPackId} from "../../Util/Identifiers/ItemID";
 import getFlag, {FlagResult} from "../../Util/Helper/FlagHelper";
 import {isEqual} from "../../Util";
+import {ItemData} from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs";
 
 interface ItemById {
     id: ItemPackId,
@@ -9,7 +10,7 @@ interface ItemById {
 }
 
 interface SatchelFlags {
-    itemData: Item.Data<any>[],
+    itemData: ItemData[],
     ids: ItemById[],
     filter: string
 }
@@ -21,18 +22,18 @@ const defaultSatchelFlags: SatchelFlags = {
 }
 
 type Satchel = FlagResult<Partial<SatchelFlags>>
-export function getSatchelFlag(item: Item<any>): FlagResult<Partial<SatchelFlags>> {
+export function getSatchelFlag(item: Item5e): FlagResult<Partial<SatchelFlags>> {
     return getFlag(item, "Satchel", defaultSatchelFlags)
 }
 
-function idQty(itemData: Item.Data<any>, qty: number): Item.Data<any> {
+function idQty(itemData: ItemData, qty: number): ItemData {
     return {
         ...itemData,
         data: {
             ...itemData.data,
             quantity: qty
         }
-    }
+    } as any as ItemData
 }
 
 function removeItem(satchel: Satchel, itemId: ItemId, qty: number) {
@@ -41,7 +42,7 @@ function removeItem(satchel: Satchel, itemId: ItemId, qty: number) {
 
 export async function addItemToSatchel(satchel: Satchel, itemId: ItemId, qty: number) {
     let [flag, setFlag] = satchel
-    let item = await getItem(itemId)
+    let item = (await getItem(itemId))!
     if(!isPackItem(itemId)) {
         let newData = idQty(item.data, qty)
         await setFlag({
@@ -53,7 +54,7 @@ export async function addItemToSatchel(satchel: Satchel, itemId: ItemId, qty: nu
         })
     } else {
         let existing = (flag.ids || []).find(x=>isEqual(x.id, itemId))
-        let newArr = []
+        let newArr: ItemById[]
         if(existing) {
             newArr = (flag.ids || []).filter(x=>x !== existing)
             newArr.push({
@@ -65,7 +66,7 @@ export async function addItemToSatchel(satchel: Satchel, itemId: ItemId, qty: nu
                 ...(flag.ids || []),
                 {
                     id: itemId,
-                    name: item.name,
+                    name: item.name!,
                     qty
                 }
             ]
@@ -77,16 +78,18 @@ export async function addItemToSatchel(satchel: Satchel, itemId: ItemId, qty: nu
     }
 }
 
-export async function getSatchelItems(satchel: Satchel): Promise<Item<any>[]> {
+export async function getSatchelItems(satchel: Satchel): Promise<Item5e[]> {
     let [flag] = satchel
-    let items = []
+    let items: Item5e[] = []
     for(let id of (flag.ids || [])) {
-        let item = await getItem(id.id)
-        let newId = idQty(item.data, id.qty)
-        items.push(await Item.create(newId, {temporary: true}))
+        let item = (await getItem(id.id))!
+        let newId = idQty(item.data, id.qty) as any
+        items.push((await Item.create(newId, {temporary: true}))!)
     }
-    for(let data of (flag.itemData)) {
-        items.push(await Item.create(data, {temporary: true}))
+    if(flag.itemData) {
+        for (let data of (flag.itemData)) {
+            items.push((await Item.create(data as any, {temporary: true}))!)
+        }
     }
     return items
 }

@@ -21,8 +21,8 @@ export default function TokenSettingComponent({setting}: TokenSettingComponentAr
     let save = useCallback(()=>setting.value = current, [current, setting])
     let setLootToken = useCallback((x)=>setCurrent({...current, lootTokenBase: {actorId: x}}), [current])
     let setLootDump = useCallback((x)=>setCurrent({...current, sellLootDump: {actorId: x}}), [current])
-    let potentials = game.actors.map(x=>x)
-    if(loading) return <CircularProgress />
+    let potentials = game.actors!.map(x=>x)
+    if(loading || !result) return <CircularProgress />
     return <div>
         Token settings
         Loot Token Base:

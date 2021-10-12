@@ -11,7 +11,7 @@ interface NameData {
 
 interface Loading<X> {
     loading: boolean,
-    data?: X
+    data: X | null
 }
 
 let nameCache: Promise<NameData> | undefined
@@ -33,7 +33,7 @@ export function getNpcVoiceData(): Promise<VoiceData> {
 
 function load<T>(getter: ()=>Promise<T>): Loading<T> {
     let [loading, setLoading] = useState(true)
-    let [data, setData] = useState(null)
+    let [data, setData] = useState<T | null>(null)
     useEffect(()=>{
         setLoading(true)
         getter().then((d)=>{

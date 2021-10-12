@@ -4,7 +4,7 @@ import {getAlchemyEffect} from "../../../Item/Alchemy/AlchemyEffects/AlchemyEffe
 import {useCallback} from "react";
 
 function TypeControl({type, types}) {
-    let typeInfo = getAlchemyEffect(type)
+    let typeInfo = getAlchemyEffect(type)!
     return <FormControlLabel control={<Radio size="small"/>} label={typeInfo.label} disabled={types[type] <= 1} value={type} />
 }
 

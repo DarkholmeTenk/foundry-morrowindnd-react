@@ -1,26 +1,44 @@
 const {mergeItemData} = require("../Helper/ItemHelper.ts");
 
-Hooks.on('createToken', async (scene, data)=>{
-    let {_id: id, actorId, actorLink} = data
-    let actor = game.actors.get(actorId)
-    if(actor.owner && !actorLink) {
+function split(updates) {
+    let actor = {}
+    let token = {}
+    Object.keys(updates).forEach(update=>{
+        if(update.startsWith("actorData.")) {
+            actor[update.substring(10)] = updates[update]
+        } else {
+            token[update] = updates[update]
+        }
+    })
+    return {
+        actor, token
+    }
+}
+
+Hooks.on('createToken', async (token, data)=>{
+    if(token.isOwner && !token.isLinked) {
         let promises = []
         let update = (updateData)=>promises.push(updateData)
-        Hooks.callAll("createTokenMutate", update, {scene, actor, token: data})
-        let updateDataArray = (await Promise.all(promises.map(p=>p()))).filter(x=>x)
-        let updateData = {}
-        updateDataArray.forEach(ud=>Object.assign(updateData, ud))
-        if(Object.keys(updateData).length !== 0) {
-            let tokenEntity = new Token(data)
-            tokenEntity.scene = scene
+        Hooks.callAll("createTokenMutate", update, {token})
+        setTimeout(async ()=>{
+            let updateDataArray = (await Promise.all(promises.map(p=>p()))).filter(x=>x)
+            let updateData = {}
+            updateDataArray.forEach(ud=>Object.assign(updateData, ud))
+            if(Object.keys(updateData).length !== 0) {
 
-            if(updateData.items) {
-                let items = mergeItemData(updateData.items)
-                await tokenEntity.actor.createOwnedItem(items)
-                delete updateData.items
+                if(updateData.items) {
+                    let items = mergeItemData(updateData.items)
+                    await Item.create(items, {parent: token.actor})
+                    delete updateData.items
+                }
+                let splitData = split(updateData)
+                if(Object.keys(splitData.actor).length > 0) {
+                    await token.actor.update(splitData.actor)
+                }
+                if(Object.keys(splitData.token).length > 0) {
+                    await token.update(splitData.token)
+                }
             }
-
-            await tokenEntity.update(updateData)
-        }
+        }, 250)
     }
 })

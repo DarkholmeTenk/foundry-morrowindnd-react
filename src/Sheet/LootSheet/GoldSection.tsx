@@ -27,7 +27,7 @@ export default function GoldSection({npc, disabled}) {
             await removeGold(npc, -ng)
         }
     }, [newGold])
-    let owner = npc.owner
+    let owner = npc.isOwner
 
     return <Card>
         <CardContent>

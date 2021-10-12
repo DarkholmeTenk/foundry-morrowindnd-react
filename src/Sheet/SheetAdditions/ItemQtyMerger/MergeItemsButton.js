@@ -6,7 +6,7 @@ const log = LogFactory("MergeItemsButton")
 
 Hooks.on("actorSheetMenuItems", (add, app)=>{
     let actor = app.object
-    if(actor.owner) {
+    if(actor.isOwner) {
         add({
             name: "Merge Items",
             icon: '<i class="fas fa-sort-amount-up"></i>',

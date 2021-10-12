@@ -11,12 +11,12 @@ export type ActorId = SceneTokenId | RawActorId
 export function getActorId(actor: Actor): ActorId {
     if(actor.isToken) {
         return {
-            tokenId: actor.token.id,
-            sceneId: actor.token.scene.id
+            tokenId: actor.token!.id!,
+            sceneId: actor.token!.parent!.id!
         }
     } else {
         return {
-            actorId: actor.id
+            actorId: actor.id!
         }
     }
 }
@@ -25,13 +25,13 @@ function isTokenID(id: ActorId): id is SceneTokenId {
     return (id as SceneTokenId).sceneId !== undefined
 }
 
-export function getActor(id: ActorId): Actor<any, Item<any>> {
+export function getActor(id: ActorId): Actor5e {
     if(isTokenID(id)) {
-        let scene = game.scenes.get(id.sceneId)
+        let scene = game.scenes!.get(id.sceneId)
         // @ts-ignore
-        let token = scene.getEmbeddedEntity("Token", id.tokenId)
-        return new Token(token, scene).actor
+        let token = scene.tokens.get(id.tokenId)
+        return token!.actor!
     } else {
-        return game.actors.get(id.actorId)
+        return game.actors!.get(id.actorId)!
     }
 }

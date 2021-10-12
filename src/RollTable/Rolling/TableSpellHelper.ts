@@ -6,10 +6,10 @@ import {SpellPackSetting} from "./Settings";
 
 const log = LoggerFactory("TableSpellHelper")
 
-export async function getAllSpells(): Promise<Item[]> {
-	let packSpells = await loadPacks<Item>(SpellPackSetting.value)
-	let byName: {[name: string]: Item} = {}
-	packSpells.forEach(s=>byName[s.name] = s)
+export async function getAllSpells(): Promise<Item5e[]> {
+	let packSpells = await loadPacks<Item5e>(SpellPackSetting.value)
+	let byName: {[name: string]: Item5e} = {}
+	packSpells.forEach(s=>byName[s.name || ""] = s)
 	return Object.values(byName)
 }
 

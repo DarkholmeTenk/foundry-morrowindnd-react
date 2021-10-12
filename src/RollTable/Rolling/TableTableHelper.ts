@@ -11,16 +11,16 @@ export default class TableTableHelper implements TableHelper {
 		if(!args.table) {
 			throw Error("No @table argument specified")
 		} else {
-			let table = game.tables.find(t=>t.name === args.table)
+			let table = game.tables!.find(t=>t.name === args.table)
 			if(!table) {
 				throw Error(`No table found for name [${args.table}]`)
 			} else {
 				let min = parseInt(args.min || "0")
-				let results = []
+				let results: any[] = []
 				if(min) {
 					let i = 0
 					while(results.length < min && i < 20) {
-						let items = (await doRollTable(table.id)).flatMap(i=>i.getItemData()).filter(filterItem)
+						let items = (await doRollTable(table.id!)).flatMap(i=>i.getItemData()).filter(filterItem)
 						if(items.length > 0) {
 							results.push(...items)
 						}
@@ -29,7 +29,7 @@ export default class TableTableHelper implements TableHelper {
 				} else {
 					let rollString = args.roll || "1"
 					let rollResult = new Roll(rollString).roll().total
-					let resultTables = await nAsync(rollResult, ()=>doRollTable(table.id))
+					let resultTables = await nAsync(rollResult, ()=>doRollTable(table!.id!))
 					results = resultTables
 						.flatMap(i=>i)
 						.flatMap(i=>i)

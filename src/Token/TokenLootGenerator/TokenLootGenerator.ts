@@ -22,7 +22,8 @@ function fixTokenModifications(o: any): any {
     return nO
 }
 
-Hooks.on("createTokenMutate", async (update, {actor, token})=>{
+Hooks.on("createTokenMutate", async (update, {token})=>{
+    let actor = token.actor
     update(async ()=>{
         let rollTableIds: RollTableIds[] = actor.getFlag("morrowindnd", ACTOR_FLAG)?.rollTableIds || []
         let rollResult = (await Promise.all(rollTableIds.map(async ({id: rollTableId, qty})=>{

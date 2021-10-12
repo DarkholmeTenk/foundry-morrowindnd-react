@@ -10,17 +10,24 @@ import {
     SellableSource
 } from "./SellableData";
 import {SellableItemPacks, StoredSellables} from "./Settings";
+import LogFactory from "../../../Util/Logging";
 
-const log = console.log
+const log = LogFactory("SellableLoader")
 
 type NullSell = SellableItem | null
 async function loadSellableInternal(source: SellableSource): Promise<NullSell[]> {
     if(isSimpleSellable(source)) {
-        return [{item: await getItem(source.itemId), qty: source.qty}]
+        let item = await getItem(source.itemId!)
+        if(item) {
+            return [{item, qty: source.qty}]
+        } else {
+            log.warn("Unable to find simple sellable", source)
+            return []
+        }
     } else if(isFilterSellable(source)) {
         let filterArguments = getArguments(source.filter)
         let items = await loadPacks(source.packOverride || SellableItemPacks.value)
-        return items.filter(x=>filterArguments.filterItem(x as Item<any>)).map(item=>({item: item as Item<any>}))
+        return items.filter(x=>filterArguments.filterItem(x as Item5e)).map(item=>({item: item as Item5e}))
     } else if(isNestedSellable(source)) {
         return await Promise.all(source.sellables.map(x => loadSellable(x)))
             .then(x => x.flatMap(y => y))
@@ -39,5 +46,5 @@ async function loadSellableInternal(source: SellableSource): Promise<NullSell[]>
 
 export async function loadSellable(source: SellableSource): Promise<SellableItem[]> {
     let result = await loadSellableInternal(source)
-    return result.filter(x=>x && x.item)
+    return result.filter(x=>(x && x.item)) as SellableItem[]
 }

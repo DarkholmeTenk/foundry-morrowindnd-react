@@ -44,15 +44,15 @@ interface TableRollResult {
 }
 
 export default async function doRollTable(id: string): Promise<RollData[]> {
-    if(!id) return
-    let rollTable = game.tables.get(id)
+    if(!id) return []
+    let rollTable = game.tables!.get(id)!
     let {tableId} = (rollTable.getFlag("morrowindnd", "enchant_spells") || {}) as ModifierData
-    let roll = rollTable.roll() as any as TableRollResult
+    let roll = await rollTable.roll()
     let results = (await Promise.all(roll.results.map(async result=>{
-        return await getRollTableData(result)
+        return await getRollTableData(result.data)
     }))).flatMap(i=>i)
     log("Got results", results)
-    let modifiers = await doRollTable(tableId)
+    let modifiers = await doRollTable(tableId!)
     log("Got modifiers", modifiers)
     if(modifiers) {
         return [new EncapsulatingRollData(results, modifiers)]

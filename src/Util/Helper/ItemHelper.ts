@@ -46,6 +46,6 @@ export function mergeItemData(items: any[]) {
     return mergedItems
 }
 
-export async function getActorItems(actor: Actor<any, Item<any>>): Promise<Item<any>[]> {
+export async function getActorItems(actor: Actor5e): Promise<Item5e[]> {
     return actor.items.map(x=>x)
 }

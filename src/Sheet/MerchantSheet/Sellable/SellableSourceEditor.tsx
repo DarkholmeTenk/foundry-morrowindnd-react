@@ -51,7 +51,7 @@ function NestedSellableEditor({source, setSource}: SellableSourceEditorArgs<Nest
     return <div style={{paddingLeft: '8px', borderLeft: '1px solid black'}} onDrop={drop}>
         Nested:
         {subEditors}
-        <Button onClick={()=>setSource({sellables: [...source.sellables, {itemId: null}]})}>+</Button>
+        <Button onClick={()=>setSource({sellables: [...source.sellables, {itemId: undefined}]})}>+</Button>
     </div>
 }
 
@@ -74,7 +74,7 @@ function SimpleSellableEditor({source, setSource}: SellableSourceEditorArgs<Simp
 }
 
 function EditorChild({source, setSource}: SellableSourceEditorArgs<SellableSource>) {
-    let ChildObj = null
+    let ChildObj: any = null
     if(isSimpleSellable(source)) {
         ChildObj = SimpleSellableEditor
     } else if(isReferencedSellable(source)) {

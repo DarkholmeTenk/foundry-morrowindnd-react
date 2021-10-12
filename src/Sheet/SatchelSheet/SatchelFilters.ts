@@ -1,6 +1,6 @@
 interface SatchelFilter {
     label: string,
-    filter: (i: Item<any>)=>boolean
+    filter: (i: Item5e)=>boolean
 }
 
 export const SatchelFilters: SatchelFilter[] = [
@@ -10,6 +10,6 @@ export const SatchelFilters: SatchelFilter[] = [
     },
     {
         label: "Scroll",
-        filter: (item)=>item.type === "consumable" && item.data.data.consumableType === " scroll"
+        filter: (item)=>item.type === "consumable" && item.consumable().consumableType === "scroll"
     }
 ]

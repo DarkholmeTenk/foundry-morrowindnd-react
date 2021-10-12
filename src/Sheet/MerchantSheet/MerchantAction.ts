@@ -1,6 +1,6 @@
 import {registerGMSocket} from "../../Util/Socket/SocketHelper";
 import {ActorId, getActor} from "../../Util/Identifiers/ActorID";
-import {getItem, isOwnedItem, ItemId, OwnedItemId} from "../../Util/Identifiers/ItemID";
+import {getItem, getItemId, isOwnedItem, ItemId, OwnedItemId} from "../../Util/Identifiers/ItemID";
 import {getBuyPrice, getMerchantFlag, getSellPrice} from "./MerchantFlag";
 import {addGold, getGoldAmountFromActor, removeGold} from "../../Util/Helper/GoldHelper";
 import {addItem, removeItem} from "../../Util/Helper/ItemTransferHelper";
@@ -15,9 +15,9 @@ interface BuyAction {
 }
 
 export const MerchantBuy = registerGMSocket<BuyAction>("MerchantSheet_Buy", async ({self: selfId, merchant: merchantId, item: itemId, qty})=>{
-    let merchant = await getActor(merchantId)
-    let self = await getActor(selfId)
-    let item = await getItem(itemId)
+    let merchant = (await getActor(merchantId))!
+    let self = (await getActor(selfId))!
+    let item = (await getItem(itemId))!
     let [merchantFlag] = getMerchantFlag(merchant)
     let price = getBuyPrice(item, qty, merchantFlag)
     let myGold = getGoldAmountFromActor(self.data)
@@ -41,7 +41,7 @@ export const MerchantSell = registerGMSocket<SellAction>("MerchantSheet_Sell", a
     let [merchantFlag] = getMerchantFlag(merchant)
     await Promise.all(items.map(async ({itemId, qty})=>{
         let self = await getActor(itemId.actorId)
-        let item = await getItem(itemId)
+        let item = (await getItem(itemId))!
         let price = getSellPrice(item, qty, merchantFlag)
         await removeItem(itemId, qty)
         //await addItem(item.data, merchantId, qty)
@@ -55,23 +55,23 @@ interface SellJunkAction {
 }
 export const MerchantSellJunk = registerGMSocket<SellJunkAction>("MerchantSheet_SellJunk", async({merchant: merchantId, users})=>{
     let merchant = await getActor(merchantId)
-    let holderId = TokenSettings.value.sellLootDump
-    let holder = await getActor(holderId)
+    let holderId = TokenSettings.value.sellLootDump!
+    let holder = (await getActor(holderId))!
     let [merchantFlag] = getMerchantFlag(merchant)
     let items = getSellDesireItems(holder)
     let totalPrice = 0
-    let messages = []
+    let messages: string[] = []
     for(let item of items) {
-        let qty = item.data.data.quantity
+        let qty = item.qty()
         let price = getSellPrice(item, qty, merchantFlag)
         totalPrice += price
         messages.push(`Selling ${item.name} x ${qty} for ${price}`)
-        await removeItem({actorId: holderId, itemId: item.id}, qty)
+        await removeItem({...getItemId(item), actorId: holderId}, qty)
     }
     await holder.update({sort: (holder.data as any).sort + 1})
     let split = totalPrice/users.length
     for(let user of users) {
-        let actor = game.users.get(user).character
+        let actor = game.users!.get(user)!.character!
         messages.push(`Giving ${actor.name} gold x ${split} from the proceeds`)
         await addGold(actor, split)
     }

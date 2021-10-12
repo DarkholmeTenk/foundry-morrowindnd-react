@@ -19,7 +19,7 @@ const defaultMerchantFlag: MerchantFlag = {
     sellRate: 0.2
 }
 
-export function getMerchantFlag(actor: Actor): FlagResult<MerchantFlag> {
+export function getMerchantFlag(actor: Actor5e): FlagResult<MerchantFlag> {
     return getFlag(actor, "MerchantSheetData", defaultMerchantFlag)
 }
 

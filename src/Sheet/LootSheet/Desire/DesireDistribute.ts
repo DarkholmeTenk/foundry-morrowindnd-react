@@ -25,11 +25,11 @@ function addFlags(type: String, itemData: any): any {
     }
 }
 
-async function give(needers: ActorId[], loot: Actor, item: Item<any>, type: String, result: String[]) {
-    let qty = item.data.data.quantity
+async function give(needers: ActorId[], loot: Actor, item: Item5e, type: String, result: String[]) {
+    let qty = item.qty()
     let splitResult = split(qty, needers)
     await Promise.all(needers.map(async needId=>{
-        let count = splitResult.get(needId)
+        let count = splitResult.get(needId) ?? 0
         if(count > 0) {
             let needActor = await getActor(needId)
             result.push(`Giving [${needActor.name}] [${item.name} x ${count}] for [${type}]`)
@@ -39,7 +39,7 @@ async function give(needers: ActorId[], loot: Actor, item: Item<any>, type: Stri
     await removeItem(getItemId(item) as OwnedItemId, qty)
 }
 
-export async function distributeDesires(loot: Actor<any, Item<any>>): Promise<String[]> {
+export async function distributeDesires(loot: Actor5e): Promise<String[]> {
     let result: String[] = []
     let [flag] = getFlag(loot, LOOT_FLAG_ID, DEFAULT_LOOT_FLAG)
     for (let desires of flag.desires) {
@@ -57,7 +57,7 @@ export async function distributeDesires(loot: Actor<any, Item<any>>): Promise<St
         }
         let sells = desires.players.filter(x=>x.desire == Desire.SELL)
         if(sells.length > 0) {
-            await give([TokenSettings.value.sellLootDump], loot, item, "Sell", result)
+            await give([TokenSettings.value.sellLootDump!], loot, item, "Sell", result)
         }
     }
     return result

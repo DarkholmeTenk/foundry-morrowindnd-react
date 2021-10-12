@@ -2,7 +2,7 @@ import React, {createContext, useState} from "react";
 import {Button, Card, CardActions, CardContent, TextField} from "@material-ui/core";
 import SellableSourceEditor from "./SellableSourceEditor";
 
-export const SellableSourceContext = createContext(null)
+export const SellableSourceContext = createContext<any>({})
 
 export const StoredSellableComponentOptions = {
     width: 600,
@@ -27,6 +27,8 @@ function Editor({source, setSource, id, setId, commit}) {
 export default function StoredSellableComponent({setting}) {
     let [store, setStore] = useState(setting.value)
     let sources = Object.keys(store).filter(Boolean).sort()
+    let [editing, setEditing] = useState<string | null>(null)
+    let [current, setCurrent] = useState<any | null>(null)
     let elements = sources.map((sourceId)=>(
         <div className="flex-row" key={sourceId}>
             <span>{sourceId}</span>
@@ -41,10 +43,8 @@ export default function StoredSellableComponent({setting}) {
             }}><i className="fas fa-trash"/></a>
         </div>
     ))
-    let [editing, setEditing] = useState(null)
-    let [current, setCurrent] = useState(null)
     let commit = ()=>{
-        setStore({...store, [editing]: current})
+        setStore({...store, [editing!]: current})
         setCurrent(null)
         setEditing("")
     }

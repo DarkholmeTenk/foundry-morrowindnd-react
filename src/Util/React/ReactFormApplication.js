@@ -39,4 +39,8 @@ export class SimpleReactFormSheet extends ReactFormSheet {
     getComponent() {
         return this.component
     }
+
+    async _updateObject(event, formData) {
+        return null
+    }
 }

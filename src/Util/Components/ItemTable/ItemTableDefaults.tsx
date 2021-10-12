@@ -3,7 +3,7 @@ import {Column, NumberFormat} from "./ItemTable";
 
 export const ItemColumnImage: Column = {
     title: "",
-    getter: ({item: i}) => <img width="24px" height="24px" src={i.img}/>
+    getter: ({item: i}) => <img width="24px" height="24px" src={i.img!}/>
 }
 export const ItemColumnName: Column = {
     title: "Name",
@@ -12,12 +12,12 @@ export const ItemColumnName: Column = {
 }
 export const ItemColumnWeight: Column = {
     title: "Weight",
-    getter: ({item: i}) => NumberFormat.format(i.data.data.weight),
+    getter: ({item: i}) => NumberFormat.format(i.weight()),
     sortable: true
 }
 export const ItemColumnQty: Column = {
     title: "Qty",
-    getter: ({item: i}) => i.data.data.quantity,
+    getter: ({item: i}) => i.qty(),
     sortable: true
 }
 export const ItemColumnDefaults: Column[] = [ItemColumnImage, ItemColumnName, ItemColumnWeight, ItemColumnQty]

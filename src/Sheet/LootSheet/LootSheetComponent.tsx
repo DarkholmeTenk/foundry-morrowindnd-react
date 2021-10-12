@@ -17,28 +17,29 @@ import {buildDesireMap, DEFAULT_LOOT_FLAG, LOOT_FLAG_ID, LootFlag} from "./LootF
 import LootSheetDesireComponent from "./LootSheetDesireComponent";
 import {Button} from "@material-ui/core";
 import {useCallback} from "react";
+import {getItemId} from "../../Util/Identifiers/ItemID";
 
 export default function LootSheetComponent({npc: npcInput, self: selfInput}) {
     let {value: npc} = useNPC(npcInput)
     let {actor: self, actorId: selfId, component: selfChooser} = useSelf()
-    let [flag, setFlag] = getFlag<LootFlag>(npc, LOOT_FLAG_ID, DEFAULT_LOOT_FLAG)
+    let [flag, setFlag] = getFlag<LootFlag>(npc!, LOOT_FLAG_ID, DEFAULT_LOOT_FLAG)
     let mappedDesires = buildDesireMap(flag.desires)
 
     let takeControls = ({item})=>{
         let controls = [getEditControl(item)]
-        if(item.owner) {
+        if(item.isOwner) {
             controls.push({title: "Delete", text: <i className="fas fa-trash" />, classes: "item-delete", onClick: ()=>item.delete()})
         }
         if(self) {
             controls.push({title: "Take", text: <i className="fas fa-hand-holding" />, onClick: ()=>{
-                    let take = (qty)=>LootTakeSocket({selfId: getActorId(self), lootId: {actorId: getActorId(npc), itemId: item.id}, qty})
+                    let take = (qty)=>LootTakeSocket({selfId: getActorId(self!), lootId: {actorId: getActorId(npc!), ...getItemId(item)}, qty})
                     openItemQuantitySelect({item, max: item?.data?.data?.quantity || 1, buttonText: "Take", onConfirm: take})
                 }})
         }
         return controls
     }
 
-    let items = npc.items.filter(i=>i.type !== "spell")
+    let items = npc!.items.filter(i=>i.type !== "spell")
     let columns = [
         ...ItemColumnDefaults,
         {
@@ -57,17 +58,17 @@ export default function LootSheetComponent({npc: npcInput, self: selfInput}) {
         }
     ]
 
-    let splitNGS = useCallback(()=>LootSplitNGS({lootId: getActorId(npc)}), [npc])
+    let splitNGS = useCallback(()=>LootSplitNGS({lootId: getActorId(npc!)}), [npc])
     return <div>
         <div className={Style.header}>
             <GoldSection npc={npc}
-                         disabled={!npc.owner}
+                         disabled={!npc!.isOwner}
             />
             <div className="flex-row">
                 {selfChooser}
                 <Button onClick={splitNGS}>Split NGS</Button>
             </div>
-            {npc.owner ? <TokenPermission token={npc} /> : null }
+            {npc!.isOwner ? <TokenPermission token={npc} /> : null }
         </div>
         {items.length > 0 ? <ItemTable items={items} columns={columns} extraProps={{mappedDesires}}/> : null}
     </div>

@@ -14,6 +14,10 @@ function addSetting<Z extends BaseSetting<any, any>>(x: Z): Z {
     return x
 }
 
+interface RealSettingData<X> extends BaseSettingData<X>{
+    scope: string,
+    config: boolean
+}
 interface BaseSettingData<X> {
     key: string,
     name: string,
@@ -22,11 +26,11 @@ interface BaseSettingData<X> {
     scope?: string,
     type: any
 }
-class BaseSetting<Y extends BaseSettingData<X>, X> {
+class BaseSetting<Y extends RealSettingData<X>, X> {
     constructor(public readonly data: Y) {}
 
     get value(): X {
-        return isInitialised ? game.settings.get(MODULE, this.data.key) : this.data.default
+        return isInitialised ? game.settings!.get(MODULE, this.data.key) as X : this.data.default
     }
 
     set value(newValue) {
@@ -39,11 +43,9 @@ class BaseSetting<Y extends BaseSettingData<X>, X> {
 interface SettingData<X> extends BaseSettingData<X> {
     config?: boolean
 }
-export class Setting<X> extends BaseSetting<SettingData<X>, X> {
-    constructor(public data: SettingData<X>) {
-        super(data)
-        if(!data.scope) data.scope = "world"
-        if(data.config === undefined || data.config === null) data.config = true
+export class Setting<X> extends BaseSetting<RealSettingData<X>, X> {
+    constructor(data: SettingData<X>) {
+        super({...data, scope: data.scope ?? "world", config: data.config ?? true})
     }
 
     register() {
@@ -52,19 +54,20 @@ export class Setting<X> extends BaseSetting<SettingData<X>, X> {
         })
     }
 }
-export function setupSetting<X>(data: SettingData<X>): Setting<X> {
+export function setupSetting<X extends object>(data: SettingData<X>): Setting<X> {
     return addSetting(new Setting<X>(data))
 }
-
+interface RealSettingMenuData<X> extends RealSettingData<X>, SettingMenuData<X> {}
 interface SettingMenuData<X> extends BaseSettingData<X>{
     label: string,
     icon?: string,
     sheetOptions?: any,
-    restricted: boolean
+    restricted: boolean,
+    scope: string
 }
-export class SettingMenu<X> extends BaseSetting<SettingMenuData<X>, X> {
+export class SettingMenu<X extends object> extends BaseSetting<RealSettingMenuData<X>, X> {
     constructor(private readonly setting: Setting<X>, data: SettingMenuData<X>) {
-        super(data);
+        super({...data, scope: data.scope ?? "world", config: true});
     }
 
     get value() { return this.setting.value }
@@ -91,7 +94,7 @@ export class SettingMenu<X> extends BaseSetting<SettingMenuData<X>, X> {
         })
     }
 }
-export function setupSettingMenu<X>(data: SettingMenuData<X>): SettingMenu<X> {
+export function setupSettingMenu<X extends object>(data: SettingMenuData<X>): SettingMenu<X> {
     let settingData: SettingData<X> = {
         ...data,
         key: data.key + '.value',

@@ -7,11 +7,11 @@ type Mapping = {[id: string]: {item: Item, differences: any}}
 export function getItemMapping(items: Item[]): Mapping {
     let result: Mapping = {}
     items.forEach(item=>{
-        let matchingItem = game.items.getName(item.name)
+        let matchingItem = game.items!.getName(item.name!)
         if(matchingItem) {
             let equal = isEqualDetailed(item.data, matchingItem.data, IgnoredProperties)
             if(!equal.equal) {
-                result[item.id] = {item: matchingItem, differences: equal.differences}
+                result[item.id!] = {item: matchingItem, differences: equal.differences}
             }
         }
     })
@@ -38,7 +38,7 @@ export async function doMerge(actor: Actor, mappings: Mapping, selected: {[itemI
     for (key of toDo) {
         let mapping = mappings[key]
         let update = buildUpdate(mapping.item, mapping.differences)
-        let oItem = actor.getOwnedItem(key)
+        let oItem = actor.items.get(key)!
         await oItem.update(update)
     }
 }

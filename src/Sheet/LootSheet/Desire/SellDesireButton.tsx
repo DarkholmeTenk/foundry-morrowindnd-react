@@ -9,14 +9,14 @@ import {useUserGroupSelector} from "../../../Util/Helper/UserHelper";
 import {MerchantSellJunk} from "../../MerchantSheet/MerchantAction";
 import GoldDisplay from "../../../Util/Components/GoldDisplay";
 
-export function getSellDesireItems(actor: Actor): Item<any>[] {
+export function getSellDesireItems(actor: Actor): Item5e[] {
     return actor.items.filter(i=>hasSellFlag(i))
 }
 
 export default function SellDesireButton({merchant, merchantFlag}) {
     let [sellLootDumpId] = useState(TokenSettings.value.sellLootDump)
     let {component, selectedUsers} = useUserGroupSelector({defaultState: true})
-    let sell = useCallback(()=>MerchantSellJunk({merchant: getActorId(merchant), users: selectedUsers.map(x=>x.id)}), [merchant, selectedUsers])
+    let sell = useCallback(()=>MerchantSellJunk({merchant: getActorId(merchant), users: selectedUsers.map(x=>x.id!)}), [merchant, selectedUsers])
     let {value, loading} = useActor(sellLootDumpId)
 
     if(loading) return <CircularProgress />
@@ -25,7 +25,7 @@ export default function SellDesireButton({merchant, merchantFlag}) {
         if(sellItems.length === 0) {
             return null
         } else {
-            let totalValue = sellItems.reduce((p, c)=> p + getSellPrice(c, c.data.data.quantity, merchantFlag), 0)
+            let totalValue = sellItems.reduce((p, c)=> p + getSellPrice(c, c.qty(), merchantFlag), 0)
             return <FormGroup title="Junk Selling">
                 {component}
                 <Button onClick={sell} disabled={selectedUsers.length == 0}>Sell Junk on {value.name}: <GoldDisplay value={totalValue} /></Button>

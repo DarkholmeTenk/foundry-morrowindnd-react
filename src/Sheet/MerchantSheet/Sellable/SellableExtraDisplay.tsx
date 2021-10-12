@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ReactNode} from "react";
 import {SellableSourceExtra} from "./Settings";
 import {ReactNodeLike} from "prop-types";
 
@@ -6,12 +6,12 @@ interface SellableDisplayProps {
     sellable: SellableSourceExtra
 }
 
-function SellableNameDisplay({sellable}: SellableDisplayProps): JSX.Element {
+function SellableNameDisplay({sellable}: SellableDisplayProps): JSX.Element | null {
     let name = sellable.name || ""
     return <React.Fragment>{name}</React.Fragment>
 }
 
-function SellableIconDisplay({sellable}: SellableDisplayProps): JSX.Element {
+function SellableIconDisplay({sellable}: SellableDisplayProps): JSX.Element | null {
     let icon = sellable.icon
     return icon ? <i className={icon}/> : null
 }

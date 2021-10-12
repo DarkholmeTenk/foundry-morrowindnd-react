@@ -49,7 +49,7 @@ function AlchemyEffectEditor({value, setValue}: AlchemyEffectEditorArgs) {
         <IconButton clz={expanded ? "fas fa-minus" : "fas fa-plus"} onClick={toggle} />
         <div style={{marginLeft: "15px", display: expanded ? "flex" : "none", flexDirection: "column"}} >
             <p>Results:</p>
-            {expanded ? <ArrayHelper value={results} setValue={setResults} component={AlchemyResultEditor} newValueGetter={{itemId: null, dc: 10}} label="Effect Result"/> : null }
+            {expanded ? <ArrayHelper value={results} setValue={setResults} component={AlchemyResultEditor} newValueGetter={{itemId: undefined, dc: 10}} label="Effect Result"/> : null }
         </div>
     </div>
 }

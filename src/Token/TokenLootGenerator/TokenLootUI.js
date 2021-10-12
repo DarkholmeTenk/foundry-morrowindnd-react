@@ -4,7 +4,7 @@ import {SimpleReactApplication} from "../../Util/React/ReactApplication";
 
 Hooks.on("actorSheetMenuItems", (add, app, html, data)=>{
     let actor = app.object
-    if(actor.owner && !actor.isToken && !actor.isPC) {
+    if(actor.isOwner && !actor.isToken && !actor.isPC) {
         add({
             name: "Loot",
             icon: '<i class="fas fa-utensils"></i>',

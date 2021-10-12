@@ -27,17 +27,17 @@ export class TownScene {
             //.filter(t=>isActorMerchant(t.actor))
     }
 
-    static async getTownScene(townName: string): Promise<TownScene> {
-        let scene = game.scenes.getName(townName)
+    static async getTownScene(townName: string): Promise<TownScene | undefined> {
+        let scene = game.scenes!.getName(townName)
         if(!scene) {
-            if(game.user.isGM) {
+            if(game.user!.isGM) {
                 let folder = await setupFolder("towns", "Scene")
                 scene = await Scene.create({name: townName, folder, navigation: false})
             } else {
-                ui.notifications.error(`No town scene found for ${townName}`)
+                ui.notifications!.error(`No town scene found for ${townName}`)
                 return;
             }
         }
-        return new TownScene(townName, scene)
+        return new TownScene(townName, scene!)
     }
 }

@@ -19,7 +19,7 @@ const defaultMerchantFlag: SpellSellertFlag = {
 }
 
 export function getMerchantFlag(actor: Actor): [SpellSellertFlag, (MerchantFlag)=>Promise<any>] {
-    let flag: SpellSellertFlag = {...defaultMerchantFlag, ...(actor.getFlag("morrowindnd", "MerchantSheetData") || {})}
+    let flag: SpellSellertFlag = {...defaultMerchantFlag, ...(actor.getFlag("morrowindnd", "MerchantSheetData") as any || {})}
     return [flag, (newFlag)=>actor.setFlag("morrowindnd", "MerchantSheetData", newFlag)]
 }
 

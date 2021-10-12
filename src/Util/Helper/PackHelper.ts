@@ -1,23 +1,18 @@
-let packs: Record<string, Item<any>[]> = {}
+import {loadPack as lp, getPackId} from "../Identifiers/PackId" ;
 
-async function loadPack(packName, {failOnNoPack = true}): Promise<Item<any>[]>  {
-	if(packs[packName]) {
-		return packs[packName];
-	} else {
-		let pack = game.packs.find(p=>p.metadata.label === packName);
-		if(!pack) {
-			if(failOnNoPack) {
-				throw Error(`No pack found with name ${packName}`);
-			} else {
-				return [];
-			}
+async function loadPack(packName, {failOnNoPack = true}): Promise<Item5e[]>  {
+	let pack = game.packs.find(p=>p.metadata.label === packName);
+	if(!pack) {
+		if(failOnNoPack) {
+			throw Error(`No pack found with name ${packName}`);
+		} else {
+			return [];
 		}
-		packs[packName] = pack.getContent()
-		return packs[packName]
 	}
+	return lp(getPackId(pack))
 }
 
-export async function loadPackItems(packNames = [], options = {}): Promise<Item<any>[]> {
+export async function loadPackItems(packNames: string[] | string = [], options = {}): Promise<Item5e[]> {
 	if(typeof(packNames) === "string") {
 		return loadPack(packNames, options)
 	} else {

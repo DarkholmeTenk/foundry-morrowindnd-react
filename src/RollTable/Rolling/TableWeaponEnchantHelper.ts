@@ -1,8 +1,9 @@
 import {RollData, RollTableArguments, TableHelper} from "./TableHelper";
 
+type DamagePart = [amount: string, type: string]
 interface WeaponEnchantmentData {
 	attackBonus?: string,
-	damageParts?: [amount: string, type: string][],
+	damageParts?: DamagePart[],
 	prefix?: string,
 	suffix?: string,
 	valueAdd?: string,
@@ -53,7 +54,7 @@ export class WeaponEnchantment implements RollData {
 export default class TableWeaponEnchantHelper implements TableHelper {
 	async getRollData({args}: RollTableArguments): Promise<RollData[]> {
 		let attackBonus = args.attackBonus || ""
-		let damageParts = []
+		let damageParts: DamagePart[] = []
 		let damages = args.damage || ""
 		let damageTypes = args.damageType || ""
 		if(damages != "") {

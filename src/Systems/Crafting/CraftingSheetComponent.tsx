@@ -14,7 +14,7 @@ export default function CraftingSheetComponent() {
     let {actor, component} = useSelf()
     let [tab, setTab] = useState(tabs[0].id)
     let tabComps = tabs.map((t)=><Tab value={t.id} label={t.id} />)
-    let CurrentTab = tabs.find(x=>x.id === tab).sheet
+    let CurrentTab = (tabs.find(x=>x.id === tab) ?? tabs[0])!.sheet
     return <div>
         <Tabs value={tab} onChange={(e,v)=>setTab(v)}>
             {tabComps}

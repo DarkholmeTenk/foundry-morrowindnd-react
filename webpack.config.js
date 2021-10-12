@@ -16,7 +16,7 @@ module.exports = (env, argv) => {
     let loaders = [babelLoader]
 
     return {
-        entry: path.resolve(__dirname, './src/index.js'),
+        entry: path.resolve(__dirname, './src/index.ts'),
         module: {
             rules: [
                 {
@@ -55,7 +55,9 @@ module.exports = (env, argv) => {
             library: "MorrowinDnD"
         },
         devServer: {
-            contentBase: path.resolve(__dirname, './dist'),
+            static: {
+                directory: path.resolve(__dirname, './dist'),
+            },
             hot: true,
             headers: {
                 "Access-Control-Allow-Origin": "*",

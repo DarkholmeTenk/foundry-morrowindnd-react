@@ -6,7 +6,7 @@ interface SoulInfo {
     fillSize?: SoulSize
 }
 
-export function isSoulGem(item: Item): SoulInfo {
+export function isSoulGem(item: Item5e): SoulInfo | undefined {
     let [data] = getProperties(item)
     if(data?.soulGem?.isSoulGem) {
         let {soulGem} = data
@@ -18,7 +18,7 @@ export function isSoulGem(item: Item): SoulInfo {
     }
 }
 
-async function fillSoulGem(item: Item, size: SoulSize) {
+async function fillSoulGem(item: Item5e, size: SoulSize) {
     let [data, setData] = getProperties(item)
     if(data?.soulGem?.isSoulGem) {
         let {soulGem} = data
@@ -27,7 +27,7 @@ async function fillSoulGem(item: Item, size: SoulSize) {
     }
 }
 
-export function getSoulGems(actor: Actor, filter?: (soulInfo: SoulInfo)=>boolean): Item[] {
+export function getSoulGems(actor: Actor5e, filter?: (soulInfo: SoulInfo)=>boolean): Item[] {
     return actor.items.filter(item=>{
         let soulInfo = isSoulGem(item)
         if(soulInfo) {
@@ -41,27 +41,29 @@ export function getSoulGems(actor: Actor, filter?: (soulInfo: SoulInfo)=>boolean
     })
 }
 
-export async function fillActorSoulGem(actor: Actor, deadActor: Actor) {
+export async function fillActorSoulGem(actor: Actor5e, deadActor: Actor5e) {
     let soulSize = getSoulLevel(deadActor)
-    let gem = getSoulGems(actor, info=>!info.fillSize && info.size.size >= soulSize.size).find(()=>true)
+    if(soulSize) {
+        let gem = getSoulGems(actor, info => !info.fillSize && info.size.size >= soulSize!.size).find(() => true)
 
-    if(gem) {
-        let qty = (gem.data.data as any).quantity || 1
-        if(qty > 1) {
-            await gem.update({"data.quantity": qty - 1})
-        } else {
-            await actor.deleteOwnedItem(gem.id)
-        }
-        let newGemData = {
-            ...gem.data,
-            name: `Filled ${gem.name} - (${soulSize.label} - ${deadActor.name})`,
-            data: {
-                ...gem.data.data,
-                quantity: 1
+        if (gem) {
+            let qty = (gem.data.data as any).quantity || 1
+            if (qty > 1) {
+                await gem.update({"data.quantity": qty - 1})
+            } else {
+                await gem.delete()
             }
+            let newGemData: any = {
+                ...gem.data,
+                name: `Filled ${gem.name} - (${soulSize.label} - ${deadActor.name})`,
+                data: {
+                    ...gem.data.data,
+                    quantity: 1
+                }
+            }
+            newGemData.flags.morrowindnd[ITEM_FLAG].soulGem.fillSize = soulSize.label
+            await Item.create(newGemData, {parent: actor})
         }
-        newGemData.flags.morrowindnd[ITEM_FLAG].soulGem.fillSize = soulSize.label
-        await actor.createOwnedItem(newGemData)
     }
 }
 

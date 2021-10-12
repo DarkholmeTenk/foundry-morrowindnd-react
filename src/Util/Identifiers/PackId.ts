@@ -1,3 +1,5 @@
+import {Entity} from "../Helper/EntityHelper";
+
 export interface SimplePackId {
     package: string,
     name: string
@@ -5,16 +7,16 @@ export interface SimplePackId {
 
 export type PackId = SimplePackId
 
-export function getPackId(pack: Compendium): PackId {
+export function getPackId(pack: CompendiumCollection<any>): PackId {
     return {package: pack.metadata.package, name: pack.metadata.name}
 }
 
-export function getPack(id: PackId): Compendium {
+export function getPack(id: PackId): CompendiumCollection<any> | undefined {
     let {package: p, name} = id
-    return game.packs.get(`${p}.${name}`)
+    return game.packs!.get(`${p}.${name}`)
 }
 
-let cache: {[key: string]: Promise<Entity[]>} = {}
+let cache: {[key: string]: Promise<any[]>} = {}
 
 function toString(id: PackId) {
     return `${id.package}.${id.name}`
@@ -23,7 +25,7 @@ function toString(id: PackId) {
 export function loadPack<T extends Entity>(id: PackId): Promise<T[]> {
     let idString = toString(id)
     if(!cache[idString]) {
-        cache[idString] = getPack(id).getContent()
+        cache[idString] = getPack(id)!.getDocuments()
     }
     return cache[idString] as Promise<T[]>
 }

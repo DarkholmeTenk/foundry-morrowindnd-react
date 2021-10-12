@@ -1,9 +1,9 @@
-import {getFlag} from "../../Util/Helper/FlagHelper";
 import TownSettingsSheet from "./TownSettingsSheet";
 import {TownScene} from "./TownScene";
 import TownSheet from "./TownSheet";
 import {setupSetting} from "../../Constants/Config";
 import {SimpleReactApplication} from "../../Util/React/ReactApplication";
+import getFlag from "../../Util/Helper/FlagHelper";
 
 const IS_ENABLED = setupSetting({
     key: "Town.UI.Enabled",

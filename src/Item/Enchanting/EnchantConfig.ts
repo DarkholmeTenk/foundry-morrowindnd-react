@@ -38,7 +38,7 @@ export default class EnchantConfig {
 	}
 
 	forSpellLevel(level): EnchantCastableSpellLevel {
-		return this.CastableSpellLevels.find(l=>l.level === level)
+		return this.CastableSpellLevels.find(l=>l.level === level)!
 	}
 
 	get WeaponDamageUpgrades() {

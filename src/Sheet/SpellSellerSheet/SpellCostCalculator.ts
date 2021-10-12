@@ -55,11 +55,11 @@ const SETTINGS: Settings = {
     }
 }
 
-function hasSchool(matchClass: Boolean, actor: Actor<any, Item<any>>, spell: Item<any>): Boolean {
+function hasSchool(matchClass: Boolean, actor: Actor5e, spell: Item5e): Boolean {
     if(!matchClass) return false
-    let schoolData = SpellSchools[spell.data.data.school]
+    let schoolData = SpellSchools[spell.spell().school]
     if(schoolData) {
-        return actor.items.find(x=>x.type === "class" && x.data.data.subclass.toLowerCase().includes(schoolData.name.toLowerCase())) != null
+        return actor.items.find(x=>x.type === "class" && x.clz().subclass.toLowerCase().includes(schoolData.name.toLowerCase())) != null
     } else {
         return false
     }
@@ -74,7 +74,7 @@ export interface SpellMatches {
     matchSchool: Boolean,
     matchSubClass: Boolean
 }
-export function getMatches(actor: Actor<any>, spell: Item<any>, spellData: SpellClassData): SpellMatches {
+export function getMatches(actor: Actor5e, spell: Item5e, spellData: SpellClassData): SpellMatches {
     let actorClasses = getClasses(actor)
     let matchClass = spellData.classes.some(x=>actorClasses.map[x.name.toLowerCase()])
     let matchSchool = hasSchool(matchClass, actor, spell)
@@ -82,8 +82,8 @@ export function getMatches(actor: Actor<any>, spell: Item<any>, spellData: Spell
     return {matchClass, matchSchool, matchSubClass}
 }
 
-export function calculateSpellCostFromMatches(spell: Item<any>, matches: SpellMatches): number | null {
-    let l = spell.data.data.level
+export function calculateSpellCostFromMatches(spell: Item5e, matches: SpellMatches): number | null {
+    let l = spell.spell().level
     let baseCost = SETTINGS.BaseCosts[l]
     if(!baseCost) return null
     let {matchClass, matchSchool, matchSubClass} = matches
@@ -91,7 +91,7 @@ export function calculateSpellCostFromMatches(spell: Item<any>, matches: SpellMa
 }
 
 
-export function calculateSpellCost(actor: Actor<any>, spell: Item<any>, spellData: SpellClassData): number | null {
+export function calculateSpellCost(actor: Actor5e, spell: Item5e, spellData: SpellClassData): number | null {
     let matches = getMatches(actor, spell, spellData)
     return calculateSpellCostFromMatches(spell, matches)
 }

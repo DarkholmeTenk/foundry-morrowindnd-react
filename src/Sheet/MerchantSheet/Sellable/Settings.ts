@@ -11,7 +11,8 @@ export const SellableItemPacks = setupSettingMenu<PackId[]>({
     type: PackSelectorComponent,
     default: [{package: "dnd5e", name: "items"}],
     restricted: true,
-    sheetOptions: PackSelectorOptions
+    sheetOptions: PackSelectorOptions,
+    scope: "world"
 })
 
 export interface SellableSourceExtra {
@@ -29,7 +30,8 @@ export const StoredSellables = setupSettingMenu<StoredSellable>({
     type: StoredSellableComponent,
     default: {},
     restricted: true,
-    sheetOptions: StoredSellableComponentOptions
+    sheetOptions: StoredSellableComponentOptions,
+    scope: "world"
 })
 
 export function getIdentifiableSellable(id: string): IdentifiableSellable | undefined {

@@ -37,7 +37,7 @@ export function getGoldBreakdown(amount: number): GoldBreakdown {
 }
 
 export function getGoldAmount(breakdown: GoldBreakdown): number {
-    return CurrencyRates.reduce((acc, {m, name})=>acc + (breakdown[name] * m), 0)
+    return CurrencyRates.reduce((acc, {m, name})=>acc + ((breakdown[name] ?? 0) * m), 0)
 }
 
 export function getActorDataCurrencyAmount(x: any): number {

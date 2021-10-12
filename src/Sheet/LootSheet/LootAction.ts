@@ -29,7 +29,7 @@ export const LootSplitGold = registerGMSocket<LootSplitGoldAction>("LootSheet_Sp
     let breakdown = getGoldBreakdown(splitAmount)
     let count = 0
     for(let key of Object.keys(takers)) {
-        let user = game.users.get(key)
+        let user = game.users!.get(key)
         if(takers[key] && user && user.character) {
             let item = new CurrencyItem(breakdown)
             let modifier = item.getModifications(user.character.data)

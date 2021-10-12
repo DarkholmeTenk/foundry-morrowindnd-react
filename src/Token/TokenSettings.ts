@@ -14,5 +14,6 @@ export const TokenSettings = setupSettingMenu<TokenSetting>({
     type: TokenSettingComponent,
     sheetOptions: {width: 600, height: 800},
     restricted: true,
-    default: {}
+    default: {},
+    scope: "world"
 })

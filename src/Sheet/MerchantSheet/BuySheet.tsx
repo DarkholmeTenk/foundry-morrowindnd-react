@@ -15,19 +15,19 @@ import {Control, generateControlsColumn, getEditControl} from "../../Util/Compon
 import {SellableStuff} from "./MerchantSheetComponent";
 
 function getGetQty(sellables: SellableItem[]): ((Item)=>number | undefined) {
-    return (item: Item<any>)=>{
+    return (item: Item5e)=>{
         let found = sellables.find(x=>x.item === item)
         if(found) {
             return found.qty
         } else {
-            return item.data.data.quantity
+            return item.qty()
         }
     }
 }
 
 interface BuySheetArgs {
-    self?: Actor<any>,
-    merchant: Actor<any>,
+    self?: Actor5e,
+    merchant: Actor5e,
     sellables: SellableStuff,
     merchantFlag: MerchantFlag,
     myGoldAmount: number
@@ -37,7 +37,7 @@ export default function BuySheet({self, merchant, sellables, merchantFlag, myGol
     let buyControls = ({item}) => {
         let controls: Control[] = [getEditControl(item)]
         let found = sellables.items.find(x=>x.item === item)
-        if (item.owner && !found) {
+        if (item.isOwner && !found) {
             controls.push({
                 title: "Delete",
                 text: <i className="fas fa-trash"/>,
@@ -95,6 +95,6 @@ export default function BuySheet({self, merchant, sellables, merchantFlag, myGol
 
     return <Paper classes={{root: Styles.paperDiv}}>
         Buy:
-        <ItemTable items={[...merchant.items.entries as any as Item<any>[], ...sellables.items.map(x=>x.item)]} columns={columns}/>
+        <ItemTable items={[...merchant.items.entries as any as Item5e[], ...sellables.items.map(x=>x.item)]} columns={columns}/>
     </Paper>
 }

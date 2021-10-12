@@ -1,18 +1,21 @@
 import {ActorId, getActor, getActorId} from "./ActorID";
 import {getPack, getPackId, loadPack, PackId} from "./PackId";
+import {loadSUuid} from "./UuidHelper";
 
-export interface ItemDirectoryId {
-    itemId: string
+interface BaseItemId {
+    itemId: string,
+    uuid: string
 }
 
-export interface ItemPackId {
-    itemId: string
+export interface ItemDirectoryId extends BaseItemId {
+}
+
+export interface ItemPackId extends BaseItemId {
     packId: PackId
 }
 
-export interface OwnedItemId {
+export interface OwnedItemId extends BaseItemId {
     actorId: ActorId
-    itemId: string
 }
 
 export type ItemId = ItemDirectoryId | ItemPackId | OwnedItemId
@@ -25,30 +28,34 @@ export function isOwnedItem(id: ItemId): id is OwnedItemId {
     return (id as any).actorId
 }
 
-export async function getItem(id: ItemId): Promise<Item<any>> {
+export async function getItem(id: ItemId): Promise<Item5e | undefined> {
     if(isPackItem(id)) {
-        let pack = await loadPack<Item<any>>(id.packId)
+        let pack = await loadPack<Item5e>(id.packId)
         return pack?.find(x=>x.id === id.itemId)
-    } else if(isOwnedItem(id)) {
-        return (await getActor(id.actorId)).items.get(id.itemId)
     } else {
-        return game.items.get(id.itemId)
+        return loadSUuid<Item5e>(id.uuid)
     }
 }
-export async function getItems(ids: ItemId[]): Promise<Item[]> {
-    let items = []
+export async function getItems(ids: ItemId[], skipNotFound: boolean = true): Promise<Item5e[]> {
+    let items: Item5e[] = []
     for(let id of ids) {
-        items.push(await getItem(id))
+        let item = await getItem(id)
+        if(item) {
+            items.push(item)
+        } else if(!skipNotFound) {
+            throw new Error("Item with id [" + JSON.stringify(id) + "] not found.")
+        }
     }
     return items
 }
 
 export function getItemId(item: Item): ItemId {
+    let base = {itemId: item.id!, uuid: item.uuid}
     if(item.compendium) {
-        return {itemId: item.id, packId: getPackId(item.compendium)}
+        return {...base, packId: getPackId(item.compendium)}
     } else if(item.actor) {
-        return {itemId: item.id, actorId: getActorId(item.actor)}
+        return {...base, actorId: getActorId(item.actor)}
     } else {
-        return {itemId: item.id}
+        return base
     }
 }

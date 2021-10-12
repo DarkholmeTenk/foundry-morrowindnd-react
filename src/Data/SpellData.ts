@@ -28,7 +28,7 @@ interface FiveEToolsSpellData {
 const FiveESources = ["ai", "egw", "ggr", "idrotf", "llk", "phb", "tce", "xge"]
 const Data: Record<string, Promise<FiveEToolsSpellData>> = {}
 
-export async function getSpellClasses(spell: Item<any>): Promise<SpellClassData | null> {
+export async function getSpellClasses(spell: Item5e): Promise<SpellClassData | null> {
     let source = spell.data.data.source?.toLowerCase() || ""
     if(FiveESources.includes(source)) {
         if(!Data[source]) {
@@ -36,7 +36,7 @@ export async function getSpellClasses(spell: Item<any>): Promise<SpellClassData 
             Data[source] = window.fetch(`https://5e.tools/data/spells/spells-${source}.json`).then(r=>r.json())
         }
         let spells = await Data[source]
-        let spellData = spells.spell.find(x=>x.name.toLowerCase() === spell.name.toLowerCase())
+        let spellData = spells.spell.find(x=>x.name.toLowerCase() === spell.name!.toLowerCase())
         if(spellData) {
             let classes = spellData.classes?.fromClassList || []
             let subclasses = spellData.classes?.fromSubclass || []

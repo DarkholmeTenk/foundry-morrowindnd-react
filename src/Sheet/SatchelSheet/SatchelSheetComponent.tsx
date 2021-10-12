@@ -19,19 +19,19 @@ function SatchelItemTable({satchel, items}) {
 }
 
 export default function SatchelSheetComponent({item}) {
-    let {value: itemObj} = useEntity({type: "Item", entity: item, collection: game.items})
+    let {value: itemObj} = useEntity({type: "Item", entity: item})
     let satchel = useMemo(()=>getSatchelFlag(itemObj), [itemObj])
     let {actor: self, component: selfSelector} = useSelf()
     let {result: items, loading} = usePromise(()=>getSatchelItems(satchel), [itemObj])
     let onDropHandler = onDrop((i)=> {
-        if(i instanceof Item) {
+        if(i instanceof Item5e) {
             let id = getItemId(i)
-            addItemToSatchel(satchel, id, i.data.data.quantity)
+            addItemToSatchel(satchel, id, i.qty())
         }
     })
     console.log(item)
     return <div onDrop={onDropHandler}>
-        {JSON.stringify(item.owner)}
+        {JSON.stringify(item.isOwner)}
         {selfSelector}
         {JSON.stringify(item.data)}
         {loading ? <CircularProgress /> : <SatchelItemTable satchel={satchel} items={items} /> }

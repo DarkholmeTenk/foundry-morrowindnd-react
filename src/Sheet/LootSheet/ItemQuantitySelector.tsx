@@ -33,7 +33,7 @@ export function ItemQuantitySelect({item, max, onConfirm, buttonText = "Confirm"
 }
 
 interface ItemQuantitySelectArgs {
-    item: Item<any>,
+    item: Item5e,
     max: number,
     onConfirm: (number)=>any,
     buttonText: ReactNodeLike | ((number, Item)=>ReactNodeLike),

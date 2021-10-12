@@ -23,6 +23,7 @@ export interface SellableStuff {
 export default function MerchantSheetComponent({merchant: merchantInput}) {
     let {actor: self, component: selfSelector} = useSelf()
     let {value: merchant} = useNPC(merchantInput)
+    merchant = merchant!
     let [merchantFlag, setMerchantFlag] = getMerchantFlag(merchant)
     let myGoldAmount = self ? getGoldAmountFromActor(self.data) : 0
     let {loading: loadingSellables, result: sellableData} = usePromise<SellableStuff>(async ()=>{
@@ -41,11 +42,11 @@ export default function MerchantSheetComponent({merchant: merchantInput}) {
         }
     }, [merchant])
 
-    let buySheet = loadingSellables ? "Loading" : <BuySheet sellables={sellableData} self={self} merchant={merchant} merchantFlag={merchantFlag} myGoldAmount={myGoldAmount} />
+    let buySheet = (loadingSellables && sellableData) ? "Loading" : <BuySheet sellables={sellableData!} self={self!} merchant={merchant} merchantFlag={merchantFlag} myGoldAmount={myGoldAmount} />
     let sellSheet = self ? <SellSheet self={self} merchant={merchant} merchantFlag={merchantFlag} /> : null
 
     return <div>
-        {merchant.owner ? <div className="flexrow">
+        {merchant.isOwner ? <div className="flexrow">
             <MerchantFlagComponent merchantFlag={merchantFlag} setMerchantFlag={setMerchantFlag} />
             <TokenPermission token={merchant} />
         </div> : null }

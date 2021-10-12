@@ -24,7 +24,7 @@ Hooks.on("itemSheetMenuItems", async (addMenuItem, app)=>{
 			}
 		})
 	}
-	if(item.owner && canFix(item)) {
+	if(item.isOwner && canFix(item)) {
 		addMenuItem({
 			name: "Fix",
 			icon: '<i class="fas fa-hammer"></i>',

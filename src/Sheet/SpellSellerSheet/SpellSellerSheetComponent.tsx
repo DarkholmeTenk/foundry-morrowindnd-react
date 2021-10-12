@@ -41,10 +41,10 @@ function SpellMatch({match: {matchClass, matchSubClass, matchSchool}}: {match: S
     return <Tooltip title={text}><i className={icon} /></Tooltip>
 }
 
-function SpellClassComponent({self, merchant, spell, goldAmount}: {self: Actor<any>, merchant: Actor<any>, spell: Item<any>, goldAmount: number}) {
+function SpellClassComponent({self, merchant, spell, goldAmount}: {self: Actor5e, merchant: Actor5e, spell: Item5e, goldAmount: number}) {
     let {result, loading} = usePromise(()=>getSpellClasses(spell), [spell])
     let cost = useMemo(()=>result ? calculateSpellCost(self, spell, result) : 0, [result, self, spell])
-    if(self && !loading) {
+    if(self && !loading && result) {
         let matches = getMatches(self, spell, result)
         return <div>
             <SpellMatch match={matches} />
@@ -55,7 +55,7 @@ function SpellClassComponent({self, merchant, spell, goldAmount}: {self: Actor<a
     }
 }
 
-function hasSpell(actor: Actor | null, spell: Item<any>): Boolean {
+function hasSpell(actor: Actor | null, spell: Item5e): Boolean {
     if(!actor) {
         return true
     } else {
@@ -63,19 +63,19 @@ function hasSpell(actor: Actor | null, spell: Item<any>): Boolean {
     }
 }
 
-function SpellIcon({spell}: {spell: Item<any>}) {
-    let school = SpellSchools[spell.data.data.school]
+function SpellIcon({spell}: {spell: Item5e}) {
+    let school = SpellSchools[spell.spell().school]
     if(school) {
         return <Tooltip title={school.name}><i className={school.icon} /></Tooltip>
     } else {
-        return <div>{spell.data.data.school}</div>
+        return <div>{spell.spell().school}</div>
     }
 }
 
 async function getControlColumn(spell, self, merchant, goldAmount): Promise<Control[]> {
     let spellData = await getSpellClasses(spell)
-    let cost = await calculateSpellCost(self, spell, spellData)
-    if(cost < goldAmount) {
+    let cost = await calculateSpellCost(self, spell, spellData!)
+    if(cost && cost < goldAmount) {
         return [
             {
                 title: "Buy Spell",
@@ -91,20 +91,22 @@ async function getControlColumn(spell, self, merchant, goldAmount): Promise<Cont
 export default function SpellSellerSheetComponent({self: selfInput, merchant: merchantInput}) {
     let {actor: self, component: selfSelector, actorRef} = useSelf()
     let {value: merchant} = useNPC(merchantInput)
+    merchant = merchant!
     let [merchantFlag, setMerchantFlag] = getMerchantFlag(merchant)
     let myGoldAmount = self ? getGoldAmountFromActor(self.data) : 0
-    let {result: spells, loading} = usePromise(()=>loadPacks<Item<any>>(SpellSellerPacks.value), [])
+    let {result: spells, loading} = usePromise(()=>loadPacks<Item5e>(SpellSellerPacks.value), [])
     let filteredSpells = useMemo(()=>{
         if(!spells) {
-            return null
+            return []
         } else {
-            return spells.filter(x=>x.data.data.level < 4 && x.data.data.level > 0)
+            return spells.filter(x=>x.spell().level < 4 && x.spell().level > 0)
                 .filter(x=>hasSpell(self, x))
         }
     }, [spells, actorRef])
 
+    self = self!
     return <div>
-        {merchant.owner ? <div className="flexrow">
+        {merchant.isOwner ? <div className="flexrow">
             <SpellSellerFlagComponent merchantFlag={merchantFlag} setMerchantFlag={setMerchantFlag} />
             <TokenPermission token={merchant} />
         </div> : null }
@@ -118,11 +120,11 @@ export default function SpellSellerSheetComponent({self: selfInput, merchant: me
             },
             {
                 title: "Level",
-                getter: ({item})=>item.data.data.level
+                getter: ({item})=>item.spell().level
             },
             {
                 title: "Classes",
-                getter: (({item})=><SpellClassComponent merchant={merchant} self={self} spell={item} goldAmount={myGoldAmount}/>)
+                getter: (({item})=><SpellClassComponent merchant={merchant!} self={self!} spell={item} goldAmount={myGoldAmount}/>)
             },
             generateControlsColumn(({item})=>getControlColumn(item, self, merchant, myGoldAmount), [self, merchant, myGoldAmount])
         ]} extraProps={{self, myGoldAmount}}/> : <CircularProgress /> }

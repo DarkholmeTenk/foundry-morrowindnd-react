@@ -29,7 +29,7 @@ function PermissionStateButton({user, state, setState}) {
 }
 
 export default function TokenPermission({token}) {
-    let users = game.users.entities.filter(x=>x !== game.user)
+    let users = game.users.contents.filter(x=>x !== game.user)
     let state = token.data.permission || {}
     let updateUser = useCallback(async (userId, permission)=>{
         await token.update({[`permission.${userId}`]: permission})

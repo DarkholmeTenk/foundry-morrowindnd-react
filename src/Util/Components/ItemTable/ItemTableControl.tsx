@@ -30,12 +30,12 @@ export function ItemControl({control: {title, onClick, text, classes}}: ItemCont
     )
 }
 
-export function getEditControl(item: Item<any>): Control {
+export function getEditControl(item: Item5e): Control {
     return {
         title: "Edit Item",
         classes: "item-edit",
         text: <i className="fas fa-edit"/>,
-        onClick: () => item.sheet.render(true, {editable: item.owner} as any)
+        onClick: () => item.sheet!.render(true, {editable: item.isOwner} as any)
     }
 }
 
@@ -54,7 +54,7 @@ interface ItemControlsArgs {
 
 function ItemControls({controls, args, dependants}: ItemControlsArgs) {
     let {result, loading} = usePromise(async ()=>controls(args), dependants)
-    if(loading) {
+    if(loading || !result) {
         return <CircularProgress />
     } else {
         let buttons = result.map((control, id) =>

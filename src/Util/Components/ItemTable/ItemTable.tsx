@@ -15,7 +15,7 @@ import {Filter, generateFilterFunction, ItemTableFilter} from "./ItemTableFilter
 import Styles from "./ItemTable.module.scss"
 
 export interface ColumnArguments {
-    item: Item<any>,
+    item: Item5e,
     index: number,
     toggleDescriptionPanel: ()=>void
 }
@@ -29,7 +29,7 @@ export interface Column {
 export const NumberFormat = new Intl.NumberFormat('en', {maximumSignificantDigits: 2})
 
 interface ItemTableRowArguments {
-    item: Item<any>,
+    item: Item5e,
     columns: Column[],
     index: number,
     extraProps: any
@@ -54,7 +54,7 @@ export function ItemTableRow({item, columns, index, extraProps}: ItemTableRowArg
 }
 
 interface ItemTableArguments {
-    items: Item<any>[],
+    items: Item5e[],
     columns: Column[],
     extraProps?: any
 }

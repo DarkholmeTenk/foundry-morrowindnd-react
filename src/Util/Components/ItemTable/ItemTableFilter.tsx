@@ -75,7 +75,7 @@ function SpellTypeControlContainer({items, filter, setFilter}) {
 }
 
 interface ItemTableFilterArgs {
-    items: Item<any>[],
+    items: Item5e[],
     filter: Partial<Filter>
     setFilter: (reducer: (f: Partial<Filter>)=>Partial<Filter>)=>void
 }
@@ -92,14 +92,14 @@ export function ItemTableFilter({items, filter, setFilter}: ItemTableFilterArgs)
     </div>
 }
 
-type FilterFunction = (item: Item<any>) => boolean
+type FilterFunction = (item: Item5e) => boolean
 export function generateFilterFunction(filter: Partial<Filter>): FilterFunction {
     let filters: FilterFunction[] = []
     if(filter.name)
-        filters.push((i)=>i.name.toLowerCase().includes(filter.name.toLowerCase()))
+        filters.push((i)=>i.name!.toLowerCase().includes(filter.name!.toLowerCase()))
     if(filter.itemTypes)
-        filters.push((i)=>!filter.itemTypes[i.type])
+        filters.push((i)=>!filter.itemTypes![i.type])
     if(filter.spellTypes)
-        filters.push((i)=>i.type !== "spell" || !filter.spellTypes[i.data.data.school])
+        filters.push((i)=>i.type !== "spell" || !filter.spellTypes![i.spell().school])
     return (item)=>filters.every(f=>f(item))
 }

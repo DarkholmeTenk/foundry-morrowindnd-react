@@ -1,6 +1,7 @@
 import {setupSettingMenu} from "../Constants/Config";
 import {AlchemySettings, defaultAlchemySettings} from "../Item/Alchemy/AlchemySettings";
 import SettingsMenu from "./SettingsMenu";
+import {PackSelectorOptions} from "../Constants/Packs/PackSelectorComponent";
 
 export interface RegularSetting {
     alchemy: Partial<AlchemySettings>
@@ -17,5 +18,6 @@ export const RegularSettings =  setupSettingMenu<Partial<RegularSetting>>({
     sheetOptions: {width: 600, height: 800},
     name: "Regular Settings",
     restricted: true,
-    type: SettingsMenu
+    type: SettingsMenu,
+    scope: "world"
 })

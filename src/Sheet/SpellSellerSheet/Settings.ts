@@ -9,5 +9,6 @@ export const SpellSellerPacks = setupSettingMenu<PackId[]>({
     type: PackSelectorComponent,
     default: [{package: "dnd5e", name: "spells"}],
     restricted: true,
-    sheetOptions: PackSelectorOptions
+    sheetOptions: PackSelectorOptions,
+    scope: "world"
 })

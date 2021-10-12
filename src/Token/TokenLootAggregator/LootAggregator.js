@@ -6,8 +6,8 @@ const FLAG = "LootedFlag"
 const BlacklistedTypes = ["class", "spell", "feat"]
 
 function isLootSheet(actor) {
-    log("Sheet", actor._sheetClass.name)
-    return actor.isToken && (actor._sheetClass.name === "LootSheet5eNPC" || actor._sheetClass.name.includes("Loot"))
+    let sheet = actor.sheet.constructor.name
+    return actor.isToken && (sheet === "LootSheet5eNPC" || sheet.includes("Loot"))
 }
 
 function canBeLooted(token, lootContainer) {
