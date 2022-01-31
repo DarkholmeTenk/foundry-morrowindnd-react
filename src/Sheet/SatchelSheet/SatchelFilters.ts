@@ -1,6 +1,6 @@
 interface SatchelFilter {
     label: string,
-    filter: (i: Item5e)=>boolean
+    filter: (i: Item)=>boolean
 }
 
 export const SatchelFilters: SatchelFilter[] = [

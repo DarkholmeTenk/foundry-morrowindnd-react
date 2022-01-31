@@ -5,7 +5,7 @@ import ItemViewer from "../../../Util/Components/ItemViewer";
 
 interface Args {
     ingredients: IngredientData[],
-    self: Actor5e
+    self: Actor
 }
 export function AlchemyCraftingSheet({ingredients, self}: Args) {
     let [filter, setFilter] = useState("")

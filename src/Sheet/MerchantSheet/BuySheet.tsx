@@ -15,7 +15,7 @@ import {Control, generateControlsColumn, getEditControl} from "../../Util/Compon
 import {SellableStuff} from "./MerchantSheetComponent";
 
 function getGetQty(sellables: SellableItem[]): ((Item)=>number | undefined) {
-    return (item: Item5e)=>{
+    return (item: Item)=>{
         let found = sellables.find(x=>x.item === item)
         if(found) {
             return found.qty
@@ -26,8 +26,8 @@ function getGetQty(sellables: SellableItem[]): ((Item)=>number | undefined) {
 }
 
 interface BuySheetArgs {
-    self?: Actor5e,
-    merchant: Actor5e,
+    self?: Actor,
+    merchant: Actor,
     sellables: SellableStuff,
     merchantFlag: MerchantFlag,
     myGoldAmount: number
@@ -95,6 +95,6 @@ export default function BuySheet({self, merchant, sellables, merchantFlag, myGol
 
     return <Paper classes={{root: Styles.paperDiv}}>
         Buy:
-        <ItemTable items={[...merchant.items.entries as any as Item5e[], ...sellables.items.map(x=>x.item)]} columns={columns}/>
+        <ItemTable items={[...merchant.items.values(), ...sellables.items.map(x=>x.item)]} columns={columns}/>
     </Paper>
 }

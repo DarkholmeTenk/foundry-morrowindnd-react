@@ -28,8 +28,8 @@ interface FiveEToolsSpellData {
 const FiveESources = ["ai", "egw", "ggr", "idrotf", "llk", "phb", "tce", "xge"]
 const Data: Record<string, Promise<FiveEToolsSpellData>> = {}
 
-export async function getSpellClasses(spell: Item5e): Promise<SpellClassData | null> {
-    let source = spell.data.data.source?.toLowerCase() || ""
+export async function getSpellClasses(spell: Item): Promise<SpellClassData | null> {
+    let source = spell.subData().source?.toLowerCase() || ""
     if(FiveESources.includes(source)) {
         if(!Data[source]) {
             log("Fetching spell data", source)

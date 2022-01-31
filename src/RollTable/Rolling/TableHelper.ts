@@ -6,7 +6,7 @@ import TableItemHelper from "./TableItemHelper"
 import TableWeaponEnchantHelper from "./TableWeaponEnchantHelper"
 import TableItemRollData from "./TableItemRollData";
 import TableTableHelper from "./TableTableHelper";
-import {TableResultType} from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/constants.mjs";
+import {TABLE_RESULT_TYPES} from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/constants.mjs";
 
 const log = LoggerFactory("TableHelper")
 
@@ -47,7 +47,7 @@ export function getArguments(text): RollTableArguments {
 	return parseArguments(results) as any as RollTableArguments
 }
 
-export async function getRollTableData({type, text, resultId, collection}: {type: TableResultType, text?: string, resultId?: string, collection?: string}): Promise<RollData[]> {
+export async function getRollTableData({type, text, resultId, collection}: {type: TABLE_RESULT_TYPES, text?: string, resultId?: string, collection?: string}): Promise<RollData[]> {
 	log.debug("Getting roll item", arguments)
 	if(type == 0) {
 		text = text!
@@ -68,7 +68,7 @@ export async function getRollTableData({type, text, resultId, collection}: {type
 		collection = collection!
 		resultId = resultId!
 		let pack = game.packs.get(collection)
-		return [new TableItemRollData((await pack!.getDocument(resultId))! as Item5e)]
+		return [new TableItemRollData((await pack!.getDocument(resultId))! as Item)]
 	} else {
 		log.error("Somehow we got the wrong type", arguments)
 		return []

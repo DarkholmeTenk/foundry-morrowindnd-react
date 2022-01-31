@@ -24,7 +24,7 @@ export default function SatchelSheetComponent({item}) {
     let {actor: self, component: selfSelector} = useSelf()
     let {result: items, loading} = usePromise(()=>getSatchelItems(satchel), [itemObj])
     let onDropHandler = onDrop((i)=> {
-        if(i instanceof Item5e) {
+        if(i instanceof Item) {
             let id = getItemId(i)
             addItemToSatchel(satchel, id, i.qty())
         }

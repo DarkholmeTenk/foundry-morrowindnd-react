@@ -3,7 +3,7 @@
     "typeRoots": ["node_modules/@types"],
     "target": "esnext",
     "moduleResolution": "Node",
-    "types": ["@league-of-foundry-developers/foundry-vtt-types", "@league-of-foundry-developers/foundry-vtt-dnd5e-types", "React", "react-dom", "node"],
+    "types": ["@league-of-foundry-developers/foundry-vtt-types", "React", "react-dom", "node"],
     "jsx": "preserve",
     "strictNullChecks": true,
     "resolveJsonModule": true,

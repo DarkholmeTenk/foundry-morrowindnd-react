@@ -4,7 +4,7 @@ import LogFactory from "../Logging";
 
 const Log = LogFactory("ItemTransferHelper")
 
-function getExisting(itemData: any, actor: Actor5e): Item5e | undefined {
+function getExisting(itemData: any, actor: Actor): Item | undefined {
     return actor.items.getName(itemData.name)
 }
 

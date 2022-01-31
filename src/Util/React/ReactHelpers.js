@@ -15,3 +15,11 @@ export function useGameItem(item) {
 
     return itemState
 }
+
+export function SButton({children, onClick, ...args}) {
+    let onClickWrap = (e)=>{
+        e.preventDefault()
+        if(onClick) onClick(e)
+    }
+    return <button {...args} onClick={onClickWrap}>{children}</button>
+}

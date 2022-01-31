@@ -1,3 +1,3 @@
 import "./Canvas/canvas"
 import "./controls"
-import "./Data/NoteSettingsFlag"
+import "./Data/NoteSettingsFlag.tsx"

@@ -9,7 +9,7 @@ import {useUserGroupSelector} from "../../../Util/Helper/UserHelper";
 import {MerchantSellJunk} from "../../MerchantSheet/MerchantAction";
 import GoldDisplay from "../../../Util/Components/GoldDisplay";
 
-export function getSellDesireItems(actor: Actor): Item5e[] {
+export function getSellDesireItems(actor: Actor): Item[] {
     return actor.items.filter(i=>hasSellFlag(i))
 }
 

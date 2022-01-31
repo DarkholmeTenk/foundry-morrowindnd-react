@@ -82,7 +82,7 @@ export class SettingMenu<X extends object> extends BaseSetting<RealSettingMenuDa
             }
 
             static get defaultOptions() {
-                return mergeObject(super.defaultOptions, {
+                return mergeObject(super['defaultOptions'], {
                     ...self.data.sheetOptions || {}
                 })
             }

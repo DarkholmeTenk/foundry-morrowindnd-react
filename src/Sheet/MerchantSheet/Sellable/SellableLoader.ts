@@ -27,7 +27,7 @@ async function loadSellableInternal(source: SellableSource): Promise<NullSell[]>
     } else if(isFilterSellable(source)) {
         let filterArguments = getArguments(source.filter)
         let items = await loadPacks(source.packOverride || SellableItemPacks.value)
-        return items.filter(x=>filterArguments.filterItem(x as Item5e)).map(item=>({item: item as Item5e}))
+        return items.filter(x=>filterArguments.filterItem(x as Item)).map(item=>({item: item as Item}))
     } else if(isNestedSellable(source)) {
         return await Promise.all(source.sellables.map(x => loadSellable(x)))
             .then(x => x.flatMap(y => y))

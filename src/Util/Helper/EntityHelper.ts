@@ -2,11 +2,10 @@ import {useEffect, useState} from "react";
 import {ActorId, getActor} from "../Identifiers/ActorID";
 import {usePromise} from "./PromiseHelper";
 import LogFactory from "../Logging";
-import {BaseActor, BaseItem} from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
 
 const log = LogFactory("EntityHelper")
 
-export type Entity = Actor5e | Item5e | TokenDocument5e
+export type Entity = Actor | Item | TokenDocument
 interface UseEntityParams<T extends Entity> {
     type: string,
     entity: T | null
@@ -32,7 +31,7 @@ export function useEntity<T extends Entity>({type, entity}: UseEntityParams<T>):
     return {value: current.entity}
 }
 
-export function useNPC<T extends Actor5e>(actor: Actor5e | null) {
+export function useNPC<T extends Actor>(actor: Actor | null) {
     let e = actor?.token ?? actor
     let {value} = useEntity({entity: e, type: (e?.constructor as any)?.documentName ?? "Actor"})
     if(value instanceof TokenDocument) {
@@ -42,7 +41,7 @@ export function useNPC<T extends Actor5e>(actor: Actor5e | null) {
     }
 }
 
-export function useActor(actorId?: ActorId): {value: Actor5e | null, loading: Boolean} {
+export function useActor(actorId?: ActorId): {value: Actor | null, loading: Boolean} {
     console.log("UseActor", actorId)
     let {result, loading} = usePromise(async ()=>actorId ? getActor(actorId) : null, [actorId])
     let {value} = useNPC(loading ? null : result)

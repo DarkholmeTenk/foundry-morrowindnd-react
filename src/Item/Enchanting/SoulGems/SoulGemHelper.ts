@@ -6,7 +6,7 @@ interface SoulInfo {
     fillSize?: SoulSize
 }
 
-export function isSoulGem(item: Item5e): SoulInfo | undefined {
+export function isSoulGem(item: Item): SoulInfo | undefined {
     let [data] = getProperties(item)
     if(data?.soulGem?.isSoulGem) {
         let {soulGem} = data
@@ -18,7 +18,7 @@ export function isSoulGem(item: Item5e): SoulInfo | undefined {
     }
 }
 
-async function fillSoulGem(item: Item5e, size: SoulSize) {
+async function fillSoulGem(item: Item, size: SoulSize) {
     let [data, setData] = getProperties(item)
     if(data?.soulGem?.isSoulGem) {
         let {soulGem} = data
@@ -27,7 +27,7 @@ async function fillSoulGem(item: Item5e, size: SoulSize) {
     }
 }
 
-export function getSoulGems(actor: Actor5e, filter?: (soulInfo: SoulInfo)=>boolean): Item[] {
+export function getSoulGems(actor: Actor, filter?: (soulInfo: SoulInfo)=>boolean): Item[] {
     return actor.items.filter(item=>{
         let soulInfo = isSoulGem(item)
         if(soulInfo) {
@@ -41,7 +41,7 @@ export function getSoulGems(actor: Actor5e, filter?: (soulInfo: SoulInfo)=>boole
     })
 }
 
-export async function fillActorSoulGem(actor: Actor5e, deadActor: Actor5e) {
+export async function fillActorSoulGem(actor: Actor, deadActor: Actor) {
     let soulSize = getSoulLevel(deadActor)
     if(soulSize) {
         let gem = getSoulGems(actor, info => !info.fillSize && info.size.size >= soulSize!.size).find(() => true)

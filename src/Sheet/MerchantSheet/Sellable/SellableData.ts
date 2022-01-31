@@ -2,7 +2,7 @@ import {ItemId} from "../../../Util/Identifiers/ItemID";
 import {PackId} from "../../../Util/Identifiers/PackId";
 
 export interface SellableItem {
-    item: Item5e,
+    item: Item,
     qty?: number
 }
 

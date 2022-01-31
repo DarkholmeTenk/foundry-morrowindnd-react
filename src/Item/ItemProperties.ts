@@ -16,6 +16,6 @@ export interface ItemProperties {
 
 export const ITEM_FLAG = "extra_properties"
 
-export function getProperties(item: Item5e): [ItemProperties, (newProperties: ItemProperties)=>Promise<any>] {
+export function getProperties(item: Item): [ItemProperties, (newProperties: ItemProperties)=>Promise<any>] {
     return getFlag<ItemProperties>(item, ITEM_FLAG, {})
 }

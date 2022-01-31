@@ -45,7 +45,7 @@ export function useParty() {
     return useSelf(actor)
 }
 
-export default function useSelf(defaultActor?: Actor5e) {
+export default function useSelf(defaultActor?: Actor) {
     let potentialActors = game.actors!.filter(x=>x.isOwner)
     let [chosenActor, setChosenActor] = useState(defaultActor?.id ?? game.user!.character?.id)
     let actorRef = useNPC(chosenActor ? game.actors!.get(chosenActor)! : null)
@@ -58,8 +58,8 @@ export default function useSelf(defaultActor?: Actor5e) {
     return {actor, actorId, component, actorRef}
 }
 
-export function useCanvasToken(scene: Scene, actor: Actor5e | null): TokenDocument | null {
-    let token = actor ? scene.tokens.find(x=>x.actor?.uuid === actor.uuid) as TokenDocument5e : null
+export function useCanvasToken(scene: Scene, actor: Actor | null): TokenDocument | null {
+    let token = actor ? scene.tokens.find(x=>x.actor?.uuid === actor.uuid) as TokenDocument : null
     let {value} = useEntity({entity: token, type: "Token"})
     return value
 }

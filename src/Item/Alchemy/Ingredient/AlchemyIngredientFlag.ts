@@ -9,9 +9,9 @@ export interface AlchemyIngredientFlag {
 }
 
 export interface IngredientData {
-    item: Item5e,
+    item: Item,
     flag: AlchemyIngredientFlag
 }
-export function getIngredients(items: Item5e[]): IngredientData[]  {
+export function getIngredients(items: Item[]): IngredientData[]  {
     return items.map(i=>({item: i, flag: getProperties(i)[0].alchemy})).filter(y=>y.flag).map(x=>x as IngredientData)
 }

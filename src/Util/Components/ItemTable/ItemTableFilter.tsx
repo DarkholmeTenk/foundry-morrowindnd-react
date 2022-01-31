@@ -75,7 +75,7 @@ function SpellTypeControlContainer({items, filter, setFilter}) {
 }
 
 interface ItemTableFilterArgs {
-    items: Item5e[],
+    items: Item[],
     filter: Partial<Filter>
     setFilter: (reducer: (f: Partial<Filter>)=>Partial<Filter>)=>void
 }
@@ -92,7 +92,7 @@ export function ItemTableFilter({items, filter, setFilter}: ItemTableFilterArgs)
     </div>
 }
 
-type FilterFunction = (item: Item5e) => boolean
+type FilterFunction = (item: Item) => boolean
 export function generateFilterFunction(filter: Partial<Filter>): FilterFunction {
     let filters: FilterFunction[] = []
     if(filter.name)

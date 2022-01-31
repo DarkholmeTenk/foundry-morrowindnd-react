@@ -2,7 +2,7 @@ import getFlag from "../../../Util/Helper/FlagHelper";
 
 const sellFlag = "Desire_SELLME"
 
-export function hasSellFlag(item: Item5e): boolean {
+export function hasSellFlag(item: Item): boolean {
     let [flag] = getFlag(item, sellFlag, {sell: false})
     return flag.sell
 }

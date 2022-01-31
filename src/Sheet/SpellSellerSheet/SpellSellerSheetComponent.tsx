@@ -41,7 +41,7 @@ function SpellMatch({match: {matchClass, matchSubClass, matchSchool}}: {match: S
     return <Tooltip title={text}><i className={icon} /></Tooltip>
 }
 
-function SpellClassComponent({self, merchant, spell, goldAmount}: {self: Actor5e, merchant: Actor5e, spell: Item5e, goldAmount: number}) {
+function SpellClassComponent({self, merchant, spell, goldAmount}: {self: Actor, merchant: Actor, spell: Item, goldAmount: number}) {
     let {result, loading} = usePromise(()=>getSpellClasses(spell), [spell])
     let cost = useMemo(()=>result ? calculateSpellCost(self, spell, result) : 0, [result, self, spell])
     if(self && !loading && result) {
@@ -55,7 +55,7 @@ function SpellClassComponent({self, merchant, spell, goldAmount}: {self: Actor5e
     }
 }
 
-function hasSpell(actor: Actor | null, spell: Item5e): Boolean {
+function hasSpell(actor: Actor | null, spell: Item): Boolean {
     if(!actor) {
         return true
     } else {
@@ -63,7 +63,7 @@ function hasSpell(actor: Actor | null, spell: Item5e): Boolean {
     }
 }
 
-function SpellIcon({spell}: {spell: Item5e}) {
+function SpellIcon({spell}: {spell: Item}) {
     let school = SpellSchools[spell.spell().school]
     if(school) {
         return <Tooltip title={school.name}><i className={school.icon} /></Tooltip>
@@ -94,7 +94,7 @@ export default function SpellSellerSheetComponent({self: selfInput, merchant: me
     merchant = merchant!
     let [merchantFlag, setMerchantFlag] = getMerchantFlag(merchant)
     let myGoldAmount = self ? getGoldAmountFromActor(self.data) : 0
-    let {result: spells, loading} = usePromise(()=>loadPacks<Item5e>(SpellSellerPacks.value), [])
+    let {result: spells, loading} = usePromise(()=>loadPacks<Item>(SpellSellerPacks.value), [])
     let filteredSpells = useMemo(()=>{
         if(!spells) {
             return []

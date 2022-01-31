@@ -38,8 +38,8 @@ function DijkstraDataRow({row}: {row: DijkstraData}) {
 }
 
 interface SceneTravelPlannerArgs {
-    party: Actor5e,
-    partyToken: TokenDocument5e,
+    party: Actor,
+    partyToken: TokenDocument,
     noteData: NoteData[]
 }
 function SceneTravelPlanner({party, partyToken, noteData}: SceneTravelPlannerArgs) {

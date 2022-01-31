@@ -25,7 +25,7 @@ function isTokenID(id: ActorId): id is SceneTokenId {
     return (id as SceneTokenId).sceneId !== undefined
 }
 
-export function getActor(id: ActorId): Actor5e {
+export function getActor(id: ActorId): Actor {
     if(isTokenID(id)) {
         let scene = game.scenes!.get(id.sceneId)
         // @ts-ignore

@@ -1,5 +1,5 @@
-import {ActorId, getActor, getActorId} from "./ActorID";
-import {getPack, getPackId, loadPack, PackId} from "./PackId";
+import {ActorId, getActorId} from "./ActorID";
+import {getPackId, loadPack, PackId} from "./PackId";
 import {loadSUuid} from "./UuidHelper";
 
 interface BaseItemId {
@@ -28,16 +28,16 @@ export function isOwnedItem(id: ItemId): id is OwnedItemId {
     return (id as any).actorId
 }
 
-export async function getItem(id: ItemId): Promise<Item5e | undefined> {
+export async function getItem(id: ItemId): Promise<Item | undefined> {
     if(isPackItem(id)) {
-        let pack = await loadPack<Item5e>(id.packId)
+        let pack = await loadPack<Item>(id.packId)
         return pack?.find(x=>x.id === id.itemId)
     } else {
-        return loadSUuid<Item5e>(id.uuid)
+        return loadSUuid<Item>(id.uuid)
     }
 }
-export async function getItems(ids: ItemId[], skipNotFound: boolean = true): Promise<Item5e[]> {
-    let items: Item5e[] = []
+export async function getItems(ids: ItemId[], skipNotFound: boolean = true): Promise<Item[]> {
+    let items: Item[] = []
     for(let id of ids) {
         let item = await getItem(id)
         if(item) {

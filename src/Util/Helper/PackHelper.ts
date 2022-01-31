@@ -1,6 +1,6 @@
 import {loadPack as lp, getPackId} from "../Identifiers/PackId" ;
 
-async function loadPack(packName, {failOnNoPack = true}): Promise<Item5e[]>  {
+async function loadPack(packName, {failOnNoPack = true}): Promise<Item[]>  {
 	let pack = game.packs.find(p=>p.metadata.label === packName);
 	if(!pack) {
 		if(failOnNoPack) {
@@ -12,7 +12,7 @@ async function loadPack(packName, {failOnNoPack = true}): Promise<Item5e[]>  {
 	return lp(getPackId(pack))
 }
 
-export async function loadPackItems(packNames: string[] | string = [], options = {}): Promise<Item5e[]> {
+export async function loadPackItems(packNames: string[] | string = [], options = {}): Promise<Item[]> {
 	if(typeof(packNames) === "string") {
 		return loadPack(packNames, options)
 	} else {

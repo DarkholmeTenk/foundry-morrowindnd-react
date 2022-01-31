@@ -47,9 +47,9 @@ export function onDrop(callback: (i: Entity)=>void) {
     }
 }
 
-export function onItemDrop(callback: (i: Item5e)=>void) {
+export function onItemDrop(callback: (i: Item)=>void) {
     return onDrop(x=>{
-        if(x instanceof Item5e) {
+        if(x instanceof Item) {
             callback(x)
         }
     })

@@ -4,14 +4,14 @@ import styles from "./ItemViewer.module.scss"
 import {ReactNodeLike} from "prop-types";
 
 /**
- * @param item {Item5e>}
+ * @param item {Item>}
  * @param children
  * @param other
  * @returns {JSX.Element}
  * @constructor
  */
 interface ItemViewerArgs {
-    item: Item5e | Actor5e
+    item: Item | Actor
     children?: ReactNodeLike,
     onClick?: ()=>void
 }

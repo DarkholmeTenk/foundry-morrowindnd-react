@@ -30,7 +30,7 @@ export function ItemControl({control: {title, onClick, text, classes}}: ItemCont
     )
 }
 
-export function getEditControl(item: Item5e): Control {
+export function getEditControl(item: Item): Control {
     return {
         title: "Edit Item",
         classes: "item-edit",

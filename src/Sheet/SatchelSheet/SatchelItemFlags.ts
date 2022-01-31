@@ -1,4 +1,4 @@
-import {getItem, isOwnedItem, isPackItem, ItemId, ItemPackId} from "../../Util/Identifiers/ItemID";
+import {getItem, isPackItem, ItemId, ItemPackId} from "../../Util/Identifiers/ItemID";
 import getFlag, {FlagResult} from "../../Util/Helper/FlagHelper";
 import {isEqual} from "../../Util";
 import {ItemData} from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs";
@@ -22,7 +22,7 @@ const defaultSatchelFlags: SatchelFlags = {
 }
 
 type Satchel = FlagResult<Partial<SatchelFlags>>
-export function getSatchelFlag(item: Item5e): FlagResult<Partial<SatchelFlags>> {
+export function getSatchelFlag(item: Item): FlagResult<Partial<SatchelFlags>> {
     return getFlag(item, "Satchel", defaultSatchelFlags)
 }
 
@@ -78,9 +78,9 @@ export async function addItemToSatchel(satchel: Satchel, itemId: ItemId, qty: nu
     }
 }
 
-export async function getSatchelItems(satchel: Satchel): Promise<Item5e[]> {
+export async function getSatchelItems(satchel: Satchel): Promise<Item[]> {
     let [flag] = satchel
-    let items: Item5e[] = []
+    let items: Item[] = []
     for(let id of (flag.ids || [])) {
         let item = (await getItem(id.id))!
         let newId = idQty(item.data, id.qty) as any

@@ -25,7 +25,7 @@ function addFlags(type: String, itemData: any): any {
     }
 }
 
-async function give(needers: ActorId[], loot: Actor, item: Item5e, type: String, result: String[]) {
+async function give(needers: ActorId[], loot: Actor, item: Item, type: String, result: String[]) {
     let qty = item.qty()
     let splitResult = split(qty, needers)
     await Promise.all(needers.map(async needId=>{
@@ -39,7 +39,7 @@ async function give(needers: ActorId[], loot: Actor, item: Item5e, type: String,
     await removeItem(getItemId(item) as OwnedItemId, qty)
 }
 
-export async function distributeDesires(loot: Actor5e): Promise<String[]> {
+export async function distributeDesires(loot: Actor): Promise<String[]> {
     let result: String[] = []
     let [flag] = getFlag(loot, LOOT_FLAG_ID, DEFAULT_LOOT_FLAG)
     for (let desires of flag.desires) {

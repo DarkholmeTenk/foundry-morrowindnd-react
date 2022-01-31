@@ -1,5 +1,6 @@
 import ReactDOM from "react-dom"
 import AppContext from "./AppContext";
+import {GmWindow} from "../Helper/GmHelper";
 
 export default class ReactApplication extends Application {
     constructor(...args) {
@@ -29,7 +30,11 @@ export default class ReactApplication extends Application {
         if(!force) return
         let component = await this.getComponent()
         let context = AppContext
-        ReactDOM.render(<context.Provider value={this}>{component}</context.Provider>, document.getElementById(`react-${this.appId}`))
+        ReactDOM.render(<context.Provider value={this}>
+            <GmWindow>
+                {component}
+            </GmWindow>
+        </context.Provider>, document.getElementById(`react-${this.appId}`))
     }
 }
 

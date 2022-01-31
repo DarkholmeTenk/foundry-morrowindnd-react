@@ -42,16 +42,22 @@ export default function MerchantSheetComponent({merchant: merchantInput}) {
         }
     }, [merchant])
 
-    let buySheet = (loadingSellables && sellableData) ? "Loading" : <BuySheet sellables={sellableData!} self={self!} merchant={merchant} merchantFlag={merchantFlag} myGoldAmount={myGoldAmount} />
-    let sellSheet = self ? <SellSheet self={self} merchant={merchant} merchantFlag={merchantFlag} /> : null
+    if(self) {
+        let buySheet = (loadingSellables || !sellableData) ? "Loading" :
+            <BuySheet sellables={sellableData} self={self!} merchant={merchant} merchantFlag={merchantFlag}
+                      myGoldAmount={myGoldAmount}/>
+        let sellSheet = self ? <SellSheet self={self} merchant={merchant} merchantFlag={merchantFlag}/> : null
 
-    return <div>
-        {merchant.isOwner ? <div className="flexrow">
-            <MerchantFlagComponent merchantFlag={merchantFlag} setMerchantFlag={setMerchantFlag} />
-            <TokenPermission token={merchant} />
-        </div> : null }
-        <SelfComponent self={self} selfSelector={selfSelector} />
-        {sellSheet}
-        {buySheet}
-    </div>
+        return <div>
+            {merchant.isOwner ? <div className="flexrow">
+                <MerchantFlagComponent merchantFlag={merchantFlag} setMerchantFlag={setMerchantFlag}/>
+                <TokenPermission token={merchant}/>
+            </div> : null}
+            <SelfComponent self={self} selfSelector={selfSelector}/>
+            {sellSheet}
+            {buySheet}
+        </div>
+    } else {
+        return <SelfComponent self={self} selfSelector={selfSelector}/>
+    }
 }

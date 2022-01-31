@@ -55,7 +55,7 @@ const SETTINGS: Settings = {
     }
 }
 
-function hasSchool(matchClass: Boolean, actor: Actor5e, spell: Item5e): Boolean {
+function hasSchool(matchClass: Boolean, actor: Actor, spell: Item): Boolean {
     if(!matchClass) return false
     let schoolData = SpellSchools[spell.spell().school]
     if(schoolData) {
@@ -74,7 +74,7 @@ export interface SpellMatches {
     matchSchool: Boolean,
     matchSubClass: Boolean
 }
-export function getMatches(actor: Actor5e, spell: Item5e, spellData: SpellClassData): SpellMatches {
+export function getMatches(actor: Actor, spell: Item, spellData: SpellClassData): SpellMatches {
     let actorClasses = getClasses(actor)
     let matchClass = spellData.classes.some(x=>actorClasses.map[x.name.toLowerCase()])
     let matchSchool = hasSchool(matchClass, actor, spell)
@@ -82,7 +82,7 @@ export function getMatches(actor: Actor5e, spell: Item5e, spellData: SpellClassD
     return {matchClass, matchSchool, matchSubClass}
 }
 
-export function calculateSpellCostFromMatches(spell: Item5e, matches: SpellMatches): number | null {
+export function calculateSpellCostFromMatches(spell: Item, matches: SpellMatches): number | null {
     let l = spell.spell().level
     let baseCost = SETTINGS.BaseCosts[l]
     if(!baseCost) return null
@@ -91,7 +91,7 @@ export function calculateSpellCostFromMatches(spell: Item5e, matches: SpellMatch
 }
 
 
-export function calculateSpellCost(actor: Actor5e, spell: Item5e, spellData: SpellClassData): number | null {
+export function calculateSpellCost(actor: Actor, spell: Item, spellData: SpellClassData): number | null {
     let matches = getMatches(actor, spell, spellData)
     return calculateSpellCostFromMatches(spell, matches)
 }
