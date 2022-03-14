@@ -42,7 +42,7 @@ async function lootTokens(lootContainer, tokens) {
     let currency = tokens.map(token=>getCurrency(token)).reduce((p,c)=>p+c, 0)
     await tokens.forEachAsync((token)=>token.setFlag("morrowindnd", FLAG, {container: lootContainer.id}))
     await lootContainer.token.update({"actorData.items": [], "actorData.data.currency.gp.value": currency})
-    await lootContainer.createOwnedItem(mergedItems)
+    await lootContainer.createEmbeddedDocuments("Item", mergedItems)
 }
 
 Hooks.on("actorSheetMenuItems", (add, app)=>{
@@ -61,12 +61,12 @@ Hooks.on("actorSheetMenuItems", (add, app)=>{
                 }
             })
         }
-        if(actor.isToken && actor.token.getFlag("morrowindnd", FLAG)) {
+        if(actor.isToken && actor.getFlag("morrowindnd", FLAG)) {
             add({
                 name: "Reset Loot Status",
                 icon: '<i class="fas fa-shopping-bag"></i>',
                 callback: async ()=>{
-                    await actor.token.unsetFlag("morrowindnd", FLAG)
+                    await actor.unsetFlag("morrowindnd", FLAG)
                 }
             })
         }

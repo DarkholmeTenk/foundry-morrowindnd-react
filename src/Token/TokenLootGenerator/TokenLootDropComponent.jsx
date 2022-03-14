@@ -34,7 +34,7 @@ export default function TokenLootDropComponent({actor, table}) {
             let items = rollData.flatMap(r=>r.getItemData())
             let mods = {}
             rollData.forEach(r=>Object.assign(mods, r.getModifications(actor.data)))
-            await actor.createOwnedItem(items)
+            await actor.createEmbeddedDocuments("Item", items)
             await actor.update(mods)
             app.close()
         }}>Add</Button>
