@@ -32,7 +32,13 @@ export default function TokenPermission({token}) {
     let users = game.users.contents.filter(x=>x !== game.user)
     let state = token.data.permission || {}
     let updateUser = useCallback(async (userId, permission)=>{
-        await token.update({[`permission.${userId}`]: permission})
+        if(permission == null) {
+            let x = {...token.data.permission}
+            delete x[userId]
+            await token.update({"permission": x}, {recursive: false, diff: false, noHook: true})
+        } else {
+            await token.update({[`permission.${userId}`]: permission})
+        }
     }, [token])
     return <div className="flex-col">
         <PermissionStateButton user={{id: 'default', name: "Default"}} state={state} setState={updateUser} />

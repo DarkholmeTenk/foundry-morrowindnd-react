@@ -38,10 +38,10 @@ const specialFilters = {
 		return (_,itemData)=>folders.includes(itemData.folder)
 	},
 	"!enchanted": ()=>{
-		return (_,itemData)=>!itemData.flags.morrowindnd?.enchanter_data
+		return (_,itemData)=>!itemData.flags["MorrowinDnDReact"]?.enchanter_data
 	},
 	"enchanted": ()=>{
-		return (_,itemData)=>itemData.flags.morrowindnd?.enchanter_data
+		return (_,itemData)=>itemData.flags["MorrowinDnDReact"]?.enchanter_data
 	},
 	"melee": ()=>(_,itemData)=>itemData.data.weaponType?.endsWith("M") || false,
 	"ranged": ()=>(_,itemData)=>itemData.data.weaponType?.endsWith("R") || false,

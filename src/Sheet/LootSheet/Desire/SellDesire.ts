@@ -12,8 +12,8 @@ export function addSellFlag(itemData: any): any {
         ...itemData,
         flags: {
             ...(itemData.flags || {}),
-            morrowindnd: {
-                ...(itemData.flags.morrowindnd || {}),
+            MorrowinDnDReact: {
+                ...(itemData.flags["MorrowinDnDReact"] || {}),
                 [sellFlag]: {
                     sell: true
                 }

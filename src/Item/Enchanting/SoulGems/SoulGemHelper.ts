@@ -61,7 +61,7 @@ export async function fillActorSoulGem(actor: Actor, deadActor: Actor) {
                     quantity: 1
                 }
             }
-            newGemData.flags.morrowindnd[ITEM_FLAG].soulGem.fillSize = soulSize.label
+            newGemData.flags["MorrowinDnDReact"][ITEM_FLAG].soulGem.fillSize = soulSize.label
             await Item.create(newGemData, {parent: actor})
         }
     }

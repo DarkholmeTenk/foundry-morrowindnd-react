@@ -75,13 +75,13 @@ export function getEnchantData({itemData, charges, spellData}) {
 }
 
 export function isSpellEnchantable(itemData) {
-    return itemData.type === "equipment" && !itemData.flags?.morrowindnd?.enchanter_data
+    return itemData.type === "equipment" && !itemData.flags["MorrowinDnDReact"]?.enchanter_data
 }
 
 export async function enchantWeapon({item, weaponEnchant, renderSheet = true}): Promise<Item> {
     let enchantData = {item: item.id, weaponEnchant}
     let existing = game.items!.find(i=>{
-        let enchantedData = i.getFlag("morrowindnd", "enchanter_data")
+        let enchantedData = i.getFlag("MorrowinDnDReact", "enchanter_data")
         return isEqual(enchantData, enchantedData)
     })
     if(existing) {
@@ -96,6 +96,6 @@ export async function enchantWeapon({item, weaponEnchant, renderSheet = true}): 
 
     log("Creating " + newData.name, item, weaponEnchant, newData)
     let newItem = (await Item.create(newData, {temporary: false, renderSheet}))!
-    await newItem.setFlag("morrowindnd", "enchanter_data", enchantData)
+    await newItem.setFlag("MorrowinDnDReact", "enchanter_data", enchantData)
     return newItem as Item
 }
