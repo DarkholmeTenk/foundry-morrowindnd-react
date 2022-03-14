@@ -25,7 +25,7 @@ export async function addItem(itemData: any, actorId: ActorId, qty: number) {
                 }
             }
         }
-        await Item.create(itemData, {parent: actor})
+        await actor.createEmbeddedDocuments("Item", itemData)
     }
 }
 

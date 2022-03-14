@@ -62,7 +62,7 @@ export async function fillActorSoulGem(actor: Actor, deadActor: Actor) {
                 }
             }
             newGemData.flags["MorrowinDnDReact"][ITEM_FLAG].soulGem.fillSize = soulSize.label
-            await Item.create(newGemData, {parent: actor})
+            await actor.createEmbeddedDocuments("Item", newGemData)
         }
     }
 }

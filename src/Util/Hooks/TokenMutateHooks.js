@@ -28,7 +28,7 @@ Hooks.on('createToken', async (token, data)=>{
 
                 if(updateData.items) {
                     let items = mergeItemData(updateData.items)
-                    await Item.create(items, {parent: token.actor})
+                    await token.createEmbeddedDocuments("Item", items)
                     delete updateData.items
                 }
                 let splitData = split(updateData)

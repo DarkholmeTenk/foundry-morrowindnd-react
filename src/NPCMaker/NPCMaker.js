@@ -3,7 +3,7 @@ import React from "react";
 import {SimpleReactApplication} from "../Util/React/ReactApplication";
 
 function loadedStart() {
-    if(!game.user.isGM) return
+    if(!game?.user?.isGM) return
     let gameSettings = document.getElementById("actors").getElementsByClassName("directory-footer").item(0)
     if(!gameSettings) return;
     if(gameSettings.getElementsByClassName('morrowindnd-generate-npc').length > 0) return
