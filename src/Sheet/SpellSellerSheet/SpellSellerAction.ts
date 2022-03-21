@@ -20,7 +20,7 @@ export const SpellSellerBuy = registerGMSocket<BuyAction>("SpellSellerSheet_Buy"
     let price = calculateSpellCost(self, spell, spellData)
     let myGold = getGoldAmountFromActor(self.data)
     if(price && myGold >= price) {
-         await addItem(spell.data, selfId, 1)
+         await addItem(self, spell.data, {qty: 1})
          await removeGold(self, price)
     }
 })

@@ -26,7 +26,7 @@ export default function TokenLootSetupComponent({flag, setFlag}) {
             let rolltable = tables.get(table.id)
             return <div>
                 Qty: <input value={table.qty} onChange={(e)=>updateTable(index, {...table, qty: e.target.value})} />
-                Table: <Selector values={tables.entities} value={rolltable} setValue={(n)=>updateTable(index, {...table, id: n.id})} labelFunction={n=>n.name} />
+                Table: <Selector values={tables.contents} value={rolltable} setValue={(n)=>updateTable(index, {...table, id: n.id})} labelFunction={n=>n.name} />
                 <Button onClick={()=>removeTable(index)}>-</Button>
             </div>
         })}

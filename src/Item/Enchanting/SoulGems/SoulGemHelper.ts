@@ -1,5 +1,6 @@
 import EnchantConfig, {SoulSize} from "../EnchantConfig";
 import {getProperties, ITEM_FLAG} from "../../ItemProperties";
+import {addItem} from "../../../Util/Helper/ItemTransferHelper";
 
 interface SoulInfo {
     size: SoulSize,
@@ -62,7 +63,7 @@ export async function fillActorSoulGem(actor: Actor, deadActor: Actor) {
                 }
             }
             newGemData.flags["MorrowinDnDReact"][ITEM_FLAG].soulGem.fillSize = soulSize.label
-            await actor.createEmbeddedDocuments("Item", newGemData)
+            await addItem(actor, newGemData)
         }
     }
 }

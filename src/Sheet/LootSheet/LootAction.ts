@@ -17,7 +17,7 @@ interface LootTakeSocketAction {
 }
 export const LootTakeSocket = registerGMSocket<LootTakeSocketAction>("LootSheet_Take", async ({selfId, lootId,  qty})=>{
     let itemData = await removeItem(lootId, qty)
-    await addItem(itemData, selfId, qty)
+    await addItem(selfId, itemData, {qty})
 })
 
 interface LootSplitGoldAction {

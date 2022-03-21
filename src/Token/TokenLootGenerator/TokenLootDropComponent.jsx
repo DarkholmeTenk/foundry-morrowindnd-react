@@ -2,10 +2,13 @@ import {useContext, useState} from "react";
 import {Button, TextField} from "@material-ui/core";
 import doRollTable from "../../RollTable/Rolling/TableRoller";
 import AppContext from "../../Util/React/AppContext";
+import {addItem} from "../../Util/Helper/ItemTransferHelper";
+import {callRoll} from "../../Util/Helper/RollHelper";
+import {mergeItemData} from "../../Util/Helper/ItemHelper";
 
 async function getResult(roll, qty, table) {
-    let rollRoll = new Roll(roll).roll().total
-    let qtyRoll = new Roll(qty).roll().total
+    let rollRoll = await callRoll(roll)
+    let qtyRoll = await callRoll(qty)
     let result = []
     for(let i = 0; i < rollRoll; i++) {
         let rollResult = await doRollTable(table.id)
@@ -31,12 +34,12 @@ export default function TokenLootDropComponent({actor, table}) {
         }}>Sample</Button>
         <Button onClick={async ()=>{
             let rollData = await getResult(roll, qty, table)
-            let items = rollData.flatMap(r=>r.getItemData())
+            let items = mergeItemData(rollData.flatMap(r=>r.getItemData()))
             let mods = {}
             rollData.forEach(r=>Object.assign(mods, r.getModifications(actor.data)))
-            await actor.createEmbeddedDocuments("Item", items)
+            await addItem(actor, items)
             await actor.update(mods)
-            app.close()
+            await app.close()
         }}>Add</Button>
     </div>
 }

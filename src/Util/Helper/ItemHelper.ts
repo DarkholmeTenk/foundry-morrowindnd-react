@@ -1,47 +1,29 @@
-import {clone, isEqual} from "..";
 import LogFactory from "../Logging";
 
 const log = LogFactory("ItemMerger")
 
-const ignorableProperties = ["_id", "isStack", "hasUses", "hasTarget", "isOnCooldown", "isDepleted", "sort", "labels", "totalWeight"]
-const ignorableDataProperties = ["quantity"]
-
-let ignore = {data:{}}
-ignorableProperties.forEach(p=>ignore[p] = true)
-ignorableDataProperties.forEach(p=>ignore.data[p] = true)
+export function cloneItemData(i: any) {
+    return { ...i, data: {...i.data} }
+}
 
 export function mergeItemData(items: any[]) {
     log.debug("Merging Items", items)
-    let nameArrs: {[key: string]: any} = {}
+    let nameArr: Record<string, {oldVal: any, newVal: any}> = {}
     items.forEach(i=>{
-        let name = i.name
-        let qty = parseInt(i.data.quantity || 1)
-        let nameArr = nameArrs[name] || []
-        let found = nameArr.find(({item})=>{
-            return isEqual(i, item, ignore)
-        })
-        if(found) {
-            log.debug("Found item for " + name, nameArr, i)
-            found.qty += qty
-        } else {
-            log.debug("Not found item for " + name, nameArr, i)
-            nameArr.push({item: i, qty})
-        }
-        nameArrs[name] = nameArr
-    })
-    let mergedItems = Object.values(nameArrs).flatMap(nameArr=>{
-        return (nameArr.map(({item, qty})=>{
-            if(qty === item.data.quantity || qty === 1) {
-                return item
-            } else {
-                let newItem = clone(item)
-                delete newItem._id
-                newItem.data.quantity = qty
-                newItem.isStack = qty > 1
-                return newItem
+        let lowerName = i.name.toLowerCase()
+        if(nameArr[lowerName]) {
+            let eH = nameArr[lowerName]
+            if(eH.newVal == eH.oldVal) {
+                eH.newVal = cloneItemData(eH.newVal)
             }
-        }))
+            let e = eH.newVal
+            e.data.quantity = (e.data.quantity ?? 1) + (i.data.quantity ?? 1)
+            e.isStack = e.data.quantity > 1
+        } else {
+            nameArr[lowerName] = {oldVal: i, newVal: i}
+        }
     })
+    let mergedItems = Object.values(nameArr).map(x=>x.newVal)
     log.debug("Merged items", mergedItems)
     return mergedItems
 }

@@ -23,7 +23,7 @@ export const MerchantBuy = registerGMSocket<BuyAction>("MerchantSheet_Buy", asyn
     let myGold = getGoldAmountFromActor(self.data)
     if(myGold >= price) {
         if(isOwnedItem(itemId)) await removeItem(itemId, qty)
-        await addItem(item.data, selfId, qty)
+        await addItem(selfId, item.data, {qty})
         await removeGold(self, price)
     }
 })

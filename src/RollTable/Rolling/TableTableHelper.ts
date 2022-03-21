@@ -1,5 +1,6 @@
 import {RollData, RollTableArguments, TableHelper} from "./TableHelper";
 import doRollTable from "./TableRoller";
+import {callRoll} from "../../Util/Helper/RollHelper";
 
 async function nAsync(number, generator) {
 	let array = Array(number).fill(" ")
@@ -28,7 +29,7 @@ export default class TableTableHelper implements TableHelper {
 					}
 				} else {
 					let rollString = args.roll || "1"
-					let rollResult = new Roll(rollString).roll().total
+					let rollResult = await callRoll(rollString)
 					let resultTables = await nAsync(rollResult, ()=>doRollTable(table!.id!))
 					results = resultTables
 						.flatMap(i=>i)

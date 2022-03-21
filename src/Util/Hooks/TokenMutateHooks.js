@@ -1,4 +1,5 @@
-const {mergeItemData} = require("../Helper/ItemHelper.ts");
+import {mergeItemData} from "../Helper/ItemHelper";
+import {addItem} from "../Helper/ItemTransferHelper";
 
 function split(updates) {
     let actor = {}
@@ -26,9 +27,9 @@ Hooks.on('createToken', async (token, data)=>{
             updateDataArray.forEach(ud=>Object.assign(updateData, ud))
             if(Object.keys(updateData).length !== 0) {
 
-                if(updateData.items) {
+                if(updateData.items && updateData.items.length > 0) {
                     let items = mergeItemData(updateData.items)
-                    await token.createEmbeddedDocuments("Item", items)
+                    await addItem(token, items)
                     delete updateData.items
                 }
                 let splitData = split(updateData)

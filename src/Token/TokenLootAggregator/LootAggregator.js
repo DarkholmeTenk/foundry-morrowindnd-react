@@ -1,5 +1,6 @@
 import {mergeItemData} from "../../Util/Helper/ItemHelper.ts";
 import LogFactory from "../../Util/Logging";
+import {addItem} from "../../Util/Helper/ItemTransferHelper";
 
 const log = LogFactory("LootSheetCreator")
 const FLAG = "LootedFlag"
@@ -42,7 +43,7 @@ async function lootTokens(lootContainer, tokens) {
     let currency = tokens.map(token=>getCurrency(token)).reduce((p,c)=>p+c, 0)
     await tokens.forEachAsync((token)=>token.setFlag("morrowindnd", FLAG, {container: lootContainer.id}))
     await lootContainer.token.update({"actorData.items": [], "actorData.data.currency.gp.value": currency})
-    await lootContainer.createEmbeddedDocuments("Item", mergedItems)
+    await addItem(lootContainer, mergedItems)
 }
 
 Hooks.on("actorSheetMenuItems", (add, app)=>{

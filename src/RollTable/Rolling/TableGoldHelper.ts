@@ -1,5 +1,6 @@
 import {RollData, RollTableArguments, TableHelper} from "./TableHelper";
 import {CurrencyType, getActorDataCurrencyAmount, GoldBreakdown} from "../../Util/Helper/GoldHelper";
+import {callRoll} from "../../Util/Helper/RollHelper";
 
 type CurrencyLevel = CurrencyType
 const CurrencyLevels: CurrencyLevel[] = [CurrencyType.pp, CurrencyType.gp, CurrencyType.sp, CurrencyType.cp]
@@ -72,7 +73,8 @@ export default class TableGoldHelper implements TableHelper {
 		})
 		for(let key in values) {
 			let roll = values[key]
-			let result = parseInt(new Roll(roll).roll().total as any as string)
+			let rollResult = await callRoll(roll)
+			let result = parseInt(rollResult.toString())
 			values[key] = result
 		}
 		return [new CurrencyItem(values)]

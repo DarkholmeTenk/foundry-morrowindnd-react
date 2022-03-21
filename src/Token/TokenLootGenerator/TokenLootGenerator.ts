@@ -1,5 +1,6 @@
 import doRollTable from "../../RollTable/Rolling/TableRoller";
 import LogFactory from "../../Util/Logging";
+import {callRoll} from "../../Util/Helper/RollHelper";
 
 const log = LogFactory("TokenLootGenerator")
 
@@ -27,7 +28,7 @@ Hooks.on("createTokenMutate", async (update, {token})=>{
     update(async ()=>{
         let rollTableIds: RollTableIds[] = actor.getFlag("morrowindnd", ACTOR_FLAG)?.rollTableIds || []
         let rollResult = (await Promise.all(rollTableIds.map(async ({id: rollTableId, qty})=>{
-            let result = new Roll(qty).roll().total
+            let result = await callRoll(qty)
             let data = await Promise.all(Array(result).fill("").map(()=>doRollTable(rollTableId)))
             let flatData = data.flatMap(i=>i)
             log.debug("Items rolled", flatData, result)

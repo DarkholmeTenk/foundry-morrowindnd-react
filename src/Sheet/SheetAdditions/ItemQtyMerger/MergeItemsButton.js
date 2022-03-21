@@ -1,4 +1,5 @@
 import LogFactory from "../../../Util/Logging";
+import {addItem, fixItemData} from "../../../Util/Helper/ItemTransferHelper";
 
 const {mergeItemData} = require("../../../Util/Helper/ItemHelper.ts");
 
@@ -13,11 +14,15 @@ Hooks.on("actorSheetMenuItems", (add, app)=>{
             callback: async ()=>{
                 let itemData = actor.items.map(i=>i.data)
                 let merged = mergeItemData(itemData)
-                let remove = itemData.filter(i=>!merged.includes(i))
-                let add = merged.filter(i=>!itemData.includes(i))
+                let mergedIds = merged.map(x=>x._id)
+                let remove = itemData.filter(i=>!mergedIds.includes(i._id))
+                let update = merged.filter(i=>{
+                    let ex = itemData.find(j => i._id === j._id)
+                    return ex && ex !== i
+                }).map(y=>fixItemData(y, {}))
                 log("Merging", itemData, remove, add)
                 await actor.deleteEmbeddedDocuments("Item", remove.map(i=>i._id))
-                await actor.createEmbeddedDocuments("Item", add)
+                await actor.updateEmbeddedDocuments("Item", update)
             }
         })
     }

@@ -33,7 +33,7 @@ async function give(needers: ActorId[], loot: Actor, item: Item, type: String, r
         if(count > 0) {
             let needActor = await getActor(needId)
             result.push(`Giving [${needActor.name}] [${item.name} x ${count}] for [${type}]`)
-            await addItem(addFlags(type, item.data), needId, count)
+            await addItem(needActor, addFlags(type, item.data), {qty: count})
         }
     }))
     await removeItem(getItemId(item) as OwnedItemId, qty)

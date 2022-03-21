@@ -1,31 +1,45 @@
 import {getItem, OwnedItemId} from "../Identifiers/ItemID";
-import {ActorId, getActor} from "../Identifiers/ActorID";
+import {ActorSource, getActor} from "../Identifiers/ActorID";
 import LogFactory from "../Logging";
+import {cloneItemData} from "./ItemHelper";
 
 const Log = LogFactory("ItemTransferHelper")
 
-function getExisting(itemData: any, actor: Actor): Item | undefined {
-    return actor.items.getName(itemData.name)
+export type AddableItemData = any | any[]
+
+export interface ExtraAddItemOptions {
+    qty?: number
 }
 
-export async function addItem(itemData: any, actorId: ActorId, qty: number) {
-    let actor = await getActor(actorId)
-    let existing = getExisting(itemData, actor)
-    if(existing) {
-        let newQty = existing.qty() + qty
-        Log.debug("Updating item quantity", actor, existing, newQty)
-        await existing.update({"data.quantity": newQty})
-    } else {
-        if(itemData.data.quantity !== qty) {
-            itemData = {
-                ...itemData,
-                data: {
-                    ...itemData.data,
-                    quantity: qty
-                }
-            }
+export function fixItemData(itemData: any, options: ExtraAddItemOptions) {
+    itemData = cloneItemData(itemData)
+    if(itemData.effects && !Array.isArray(itemData.effects)) {
+        itemData.effects = Object.values(itemData.effects).map(x=>x)
+    }
+    if(options?.qty) {
+        itemData.data.quantity = options.qty
+    }
+    return itemData
+}
+
+export async function addItem(actorSource: ActorSource, itemData: AddableItemData, options: DocumentModificationContext & ExtraAddItemOptions = {}) {
+    let actor = await getActor(actorSource)
+    let itemArr = (Array.isArray(itemData) ? itemData : [itemData]).map(i => fixItemData(i, options))
+    let updating: any[] = []
+    let newArr: any[] = []
+    itemArr.forEach(i=>{
+        let existing = actor.items.find(x=>x.name == i.name)
+        if(existing) {
+            updating.push({_id: existing.id, "data.quantity": existing.qty() + (i.data.quantity ?? 1)})
+        } else {
+            newArr.push(i)
         }
-        await actor.createEmbeddedDocuments("Item", itemData)
+    })
+    if(updating.length > 0) {
+        await actor.updateEmbeddedDocuments("Item", updating, options)
+    }
+    if(newArr.length > 0) {
+        await actor.createEmbeddedDocuments("Item", newArr, options)
     }
 }
 
