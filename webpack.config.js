@@ -9,7 +9,7 @@ module.exports = (env, argv) => {
     let babelLoader = {
         loader: 'babel-loader',
         options: {
-            presets: [["@babel/preset-react", {"runtime": "automatic"}]],
+            presets: [["@babel/preset-react", {"runtime": "automatic", modules: false}]],
             plugins: ["@babel/plugin-proposal-class-properties", dev && require.resolve('react-refresh/babel')].filter(Boolean)
         }
     }

@@ -5,6 +5,7 @@ import {SimplePos} from "../Canvas/SimpleParts";
 import {clone} from "../../../Util";
 
 export function getTravelData(note): TravelData | undefined {
+    if(!note) return undefined
     let x: any | null | undefined
     if(note.flags) {
         x = note.flags.traveller?.travelData

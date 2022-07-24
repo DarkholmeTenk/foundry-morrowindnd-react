@@ -10,7 +10,6 @@ import "./Sheet"
 import "./Settings"
 import "./index.scss"
 import {BaseItemData, ClassItem, Consumable, Spell} from "./DndTypes/ItemTypes";
-import {ItemDataBaseProperties} from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData";
 
 declare global {
     interface LenientGlobalVariableTypes {

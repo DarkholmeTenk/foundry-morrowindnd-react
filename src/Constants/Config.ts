@@ -15,15 +15,16 @@ function addSetting<Z extends BaseSetting<any, any>>(x: Z): Z {
 }
 
 interface RealSettingData<X> extends BaseSettingData<X>{
-    scope: string,
+    scope: Scope,
     config: boolean
 }
+type Scope = "world" | "client" | undefined
 interface BaseSettingData<X> {
     key: string,
     name: string,
     hint?: string
     default: X,
-    scope?: string,
+    scope?: Scope,
     type: any
 }
 class BaseSetting<Y extends RealSettingData<X>, X> {
@@ -63,7 +64,7 @@ interface SettingMenuData<X> extends BaseSettingData<X>{
     icon?: string,
     sheetOptions?: any,
     restricted: boolean,
-    scope: string
+    scope: Scope
 }
 export class SettingMenu<X extends object> extends BaseSetting<RealSettingMenuData<X>, X> {
     constructor(private readonly setting: Setting<X>, data: SettingMenuData<X>) {

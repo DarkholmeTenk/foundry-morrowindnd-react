@@ -7,7 +7,7 @@ function getState(selected: {[key: string]: boolean}, user, defaultState): boole
 }
 
 export function getActivePlayerUsers() {
-    return game.users!.filter(u=>!u.isGM && u.active)
+    return game.users!.filter(u=>!u.isGM)
 }
 
 export function UserCheckbox({user, checked, toggle, disabled}) {

@@ -61,7 +61,7 @@ Hooks.on('journalSheetMenuItems', (addMenuItem, app, html, data) => {
             let otherNodes = Journal.instance.map(entry=>{
                 let travel = getTravelData(entry)
                 if(!travel) return null
-                return { entry, travel}
+                return { entry: entry as JournalEntry, travel}
             }).filter((x)=>x && x.travel.isTravel && x.entry != note)
                 .map(x=>x!)
             new SimpleReactApplication(<TravelDataForm note={note} travelData={travel} otherNodes={otherNodes} />, {

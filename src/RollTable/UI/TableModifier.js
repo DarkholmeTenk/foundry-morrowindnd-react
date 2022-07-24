@@ -25,7 +25,7 @@ Hooks.on("rollTableConfigMenuItems", async (addMenuItem, app)=>{
             name: "Help",
             icon: '<i class="fas fa-dice"></i>',
             callback: async ()=>{
-                let data = await doRollTable(app.object._id)
+                let data = await doRollTable(app.object.id)
                 let items = data.flatMap(i=>i.getItemData())
                 log("Item Rolled", items, items.map(i=>i instanceof Item ? i.name : i.constructor.name))
             }

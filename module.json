@@ -2,7 +2,7 @@
   "name": "MorrowinDnDReact",
   "title": "MorrowinDnD React",
   "description": "A module that provides some MorrowinDnD specific functionality",
-  "version": "1.6.5",
+  "version": "1.6.6",
   "author": "shane_booth",
   "esmodules": [
     "load.js"

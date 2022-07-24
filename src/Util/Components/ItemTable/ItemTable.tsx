@@ -87,13 +87,12 @@ export default function ItemTable({items, columns, extraProps}: ItemTableArgumen
             </Table>
             <TablePagination
                 rowsPerPageOptions={[10, 20, 40, 100]}
-                component="div"
                 count={filtered.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
-                onChangePage={handleChangePage}
+                onPageChange={handleChangePage}
                 onChangeRowsPerPage={handleChangeRowsPerPage}
-            />
+             />
         </TableContainer>
     </div>
 }

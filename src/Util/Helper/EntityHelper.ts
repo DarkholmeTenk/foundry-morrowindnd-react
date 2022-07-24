@@ -19,6 +19,11 @@ export function useEntity<T extends Entity>({type, entity}: UseEntityParams<T>):
     let [current, setCurrent] = useState({entity})
     let uuid = entity?.uuid
     useEffect(()=>{
+        if(current.entity === null && entity !== null) {
+            setCurrent({entity})
+        }
+    }, [entity, current])
+    useEffect(()=>{
         if(!entity) return
         let hookID = Hooks.on(`update${type}`, (newActor)=>{
             if(newActor.uuid == uuid) {

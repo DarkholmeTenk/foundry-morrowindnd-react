@@ -1,5 +1,6 @@
 import {getSubFolders} from "../../Util/Helper/FolderHelper";
 import LogFactory from "../../Util/Logging";
+import {isCompendiumItemInPath} from "../../Interop/CompendiumFolders";
 
 const log = LogFactory("TableHelperUtils")
 
@@ -17,6 +18,10 @@ function getCompareFunction(comparator, target) {
 		case " !in ": return (v)=>!target.split(",").includes(v)
 		case " includes ": return (v)=>v.includes(target)
 		case " !includes ": return (v)=>!v.includes(target)
+		case "~=": {
+			let l = target.toLowerCase()
+			return (v)=>v.toLowerCase() === l
+		}
 	}
 }
 
@@ -35,7 +40,14 @@ const specialFilters = {
 	},
 	"inside": (target) =>{
 		let folders = getSubFolders(target)
-		return (_,itemData)=>folders.includes(itemData.folder)
+		return (_,itemData)=>{
+			let doc = itemData.document
+			if(doc) {
+				return doc.pack ? isCompendiumItemInPath(itemData, target) : folders.includes(itemData.folder)
+			} else {
+				return folders.includes(itemData.folder) || isCompendiumItemInPath(itemData, target)
+			}
+		}
 	},
 	"!enchanted": ()=>{
 		return (_,itemData)=>!itemData.flags["MorrowinDnDReact"]?.enchanter_data
@@ -50,7 +62,7 @@ const specialFilters = {
 }
 
 function getFilter(argument) {
-	let split = argument.match(/^(.+?)(=|<=|>=|<|>| in | !in | includes | !includes |!=)(.+)$/)
+	let split = argument.match(/^(.+?)(=|<=|>=|<|>| in | !in | includes | !includes |!=|~=)(.+)$/)
 	if(split) {
 		log.debug("Found regular filter", argument, split)
 		let [, field, comparator, target] = split
