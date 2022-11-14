@@ -1,75 +1,61 @@
 import {useNPC} from "../../Util/Helper/EntityHelper";
-import ItemTable, {
-    NumberFormat
-} from "../../Util/Components/ItemTable/ItemTable";
-import {LootSplitNGS, LootTakeSocket} from "./LootAction";
-import {openItemQuantitySelect} from "./ItemQuantitySelector";
+import {LootSplitNGS} from "./LootAction";
 import {getActorId} from "../../Util/Identifiers/ActorID";
-import TokenPermission from "../../Util/Components/TokenPermission";
 import GoldSection from "./GoldSection";
 import Style from "./LootSheet.module.scss"
 import GoldDisplay from "../../Util/Components/GoldDisplay";
-import {ItemColumnDefaults} from "../../Util/Components/ItemTable/ItemTableDefaults";
-import {generateControlsColumn, getEditControl} from "../../Util/Components/ItemTable/ItemTableControl";
-import useSelf from "../../Util/Components/SelfActorSelector";
 import getFlag from "../../Util/Helper/FlagHelper";
 import {buildDesireMap, DEFAULT_LOOT_FLAG, LOOT_FLAG_ID, LootFlag} from "./LootFlags";
 import LootSheetDesireComponent from "./LootSheetDesireComponent";
 import {Button} from "@material-ui/core";
-import {useCallback} from "react";
-import {getItemId} from "../../Util/Identifiers/ItemID";
+import {useCallback, useMemo} from "react";
+import {NewItemTable} from "../../Util/Components/NewItemTable/NewItemTable";
+import {DefaultItemColumns} from "../../Util/Components/NewItemTable/Item/ItemColumns";
+import {StandardItemFilter} from "../../Util/Components/NewItemTable/Item/Filter/StandardItemFilter";
+import {getterColumn} from "../../Util/Components/NewItemTable/Util/GetterColumn";
+import {LootControls} from "./LootControls";
+import {useNewSelf} from "../../Util/React/core/NewSelfSelector";
+import {ItemExpander} from "../../Util/Components/NewItemTable/Item/ItemExpander";
+
+const ValueIndColumn = getterColumn<Item>("Value (i)", item=><GoldDisplay value={item.price()} /> )
+const ValueTotalColumn = getterColumn<Item>("Value (t)", item=><GoldDisplay value={item.qty() * item.price()} />)
+const ValueWeightColumn = getterColumn<Item>("V/W", item=> item.weight() > 0 ? <GoldDisplay value={item.price() / item.weight()} /> : "-")
+
+const Columns = [
+    ...DefaultItemColumns,
+    ValueIndColumn,
+    ValueTotalColumn,
+    ValueWeightColumn,
+    {
+        label: "",
+        ColumnComponent: LootControls
+    },
+    {
+        label: "Desire",
+        ColumnComponent: LootSheetDesireComponent
+    }
+]
 
 export default function LootSheetComponent({npc: npcInput, self: selfInput}) {
     let {value: npc} = useNPC(npcInput)
-    let {actor: self, actorId: selfId, component: selfChooser} = useSelf()
+    let self = useNewSelf()
+    let selfId = self ? getActorId(self) : null
     let [flag, setFlag] = getFlag<LootFlag>(npc!, LOOT_FLAG_ID, DEFAULT_LOOT_FLAG)
     let mappedDesires = buildDesireMap(flag.desires)
 
-    let takeControls = ({item})=>{
-        let controls = [getEditControl(item)]
-        if(item.isOwner) {
-            controls.push({title: "Delete", text: <i className="fas fa-trash" />, classes: "item-delete", onClick: ()=>item.delete()})
-        }
-        if(self) {
-            controls.push({title: "Take", text: <i className="fas fa-hand-holding" />, onClick: ()=>{
-                    let take = (qty)=>LootTakeSocket({selfId: getActorId(self!), lootId: {actorId: getActorId(npc!), ...getItemId(item)}, qty})
-                    openItemQuantitySelect({item, max: item?.data?.data?.quantity || 1, buttonText: "Take", onConfirm: take})
-                }})
-        }
-        return controls
-    }
-
     let items = npc!.items.filter(i=>i.type !== "spell")
-    let columns = [
-        ...ItemColumnDefaults,
-        {
-            title: "Value (i)",
-            getter: ({item})=><GoldDisplay value={item.data.data.price}/>
-        }, {
-            title: "Value (t)",
-            getter: ({item})=><GoldDisplay value={item.data.data.price * (item.data.data.quantity || 1)}/>
-        }, {
-            title: "V/W",
-            getter: ({item})=>item.data.data.weight > 0 ? NumberFormat.format(item.data.data.price / item.data.data.weight) : "-"
-        },
-        generateControlsColumn(takeControls), {
-            title: "Desire",
-            getter: ({item})=><LootSheetDesireComponent item={item} selfId={selfId} desires={mappedDesires} />
-        }
-    ]
 
+    let extraData = useMemo(()=>({desires: mappedDesires, self, selfId, npc}), [mappedDesires, self, selfId, npc])
     let splitNGS = useCallback(()=>LootSplitNGS({lootId: getActorId(npc!)}), [npc])
     return <div>
-        <div className={Style.header}>
+        <div className={Style.header} style={{justifyContent: "space-evenly", alignItems: "center", }}>
             <GoldSection npc={npc}
                          disabled={!npc!.isOwner}
             />
             <div className="flex-row">
-                {selfChooser}
-                <Button onClick={splitNGS}>Split NGS</Button>
+                <Button variant="outlined" style={{height: "64px"}} onClick={splitNGS}>Split NGS</Button>
             </div>
-            {npc!.isOwner ? <TokenPermission token={npc} /> : null }
         </div>
-        {items.length > 0 ? <ItemTable items={items} columns={columns} extraProps={{mappedDesires}}/> : null}
+        {items.length > 0 ? <NewItemTable items={items} expander={ItemExpander} extraData={extraData} filter={StandardItemFilter} columns={Columns}/> : null}
     </div>
 }

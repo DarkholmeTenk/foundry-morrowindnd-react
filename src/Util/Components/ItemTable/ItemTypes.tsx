@@ -1,6 +1,6 @@
 export interface ItemType {
     icon: string,
-    name: string
+    name: string,
 }
 
 export const ItemTypes: Record<string, ItemType> = {

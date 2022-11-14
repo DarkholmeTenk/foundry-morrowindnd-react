@@ -1,5 +1,5 @@
 import { getTravelData } from "./NoteDataUtil"
-import { p2pRoutes, teleportation } from "../const"
+import { p2pRoutes } from "../const"
 import LogFactory from "../../../Util/Logging";
 import {SimpleReactApplication} from "../../../Util/React/ReactApplication";
 import TravelDataForm, {OtherNode} from "../Form/TravelDataForm";

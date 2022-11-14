@@ -1,7 +1,6 @@
 import {setupSettingMenu} from "../Constants/Config";
 import {AlchemySettings, defaultAlchemySettings} from "../Item/Alchemy/AlchemySettings";
 import SettingsMenu from "./SettingsMenu";
-import {PackSelectorOptions} from "../Constants/Packs/PackSelectorComponent";
 
 export interface RegularSetting {
     alchemy: Partial<AlchemySettings>

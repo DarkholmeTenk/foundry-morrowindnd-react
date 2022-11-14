@@ -1,5 +1,4 @@
 import {AlchemyEffects} from "./AlchemyEffects/AlchemyEffects";
-import {RegularSettings} from "../../Settings/Settings";
 
 export const defaultAlchemySettings: AlchemySettings = {
     effects: []

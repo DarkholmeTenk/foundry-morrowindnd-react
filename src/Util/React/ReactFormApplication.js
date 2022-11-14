@@ -1,6 +1,5 @@
 import ReactDOM from "react-dom";
-import AppContext from "./AppContext";
-import {GmWindow} from "../Helper/GmHelper";
+import {CoreBlock} from "./core/CoreBlock";
 
 export class ReactFormSheet extends FormApplication {
     xrendered = false
@@ -26,12 +25,9 @@ export class ReactFormSheet extends FormApplication {
         await super._render(force, ...args);
         if(!force) return
         let component = this.getComponent()
-        let context = AppContext
-        ReactDOM.render(<context.Provider value={this}>
-            <GmWindow>
-                {component}
-            </GmWindow>
-        </context.Provider>, document.getElementById(`react-${this.appId}`))
+        ReactDOM.render(<CoreBlock application={this}>
+            {component}
+        </CoreBlock>, document.getElementById(`react-${this.appId}`))
     }
 }
 

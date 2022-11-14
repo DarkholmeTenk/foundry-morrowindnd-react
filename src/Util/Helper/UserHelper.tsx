@@ -1,6 +1,6 @@
 import {useCallback, useState} from "react";
-import {Checkbox} from "@material-ui/core";
 import {ReactNodeLike} from "prop-types";
+import {AvatarChip} from "../React/core/NewSelfSelector";
 
 function getState(selected: {[key: string]: boolean}, user, defaultState): boolean {
     return selected[user.id] !== undefined ? selected[user.id] : defaultState
@@ -10,19 +10,19 @@ export function getActivePlayerUsers() {
     return game.users!.filter(u=>!u.isGM)
 }
 
-export function UserCheckbox({user, checked, toggle, disabled}) {
-    let toggleMe = useCallback(()=>toggle(user), [user, toggle])
-    return <div>
-        <Checkbox size="small" checked={checked} disabled={disabled} onClick={toggleMe} />
-        {user.name} - {user.character?.name}
-    </div>
+export function UserCheckbox({user, checked, setMe, disabled}: {user: User, checked: boolean, setMe: (user: User, v: boolean)=>void, disabled: boolean}) {
+    let mySet = useCallback((v: boolean)=>setMe(user, v), [user, setMe])
+    return <AvatarChip actor={user.character!} selected={checked} setSelected={mySet} short />
 }
 
 export function UserGroupSelector({selected, setSelected, defaultState = false, disabled = false}) {
     let users = getActivePlayerUsers()
-    let toggle = useCallback((user)=>setSelected(s=>({...s, [user.id]: !getState(s, user, defaultState)})), [defaultState])
-    let map = users.map(u=><UserCheckbox user={u} key={u.id} checked={selected[u.id!] !== undefined ? selected[u.id!] : defaultState} toggle={toggle} disabled={disabled} /> )
-    return <div>
+    let setMe = useCallback((user: User, v: boolean)=>setSelected(s=>{
+        let newValue = {...s, [user.id!]: v}
+        return newValue
+    }), [setSelected])
+    let map = users.map(u=><UserCheckbox user={u} key={u.id} checked={selected[u.id!] ?? defaultState} setMe={setMe} disabled={disabled} /> )
+    return <div className="flex-row">
         {map}
     </div>
 }

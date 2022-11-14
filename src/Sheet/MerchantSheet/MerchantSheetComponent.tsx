@@ -11,9 +11,8 @@ import Styles from "./MerchantSheet.module.scss"
 import {usePromise} from "../../Util/Helper/PromiseHelper";
 import {SellableItem} from "./Sellable/SellableData";
 import {loadSellable} from "./Sellable/SellableLoader";
-import useSelf from "../../Util/Components/SelfActorSelector";
-import SelfComponent from "../Shared/SelfComponent";
 import {getIdentifiableSellable, SellableSourceExtra} from "./Sellable/Settings";
+import {useNewSelf} from "../../Util/React/core/NewSelfSelector";
 
 export interface SellableStuff {
     items: SellableItem[],
@@ -21,7 +20,7 @@ export interface SellableStuff {
 }
 
 export default function MerchantSheetComponent({merchant: merchantInput}) {
-    let {actor: self, component: selfSelector} = useSelf()
+    let self = useNewSelf()
     let {value: merchant} = useNPC(merchantInput)
     merchant = merchant!
     let [merchantFlag, setMerchantFlag] = getMerchantFlag(merchant)
@@ -53,11 +52,10 @@ export default function MerchantSheetComponent({merchant: merchantInput}) {
                 <MerchantFlagComponent merchantFlag={merchantFlag} setMerchantFlag={setMerchantFlag}/>
                 <TokenPermission token={merchant}/>
             </div> : null}
-            <SelfComponent self={self} selfSelector={selfSelector}/>
             {sellSheet}
             {buySheet}
         </div>
     } else {
-        return <SelfComponent self={self} selfSelector={selfSelector}/>
+        return <div>Select yourself</div>
     }
 }

@@ -1,4 +1,5 @@
 import {getGoldAmountFromActor} from "../../Util/Helper/GoldHelper";
+import {getActivePlayerUsers} from "../../Util/Helper/UserHelper";
 
 export function useLootSheetFlag(npc) {
     let data = {
@@ -13,7 +14,7 @@ export function getGoldDetails(npc) {
     let amount = getGoldAmountFromActor(npc.data.data.currency)
     let {flag} = useLootSheetFlag(npc)
 
-    let users = game.users!.contents.filter(u=>!u.isGM && u.active)
+    let users = getActivePlayerUsers()
     let takers: {[id: string]: boolean} = {}
     users.forEach(x=>takers[x.id!] = flag.goldTakers[x.id!] === true)
     let takeCount = users.filter(x=>takers[x.id!]).length

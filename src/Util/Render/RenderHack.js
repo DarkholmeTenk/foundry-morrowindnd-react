@@ -1,5 +1,5 @@
 import {RenderHackEnabled, RenderHackMillis} from "./RenderSettings";
-import {clone, isEqual} from "../index";
+import {isEqual} from "../index";
 import LogFactory from "../Logging";
 
 let Log = LogFactory("RenderHack")

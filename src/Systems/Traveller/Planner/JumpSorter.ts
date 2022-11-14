@@ -1,5 +1,3 @@
-import {Jump} from "./Jumps";
-
 export interface TravelSortData {
     distance: number,
     time: number,

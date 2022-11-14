@@ -9,8 +9,6 @@ import React, {useMemo} from "react"
 // @ts-ignore
 import Styles from "./SpellSellerSheet.module.scss"
 import {usePromise} from "../../Util/Helper/PromiseHelper";
-import useSelf from "../../Util/Components/SelfActorSelector";
-import SelfComponent from "../Shared/SelfComponent";
 import {SpellSellerPacks} from "./Settings";
 import {loadPacks} from "../../Util/Identifiers/PackId";
 import ItemTable from "../../Util/Components/ItemTable/ItemTable";
@@ -23,6 +21,7 @@ import {SpellSellerBuy} from "./SpellSellerAction";
 import {getActorId} from "../../Util/Identifiers/ActorID";
 import {getItemId} from "../../Util/Identifiers/ItemID";
 import LogFactory from "../../Util/Logging";
+import {useNewSelf} from "../../Util/React/core/NewSelfSelector";
 
 const log = LogFactory("SpellSellerSheetComponent")
 
@@ -89,7 +88,7 @@ async function getControlColumn(spell, self, merchant, goldAmount): Promise<Cont
 }
 
 export default function SpellSellerSheetComponent({self: selfInput, merchant: merchantInput}) {
-    let {actor: self, component: selfSelector, actorRef} = useSelf()
+    let self = useNewSelf()
     let {value: merchant} = useNPC(merchantInput)
     merchant = merchant!
     let [merchantFlag, setMerchantFlag] = getMerchantFlag(merchant)
@@ -102,7 +101,7 @@ export default function SpellSellerSheetComponent({self: selfInput, merchant: me
             return spells.filter(x=>x.spell().level < 4 && x.spell().level > 0)
                 .filter(x=>hasSpell(self, x))
         }
-    }, [spells, actorRef])
+    }, [spells, self])
 
     self = self!
     return <div>
@@ -110,7 +109,6 @@ export default function SpellSellerSheetComponent({self: selfInput, merchant: me
             <SpellSellerFlagComponent merchantFlag={merchantFlag} setMerchantFlag={setMerchantFlag} />
             <TokenPermission token={merchant} />
         </div> : null }
-        <SelfComponent self={self} selfSelector={selfSelector} />
         {spells ? <ItemTable items={filteredSpells} columns={[
             ItemColumnImage,
             ItemColumnName,

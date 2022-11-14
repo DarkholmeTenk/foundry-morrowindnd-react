@@ -15,7 +15,7 @@ import {usePromise} from "../../../Util/Helper/PromiseHelper";
 import ItemViewer from "../../../Util/Components/ItemViewer";
 import {SellableSourceContext} from "./StoredSellableComponent";
 import {Button, MenuItem, Select, TextField} from "@material-ui/core";
-import {onDrop, onItemDrop} from "../../../Util/Helper/DropHelper";
+import {onItemDrop} from "../../../Util/Helper/DropHelper";
 
 function ReferencedSellableEditor({source, setSource}: SellableSourceEditorArgs<ReferencedSellable>) {
     let context = useContext(SellableSourceContext)

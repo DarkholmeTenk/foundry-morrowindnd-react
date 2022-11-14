@@ -3,7 +3,7 @@ import {TokenSetting} from "./TokenSettings";
 import {useCallback, useState} from "react";
 import {Button, CircularProgress} from "@material-ui/core";
 import {usePromise} from "../Util/Helper/PromiseHelper";
-import {getActor, getActorId} from "../Util/Identifiers/ActorID";
+import {getActor} from "../Util/Identifiers/ActorID";
 import {ActorChooser} from "../Util/Components/SelfActorSelector";
 
 interface TokenSettingComponentArgs {

@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom";
-import AppContext from "./AppContext";
+import {CoreBlock} from "./core/CoreBlock";
 
 export class ReactActorSheet extends ActorSheet {
     xrendered = false
@@ -15,7 +15,7 @@ export class ReactActorSheet extends ActorSheet {
         return {id: this.appId};
     }
 
-    getComponent({npc, self}) {
+    getComponent() {
         return <div />;
     }
 
@@ -25,9 +25,8 @@ export class ReactActorSheet extends ActorSheet {
 
         await super._render(force, ...args);
         if(!force) return
-        let component = this.getComponent({npc: this.object, self: game.user.character})
-        let context = AppContext
-        ReactDOM.render(<context.Provider value={this}>{component}</context.Provider>, document.getElementById(`react-${this.appId}`))
+        let component = this.getComponent()
+        ReactDOM.render(<CoreBlock application={this} document={this.object}>{component}</CoreBlock>, document.getElementById(`react-${this.appId}`))
     }
 }
 
@@ -46,7 +45,7 @@ export class ReactItemSheet extends ItemSheet {
         return {id: this.appId};
     }
 
-    getComponent({item}) {
+    getComponent() {
         return <div />;
     }
 
@@ -56,8 +55,7 @@ export class ReactItemSheet extends ItemSheet {
 
         await super._render(force, ...args);
         if(!force) return
-        let component = this.getComponent({item: this.object, self: game.user.character})
-        let context = AppContext
-        ReactDOM.render(<context.Provider value={this}>{component}</context.Provider>, document.getElementById(`react-${this.appId}`))
+        let component = this.getComponent()
+        ReactDOM.render(<CoreBlock application={this} document={this.object}>{component}</CoreBlock>, document.getElementById(`react-${this.appId}`))
     }
 }

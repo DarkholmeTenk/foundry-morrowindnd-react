@@ -6,11 +6,11 @@ import React, {useContext, useState} from "react";
 import styles from "./ItemQuantitySelector.module.scss"
 import {ReactNodeLike} from "prop-types";
 import {SimpleReactApplication} from "../../Util/React/ReactApplication";
-import AppContext from "../../Util/React/AppContext";
+import ApplicationContext from "../../Util/React/core/ApplicationContext";
 
 export function ItemQuantitySelect({item, max, onConfirm, buttonText = "Confirm", text}: ItemQuantitySelectArgs) {
     let [qty, setQty] = useState(max)
-    let app = useContext(AppContext) as any
+    let app = useContext(ApplicationContext) as any
     let buttonString: ReactNodeLike = ""
     if(typeof(buttonText) === "function") {
         buttonString = buttonText(qty, item)

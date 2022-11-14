@@ -1,8 +1,7 @@
-import React, {ReactElement, useRef} from "react";
+import React, {useRef} from "react";
 import {useCallback, useState} from "react";
 import {useEntity, useNPC} from "../Helper/EntityHelper";
 import {Button, Menu, MenuItem} from "@material-ui/core";
-import {RawActorId} from "../Identifiers/ActorID";
 
 function ActorDisplay({actor}) {
     if(actor) {
@@ -41,21 +40,8 @@ export function ActorChooser({potentialActors, actor, setChosenActor}) {
 }
 
 export function useParty() {
-    let actor = canvas?.scene?.tokens?.map(x=>x.actor)?.find(x=>x?.name?.toLowerCase() == "party") ?? undefined
-    return useSelf(actor)
-}
-
-export default function useSelf(defaultActor?: Actor) {
-    let potentialActors = game.actors!.filter(x=>x.isOwner)
-    let [chosenActor, setChosenActor] = useState(defaultActor?.id ?? game.user!.character?.id)
-    let actorRef = useNPC(chosenActor ? game.actors!.get(chosenActor)! : null)
-    let {value: actor} = actorRef
-    let component: ReactElement | null = null
-    if(potentialActors.length > 1) {
-        component = <ActorChooser potentialActors={potentialActors} actor={actor} setChosenActor={setChosenActor} />
-    }
-    let actorId: RawActorId = {actorId: actor!.id!}
-    return {actor, actorId, component, actorRef}
+    let actor = canvas?.scene?.tokens?.map(x=>x.actor)?.find(x=>x?.name?.toLowerCase() == "party") ?? null
+    return useNPC(actor)
 }
 
 export function useCanvasToken(scene: Scene, actor: Actor | null): TokenDocument | null {

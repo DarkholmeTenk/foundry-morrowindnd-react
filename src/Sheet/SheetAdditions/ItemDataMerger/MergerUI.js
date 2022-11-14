@@ -1,7 +1,3 @@
-import MergerUIComponent from "./MergerUIComponent";
-import {getItemMapping} from "./Merger";
-import {SimpleReactApplication} from "../../../Util/React/ReactApplication";
-
 Hooks.on("renderActorSheet", (app, html)=>{
     /*let actor = app.object
     if(actor.data.type === "character" && game.user.isGM) {

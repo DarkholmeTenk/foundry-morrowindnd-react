@@ -2,8 +2,8 @@ import {ReactActorSheet} from "../../Util/React/SheetHelper";
 import MerchantSheetComponent from "./MerchantSheetComponent";
 
 export class MerchantSheet extends ReactActorSheet {
-    getComponent({npc}) {
-        return <MerchantSheetComponent merchant={npc} />
+    getComponent() {
+        return <MerchantSheetComponent merchant={this.object} />
     }
 }
 

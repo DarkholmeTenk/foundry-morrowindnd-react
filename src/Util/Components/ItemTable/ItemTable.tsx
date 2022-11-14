@@ -4,8 +4,7 @@ import {
     Table,
     TableBody,
     TableCell,
-    TableContainer,
-    TableHead,
+    TableContainer, TableHead,
     TablePagination,
     TableRow
 } from "@material-ui/core";
@@ -85,14 +84,17 @@ export default function ItemTable({items, columns, extraProps}: ItemTableArgumen
                     }
                 </TableBody>
             </Table>
+        </TableContainer>
+        <div style={{display: "flex"}}>
             <TablePagination
                 rowsPerPageOptions={[10, 20, 40, 100]}
                 count={filtered.length}
+                component="div"
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
                 onChangeRowsPerPage={handleChangeRowsPerPage}
-             />
-        </TableContainer>
+            />
+        </div>
     </div>
 }

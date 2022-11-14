@@ -6,10 +6,10 @@ import {useImageChooser} from "./ImageChooser";
 import {Button} from "@material-ui/core";
 import {useNpcNameData} from "./NPCMakerApi";
 import {setupFolder} from "../Util/Helper/FolderHelper";
-import AppContext from "../Util/React/AppContext";
+import ApplicationContext from "../Util/React/core/ApplicationContext";
 
 export default function NPCViewer({filtered, choice}) {
-    let appContext = useContext(AppContext)
+    let appContext = useContext(ApplicationContext)
     let {loading, data} = useNpcNameData()
     let {image, component: imageComponent} = useImageChooser(filtered)
     let {name, component: nameComponent} = useName(data, image, choice)

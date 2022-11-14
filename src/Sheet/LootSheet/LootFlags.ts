@@ -1,5 +1,4 @@
 import {ActorId} from "../../Util/Identifiers/ActorID";
-import {ItemId} from "../../Util/Identifiers/ItemID";
 
 export enum Desire {
     NEED,

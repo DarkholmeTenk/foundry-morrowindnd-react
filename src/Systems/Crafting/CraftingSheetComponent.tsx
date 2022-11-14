@@ -1,7 +1,7 @@
-import useSelf from "../../Util/Components/SelfActorSelector";
 import {Tab, Tabs} from "@material-ui/core";
 import {useState} from "react";
 import AlchemyCraftingCoordinator from "./Alchemy/AlchemyCraftingCoordinator";
+import {useNewSelf} from "../../Util/React/core/NewSelfSelector";
 
 let tabs = [
     {
@@ -11,7 +11,7 @@ let tabs = [
 ]
 
 export default function CraftingSheetComponent() {
-    let {actor, component} = useSelf()
+    let actor = useNewSelf()
     let [tab, setTab] = useState(tabs[0].id)
     let tabComps = tabs.map((t)=><Tab value={t.id} label={t.id} />)
     let CurrentTab = (tabs.find(x=>x.id === tab) ?? tabs[0])!.sheet
@@ -19,7 +19,6 @@ export default function CraftingSheetComponent() {
         <Tabs value={tab} onChange={(e,v)=>setTab(v)}>
             {tabComps}
         </Tabs>
-        {component}
         <CurrentTab self={actor} />
     </div>
 }

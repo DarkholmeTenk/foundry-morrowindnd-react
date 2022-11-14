@@ -1,4 +1,3 @@
-import {RegularSettings} from "../../../Settings/Settings";
 import {getAlchemyEffect} from "./AlchemyEffectHelper";
 import {Tooltip} from "@material-ui/core";
 

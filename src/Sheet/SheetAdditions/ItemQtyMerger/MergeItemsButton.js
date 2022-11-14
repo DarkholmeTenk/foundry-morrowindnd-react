@@ -1,5 +1,5 @@
 import LogFactory from "../../../Util/Logging";
-import {addItem, fixItemData} from "../../../Util/Helper/ItemTransferHelper";
+import {fixItemData} from "../../../Util/Helper/ItemTransferHelper";
 
 const {mergeItemData} = require("../../../Util/Helper/ItemHelper.ts");
 

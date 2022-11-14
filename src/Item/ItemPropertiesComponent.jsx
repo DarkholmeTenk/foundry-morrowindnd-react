@@ -1,11 +1,11 @@
 import {useCallback, useContext, useState} from "react";
 import SoulGemPropertiesComponent from "./Enchanting/SoulGems/SoulGemPropertiesComponent";
-import AppContext from "../Util/React/AppContext";
+import ApplicationContext from "../Util/React/core/ApplicationContext";
 import {AlchemyIngredientEditor} from "./Alchemy/Ingredient/AlchemyIngredientEditor";
 import {Button} from "@material-ui/core";
 
 export default function ItemPropertiesComponent({flag, setFlag}) {
-    let app = useContext(AppContext)
+    let app = useContext(ApplicationContext)
     let [state, setState] = useState(flag || {})
     let setSoulGem = useCallback((v)=>setState({...state, soulGem: v}), [state, setState])
     let setAlchemy = useCallback((v)=>setState({...state, alchemy: v}), [state, setState])

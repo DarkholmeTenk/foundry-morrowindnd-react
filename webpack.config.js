@@ -3,6 +3,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const webpack = require('webpack');
 const ReactRefreshTypeScript = require('react-refresh-typescript');
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
 
 module.exports = (env, argv) => {
     let dev = argv.mode === "development"
@@ -10,7 +11,20 @@ module.exports = (env, argv) => {
         loader: 'babel-loader',
         options: {
             presets: [["@babel/preset-react", {"runtime": "automatic", modules: false}]],
-            plugins: ["@babel/plugin-proposal-class-properties", dev && require.resolve('react-refresh/babel')].filter(Boolean)
+            plugins: [
+                [
+                    'babel-plugin-import',
+                    {
+                        'libraryName': '@material-ui/core',
+                        // Use "'libraryDirectory': ''," if your bundler does not support ES modules
+                        'libraryDirectory': 'esm',
+                        'camel2DashComponentName': false
+                    },
+                    'core'
+                ],
+                "@babel/plugin-proposal-class-properties",
+                dev && require.resolve('react-refresh/babel'),
+            ].filter(Boolean)
         }
     }
     let loaders = [babelLoader]
@@ -43,7 +57,7 @@ module.exports = (env, argv) => {
         },
         plugins: [
             dev && new webpack.HotModuleReplacementPlugin(),
-            dev && new ReactRefreshWebpackPlugin({overlay: false, }),
+            dev && new ReactRefreshWebpackPlugin({overlay: false, })
         ].filter(Boolean),
         resolve: {
             extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],

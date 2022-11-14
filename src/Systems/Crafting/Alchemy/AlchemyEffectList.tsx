@@ -1,5 +1,5 @@
 import {IngredientData} from "../../../Item/Alchemy/Ingredient/AlchemyIngredientFlag";
-import {FormControl, FormControlLabel, Radio, RadioGroup} from "@material-ui/core";
+import {FormControlLabel, Radio, RadioGroup} from "@material-ui/core";
 import {getAlchemyEffect} from "../../../Item/Alchemy/AlchemyEffects/AlchemyEffectHelper";
 import {useCallback} from "react";
 

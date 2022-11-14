@@ -2,7 +2,7 @@ import {AlchemyEffect, AlchemyEffects, AlchemyResult, DefaultAlchemyEffect} from
 import {useCallback, useState} from "react";
 import {onItemDrop} from "../../../Util/Helper/DropHelper";
 import {getItem, getItemId} from "../../../Util/Identifiers/ItemID";
-import {Button, TextField} from "@material-ui/core";
+import {TextField} from "@material-ui/core";
 import ItemViewer from "../../../Util/Components/ItemViewer";
 import {usePromise} from "../../../Util/Helper/PromiseHelper";
 import IconButton from "../../../Util/Components/IconButton";

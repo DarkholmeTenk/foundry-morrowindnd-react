@@ -1,7 +1,7 @@
 import {useContext, useState} from "react";
 import {Button, TextField} from "@material-ui/core";
 import doRollTable from "../../RollTable/Rolling/TableRoller";
-import AppContext from "../../Util/React/AppContext";
+import ApplicationContext from "../../Util/React/core/ApplicationContext";
 import {addItem} from "../../Util/Helper/ItemTransferHelper";
 import {callRoll} from "../../Util/Helper/RollHelper";
 import {mergeItemData} from "../../Util/Helper/ItemHelper";
@@ -20,7 +20,7 @@ async function getResult(roll, qty, table) {
 export default function TokenLootDropComponent({actor, table}) {
     let [roll, setRoll] = useState("1d3")
     let [qty, setQty] = useState("1")
-    let app = useContext(AppContext)
+    let app = useContext(ApplicationContext)
     return <div>
         {table.name}
         <TextField label="Roll" value={roll} onChange={(e)=>setRoll(e.target.value)} />

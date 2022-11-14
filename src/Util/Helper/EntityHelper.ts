@@ -5,7 +5,7 @@ import LogFactory from "../Logging";
 
 const log = LogFactory("EntityHelper")
 
-export type Entity = Actor | Item | TokenDocument
+export type Entity = Actor | Item | TokenDocument | JournalEntry
 interface UseEntityParams<T extends Entity> {
     type: string,
     entity: T | null
@@ -24,7 +24,10 @@ export function useEntity<T extends Entity>({type, entity}: UseEntityParams<T>):
         }
     }, [entity, current])
     useEffect(()=>{
-        if(!entity) return
+        if(!entity || !type) return
+        if(uuid !== current.entity?.uuid) {
+            setCurrent({entity})
+        }
         let hookID = Hooks.on(`update${type}`, (newActor)=>{
             if(newActor.uuid == uuid) {
                 setCurrent({entity: newActor})
@@ -52,4 +55,14 @@ export function useActor(actorId?: ActorId): {value: Actor | null, loading: Bool
     let {value} = useNPC(loading ? null : result)
     if(loading) return {value: null, loading}
     return {value, loading}
+}
+
+export function useSmartEntity<T extends Entity>(entity: T | null): {value: T | null} {
+    let npcResult = useNPC(entity instanceof Actor ? entity : null)
+    let entityResult = useEntity(entity == null ? {type: "null", entity: null} : {type: entity.documentName, entity})
+    if(entity instanceof Actor) {
+        return npcResult as UseEntityResult<T>
+    } else {
+        return entityResult
+    }
 }

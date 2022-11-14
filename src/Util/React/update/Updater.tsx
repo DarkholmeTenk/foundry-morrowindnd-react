@@ -1,4 +1,4 @@
-import {Dispatch, SetStateAction, useCallback, useMemo} from "react";
+import {Dispatch, SetStateAction, useMemo} from "react";
 
 export type UpdateCallback<T> = (oldValue: T)=>T
 export interface BaseUpdater<T> {

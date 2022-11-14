@@ -1,12 +1,11 @@
 import GoldDisplay from "../../Util/Components/GoldDisplay";
-import {Button, Card, CardActions, CardContent, CardHeader, Input, Typography} from "@material-ui/core";
+import {Button, Card, CardActions, CardContent, Input, Typography} from "@material-ui/core";
 import React, {useCallback, useState} from "react";
 import {getGoldDetails, useLootSheetFlag} from "./LootSheetGoldUtil";
 import {LootSplitGold} from "./LootAction";
 import {getActorId} from "../../Util/Identifiers/ActorID";
 import {addGold, removeGold} from "../../Util/Helper/GoldHelper";
 import {UserGroupSelector} from "../../Util/Helper/UserHelper";
-
 
 export default function GoldSection({npc, disabled}) {
     let {flag, setFlag} = useLootSheetFlag(npc)

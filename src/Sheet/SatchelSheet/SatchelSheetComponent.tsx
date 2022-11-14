@@ -1,5 +1,4 @@
 import {addItemToSatchel, getSatchelFlag, getSatchelItems} from "./SatchelItemFlags";
-import useSelf from "../../Util/Components/SelfActorSelector";
 import {usePromise} from "../../Util/Helper/PromiseHelper";
 import {CircularProgress} from "@material-ui/core";
 import {onDrop} from "../../Util/Helper/DropHelper";
@@ -8,6 +7,7 @@ import {useEntity} from "../../Util/Helper/EntityHelper";
 import {useMemo} from "react";
 import ItemTable from "../../Util/Components/ItemTable/ItemTable";
 import {ItemColumnDefaults} from "../../Util/Components/ItemTable/ItemTableDefaults";
+import {useNewSelf} from "../../Util/React/core/NewSelfSelector";
 
 function SatchelItemTable({satchel, items}) {
     return <div>
@@ -21,7 +21,7 @@ function SatchelItemTable({satchel, items}) {
 export default function SatchelSheetComponent({item}) {
     let {value: itemObj} = useEntity({type: "Item", entity: item})
     let satchel = useMemo(()=>getSatchelFlag(itemObj), [itemObj])
-    let {actor: self, component: selfSelector} = useSelf()
+    let self = useNewSelf()
     let {result: items, loading} = usePromise(()=>getSatchelItems(satchel), [itemObj])
     let onDropHandler = onDrop((i)=> {
         if(i instanceof Item) {
@@ -32,7 +32,6 @@ export default function SatchelSheetComponent({item}) {
     console.log(item)
     return <div onDrop={onDropHandler}>
         {JSON.stringify(item.isOwner)}
-        {selfSelector}
         {JSON.stringify(item.data)}
         {loading ? <CircularProgress /> : <SatchelItemTable satchel={satchel} items={items} /> }
     </div>

@@ -1,12 +1,12 @@
 import {useCallback, useContext, useState} from "react";
 import Selector from "../../Util/Components/Selector";
 import {Button} from "@material-ui/core";
-import AppContext from "../../Util/React/AppContext";
+import ApplicationContext from "../../Util/React/core/ApplicationContext";
 
 export default function TokenLootSetupComponent({flag, setFlag}) {
     let tables = game.tables
     let [rollTables, setRollTables] = useState(flag?.rollTableIds || [])
-    let app = useContext(AppContext)
+    let app = useContext(ApplicationContext)
     let removeTable = useCallback((slot)=>{
         let newRollTables = [...rollTables]
         newRollTables.splice(slot, 1)

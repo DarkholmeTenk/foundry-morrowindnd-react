@@ -22,6 +22,7 @@ declare global {
         clz: ()=>ClassItem,
         qty: ()=>number,
         weight: ()=>number,
+        price: ()=>number
     }
 }
 Item.prototype.consumable = function () { return this.data.data as Consumable }
@@ -31,6 +32,11 @@ Item.prototype.weight = function () { return (this as any).data?.data?.weight ??
 Item.prototype.subData = function() { return (this.data?.data) as BaseItemData}
 Item.prototype.qty = function(): number {
     let r = (this.data.data as any).quantity as number
+    if(!r) return 0
+    return r
+}
+Item.prototype.price = function(): number {
+    let r = (this.data.data as any).price as number
     if(!r) return 0
     return r
 }

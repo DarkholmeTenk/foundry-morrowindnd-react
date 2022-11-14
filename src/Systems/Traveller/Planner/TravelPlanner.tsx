@@ -1,5 +1,5 @@
 import React from "react"
-import useSelf, {useCanvasToken, useParty} from "../../../Util/Components/SelfActorSelector";
+import {useCanvasToken, useParty} from "../../../Util/Components/SelfActorSelector";
 import {getSceneNoteData} from "../Data/NoteDataUtil";
 import {NoteData} from "../Data/NoteData";
 import {calculateDijkstra, DijkstraData} from "./Dijkstra";
@@ -50,19 +50,18 @@ function SceneTravelPlanner({party, partyToken, noteData}: SceneTravelPlannerArg
 }
 
 export default function TravelPlanner() {
-    let {actor, component} = useParty()
+    let {value: actor} = useParty()
     let token = useCanvasToken(canvas?.scene!, actor)
     let scene = canvas?.scene
     let sceneData = scene ? getSceneNoteData(scene) : undefined
     if(sceneData && sceneData.length > 1) {
         if (actor && token) {
             return <div style={{width: '100%'}}>
-                {component}
                 <SceneTravelPlanner party={actor} partyToken={token} noteData={sceneData}/>
             </div>
         } else if (sceneData) {
             return <>
-                {component}
+                No Party can be found
             </>
         }
     } else {

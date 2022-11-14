@@ -8,8 +8,8 @@ export class SpellSellerSheet extends ReactActorSheet {
         })
     }
 
-    getComponent({npc, self}) {
-        return <SpellSellerSheetComponent merchant={npc} self={self}/>
+    getComponent() {
+        return <SpellSellerSheetComponent merchant={this.object}/>
     }
 }
 

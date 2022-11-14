@@ -1,7 +1,7 @@
 import {useContext, useState} from "react";
 import {doMerge} from "./Merger";
 import {Button} from "@material-ui/core";
-import AppContext from "../../../Util/React/AppContext";
+import ApplicationContext from "../../../Util/React/core/ApplicationContext";
 
 function SingleRow({selected, setSelected, item, matchedItem, differences}) {
     return <div>
@@ -20,7 +20,7 @@ function getInitialSelected(mappings) {
 }
 
 export default function MergerUIComponent({actor, mappings}) {
-    let app = useContext(AppContext)
+    let app = useContext(ApplicationContext)
     let [selected, setSelected] = useState(()=>getInitialSelected(mappings))
     return <div>
         {Object.keys(mappings).map(itemId=>{

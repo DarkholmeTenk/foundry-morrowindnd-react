@@ -4,7 +4,7 @@ import ItemViewer from "../../Util/Components/ItemViewer.tsx";
 import Selector from "../../Util/Components/Selector";
 import {getEnchantData} from "./Enchanter";
 import {onDrop} from "../../Util/Helper/DropHelper";
-import AppContext from "../../Util/React/AppContext";
+import ApplicationContext from "../../Util/React/core/ApplicationContext";
 
 
 /**
@@ -14,7 +14,7 @@ import AppContext from "../../Util/React/AppContext";
 export default function EnchantingFormComponent({item}) {
     let ItemClass = item.constructor
     let sizes = EnchantConfig.instance.CastableSizes
-    let App = useContext(AppContext)
+    let App = useContext(ApplicationContext)
     let [spell, setSpell] = useState(null)
     let [charges, setCharges] = useState(sizes[0])
     let result = (spell && item) ? new ItemClass(getEnchantData({itemData: item.data, spellData: spell.data, charges})) : null

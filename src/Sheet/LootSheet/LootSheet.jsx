@@ -9,8 +9,8 @@ export class LootSheet extends ReactActorSheet {
         })
     }
 
-    getComponent({npc, self}) {
-        return <LootSheetComponent npc={npc} self={self}/>
+    getComponent() {
+        return <LootSheetComponent npc={this.object}/>
     }
 }
 

@@ -15,9 +15,7 @@ for(let i=0;i<scripts.length;i++) {
 }
 
 if(window.location.hostname === "localhost") {
-    let script = document.createElement("script")
-    script.src = "http://localhost:8080/bundle.js"
-    document.head.appendChild(script)
+    import("http://localhost:8080/bundle.js")
 } else {
     import("./dist/bundle.js")
 }
