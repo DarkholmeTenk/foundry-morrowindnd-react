@@ -92,7 +92,7 @@ export function ItemTableFilter({items, filter, setFilter}: ItemTableFilterArgs)
     </div>
 }
 
-type FilterFunction = (item: Item) => boolean
+type FilterFunction = (item: Item5e) => boolean
 export function generateFilterFunction(filter: Partial<Filter>): FilterFunction {
     let filters: FilterFunction[] = []
     if(filter.name)
@@ -100,6 +100,6 @@ export function generateFilterFunction(filter: Partial<Filter>): FilterFunction 
     if(filter.itemTypes)
         filters.push((i)=>!filter.itemTypes![i.type])
     if(filter.spellTypes)
-        filters.push((i)=>i.type !== "spell" || !filter.spellTypes![i.spell().school])
+        filters.push((i)=>i.type !== "spell" || !filter.spellTypes![i.system.school ?? "unknown"])
     return (item)=>filters.every(f=>f(item))
 }

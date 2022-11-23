@@ -1,6 +1,7 @@
 import EnchantConfig, {SoulSize} from "../EnchantConfig";
 import {getProperties, ITEM_FLAG} from "../../ItemProperties";
 import {addItem} from "../../../Util/Helper/ItemTransferHelper";
+import {itemQty} from "../../../Util/Items";
 
 interface SoulInfo {
     size: SoulSize,
@@ -48,28 +49,29 @@ export async function fillActorSoulGem(actor: Actor, deadActor: Actor) {
         let gem = getSoulGems(actor, info => !info.fillSize && info.size.size >= soulSize!.size).find(() => true)
 
         if (gem) {
-            let qty = (gem.data.data as any).quantity || 1
+            let qty = itemQty(gem) || 1
             if (qty > 1) {
                 await gem.update({"data.quantity": qty - 1})
             } else {
                 await gem.delete()
             }
+            let source = gem._source
             let newGemData: any = {
-                ...gem.data,
+                ...source,
                 name: `Filled ${gem.name} - (${soulSize.label} - ${deadActor.name})`,
-                data: {
-                    ...gem.data.data,
+                system: {
+                    ...source.system,
                     quantity: 1
                 }
             }
             newGemData.flags["MorrowinDnDReact"][ITEM_FLAG].soulGem.fillSize = soulSize.label
-            await addItem(actor, newGemData)
+            await addItem(actor.uuid, newGemData)
         }
     }
 }
 
 export function getSoulLevel(actor: Actor) {
-    let data = actor.data.data as any
+    let data = actor.system as any
     let cr = data.details?.cr || 0
     let type = data.details?.type || ""
     if(type.toLowerCase().includes("humanoid")) {

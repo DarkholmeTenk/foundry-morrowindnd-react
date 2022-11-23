@@ -3,7 +3,6 @@ import {Button, Card, CardActions, CardContent, Input, Typography} from "@materi
 import React, {useCallback, useState} from "react";
 import {getGoldDetails, useLootSheetFlag} from "./LootSheetGoldUtil";
 import {LootSplitGold} from "./LootAction";
-import {getActorId} from "../../Util/Identifiers/ActorID";
 import {addGold, removeGold} from "../../Util/Helper/GoldHelper";
 import {UserGroupSelector} from "../../Util/Helper/UserHelper";
 
@@ -16,7 +15,7 @@ export default function GoldSection({npc, disabled}) {
         setFlag({...flag, goldTakers: takerUpdate(flag.goldTakers || {})})
     }, [takers, setFlag])
     let loot = useCallback(()=>{
-        LootSplitGold({lootId: getActorId(npc)})
+        LootSplitGold({lootId: npc.uuid})
     }, [npc])
     let setGold = useCallback(async ()=>{
         let ng = parseFloat(newGold)

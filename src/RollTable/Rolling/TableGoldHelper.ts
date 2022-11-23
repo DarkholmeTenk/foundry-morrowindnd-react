@@ -39,7 +39,7 @@ export class CurrencyItem implements RollData {
 
 	getModifications(actorData) {
 		let modifications = {}
-		let currency = actorData?.data?.currency || {}
+		let currency = actorData?.system?.currency || {}
 		this.map((value, type)=>{
 			if(!value) return;
 			let existingValue = getActorDataCurrencyAmount(currency[type]) || 0;

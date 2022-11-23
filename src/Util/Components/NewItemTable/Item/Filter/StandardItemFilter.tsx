@@ -11,9 +11,9 @@ export type ItemFilterState = Partial<{
     itemTypes: Record<string, boolean>,
     spellTypes: Record<string, boolean>
 }>
-const getSchool = (i: Item) => i.type === "spell" ? i.spell().school : ""
+const getSchool = (i: Item5e) => i.type === "spell" ? i.system.school : ""
 const schoolTypes = mapItemTypeRecord(SpellSchools)
-const getType = (i: Item) => i.type
+const getType = (i: Item5e) => i.type
 const itemTypes = mapItemTypeRecord(ItemTypes)
 
 function ItemTypeControls({items, filter, setFilter}) {
@@ -54,7 +54,7 @@ export const StandardItemFilter: ItemTableFilter<Item, ItemFilterState> = {
     generateFilter: generateFilterFunction
 }
 
-type FilterFunction = (item: Item) => boolean
+type FilterFunction = (item: Item5e) => boolean
 export function generateFilterFunction(filter: ItemFilterState): FilterFunction {
     let filters: FilterFunction[] = []
     if(filter.name) {
@@ -64,6 +64,6 @@ export function generateFilterFunction(filter: ItemFilterState): FilterFunction 
     if(filter.itemTypes)
         filters.push((i)=>!filter.itemTypes![i.type])
     if(filter.spellTypes)
-        filters.push((i)=>i.type !== "spell" || !filter.spellTypes![i.spell().school])
+        filters.push((i)=>i.type !== "spell" || !filter.spellTypes![i.system.school])
     return (item)=>filters.every(f=>f(item))
 }

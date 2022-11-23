@@ -48,14 +48,14 @@ export function getActorDataCurrencyAmount(x: any): number {
     }
 }
 
-export function getGoldAmountFromActor(data: any): number {
-    if(data.data) data = data.data
-    if(data.currency) data = data.currency
+export function getGoldAmountFromActor(actor: Actor5e): number {
+    //TODO: FIX GOLD GET
+    let data = actor.system.currency
     return CurrencyRates.reduce((acc, {m, name})=>acc + ((getActorDataCurrencyAmount(data[name]) || 0) * m), 0)
 }
 
 export async function removeGold(actor: Actor, amount: number) {
-    let currency = (actor.data.data as any).currency
+    let currency = actor.system.currency
     let remaining = amount
     let newAmounts = {}
     CurrencyRates.forEach(({name, m})=>{
@@ -73,6 +73,6 @@ export async function removeGold(actor: Actor, amount: number) {
 export async function addGold(actor: Actor, amount: number) {
     let breakdown = getGoldBreakdown(amount)
     let currency = new CurrencyItem(breakdown)
-    let mod = currency.getModifications(actor.data)
+    let mod = currency.getModifications(actor._source)
     await actor.update(mod)
 }

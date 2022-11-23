@@ -7,20 +7,20 @@ export default class TableItemRollData implements RollData {
     constructor(private readonly item: Item, private readonly qtyMult: number = 1) {}
 
     get isSpell() {
-        return this.item.data.type === "spell"
+        return this.item.type === "spell"
     }
 
     applyItemModification(itemData: any): any {
         if(isSpellEnchantable(itemData) && this.isSpell) {
             let charges = getRandomCharge()
-            return getEnchantData({itemData, charges, spellData: this.item.data})
+            return getEnchantData({itemData, charges, spellData: this.item._source})
         } else {
             return itemData
         }
     }
 
     getItemData(): any[] {
-        let newData = clone(this.item.data)
+        let newData = clone(this.item._source)
         let newItemData = {
             ...newData,
             data: {

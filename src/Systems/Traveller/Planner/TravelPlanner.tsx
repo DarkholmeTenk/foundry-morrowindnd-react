@@ -43,7 +43,7 @@ interface SceneTravelPlannerArgs {
     noteData: NoteData[]
 }
 function SceneTravelPlanner({party, partyToken, noteData}: SceneTravelPlannerArgs) {
-    let dijkstra = calculateDijkstra(partyToken.data, noteData, TimeSorter.sorter)
+    let dijkstra = calculateDijkstra(partyToken, noteData, TimeSorter.sorter)
     return <>
         {Object.keys(dijkstra).map(k=><DijkstraDataRow key={k} row={dijkstra[k]} />)}
     </>

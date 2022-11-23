@@ -39,7 +39,7 @@ export class TravelCanvasLayer extends CanvasLayer {
         if(TravellerSettings.ShowMages.value) this.addChild(new MageLayer(notes))
         this.addChild(new P2PLayer(notes))
         notes.forEach(({note, travel})=>{
-            this.addChild(new NoteCircle(travel.isDark, note.data.x, note.data.y))
+            this.addChild(new NoteCircle(travel.isDark, note.x, note.y))
         })
 
         return this;

@@ -52,10 +52,10 @@ function PermissionControlRow({user, state, setState}: {user: UserInfo, state: P
 export function PermissionControls<T extends Document>({document}: {document: MyDocument}) {
     let isGm = useIsGm()
     if(!isGm) return null
-    let perms = document.data.permission
+    let perms = document.ownership
     let users = game.users?.contents?.filter(x=>x !== game.user) ?? []
     let updatePerms = useCallback(async (user: string, state: PermValue)=>{
-        await document.update({[`permission.${user}`]: state})
+        await document.update({[`ownership.${user}`]: state})
     }, [])
     return <div>
         <PermissionControlRow user={DefaultUser} state={perms} setState={updatePerms} />

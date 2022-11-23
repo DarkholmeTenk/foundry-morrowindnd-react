@@ -2,7 +2,6 @@ import {Fragment, useState} from "react";
 import GoldDisplay from "../../Util/Components/GoldDisplay";
 import {getSellPrice} from "./MerchantFlag";
 import {openItemQuantitySelect} from "../LootSheet/ItemQuantitySelector.tsx";
-import {getActorId} from "../../Util/Identifiers/ActorID";
 import {MerchantSell} from "./MerchantAction";
 import {Button, Paper} from "@material-ui/core";
 import ItemTable from "../../Util/Components/ItemTable/ItemTable";

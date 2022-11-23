@@ -6,10 +6,9 @@ const log = LogFactory("DropHelper")
 const map = ()=>({
     "Item": {cons: Item, coll: game.items},
     "Actor": {cons: Actor, coll: game.actors},
-    "JournalEntry": {cons: Journal, coll: game.journal},
+    "JournalEntry": {cons: JournalEntry, coll: game.journal},
     "Scene": {cons: Scene, coll: game.scenes},
     "RollTable": {cons: RollTable, coll: game.tables},
-    "Macro": {cons: Macro, coll: game.macros}
 })
 
 async function loadThing(event) {

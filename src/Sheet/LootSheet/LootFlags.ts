@@ -1,5 +1,3 @@
-import {ActorId} from "../../Util/Identifiers/ActorID";
-
 export enum Desire {
     NEED,
     GREED,
@@ -7,7 +5,7 @@ export enum Desire {
 }
 
 type PlayerDesire =  {
-    player: ActorId,
+    player: UUID,
     desire: Desire
 }
 

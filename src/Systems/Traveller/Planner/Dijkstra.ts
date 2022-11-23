@@ -47,7 +47,7 @@ export function calculateDijkstra(location: SimplePos, noteData: NoteData[], sor
                     jumps: [...from.jumps, next],
                     ...newData
                 }
-                queue.add(getJumps(next.to.note.data, next.to, noteData))
+                queue.add(getJumps(next.to.note, next.to, noteData))
             }
         } else {
             map[nextId] = {
@@ -55,7 +55,7 @@ export function calculateDijkstra(location: SimplePos, noteData: NoteData[], sor
                 jumps: [...from.jumps, next],
                 ...newData
             }
-            queue.add(getJumps(next.to.note.data, next.to, noteData))
+            queue.add(getJumps(next.to.note, next.to, noteData))
         }
     }
     return map

@@ -1,7 +1,7 @@
-import {getItem, OwnedItemId} from "../Identifiers/ItemID";
-import {ActorSource, getActor} from "../Identifiers/ActorID";
 import LogFactory from "../Logging";
 import {cloneItemData} from "./ItemHelper";
+import {itemQty} from "../Items";
+import {loadActor, loadItem} from "../Identifiers/UuidHelper";
 
 const Log = LogFactory("ItemTransferHelper")
 
@@ -22,8 +22,8 @@ export function fixItemData(itemData: any, options: ExtraAddItemOptions) {
     return itemData
 }
 
-export async function addItem(actorSource: ActorSource, itemData: AddableItemData, options: DocumentModificationContext & ExtraAddItemOptions = {}) {
-    let actor = await getActor(actorSource)
+export async function addItem(actorSource: UUID, itemData: AddableItemData, options: DocumentModificationContext & ExtraAddItemOptions = {}) {
+    let actor = loadActor.sync(actorSource)!
     let itemArr = (Array.isArray(itemData) ? itemData : [itemData]).map(i => fixItemData(i, options))
     let updating: any[] = []
     let newArr: any[] = []
@@ -43,14 +43,14 @@ export async function addItem(actorSource: ActorSource, itemData: AddableItemDat
     }
 }
 
-export async function removeItem(itemId: OwnedItemId, qty: number): Promise<any> {
-    let item = await getItem(itemId)
+export async function removeItem(itemId: UUID, qty: number): Promise<any> {
+    let item = await loadItem(itemId)
     if(!item) return null
-    let itemQty = (item.data.data as any).quantity || 1
-    if(qty >= itemQty) {
-        await item.delete({})
+    let iQty = itemQty(item) || 1
+    if(qty >= iQty) {
+        await item.delete()
     } else {
-        await item.update({"data.quantity": itemQty - qty})
+        await item.update({"data.quantity": iQty - qty})
     }
-    return item.data
+    return item._source
 }

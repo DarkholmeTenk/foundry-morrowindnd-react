@@ -1,8 +1,6 @@
-import {ItemId} from "../../../Util/Identifiers/ItemID";
-import {PackId} from "../../../Util/Identifiers/PackId";
 
 export interface SellableItem {
-    item: Item,
+    item: Item5e,
     qty?: number
 }
 
@@ -11,11 +9,11 @@ export interface Sellable {
 }
 
 export interface SimpleSellable extends Sellable {
-    itemId?: ItemId
+    itemId?: UUID
 }
 
 export interface FilterSellable extends Sellable {
-    packOverride?: PackId[]
+    packOverride?: UUID[]
     filter: string
 }
 

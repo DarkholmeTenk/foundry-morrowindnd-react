@@ -58,7 +58,7 @@ Hooks.on('journalSheetMenuItems', (addMenuItem, app, html, data) => {
         callback: ()=>{
             let note = app.object as JournalEntry
             let travel = getTravelData(note)!
-            let otherNodes = Journal.instance.map(entry=>{
+            let otherNodes = game.journal.map(entry=>{
                 let travel = getTravelData(entry)
                 if(!travel) return null
                 return { entry: entry as JournalEntry, travel}

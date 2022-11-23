@@ -1,13 +1,14 @@
 import LoggerFactory from "../../Util/Logging"
 import {RollData, RollTableArguments, TableHelper} from "./TableHelper";
 import TableItemRollData from "./TableItemRollData";
-import {loadPacks} from "../../Util/Identifiers/PackId";
 import {SpellPackSetting} from "./Settings";
+import {loadPack} from "../../Util/Identifiers/PackHelper";
+import {isSpell} from "../../Constants/SpellConstants";
 
 const log = LoggerFactory("TableSpellHelper")
 
 export async function getAllSpells(): Promise<Item[]> {
-	let packSpells = await loadPacks<Item>(SpellPackSetting.value)
+	let packSpells = await loadPack(SpellPackSetting.value, isSpell)
 	let byName: {[name: string]: Item} = {}
 	packSpells.forEach(s=>byName[s.name || ""] = s)
 	return Object.values(byName)

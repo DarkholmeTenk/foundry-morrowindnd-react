@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from "react";
 import Selector from "../../Util/Components/Selector";
-import {getPack, getPackId} from "../../Util/Identifiers/PackId";
 import {Button} from "@material-ui/core";
+import {getPackId} from "../../Util/Identifiers/PackHelper";
 
 export const PackSelectorOptions = {
     width: 600,
@@ -9,7 +9,7 @@ export const PackSelectorOptions = {
 }
 
 function labeler(x){
-    let meta = getPack(x)?.metadata
+    let meta = game.packs.get(x)?.metadata
     let name = meta?.label || "?"
     let source = meta?.package || "?"
     return `${name} (${source})`

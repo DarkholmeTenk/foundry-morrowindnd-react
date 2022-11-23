@@ -11,13 +11,13 @@ export default class TPLayer extends PIXI.Container {
     }
 
     draw() {
-        let closest = getTeleportDestinations(canvas!.tokens!.controlled[0], this.notes)
+        let closest = getTeleportDestinations(canvas.tokens.controlled[0], this.notes)
         this.notes.forEach(({note, travel})=>{
             let matched = teleportation.filter(({id})=>travel[id])
             let count = matched.length
             matched.forEach(({id, color}, index)=>{
                 let angle = (Math.PI / count) * index
-                let position = shift(note.data, angle, 35)
+                let position = shift(note, angle, 35)
                 let fill: FillStyle | undefined = undefined
                 let line: LineStyle = {width: 2, color}
                 if(closest[id] && closest[id].some(x=>x.note.id == note.id)) {

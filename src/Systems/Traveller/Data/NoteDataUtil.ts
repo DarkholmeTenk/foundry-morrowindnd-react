@@ -25,7 +25,7 @@ export function getTravelData(note): TravelData | undefined {
 }
 
 export function getSceneNoteData(scene: Scene): NoteData[] {
-    return scene.data.notes.map(note=>{
+    return scene.notes.map(note=>{
         let entry = note.entry!
         let travel = getTravelData(entry)
         if(!travel || !travel.isTravel) return null
@@ -42,7 +42,7 @@ export function getTeleportDestinations(location: SimplePos | undefined, notes: 
             let closest: NoteData[] = []
             if(location && tpNodes.length > 0) {
                 let closestNode = tpNodes
-                    .map(d => ({d, dist: getDistance(d.note.data, location)}))
+                    .map(d => ({d, dist: getDistance(d.note, location)}))
                     .reduce((p, c) => c.dist < p.dist ? c : p)
                 closest = [closestNode.d]
             }

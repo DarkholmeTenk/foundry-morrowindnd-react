@@ -1,7 +1,6 @@
 import {useCallback, useContext, useState} from "react";
 import SoulGemPropertiesComponent from "./Enchanting/SoulGems/SoulGemPropertiesComponent";
 import ApplicationContext from "../Util/React/core/ApplicationContext";
-import {AlchemyIngredientEditor} from "./Alchemy/Ingredient/AlchemyIngredientEditor";
 import {Button} from "@material-ui/core";
 
 export default function ItemPropertiesComponent({flag, setFlag}) {
@@ -13,10 +12,6 @@ export default function ItemPropertiesComponent({flag, setFlag}) {
         <div>
             Soul Gem:
             <SoulGemPropertiesComponent soulGemState={state?.soulGem} setSoulGemState={setSoulGem} />
-        </div>
-        <div>
-            Alchemy:
-            <AlchemyIngredientEditor flag={state?.alchemy} setFlag={setAlchemy} />
         </div>
         <Button onClick={async ()=>{
             await setFlag(state)

@@ -24,7 +24,7 @@ export default function MerchantSheetComponent({merchant: merchantInput}) {
     let {value: merchant} = useNPC(merchantInput)
     merchant = merchant!
     let [merchantFlag, setMerchantFlag] = getMerchantFlag(merchant)
-    let myGoldAmount = self ? getGoldAmountFromActor(self.data) : 0
+    let myGoldAmount = self ? getGoldAmountFromActor(self) : 0
     let {loading: loadingSellables, result: sellableData} = usePromise<SellableStuff>(async ()=>{
         let identifiableSellable = merchantFlag.sellables ? getIdentifiableSellable(merchantFlag.sellables) : undefined
         if(identifiableSellable) {

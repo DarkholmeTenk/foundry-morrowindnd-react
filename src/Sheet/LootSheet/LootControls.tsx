@@ -1,10 +1,8 @@
 import {useCallback} from "react";
 import {ItemControl} from "../../Util/Components/NewItemTable/Item/ItemControls";
 import {LootTakeSocket} from "./LootAction";
-import {getActorId} from "../../Util/Identifiers/ActorID";
-import {getItemId} from "../../Util/Identifiers/ItemID";
 import {openItemQuantitySelect} from "./ItemQuantitySelector";
-
+import {itemQty} from "../../Util/Items";
 
 interface LootControlsProps {
     item: Item,
@@ -15,8 +13,8 @@ export function LootControls({item, self, npc}:  LootControlsProps) {
     let deleteMe = useCallback(()=>item.delete(), [item])
     let takeMe = useCallback(()=>{
         if(!self || !npc) return
-        let take = (qty)=>LootTakeSocket({selfId: getActorId(self), lootId: {actorId: getActorId(npc), ...getItemId(item)}, qty})
-        openItemQuantitySelect({item, max: item.qty() ?? 1, buttonText: "Take", onConfirm: take})
+        let take = (qty)=>LootTakeSocket({selfId: self.uuid, lootId: item.uuid, qty})
+        openItemQuantitySelect({item, max: itemQty(item) || 1, buttonText: "Take", onConfirm: take})
     }, [item, self, npc])
     return <>
         <ItemControl title={"Edit Item"} icon={"fas fa-edit"} onClick={()=>item.sheet!.render(true, {editable: item.isOwner} as any)} />

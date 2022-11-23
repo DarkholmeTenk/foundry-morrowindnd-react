@@ -1,4 +1,3 @@
-import {useNPC} from "../../Util/Helper/EntityHelper";
 import {getMerchantFlag} from "./SpellSellertFlag";
 import TokenPermission from "../../Util/Components/TokenPermission";
 import {getGoldAmountFromActor} from "../../Util/Helper/GoldHelper";
@@ -10,7 +9,6 @@ import React, {useMemo} from "react"
 import Styles from "./SpellSellerSheet.module.scss"
 import {usePromise} from "../../Util/Helper/PromiseHelper";
 import {SpellSellerPacks} from "./Settings";
-import {loadPacks} from "../../Util/Identifiers/PackId";
 import ItemTable from "../../Util/Components/ItemTable/ItemTable";
 import {ItemColumnImage, ItemColumnName} from "../../Util/Components/ItemTable/ItemTableDefaults";
 import {getSpellClasses} from "../../Data/SpellData";
@@ -18,10 +16,11 @@ import {SpellSchools} from "../../Util/Components/ItemTable/ItemTypes";
 import {calculateSpellCost, getMatches, SpellMatches} from "./SpellCostCalculator";
 import {Control, generateControlsColumn} from "../../Util/Components/ItemTable/ItemTableControl";
 import {SpellSellerBuy} from "./SpellSellerAction";
-import {getActorId} from "../../Util/Identifiers/ActorID";
-import {getItemId} from "../../Util/Identifiers/ItemID";
 import LogFactory from "../../Util/Logging";
 import {useNewSelf} from "../../Util/React/core/NewSelfSelector";
+import {loadPack} from "../../Util/Identifiers/PackHelper";
+import {isSpell} from "../../Constants/SpellConstants";
+import {useWatchEntity} from "../../Util/Helper/EntityHelper";
 
 const log = LogFactory("SpellSellerSheetComponent")
 
@@ -40,7 +39,7 @@ function SpellMatch({match: {matchClass, matchSubClass, matchSchool}}: {match: S
     return <Tooltip title={text}><i className={icon} /></Tooltip>
 }
 
-function SpellClassComponent({self, merchant, spell, goldAmount}: {self: Actor, merchant: Actor, spell: Item, goldAmount: number}) {
+function SpellClassComponent({self, merchant, spell, goldAmount}: {self: Actor, merchant: Actor, spell: ItemSpell, goldAmount: number}) {
     let {result, loading} = usePromise(()=>getSpellClasses(spell), [spell])
     let cost = useMemo(()=>result ? calculateSpellCost(self, spell, result) : 0, [result, self, spell])
     if(self && !loading && result) {
@@ -62,12 +61,12 @@ function hasSpell(actor: Actor | null, spell: Item): Boolean {
     }
 }
 
-function SpellIcon({spell}: {spell: Item}) {
-    let school = SpellSchools[spell.spell().school]
+function SpellIcon({spell}: {spell: ItemSpell}) {
+    let school = SpellSchools[spell.system.school]
     if(school) {
         return <Tooltip title={school.name}><i className={school.icon} /></Tooltip>
     } else {
-        return <div>{spell.spell().school}</div>
+        return <div>{spell.system.school}</div>
     }
 }
 
@@ -79,7 +78,7 @@ async function getControlColumn(spell, self, merchant, goldAmount): Promise<Cont
             {
                 title: "Buy Spell",
                 text: <i className='fas fa-dollar-sign'/>,
-                onClick: ()=>SpellSellerBuy({merchant: getActorId(merchant), self: getActorId(self), spell: getItemId(spell)}),
+                onClick: ()=>SpellSellerBuy({merchant: merchant.uuid, self: self.uuid, spell: spell.uuid}),
             }
         ]
     } else {
@@ -87,19 +86,19 @@ async function getControlColumn(spell, self, merchant, goldAmount): Promise<Cont
     }
 }
 
-export default function SpellSellerSheetComponent({self: selfInput, merchant: merchantInput}) {
+export default function SpellSellerSheetComponent({merchant}: {merchant: Actor5e}) {
     let self = useNewSelf()
-    let {value: merchant} = useNPC(merchantInput)
-    merchant = merchant!
+    useWatchEntity(merchant)
     let [merchantFlag, setMerchantFlag] = getMerchantFlag(merchant)
-    let myGoldAmount = self ? getGoldAmountFromActor(self.data) : 0
-    let {result: spells, loading} = usePromise(()=>loadPacks<Item>(SpellSellerPacks.value), [])
+    let myGoldAmount = self ? getGoldAmountFromActor(self) : 0
+    let {result: spells, loading} = usePromise(()=>loadPack(SpellSellerPacks.value, isSpell), [])
     let filteredSpells = useMemo(()=>{
-        if(!spells) {
+        if(!spells || !self) {
             return []
         } else {
-            return spells.filter(x=>x.spell().level < 4 && x.spell().level > 0)
-                .filter(x=>hasSpell(self, x))
+            let me = self
+            return spells.filter(x=>x.system.level < 4 && x.system.level > 0)
+                .filter(x=>hasSpell(me, x))
         }
     }, [spells, self])
 
@@ -118,7 +117,7 @@ export default function SpellSellerSheetComponent({self: selfInput, merchant: me
             },
             {
                 title: "Level",
-                getter: ({item})=>item.spell().level
+                getter: ({item})=>item.system.level
             },
             {
                 title: "Classes",

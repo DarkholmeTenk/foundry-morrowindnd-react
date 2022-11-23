@@ -1,13 +1,13 @@
 import {setupSettingMenu} from "../../Constants/Config";
 import PackSelectorComponent, {PackSelectorOptions} from "../../Constants/Packs/PackSelectorComponent";
-import {PackId} from "../../Util/Identifiers/PackId";
+import {PackId} from "../../Util/Identifiers/PackHelper";
 
 export const ItemPackSetting = setupSettingMenu<PackId[]>({
     key: "rolltable.itempack",
     name: "Item Packs",
     label: "Item Packs",
     type: PackSelectorComponent,
-    default: [{package: "dnd5e", name: "items"}],
+    default: ["dnd5e.items"],
     restricted: true,
     sheetOptions: PackSelectorOptions,
     scope: "world"
@@ -19,7 +19,7 @@ export const SpellPackSetting = setupSettingMenu<PackId[]>({
     name: "Spell Packs",
     label: "Spell Packs",
     type: PackSelectorComponent,
-    default: [{package: "dnd5e", name: "spells"}],
+    default: ["dnd5e.items"],
     restricted: true,
     sheetOptions: PackSelectorOptions,
     scope: "world"

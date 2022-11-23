@@ -1,26 +1,25 @@
 import {getBuyPrice, MerchantFlag} from "./MerchantFlag";
 import {MerchantBuy} from "./MerchantAction";
-import {getActorId} from "../../Util/Identifiers/ActorID";
 import {openItemQuantitySelect} from "../LootSheet/ItemQuantitySelector";
 import React, {Fragment} from "react";
 import GoldDisplay from "../../Util/Components/GoldDisplay";
 import {Paper} from "@material-ui/core";
 import ItemTable from "../../Util/Components/ItemTable/ItemTable";
-import {getItemId} from "../../Util/Identifiers/ItemID";
 import {SellableItem} from "./Sellable/SellableData";
 // @ts-ignore
 import Styles from "./MerchantSheet.module.scss"
 import {ItemColumnImage, ItemColumnName, ItemColumnWeight} from "../../Util/Components/ItemTable/ItemTableDefaults";
 import {Control, generateControlsColumn, getEditControl} from "../../Util/Components/ItemTable/ItemTableControl";
 import {SellableStuff} from "./MerchantSheetComponent";
+import {itemQty} from "../../Util/Items";
 
 function getGetQty(sellables: SellableItem[]): ((Item)=>number | undefined) {
     return (item: Item)=>{
         let found = sellables.find(x=>x.item === item)
-        if(found) {
+        if(found && found.qty) {
             return found.qty
         } else {
-            return item.qty()
+            return itemQty(item)
         }
     }
 }
@@ -53,9 +52,9 @@ export default function BuySheet({self, merchant, sellables, merchantFlag, myGol
                     text: <i className="fas fa-hand-holding"/>,
                     onClick: () => {
                         let buy = (qty) => MerchantBuy({
-                            self: getActorId(self),
-                            merchant: getActorId(merchant),
-                            item: getItemId(item),
+                            self: self.uuid,
+                            merchant: merchant.uuid,
+                            item: item.uuid,
                             qty
                         })
                         openItemQuantitySelect({
@@ -95,6 +94,6 @@ export default function BuySheet({self, merchant, sellables, merchantFlag, myGol
 
     return <Paper classes={{root: Styles.paperDiv}}>
         Buy:
-        <ItemTable items={[...merchant.items.values(), ...sellables.items.map(x=>x.item)]} columns={columns}/>
+        <ItemTable items={[...merchant.items.contents, ...sellables.items.map(x=>x.item)]} columns={columns}/>
     </Paper>
 }

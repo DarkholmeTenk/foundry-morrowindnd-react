@@ -36,7 +36,8 @@ class SingleP2PLayer extends PIXI.Container {
                 let { note: targetNote, entry: targetEntry } = this.notes.find(({ entry: e }) => e.id === target) || {};
                 if (targetNote) {
                     let text = getText(note, targetNote, entry, targetEntry, route)
-                    this.addChild(new CircleLine(note.data, targetNote.data, {width: 3, color}, text))
+                    // @ts-ignore
+                    this.addChild(new CircleLine(note, targetNote, {width: 3, color}, text))
                 }
             });
         });

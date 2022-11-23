@@ -10,12 +10,12 @@ import {
     SimpleSellable
 } from "./SellableData";
 import React, {useContext} from "react";
-import {getItem, getItemId} from "../../../Util/Identifiers/ItemID";
 import {usePromise} from "../../../Util/Helper/PromiseHelper";
 import ItemViewer from "../../../Util/Components/ItemViewer";
 import {SellableSourceContext} from "./StoredSellableComponent";
 import {Button, MenuItem, Select, TextField} from "@material-ui/core";
 import {onItemDrop} from "../../../Util/Helper/DropHelper";
+import {loadItem} from "../../../Util/Identifiers/UuidHelper";
 
 function ReferencedSellableEditor({source, setSource}: SellableSourceEditorArgs<ReferencedSellable>) {
     let context = useContext(SellableSourceContext)
@@ -47,7 +47,7 @@ function NestedSellableEditor({source, setSource}: SellableSourceEditorArgs<Nest
             />
         </div>
     })
-    let drop = onItemDrop((item)=>setSource({sellables: [...source.sellables, {itemId: getItemId(item)}]}))
+    let drop = onItemDrop((item)=>setSource({sellables: [...source.sellables, {itemId: item.uuid}]}))
     return <div style={{paddingLeft: '8px', borderLeft: '1px solid black'}} onDrop={drop}>
         Nested:
         {subEditors}
@@ -64,9 +64,9 @@ function FilterSellableEditor({source, setSource}: SellableSourceEditorArgs<Filt
 
 function SimpleSellableEditor({source, setSource}: SellableSourceEditorArgs<SimpleSellable>) {
     let drop = onItemDrop((item)=>{
-        setSource({itemId: getItemId(item)})
+        setSource({itemId: item.uuid})
     })
-    let {result, loading} = usePromise(async ()=>source.itemId ? getItem(source.itemId) : null, [source.itemId])
+    let {result, loading} = usePromise(async ()=>source.itemId ? loadItem(source.itemId) : null, [source.itemId])
     return <div onDrop={drop}>
         Item ID: {JSON.stringify(source.itemId)}
         {result ? <ItemViewer item={result} /> : null}

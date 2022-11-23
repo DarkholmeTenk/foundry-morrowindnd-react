@@ -1,0 +1,3 @@
+interface OpenPayWindow {
+    callbackId: number,
+}

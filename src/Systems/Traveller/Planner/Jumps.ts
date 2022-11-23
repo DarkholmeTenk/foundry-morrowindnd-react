@@ -7,7 +7,7 @@ import {TravelSortData} from "./JumpSorter";
 const MIN_DIST = 100
 
 export function currentNote(location: SimplePos, noteData: NoteData[]): NoteData | undefined {
-    return noteData.find(data=>getDistance(location, data.note.data) <= MIN_DIST)
+    return noteData.find(data=>getDistance(location, data.note) <= MIN_DIST)
 }
 
 function fixNum(num: number | undefined | null): number {
@@ -36,7 +36,7 @@ function getTravelJumps(current: NoteData, others: NoteData[]): Jump[] {
                     from: current,
                     to: note,
                     desc: type,
-                    distance: getDistance(current.note.data, note.note.data),
+                    distance: getDistance(current.note, note.note),
                     time: fixNum(destination.hours),
                     cost: fixNum(destination.cost ?? 0)
                 })
@@ -53,7 +53,7 @@ function getTPJumps(location: SimplePos, current: NoteData | undefined, noteData
                 from: current,
                 to: note,
                 desc: "mages",
-                distance: getDistance(current.note.data, note.note.data),
+                distance: getDistance(current.note, note.note),
                 time: 0,
                 cost: 80
             })
@@ -66,7 +66,7 @@ function getTPJumps(location: SimplePos, current: NoteData | undefined, noteData
                 from: current,
                 to: note,
                 desc: type,
-                distance: getDistance(current?.note?.data ??location, note.note.data),
+                distance: getDistance(current?.note ?? location, note.note),
                 time: 0,
                 cost: 0
             })

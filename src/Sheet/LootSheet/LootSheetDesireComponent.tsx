@@ -1,7 +1,5 @@
 import {Desire, MappedDesires} from "./LootFlags";
 import {Chip, CircularProgress, Tooltip} from "@material-ui/core";
-import {RawActorId} from "../../Util/Identifiers/ActorID";
-import {getItemId, OwnedItemId} from "../../Util/Identifiers/ItemID";
 import {useCallback} from "react";
 import {MarkLootDesire} from "./LootAction";
 import {e} from "../../Util/Helper/DomEventHelper";
@@ -25,19 +23,19 @@ let DESIRE_INFOS: {[key in Desire]: {text: string, name:  string}} = {
 interface DesireButtonArgs {
     desires: Map<string, Desire>,
     desire: Desire,
-    selfId: RawActorId,
+    selfId: UUID,
     item: Item
 }
 function DesireButton({desires, desire, selfId, item}: DesireButtonArgs) {
     let desireInfo = DESIRE_INFOS[desire]
     let filtered = [...desires.keys()].filter(x=>desires.get(x) === desire)
     let text = desireInfo.text
-    let isChecked = desires.get(selfId.actorId) === desire
+    let isChecked = desires.get(selfId) === desire
     let onClick = useCallback(e(async ()=>{
-        MarkLootDesire({selfId, lootId: getItemId(item) as OwnedItemId, desire})
+        MarkLootDesire({selfId, lootId: item.uuid, desire})
     }), [selfId, item, desire])
     let onDelete = useCallback(e(async ()=>{
-        MarkLootDesire({selfId, lootId: getItemId(item) as OwnedItemId, desire: null})
+        MarkLootDesire({selfId, lootId: item.uuid, desire: null})
     }), [selfId, item, desire])
     return <Tooltip title={<DesireTooltip desireInfo={desireInfo} desirers={filtered}/> } >
         <Chip
@@ -54,7 +52,7 @@ function DesireButton({desires, desire, selfId, item}: DesireButtonArgs) {
 
 interface LootSheetDesireComponentArgs {
     item: Item
-    selfId: RawActorId,
+    selfId: UUID,
     desires: MappedDesires
 }
 export default function LootSheetDesireComponent({item, selfId, desires}: LootSheetDesireComponentArgs) {

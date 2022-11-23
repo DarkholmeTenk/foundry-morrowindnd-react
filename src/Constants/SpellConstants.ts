@@ -1,3 +1,9 @@
+import {isItem} from "../Util/Identifiers/UuidHelper";
+
+export function isSpell(value: any): value is ItemSpell {
+	return isItem(value) && value.type === "spell"
+}
+
 export const SpellLevelValues: {[level: number]:{value: number, weight: number}} = {
 	0: { value: 50, weight: 20 },
 	1: { value: 75, weight: 16 },

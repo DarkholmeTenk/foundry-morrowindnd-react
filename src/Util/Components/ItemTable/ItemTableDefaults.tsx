@@ -12,12 +12,12 @@ export const ItemColumnName: Column = {
 }
 export const ItemColumnWeight: Column = {
     title: "Weight",
-    getter: ({item: i}) => NumberFormat.format(i.weight()),
+    getter: ({item: i}) => NumberFormat.format(i.system.weight ?? 0),
     sortable: true
 }
 export const ItemColumnQty: Column = {
     title: "Qty",
-    getter: ({item: i}) => i.qty(),
+    getter: ({item: i}) => i.system.quantity ?? 0,
     sortable: true
 }
 export const ItemColumnDefaults: Column[] = [ItemColumnImage, ItemColumnName, ItemColumnWeight, ItemColumnQty]

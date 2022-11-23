@@ -1,6 +1,4 @@
-import {getItem} from "../../../Util/Identifiers/ItemID";
 import {getArguments} from "../../../RollTable/Rolling/TableHelper";
-import {loadPacks} from "../../../Util/Identifiers/PackId";
 import {
     isFilterSellable,
     isNestedSellable,
@@ -11,13 +9,15 @@ import {
 } from "./SellableData";
 import {SellableItemPacks, StoredSellables} from "./Settings";
 import LogFactory from "../../../Util/Logging";
+import {isItem, loadItem} from "../../../Util/Identifiers/UuidHelper";
+import {loadPack} from "../../../Util/Identifiers/PackHelper";
 
 const log = LogFactory("SellableLoader")
 
 type NullSell = SellableItem | null
 async function loadSellableInternal(source: SellableSource): Promise<NullSell[]> {
     if(isSimpleSellable(source)) {
-        let item = await getItem(source.itemId!)
+        let item = await loadItem(source.itemId!)
         if(item) {
             return [{item, qty: source.qty}]
         } else {
@@ -26,8 +26,8 @@ async function loadSellableInternal(source: SellableSource): Promise<NullSell[]>
         }
     } else if(isFilterSellable(source)) {
         let filterArguments = getArguments(source.filter)
-        let items = await loadPacks(source.packOverride || SellableItemPacks.value)
-        return items.filter(x=>filterArguments.filterItem(x as Item)).map(item=>({item: item as Item}))
+        let items = await loadPack(source.packOverride || SellableItemPacks.value, isItem)
+        return items.filter(x=>filterArguments.filterItem(x)).map(item=>({item: item}))
     } else if(isNestedSellable(source)) {
         return await Promise.all(source.sellables.map(x => loadSellable(x)))
             .then(x => x.flatMap(y => y))

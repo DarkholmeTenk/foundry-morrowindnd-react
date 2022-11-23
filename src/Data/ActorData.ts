@@ -9,8 +9,7 @@ export interface ActorClassData {
 }
 
 export function getClasses(actor: Actor): ActorClassData {
-    let list = actor.items.filter(x=>x.type === "class")
-        .map(x=>({name: x.name!, subclass: x.clz().subclass}))
+    let list = Object.values(actor.classes).map(x=>({name: x.name!, subclass: x.system.subclass}))
     let map: Record<string, ActorClass> = {}
     list.forEach(x=>map[x.name.toLowerCase()] = x)
     return {map, list}

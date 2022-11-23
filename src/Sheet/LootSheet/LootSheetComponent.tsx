@@ -1,6 +1,5 @@
-import {useNPC} from "../../Util/Helper/EntityHelper";
+import {useWatchEntity} from "../../Util/Helper/EntityHelper";
 import {LootSplitNGS} from "./LootAction";
-import {getActorId} from "../../Util/Identifiers/ActorID";
 import GoldSection from "./GoldSection";
 import Style from "./LootSheet.module.scss"
 import GoldDisplay from "../../Util/Components/GoldDisplay";
@@ -36,17 +35,18 @@ const Columns = [
     }
 ]
 
-export default function LootSheetComponent({npc: npcInput, self: selfInput}) {
-    let {value: npc} = useNPC(npcInput)
+export default function LootSheetComponent({npc}) {
+    useWatchEntity(npc)
     let self = useNewSelf()
-    let selfId = self ? getActorId(self) : null
+    useWatchEntity(self)
+    let selfId = self?.uuid
     let [flag, setFlag] = getFlag<LootFlag>(npc!, LOOT_FLAG_ID, DEFAULT_LOOT_FLAG)
     let mappedDesires = buildDesireMap(flag.desires)
 
     let items = npc!.items.filter(i=>i.type !== "spell")
 
     let extraData = useMemo(()=>({desires: mappedDesires, self, selfId, npc}), [mappedDesires, self, selfId, npc])
-    let splitNGS = useCallback(()=>LootSplitNGS({lootId: getActorId(npc!)}), [npc])
+    let splitNGS = useCallback(()=>LootSplitNGS({lootId: npc?.uuid}), [npc])
     return <div>
         <div className={Style.header} style={{justifyContent: "space-evenly", alignItems: "center", }}>
             <GoldSection npc={npc}

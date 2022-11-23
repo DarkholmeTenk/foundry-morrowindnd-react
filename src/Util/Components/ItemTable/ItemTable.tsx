@@ -28,7 +28,7 @@ export interface Column {
 export const NumberFormat = new Intl.NumberFormat('en', {maximumSignificantDigits: 2})
 
 interface ItemTableRowArguments {
-    item: Item,
+    item: Item5e,
     columns: Column[],
     index: number,
     extraProps: any
@@ -45,7 +45,7 @@ export function ItemTableRow({item, columns, index, extraProps}: ItemTableRowArg
             <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={columns.length} >
                 <Collapse in={open} unmountOnExit>
                     <div style={{display: 'none'}}>{JSON.stringify(extraProps)}</div>
-                    <ItemDescription description={item.subData()?.description?.value || "No Description found"} />
+                    <ItemDescription description={item.system.description?.value || "No Description found"} />
                 </Collapse>
             </TableCell>
         </TableRow>
@@ -53,7 +53,7 @@ export function ItemTableRow({item, columns, index, extraProps}: ItemTableRowArg
 }
 
 interface ItemTableArguments {
-    items: Item[],
+    items: Item5e[],
     columns: Column[],
     extraProps?: any
 }

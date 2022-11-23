@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 
-interface UsePromiseResult<T> {
+export interface UsePromiseResult<T> {
     result: T | null
     loading: boolean
 }

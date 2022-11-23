@@ -1,10 +1,10 @@
 import getFlag from "../../../Util/Helper/FlagHelper";
 import {DEFAULT_LOOT_FLAG, Desire, LOOT_FLAG_ID} from "../LootFlags";
-import {ActorId, getActor} from "../../../Util/Identifiers/ActorID";
 import {addItem, removeItem} from "../../../Util/Helper/ItemTransferHelper";
-import {getItemId, OwnedItemId} from "../../../Util/Identifiers/ItemID";
 import {TokenSettings} from "../../../Token/TokenSettings";
 import {addSellFlag} from "./SellDesire";
+import {itemQty} from "../../../Util/Items";
+import {loadActor} from "../../../Util/Identifiers/UuidHelper";
 
 function split<T>(qty: number, desirers: T[]): Map<T, number> {
     let map = new Map<T, number>()
@@ -25,21 +25,25 @@ function addFlags(type: String, itemData: any): any {
     }
 }
 
-async function give(needers: ActorId[], loot: Actor, item: Item, type: String, result: String[]) {
-    let qty = item.qty()
+async function give(needers: UUID[], loot: Actor, item: Item, type: String, result: String[]) {
+    let qty = itemQty(item)
     let splitResult = split(qty, needers)
     await Promise.all(needers.map(async needId=>{
         let count = splitResult.get(needId) ?? 0
         if(count > 0) {
-            let needActor = await getActor(needId)
-            result.push(`Giving [${needActor.name}] [${item.name} x ${count}] for [${type}]`)
-            await addItem(needActor, addFlags(type, item.data), {qty: count})
+            let needActor = loadActor.sync(needId)!
+            if(needActor) {
+                result.push(`Giving [${needActor.name}] [${item.name} x ${count}] for [${type}]`)
+                await addItem(needId, addFlags(type, item._source), {qty: count})
+            } else {
+                ui.notifications.error("Unable to load actor to give items to")
+            }
         }
     }))
-    await removeItem(getItemId(item) as OwnedItemId, qty)
+    await removeItem(item.uuid, qty)
 }
 
-export async function distributeDesires(loot: Actor): Promise<String[]> {
+export async function distributeDesires(loot: Actor5e): Promise<String[]> {
     let result: String[] = []
     let [flag] = getFlag(loot, LOOT_FLAG_ID, DEFAULT_LOOT_FLAG)
     for (let desires of flag.desires) {
