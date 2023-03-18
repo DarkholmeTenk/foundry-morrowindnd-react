@@ -1,9 +1,3 @@
-import {loadUUID} from "./UuidHelper";
-
-function isPack(value: any): value is CompendiumCollection<any> {
-    return value instanceof CompendiumCollection
-}
-
 export type PackId = string
 export async function loadPack<T>(packId: PackId | PackId[], tester: Tester<T>, query?: any): Promise<T[]> {
     let packIds = Array.isArray(packId) ? packId : [packId]

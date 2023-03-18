@@ -8,7 +8,7 @@ import {MerchantSellJunk} from "../../MerchantSheet/MerchantAction";
 import GoldDisplay from "../../../Util/Components/GoldDisplay";
 import {useWatchedUuid} from "../../../Util/Helper/EntityHelper";
 import {isActor} from "../../../Util/Identifiers/UuidHelper";
-import {itemQty} from "../../../Util/Items";
+import {itemQty} from "../../../Util/Extension/Items";
 
 export function getSellDesireItems(actor: Actor): Item[] {
     return actor.items.filter(i=>hasSellFlag(i))

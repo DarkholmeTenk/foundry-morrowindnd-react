@@ -1,7 +1,14 @@
 import {SystemEntry} from "../../DocumentBase";
 
+export interface ActorSpells {
+    value: number,
+    max: number,
+    override?: number
+}
+
 export interface ActorBaseSystemData {
     currency: CurrencyValues
+    spells: Record<string, ActorSpells>
 }
 
 export interface ActorCharacterData extends ActorBaseSystemData {}

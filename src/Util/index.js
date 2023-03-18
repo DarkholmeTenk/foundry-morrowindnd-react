@@ -1,6 +1,7 @@
 import "./Hooks"
 import "./Socket"
 import "./Helper/AsyncHelper"
+import "./Extension"
 import "./Render"
 import ReactDOM from "react-dom";
 

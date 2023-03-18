@@ -1,4 +1,3 @@
-import {useNPC} from "../../Util/Helper/EntityHelper";
 import {getMerchantFlag} from "./MerchantFlag";
 import TokenPermission from "../../Util/Components/TokenPermission";
 import {getGoldAmountFromActor} from "../../Util/Helper/GoldHelper";
@@ -13,16 +12,16 @@ import {SellableItem} from "./Sellable/SellableData";
 import {loadSellable} from "./Sellable/SellableLoader";
 import {getIdentifiableSellable, SellableSourceExtra} from "./Sellable/Settings";
 import {useNewSelf} from "../../Util/React/core/NewSelfSelector";
+import {useWatchEntity} from "../../Util/Helper/EntityHelper";
 
 export interface SellableStuff {
     items: SellableItem[],
     extra: SellableSourceExtra | null
 }
 
-export default function MerchantSheetComponent({merchant: merchantInput}) {
+export default function MerchantSheetComponent({merchant}: {merchant: Actor5e}) {
     let self = useNewSelf()
-    let {value: merchant} = useNPC(merchantInput)
-    merchant = merchant!
+    useWatchEntity(merchant)
     let [merchantFlag, setMerchantFlag] = getMerchantFlag(merchant)
     let myGoldAmount = self ? getGoldAmountFromActor(self) : 0
     let {loading: loadingSellables, result: sellableData} = usePromise<SellableStuff>(async ()=>{

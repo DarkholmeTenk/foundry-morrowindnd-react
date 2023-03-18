@@ -1,7 +1,7 @@
-import {ItemId} from "../../Util/Identifiers/ItemID";
+import {itemPrice} from "../../Util/Extension/Items";
 
 interface MerchantItem {
-    itemId: ItemId,
+    itemId: UUID,
     qty?: number
 }
 
@@ -25,12 +25,10 @@ export function getMerchantFlag(actor: Actor): [SpellSellertFlag, (MerchantFlag)
 
 export function getBuyPrice(item: Item, qty: number, merchantFlag?: SpellSellertFlag): number {
     let flag = merchantFlag || defaultMerchantFlag
-    let itemPrice = (item.data.data as any).price
-    return itemPrice * qty * flag.buyRate
+    return itemPrice(item) * qty * flag.buyRate
 }
 
 export function getSellPrice(item: Item, qty: number, merchantFlag?: SpellSellertFlag): number {
     let flag = merchantFlag || defaultMerchantFlag
-    let itemPrice = (item.data.data as any).price
-    return itemPrice * qty * flag.sellRate
+    return itemPrice(item) * qty * flag.sellRate
 }

@@ -1,7 +1,7 @@
 import React, {useRef} from "react";
 import {useCallback, useState} from "react";
-import {useEntity, useNPC} from "../Helper/EntityHelper";
 import {Button, Menu, MenuItem} from "@material-ui/core";
+import {useWatchEntity} from "../Helper/EntityHelper";
 
 function ActorDisplay({actor}) {
     if(actor) {
@@ -26,11 +26,11 @@ export function ActorChooser({potentialActors, actor, setChosenActor}) {
     let open = useCallback(()=>setMenuOpen(true), [setMenuOpen])
     let close = useCallback(()=>setMenuOpen(false), [setMenuOpen])
     let setActor = useCallback((actor)=>{
-        setChosenActor(actor.id)
+        setChosenActor(actor.uuid)
         close()
     }, [close, setChosenActor])
     let ref = useRef<any>()
-    let choices = potentialActors.map(actor=><ActorItem key={actor.id} actor={actor} onClick={setActor} />)
+    let choices = potentialActors.map(actor=><ActorItem key={actor.uuid} actor={actor} onClick={setActor} />)
     return <React.Fragment>
         <Button onClick={open} ref={ref}>Selected Actor: <ActorDisplay actor={actor}/></Button>
         <Menu open={menuOpen} anchorEl={ref.current} onClose={close}>
@@ -41,11 +41,12 @@ export function ActorChooser({potentialActors, actor, setChosenActor}) {
 
 export function useParty() {
     let actor = canvas?.scene?.tokens?.map(x=>x.actor)?.find(x=>x?.name?.toLowerCase() == "party") ?? null
-    return useNPC(actor)
+    useWatchEntity(actor)
+    return actor
 }
 
 export function useCanvasToken(scene: Scene, actor: Actor | null): TokenDocument | null {
     let token = actor ? scene.tokens.find(x=>x.actor?.uuid === actor.uuid) as TokenDocument : null
-    let {value} = useEntity({entity: token, type: "Token"})
-    return value
+    useWatchEntity(token)
+    return token
 }

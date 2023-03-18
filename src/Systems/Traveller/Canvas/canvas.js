@@ -19,7 +19,7 @@ class NoteCircle extends Circle {
     }
 }
 
-export class TravelCanvasLayer extends CanvasLayer {
+export class TravelCanvasLayer extends InteractionLayer {
     graphics = null
 
     static get layerOptions() {

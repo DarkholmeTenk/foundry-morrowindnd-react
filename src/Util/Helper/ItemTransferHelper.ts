@@ -1,6 +1,6 @@
 import LogFactory from "../Logging";
 import {cloneItemData} from "./ItemHelper";
-import {itemQty} from "../Items";
+import {itemQty} from "../Extension/Items";
 import {loadActor, loadItem} from "../Identifiers/UuidHelper";
 
 const Log = LogFactory("ItemTransferHelper")
@@ -22,7 +22,7 @@ export function fixItemData(itemData: any, options: ExtraAddItemOptions) {
     return itemData
 }
 
-export async function addItem(actorSource: UUID, itemData: AddableItemData, options: DocumentModificationContext & ExtraAddItemOptions = {}) {
+export async function addItem(actorSource: UUID, itemData: AddableItemData, options: any & ExtraAddItemOptions = {}) {
     let actor = loadActor.sync(actorSource)!
     let itemArr = (Array.isArray(itemData) ? itemData : [itemData]).map(i => fixItemData(i, options))
     let updating: any[] = []

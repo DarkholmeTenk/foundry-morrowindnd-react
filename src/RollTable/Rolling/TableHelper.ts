@@ -6,7 +6,6 @@ import TableItemHelper from "./TableItemHelper"
 import TableWeaponEnchantHelper from "./TableWeaponEnchantHelper"
 import TableItemRollData from "./TableItemRollData";
 import TableTableHelper from "./TableTableHelper";
-import {TABLE_RESULT_TYPES} from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/constants.mjs";
 
 const log = LoggerFactory("TableHelper")
 
@@ -41,16 +40,16 @@ const TextHelpers: {[name: string]: TableHelper} = {
 	"@WeaponEnchant": new TableWeaponEnchantHelper()
 }
 
-export function getArguments(text): RollTableArguments {
-	let results = text.match(/\[([^\]]+)\]/g)?.map(text=>text.substr(1, text.length - 2)) || []
+export function getArguments(text: string): RollTableArguments {
+	let results = text.match(/\[([^\]]+)]/g)?.map(t=>t.substr(1, t.length - 2)) || []
 	log.debug("Found roll helper arguments", results, text)
 	return parseArguments(results) as any as RollTableArguments
 }
 
-export async function getRollTableData({type, text, resultId, collection}: {type: TABLE_RESULT_TYPES, text?: string, resultId?: string, collection?: string}): Promise<RollData[]> {
+export async function getRollTableData(result: RealTableResult): Promise<RollData[]> {
 	log.debug("Getting roll item", arguments)
-	if(type == 0) {
-		text = text!
+	if(result.type == RollType.TEXT) {
+		let text = result.text
 		let call = text.split(/\s/,1)[0]
 		let helper = TextHelpers[call]
 		if(helper) {
@@ -61,16 +60,18 @@ export async function getRollTableData({type, text, resultId, collection}: {type
 		} else {
 			return []
 		}
-	} else if(type == 1) {
-		resultId = resultId!
-		return [new TableItemRollData(game.items!.get(resultId)!)]
-	} else if(type == 2) {
-		collection = collection!
-		resultId = resultId!
-		let pack = game.packs.get(collection)
-		return [new TableItemRollData((await pack!.getDocument(resultId))! as Item)]
+	} else if(result.type == RollType.DOCUMENT) {
+		if(result.documentCollection === "Item") {
+			let item = game.items.get(result.documentId)
+			if(item) return [new TableItemRollData(item)]
+		}
+	} else if(result.type == RollType.COMPENDIUM) {
+		let pack = game.packs.get(result.documentCollection)
+		let item = await pack?.getDocument(result.documentId)
+		if(item && item instanceof Item) return [new TableItemRollData(item)]
 	} else {
 		log.error("Somehow we got the wrong type", arguments)
 		return []
 	}
+	return []
 }

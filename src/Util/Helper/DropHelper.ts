@@ -1,6 +1,4 @@
 import LogFactory from "../Logging";
-import {Entity} from "./EntityHelper";
-
 const log = LogFactory("DropHelper")
 
 const map = ()=>({
@@ -35,7 +33,7 @@ async function loadThing(event) {
     }
 }
 
-export function onDrop(callback: (i: Entity)=>void) {
+export function onDrop(callback: (i: DocumentBase)=>void) {
     return async (e)=>{
         e.preventDefault()
         e.stopPropagation()

@@ -44,8 +44,8 @@ export function getSettings() {
 }
 
 export function loadSettings(config) {
-	let newCosts = {}
-	Object.keys(DefaultCosts).map((level)=>{
+	let newCosts = {...DefaultCosts}
+	Object.keys(DefaultCosts).forEach((level)=>{
 		let cost = config[`Level${level}Cost`] ?? DefaultCosts[level];
 		newCosts[level] = cost;
 	})

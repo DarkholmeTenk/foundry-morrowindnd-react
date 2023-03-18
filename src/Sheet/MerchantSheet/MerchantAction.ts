@@ -4,7 +4,7 @@ import {addGold, getGoldAmountFromActor, removeGold} from "../../Util/Helper/Gol
 import {addItem, removeItem} from "../../Util/Helper/ItemTransferHelper";
 import {TokenSettings} from "../../Token/TokenSettings";
 import {getSellDesireItems} from "../LootSheet/Desire/SellDesireButton";
-import {itemQty} from "../../Util/Items";
+import {itemQty} from "../../Util/Extension/Items";
 import {loadActor, loadItem} from "../../Util/Identifiers/UuidHelper";
 
 interface BuyAction {

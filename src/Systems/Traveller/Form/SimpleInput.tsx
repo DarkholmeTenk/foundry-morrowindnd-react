@@ -19,7 +19,7 @@ export function SimpleInput<T extends object, U>({label, data, updater, field, c
 export const NumberInOut: InOut<string, number> = {
     in: (x)=>{
         let val = parseInt(x)
-        if(val === NaN) return 0
+        if(isNaN(val)) return 0
         return val
     },
     out: (x)=>x.toString()

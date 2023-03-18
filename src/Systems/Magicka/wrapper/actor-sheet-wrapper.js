@@ -1,4 +1,4 @@
-import { getSlotCost } from "./slot-costs.js";
+import { getSlotCost } from "./slot-costs";
 
 export function addCostTable(_, html) {
 	let list = html.find('.spellbook-header .item-name');

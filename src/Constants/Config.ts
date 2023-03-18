@@ -52,7 +52,7 @@ export class Setting<X> extends BaseSetting<RealSettingData<X>, X> {
     register() {
         game.settings.register(MODULE, this.data.key, {
             ...this.data
-        })
+        } as any)
     }
 }
 export function setupSetting<X extends object>(data: SettingData<X>): Setting<X> {

@@ -9,18 +9,20 @@ import React, {useMemo} from "react"
 import Styles from "./SpellSellerSheet.module.scss"
 import {usePromise} from "../../Util/Helper/PromiseHelper";
 import {SpellSellerPacks} from "./Settings";
-import ItemTable from "../../Util/Components/ItemTable/ItemTable";
-import {ItemColumnImage, ItemColumnName} from "../../Util/Components/ItemTable/ItemTableDefaults";
 import {getSpellClasses} from "../../Data/SpellData";
 import {SpellSchools} from "../../Util/Components/ItemTable/ItemTypes";
 import {calculateSpellCost, getMatches, SpellMatches} from "./SpellCostCalculator";
-import {Control, generateControlsColumn} from "../../Util/Components/ItemTable/ItemTableControl";
 import {SpellSellerBuy} from "./SpellSellerAction";
 import LogFactory from "../../Util/Logging";
 import {useNewSelf} from "../../Util/React/core/NewSelfSelector";
 import {loadPack} from "../../Util/Identifiers/PackHelper";
 import {isSpell} from "../../Constants/SpellConstants";
 import {useWatchEntity} from "../../Util/Helper/EntityHelper";
+import {DefaultItemColumns} from "../../Util/Components/NewItemTable/Item/ItemColumns";
+import {getterColumn} from "../../Util/Components/NewItemTable/Util/GetterColumn";
+import {NewItemTable} from "../../Util/Components/NewItemTable/NewItemTable";
+import {ItemExpander} from "../../Util/Components/NewItemTable/Item/ItemExpander";
+import {ItemControl} from "../../Util/Components/NewItemTable/Item/ItemControls";
 
 const log = LogFactory("SpellSellerSheetComponent")
 
@@ -61,29 +63,37 @@ function hasSpell(actor: Actor | null, spell: Item): Boolean {
     }
 }
 
-function SpellIcon({spell}: {spell: ItemSpell}) {
-    let school = SpellSchools[spell.system.school]
+function SpellIcon({item}: {item: ItemSpell}) {
+    let school = SpellSchools[item.system.school]
     if(school) {
         return <Tooltip title={school.name}><i className={school.icon} /></Tooltip>
     } else {
-        return <div>{spell.system.school}</div>
+        return <div>{item.system.school}</div>
     }
 }
 
-async function getControlColumn(spell, self, merchant, goldAmount): Promise<Control[]> {
-    let spellData = await getSpellClasses(spell)
-    let cost = await calculateSpellCost(self, spell, spellData!)
-    if(cost && cost < goldAmount) {
-        return [
-            {
-                title: "Buy Spell",
-                text: <i className='fas fa-dollar-sign'/>,
-                onClick: ()=>SpellSellerBuy({merchant: merchant.uuid, self: self.uuid, spell: spell.uuid}),
-            }
-        ]
-    } else {
-        return []
+const LevelColumn = getterColumn<ItemSpell>("Level", (item)=>item.system.level ?? "-")
+const Columns = [
+    ...DefaultItemColumns,
+    {
+        label: "Spell Type",
+        ColumnComponent: SpellIcon
+    },
+    LevelColumn,
+    {
+        label: "",
+        ColumnComponent: SpellActionsColumn
     }
+]
+
+interface SpellActionsColumnArgs {
+    item: ItemSpell,
+    self: Actor5e,
+    merchant: Actor5e
+}
+function SpellActionsColumn({item, self, merchant, myGoldAmount}) {
+    let buy = ()=>SpellSellerBuy({merchant: merchant.uuid, self: self.uuid, spell: item.uuid})
+    return <ItemControl title="Buy Spell" icon="fas fa-dollar-sign" onClick={buy} />
 }
 
 export default function SpellSellerSheetComponent({merchant}: {merchant: Actor5e}) {
@@ -108,22 +118,6 @@ export default function SpellSellerSheetComponent({merchant}: {merchant: Actor5e
             <SpellSellerFlagComponent merchantFlag={merchantFlag} setMerchantFlag={setMerchantFlag} />
             <TokenPermission token={merchant} />
         </div> : null }
-        {spells ? <ItemTable items={filteredSpells} columns={[
-            ItemColumnImage,
-            ItemColumnName,
-            {
-                title: "Spell Type",
-                getter: ({item})=><SpellIcon spell={item} />
-            },
-            {
-                title: "Level",
-                getter: ({item})=>item.system.level
-            },
-            {
-                title: "Classes",
-                getter: (({item})=><SpellClassComponent merchant={merchant!} self={self!} spell={item} goldAmount={myGoldAmount}/>)
-            },
-            generateControlsColumn(({item})=>getControlColumn(item, self, merchant, myGoldAmount), [self, merchant, myGoldAmount])
-        ]} extraProps={{self, myGoldAmount}}/> : <CircularProgress /> }
+        {spells && <NewItemTable extraData={{self, merchant, myGoldAmount}} expander={ItemExpander} columns={Columns} items={filteredSpells} /> }
     </div>
 }

@@ -13,10 +13,3 @@ export const DefaultItemColumns = [
     WeightColumn,
     QtyColumn
 ]
-
-export const TestColumn: TableColumn<{test: string}, Item> = {
-    label: "Test",
-    ColumnComponent: ({item, test})=><div>
-        {test} - {item.name}
-    </div>
-}

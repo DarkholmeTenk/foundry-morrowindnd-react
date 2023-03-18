@@ -43,7 +43,7 @@ export class CurrencyItem implements RollData {
 		this.map((value, type)=>{
 			if(!value) return;
 			let existingValue = getActorDataCurrencyAmount(currency[type]) || 0;
-			let modString = `data.currency.${type}`;
+			let modString = `system.currency.${type}`;
 			modifications[modString] = existingValue + value
 		})
 		return modifications
@@ -74,8 +74,7 @@ export default class TableGoldHelper implements TableHelper {
 		for(let key in values) {
 			let roll = values[key]
 			let rollResult = await callRoll(roll)
-			let result = parseInt(rollResult.toString())
-			values[key] = result
+			values[key] = parseInt(rollResult.toString())
 		}
 		return [new CurrencyItem(values)]
 	}

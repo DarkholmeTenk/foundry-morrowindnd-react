@@ -18,7 +18,7 @@ export function CoreBlock({children, application, document}: PropsWithChildren<C
                     <div style={{display: "flex", justifyContent: "space-between"}}>
                         <GmContextControl state={gm} setState={setGm} />
                         <SelfSelector state={self} setState={setSelf} />
-                        {document && <DocumentControls document={document} /> }
+                        {document && <DocumentControls doc={document} /> }
                     </div>
                     <div>
                         <SelfContext.Provider value={self}>

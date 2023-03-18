@@ -10,6 +10,7 @@ interface Game {
     tables: DocumentCollection<RollTable>
     user: User
     socket: Socket
+    settings: ClientSettings
 
     i18n: {
         localize: (id: string)=>string

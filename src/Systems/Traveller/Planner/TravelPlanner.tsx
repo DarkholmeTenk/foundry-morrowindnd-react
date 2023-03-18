@@ -50,7 +50,7 @@ function SceneTravelPlanner({party, partyToken, noteData}: SceneTravelPlannerArg
 }
 
 export default function TravelPlanner() {
-    let {value: actor} = useParty()
+    let actor = useParty()
     let token = useCanvasToken(canvas?.scene!, actor)
     let scene = canvas?.scene
     let sceneData = scene ? getSceneNoteData(scene) : undefined

@@ -11,7 +11,12 @@ declare global {
     type Tester<T> = (value: any)=>value is T
     type UUID = string
 
-    class DocumentBase {
+    interface DocumentBaseData {
+        ownership: Record<string, PermValue>
+        name: string,
+    }
+
+    class DocumentBase implements DocumentBaseData {
         id: string
         uuid: UUID
         name: string
@@ -25,9 +30,12 @@ declare global {
 
         isOwner: boolean
         compendium?: unknown
+        flags: Record<string, Record<string, any>>
+        hasPlayerOwner: boolean
 
         getFlag<T>(scope: string, flag: string): T | undefined
         setFlag<T>(scope: string, flag: string, value: T): Promise<void>
+        unsetFlag(scope: string, flag: string): Promise<void>
 
         update(data: any, context?: any): Promise<void>
         delete(): Promise<void>

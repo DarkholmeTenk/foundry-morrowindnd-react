@@ -1,4 +1,4 @@
-import { getSettings, loadSettings } from "./wrapper/slot-costs.js";
+import { getSettings, loadSettings } from "./wrapper/slot-costs.ts";
 
 const configOptions = [
 	...getSettings()

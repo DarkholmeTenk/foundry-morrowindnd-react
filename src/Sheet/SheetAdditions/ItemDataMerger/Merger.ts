@@ -9,7 +9,7 @@ export function getItemMapping(items: Item[]): Mapping {
     items.forEach(item=>{
         let matchingItem = game.items!.getName(item.name!)
         if(matchingItem) {
-            let equal = isEqualDetailed(item.data, matchingItem.data, IgnoredProperties)
+            let equal = isEqualDetailed(item._source, matchingItem._source, IgnoredProperties)
             if(!equal.equal) {
                 result[item.id!] = {item: matchingItem, differences: equal.differences}
             }
@@ -22,7 +22,7 @@ function buildUpdate(item: Item, differences: any, key: string = "", result: any
     Object.keys(differences).forEach(dKey=>{
         let newKey = key == "" ? dKey : `${key}.${dKey}`
         let diffVal = differences[dKey]
-        let val = getProperty(item.data, newKey)
+        let val = getProperty(item._source, newKey)
         if(diffVal === true || (typeof(val) === "object" && Array.isArray(val))) {
             result[newKey] = val === undefined ? null : val
         } else {

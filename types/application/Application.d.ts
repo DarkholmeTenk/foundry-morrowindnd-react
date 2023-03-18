@@ -7,12 +7,17 @@ declare global {
     }
 
     class Application {
+        appId: string
+
         static get defaultOptions(): Partial<ApplicationOptions>
         render(force?: boolean, options?: object)
+        _render(force?: boolean, options?: object)
         close()
     }
 
-    class FormApplication<T> extends Application {
+    abstract class FormApplication<T> extends Application {
         object: T
+
+        abstract getData(): any
     }
 }

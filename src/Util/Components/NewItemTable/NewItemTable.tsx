@@ -1,7 +1,7 @@
 import React from "react";
 import {ItemTableFilter, useFilter} from "./NewItemTableFilters";
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
-import Styles from "../ItemTable/ItemTable.module.scss";
+import Styles from "./NewItemTable.module.scss";
 import {usePagination} from "./NewItemTablePagination";
 import {TableColumn} from "./TableColumn";
 import {NewItemTableRow} from "./NewItemTableRow";

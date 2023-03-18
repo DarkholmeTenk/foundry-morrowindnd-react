@@ -3,7 +3,7 @@ import {DEFAULT_LOOT_FLAG, Desire, LOOT_FLAG_ID} from "../LootFlags";
 import {addItem, removeItem} from "../../../Util/Helper/ItemTransferHelper";
 import {TokenSettings} from "../../../Token/TokenSettings";
 import {addSellFlag} from "./SellDesire";
-import {itemQty} from "../../../Util/Items";
+import {itemQty} from "../../../Util/Extension/Items";
 import {loadActor} from "../../../Util/Identifiers/UuidHelper";
 
 function split<T>(qty: number, desirers: T[]): Map<T, number> {

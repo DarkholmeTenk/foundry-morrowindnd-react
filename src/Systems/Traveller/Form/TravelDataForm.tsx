@@ -6,6 +6,8 @@ import useStateObjectUpdater, {useFieldInOut} from "../../../Util/React/update/O
 import TravelNodeConfig from "./TravelNodeConfig";
 import {SimpleCheckbox} from "./SimpleCheckbox";
 import {fixReciprocal} from "../Data/NoteSettingsFlag";
+import {FLAG_SCOPE} from "../../../Util/Helper/FlagHelper";
+import {TravelDataFlagKey} from "../Data/NoteDataUtil";
 
 export interface OtherNode {
     entry: JournalEntry,
@@ -19,7 +21,7 @@ interface TravelDataFormArgs {
 export default function TravelDataForm({note, travelData, otherNodes}: TravelDataFormArgs) {
     let [data, setData] = useState(travelData)
     let save = useCallback(async ()=>{
-        await note.setFlag("traveller", "travelData", data)
+        await note.setFlag(FLAG_SCOPE, TravelDataFlagKey, data)
         await fixReciprocal(note, data, otherNodes)
     }, [data, note])
     let updater = useStateObjectUpdater(setData)

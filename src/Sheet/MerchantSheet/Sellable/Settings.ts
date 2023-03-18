@@ -1,15 +1,14 @@
 import {setupSettingMenu} from "../../../Constants/Config";
-import {PackId} from "../../../Util/Identifiers/PackId";
 import PackSelectorComponent, {PackSelectorOptions} from "../../../Constants/Packs/PackSelectorComponent";
 import {SellableSource} from "./SellableData";
 import StoredSellableComponent, {StoredSellableComponentOptions} from "./StoredSellableComponent";
 
-export const SellableItemPacks = setupSettingMenu<PackId[]>({
+export const SellableItemPacks = setupSettingMenu<UUID[]>({
     key: "sellable.itempack",
     name: "Sellable - Item Packs",
     label: "Sellable - Item Packs",
     type: PackSelectorComponent,
-    default: [{package: "dnd5e", name: "items"}],
+    default: ["dnd5e.items"],
     restricted: true,
     sheetOptions: PackSelectorOptions,
     scope: "world"

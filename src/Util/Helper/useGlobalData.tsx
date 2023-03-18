@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {useForceUpdate} from "./useForceUpdate";
 import {useIsGm} from "../React/core/GmContext";
 import getFlag, {FLAG_SCOPE} from "./FlagHelper";
-import {useSmartEntity} from "./EntityHelper";
+import {useWatchEntity} from "./EntityHelper";
 
 let inProgress: Promise<void> | undefined
 
@@ -28,7 +28,7 @@ export function useGlobalData<T extends object>(name: string, defaultValue: T): 
     let refresh = useForceUpdate()
     let isGM = useIsGm()
     let journal = game.journal?.getName("data_"+name)
-    let { value } = useSmartEntity<JournalEntry>(journal)
+    useWatchEntity<JournalEntry>(journal)
     useEffect(()=>{
         let x = async ()=>{
             if(journal) return
@@ -41,11 +41,11 @@ export function useGlobalData<T extends object>(name: string, defaultValue: T): 
         }
         x()
     }, [journal, isGM, refresh])
-    if(!value) {
+    if(!journal) {
         if(isGM) return { state: "in_progress" }
         return {state: "unset"}
     } else {
-        let [data, setData] = getFlag<T>(value, "global_data", defaultValue)
+        let [data, setData] = getFlag<T>(journal, "global_data", defaultValue)
         return {
             state: "loaded",
             data,

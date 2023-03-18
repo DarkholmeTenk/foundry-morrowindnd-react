@@ -6,5 +6,9 @@ import "./Systems"
 import "./Constants"
 import "./Util"
 import "./Sheet"
-import "./Settings"
 import "./index.scss"
+import {magickaReady} from "./Systems/Magicka/magicka";
+
+Hooks.on("ready", ()=>{
+    magickaReady()
+})

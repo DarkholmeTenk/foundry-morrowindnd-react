@@ -1,7 +1,7 @@
 export {}
 
 declare global {
-    class CompendiumCollection<T> {
+    class CompendiumCollection<T extends DocumentBase> {
         get(key: string): object
         getIndex(): Promise<Record<string, object>>
         getDocument(key: string): Promise<T>
@@ -14,5 +14,5 @@ declare global {
             package: string
         }
     }
-    type Pack<T> = CompendiumCollection<T>
+    type Pack<T extends DocumentBase> = CompendiumCollection<T>
 }

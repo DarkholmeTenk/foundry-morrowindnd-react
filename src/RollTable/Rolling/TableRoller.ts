@@ -39,17 +39,13 @@ class EncapsulatingRollData implements RollData {
     }
 }
 
-interface TableRollResult {
-    results: {type: number, text: string, resultId: string, collection: string}[]
-}
-
 export default async function doRollTable(id: string): Promise<RollData[]> {
     if(!id) return []
     let rollTable = game.tables!.get(id)!
     let {tableId} = (rollTable.getFlag("morrowindnd", "enchant_spells") || {}) as ModifierData
     let roll = await rollTable.roll()
     let results = (await Promise.all(roll.results.map(async result=>{
-        return await getRollTableData(result.data)
+        return await getRollTableData(result)
     }))).flatMap(i=>i)
     log("Got results", results)
     let modifiers = await doRollTable(tableId!)

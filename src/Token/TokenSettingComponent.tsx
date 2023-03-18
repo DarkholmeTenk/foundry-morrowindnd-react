@@ -3,8 +3,8 @@ import {TokenSetting} from "./TokenSettings";
 import {useCallback, useState} from "react";
 import {Button, CircularProgress} from "@material-ui/core";
 import {usePromise} from "../Util/Helper/PromiseHelper";
-import {getActor} from "../Util/Identifiers/ActorID";
 import {ActorChooser} from "../Util/Components/SelfActorSelector";
+import {loadActor} from "../Util/Identifiers/UuidHelper";
 
 interface TokenSettingComponentArgs {
     setting: Setting<TokenSetting>
@@ -14,13 +14,13 @@ export default function TokenSettingComponent({setting}: TokenSettingComponentAr
     let [current, setCurrent] = useState(setting.value)
     let {result, loading} = usePromise(async ()=>{
         return {
-            lootTokenBase: current.lootTokenBase ? await getActor(current.lootTokenBase) : null,
-            sellLootDump: current.sellLootDump ? await getActor(current.sellLootDump) : null
+            lootTokenBase: current.lootTokenBase ? await loadActor(current.lootTokenBase) : null,
+            sellLootDump: current.sellLootDump ? await loadActor(current.sellLootDump) : null
         }
     }, [current])
     let save = useCallback(()=>setting.value = current, [current, setting])
-    let setLootToken = useCallback((x)=>setCurrent({...current, lootTokenBase: {actorId: x}}), [current])
-    let setLootDump = useCallback((x)=>setCurrent({...current, sellLootDump: {actorId: x}}), [current])
+    let setLootToken = useCallback((x)=>setCurrent({...current, lootTokenBase: x}), [current])
+    let setLootDump = useCallback((x)=>setCurrent({...current, sellLootDump: x}), [current])
     let potentials = game.actors!.map(x=>x)
     if(loading || !result) return <CircularProgress />
     return <div>

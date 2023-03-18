@@ -1,9 +1,11 @@
-import { getTravelData } from "./NoteDataUtil"
+import {getTravelData, TravelDataFlagKey} from "./NoteDataUtil"
 import { p2pRoutes } from "../const"
 import LogFactory from "../../../Util/Logging";
 import {SimpleReactApplication} from "../../../Util/React/ReactApplication";
 import TravelDataForm, {OtherNode} from "../Form/TravelDataForm";
 import {TravelData} from "./NoteData";
+import {FLAG_SCOPE} from "../../../Util/Helper/FlagHelper";
+import {migrate} from "../../../Util/Helper/FlagMigrationHelper";
 
 const log = LogFactory("Traveller_NoteData")
 
@@ -44,7 +46,7 @@ export async function fixReciprocal(myEntry: JournalEntry, myTravel: TravelData,
             }
         })
         if(changed) {
-            await entry.setFlag("traveller", "travelData", travel)
+            await entry.setFlag(FLAG_SCOPE, TravelDataFlagKey, travel)
         }
     })
     await Promise.all(promises)
@@ -71,3 +73,5 @@ Hooks.on('journalSheetMenuItems', (addMenuItem, app, html, data) => {
         }
     })
 });
+
+Hooks.on("ready", ()=>migrate(game.journal, {oldScope: "traveller"}))

@@ -1,10 +1,9 @@
-import {ActorId} from "../Util/Identifiers/ActorID";
 import {setupSettingMenu} from "../Constants/Config";
 import TokenSettingComponent from "./TokenSettingComponent";
 
 export interface TokenSetting {
-    lootTokenBase?: ActorId,
-    sellLootDump?: ActorId
+    lootTokenBase?: UUID,
+    sellLootDump?: UUID
 }
 
 export const TokenSettings = setupSettingMenu<TokenSetting>({

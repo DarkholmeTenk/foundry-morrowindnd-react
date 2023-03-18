@@ -10,7 +10,11 @@ declare global {
         system: ItemSystemData
 
         actor?: Actor5e
-        qty(): number | undefined
+
+        //extensions
+        weight(defaultWeight?: number): number
+        price(defaultPrice?: number): number
+        qty(defaultQty?: number): number
     }
 
     type Item5e = Item & ItemSystem

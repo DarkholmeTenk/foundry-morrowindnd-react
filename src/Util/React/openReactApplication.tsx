@@ -1,8 +1,7 @@
 import {ReactNode} from "react";
-import RenderOptions = Application.RenderOptions;
 import {SimpleReactApplication} from "./ReactApplication";
 
-type Options = RenderOptions & {
+type Options = ApplicationOptions & {
     width: number,
     height: number
 }
