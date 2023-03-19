@@ -12,5 +12,5 @@ declare global {
         system: any
     }
 
-    type Actor5e = ActorSystem & Actor
+    type Actor5e = ActorSystem & Omit<Actor, keyof ActorSystem> & Actor
 }

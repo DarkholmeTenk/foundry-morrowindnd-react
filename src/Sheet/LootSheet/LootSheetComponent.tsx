@@ -4,7 +4,7 @@ import GoldSection from "./GoldSection";
 import Style from "./LootSheet.module.scss"
 import GoldDisplay from "../../Util/Components/GoldDisplay";
 import getFlag from "../../Util/Helper/FlagHelper";
-import {buildDesireMap, DEFAULT_LOOT_FLAG, LOOT_FLAG_ID, LootFlag} from "./LootFlags";
+import {buildDesireMap, getLootFlag, LootFlag} from "./LootFlags";
 import LootSheetDesireComponent from "./LootSheetDesireComponent";
 import {Button} from "@material-ui/core";
 import {useCallback, useMemo} from "react";
@@ -38,9 +38,8 @@ const Columns = [
 export default function LootSheetComponent({npc}) {
     useWatchEntity(npc)
     let self = useNewSelf()
-    useWatchEntity(self)
     let selfId = self?.uuid
-    let [flag, setFlag] = getFlag<LootFlag>(npc!, LOOT_FLAG_ID, DEFAULT_LOOT_FLAG)
+    let [flag] = getLootFlag(npc!)
     let mappedDesires = buildDesireMap(flag.desires)
 
     let items = npc!.items.filter(i=>i.type !== "spell")

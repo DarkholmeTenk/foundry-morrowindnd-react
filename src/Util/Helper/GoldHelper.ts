@@ -8,10 +8,10 @@ export enum CurrencyType {
 }
 
 export const NoActorCurrency = {
-    [CurrencyType.pp]: {value: 0},
-    [CurrencyType.gp]: {value: 0},
-    [CurrencyType.sp]: {value: 0},
-    [CurrencyType.cp]: {value: 0},
+    [CurrencyType.pp]: 0,
+    [CurrencyType.gp]: 0,
+    [CurrencyType.sp]: 0,
+    [CurrencyType.cp]: 0,
 }
 
 export const CurrencyRates = [
@@ -49,7 +49,6 @@ export function getActorDataCurrencyAmount(x: any): number {
 }
 
 export function getGoldAmountFromActor(actor: Actor5e): number {
-    //TODO: FIX GOLD GET
     let data = actor.system.currency
     return CurrencyRates.reduce((acc, {m, name})=>acc + ((getActorDataCurrencyAmount(data[name]) || 0) * m), 0)
 }
@@ -63,7 +62,7 @@ export async function removeGold(actor: Actor, amount: number) {
         let needed = Math.ceil(remaining / m)
         let canTake = Math.min(coins, needed)
         if(canTake != 0) {
-            newAmounts[`data.currency.${name}`] = coins - canTake
+            newAmounts[`system.currency.${name}`] = coins - canTake
             remaining -= (canTake * m)
         }
     })

@@ -1,18 +1,10 @@
 import {getGoldAmountFromActor} from "../../Util/Helper/GoldHelper";
 import {getActivePlayerUsers} from "../../Util/Helper/UserHelper";
+import {getLootFlag} from "./LootFlags";
 
-export function useLootSheetFlag(npc) {
-    let data = {
-        goldTakers: {}
-    }
-    let x = npc.token || npc
-    Object.assign(data, x.getFlag("morrowindnd", "lootsheet"))
-    return {flag: data, setFlag: (newFlag)=>x.setFlag("morrowindnd", "lootsheet", newFlag)}
-}
-
-export function getGoldDetails(npc) {
-    let amount = getGoldAmountFromActor(npc.data.data.currency)
-    let {flag} = useLootSheetFlag(npc)
+export function getGoldDetails(npc: Actor5e) {
+    let amount = getGoldAmountFromActor(npc)
+    let [flag] = getLootFlag(npc)
 
     let users = getActivePlayerUsers()
     let takers: {[id: string]: boolean} = {}

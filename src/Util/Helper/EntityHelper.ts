@@ -10,6 +10,10 @@ export function useWatchEntity<T extends DocumentBase>(entity: Opt<T>): T | unde
     let refresh = useRefresh()
     let uuid = entity?.uuid
     let type = entity?.documentName
+    if(entity instanceof Actor && entity.token) {
+        type = "Token"
+        uuid = entity.token.uuid
+    }
     useEffect(()=>{
         if(!uuid || !type) return
         let event = `update${type}`
@@ -18,7 +22,7 @@ export function useWatchEntity<T extends DocumentBase>(entity: Opt<T>): T | unde
                 refresh()
         })
         return ()=>Hooks.off(event, hookId)
-    })
+    }, [uuid, type, refresh])
     return entity ?? undefined
 }
 

@@ -3,8 +3,7 @@ import {getGoldDetails} from "./LootSheetGoldUtil";
 import {getGoldBreakdown, NoActorCurrency} from "../../Util/Helper/GoldHelper";
 import {CurrencyItem} from "../../RollTable/Rolling/TableGoldHelper";
 import {addItem, removeItem} from "../../Util/Helper/ItemTransferHelper";
-import {DEFAULT_LOOT_FLAG, Desire, ItemDesire, LOOT_FLAG_ID} from "./LootFlags";
-import getFlag from "../../Util/Helper/FlagHelper";
+import {Desire, getLootFlag, ItemDesire} from "./LootFlags";
 import {isEqual} from "../../Util";
 import {distributeDesires} from "./Desire/DesireDistribute";
 import {loadActor, loadItem} from "../../Util/Identifiers/UuidHelper";
@@ -37,7 +36,7 @@ export const LootSplitGold = registerGMSocket<LootSplitGoldAction>("LootSheet_Sp
         }
     }
     if(count > 0) {
-        await actor.update({"data.currency": NoActorCurrency})
+        await actor.update({"system.currency": NoActorCurrency})
     }
 })
 
@@ -46,16 +45,16 @@ interface MarkLootDesireAction {
     lootId: UUID,
     desire: Desire | null
 }
-export const MarkLootDesire = registerGMSocket<MarkLootDesireAction>(LOOT_FLAG_ID, async({selfId, lootId, desire})=>{
+export const MarkLootDesire = registerGMSocket<MarkLootDesireAction>("LootSheet", async({selfId, lootId, desire})=>{
     let lootItem = loadItem.sync(lootId)!
     let lootOwner = lootItem.actor!
-    let [flag, setFlag] = getFlag(lootOwner, LOOT_FLAG_ID, DEFAULT_LOOT_FLAG)
-    let existing : ItemDesire = flag.desires.find(x=>x.itemId === lootItem.id) || {itemId: lootItem.id, players: []}
-    let op = existing.players.filter(x=>!isEqual(x.player, selfId))
-    let np = desire !== null ? [
-            ...op,
+    let [flag, setFlag] = getLootFlag(lootOwner)
+    let existing: ItemDesire = flag.desires.find(x=>x.itemId === lootItem.id) ?? {itemId: lootItem.id, players: []}
+    let otherPlayers = existing.players.filter(x=>x.player !== selfId)
+    let np = (desire !== null) ? [
+            ...otherPlayers,
             {player: selfId, desire}
-        ] : op
+        ] : otherPlayers
     let newFlag = {
         ...flag,
         desires: [
@@ -73,7 +72,10 @@ interface LootSplitNGSArgs {
     lootId: UUID
 }
 export const LootSplitNGS = registerGMSocket<LootSplitNGSArgs>("LootSheet_SplitNGS", async ({lootId})=> {
-    let loot = loadActor.sync(lootId)!
+    let loot = loadActor.sync(lootId)
+    if(!loot) {
+        throw Error("Error distributing loot")
+    }
     let results = await distributeDesires(loot)
     let chatContent = results.join("<br/>")
     await ChatMessage.create({content: chatContent})

@@ -1,5 +1,4 @@
-import getFlag from "../../../Util/Helper/FlagHelper";
-import {DEFAULT_LOOT_FLAG, Desire, LOOT_FLAG_ID} from "../LootFlags";
+import {Desire, getLootFlag} from "../LootFlags";
 import {addItem, removeItem} from "../../../Util/Helper/ItemTransferHelper";
 import {TokenSettings} from "../../../Token/TokenSettings";
 import {addSellFlag} from "./SellDesire";
@@ -45,7 +44,7 @@ async function give(needers: UUID[], loot: Actor, item: Item, type: String, resu
 
 export async function distributeDesires(loot: Actor5e): Promise<String[]> {
     let result: String[] = []
-    let [flag] = getFlag(loot, LOOT_FLAG_ID, DEFAULT_LOOT_FLAG)
+    let [flag] = getLootFlag(loot)
     for (let desires of flag.desires) {
         let item = loot.items.get(desires.itemId)
         if(!item) continue
