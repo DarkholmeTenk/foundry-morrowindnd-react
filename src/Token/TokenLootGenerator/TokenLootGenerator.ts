@@ -2,10 +2,9 @@ import doRollTable from "../../RollTable/Rolling/TableRoller";
 import LogFactory from "../../Util/Logging";
 import {callRoll} from "../../Util/Helper/RollHelper";
 import {getTokenLootGeneratorFlag, RollTableChoice} from "./TokenLootGeneratorFlag";
+import {CreateTokenMutateArgs} from "../../Util/Hooks/TokenMutateHooks";
 
 const log = LogFactory("TokenLootGenerator")
-
-export const ACTOR_FLAG = "extraActorData"
 
 function fixTokenModifications(o: any): any {
     let nO = {}
@@ -19,7 +18,7 @@ function fixTokenModifications(o: any): any {
     return nO
 }
 
-Hooks.on("createTokenMutate", async (update, {token})=>{
+Hooks.on("createTokenMutate", async (update, {token}: CreateTokenMutateArgs)=>{
     let actor = token.actor
     update(async ()=>{
         let [flag] = getTokenLootGeneratorFlag(actor)

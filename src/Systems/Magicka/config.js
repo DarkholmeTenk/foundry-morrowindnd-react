@@ -1,4 +1,5 @@
 import { getSettings, loadSettings } from "./wrapper/slot-costs.ts";
+import {FLAG_SCOPE} from "../../Util/Helper/FlagHelper";
 
 const configOptions = [
 	...getSettings()
@@ -7,7 +8,7 @@ const configOptions = [
 function reload() {
 	let config = {}
 	configOptions.forEach((setting)=>{
-		config[setting.name] = game.settings.get("moss", setting.name)
+		config[setting.name] = game.settings.get(FLAG_SCOPE, setting.name)
 	})
 	loadSettings(config);
 }
@@ -22,7 +23,7 @@ export function registerSettings() {
 			config: true,
 			onChange: reload
 		}
-		game.settings.register("moss", setting.name, option)
+		game.settings.register(FLAG_SCOPE, setting.name, option)
 	})
 	reload();
 }

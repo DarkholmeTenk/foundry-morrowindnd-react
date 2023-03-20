@@ -1,6 +1,6 @@
-import {setupSettingMenu} from "../../Constants/Config";
 import PackSelectorComponent, {PackSelectorOptions} from "../../Constants/Packs/PackSelectorComponent";
 import {PackId} from "../../Util/Identifiers/PackHelper";
+import {setupSettingMenu} from "../../Settings/SettingMenu";
 
 export const ItemPackSetting = setupSettingMenu<PackId[]>({
     key: "rolltable.itempack",

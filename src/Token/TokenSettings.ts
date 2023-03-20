@@ -1,5 +1,5 @@
-import {setupSettingMenu} from "../Constants/Config";
 import TokenSettingComponent from "./TokenSettingComponent";
+import {setupSettingMenu} from "../Settings/SettingMenu";
 
 export interface TokenSetting {
     lootTokenBase?: UUID,

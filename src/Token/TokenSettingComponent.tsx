@@ -1,4 +1,4 @@
-import {Setting} from "../Constants/Config";
+import {Setting} from "../Settings/Config";
 import {TokenSetting} from "./TokenSettings";
 import {useCallback, useState} from "react";
 import {Button, CircularProgress} from "@material-ui/core";
