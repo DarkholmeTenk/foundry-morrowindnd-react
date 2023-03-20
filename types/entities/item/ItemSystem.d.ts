@@ -1,6 +1,6 @@
 import {SystemEntry} from "../../DocumentBase";
 
-export interface BaseItemData {
+export interface BaseItemData extends ItemUsageData, ItemActivationData {
     source?: string
     description?: {
         value?: string
@@ -10,7 +10,8 @@ export interface BaseItemData {
 export interface HoldableItemData extends BaseItemData {
     quantity?: number
     weight?: number
-    price?: number
+    price?: {value: number, denomination: CurrencyDenomination }
+    rarity?: string
 }
 
 export interface ConsumableData extends HoldableItemData {
@@ -32,5 +33,10 @@ export interface SpellData extends BaseItemData {
 }
 export type SpellEntry = SystemEntry<"spell", SpellData>
 
-export type ItemSystem = SpellEntry | EquipmentEntry | ClassEntry | ConsumableEntry
+export type UndecoratedEntry = SystemEntry<"backpack" | "feat" | "subclass", BaseItemData>
+export type HoldableUndecoratedEntry = SystemEntry<"loot" | "tool", HoldableItemData>
+
+export type HoldableEntry = HoldableUndecoratedEntry | EquipmentEntry | ConsumableEntry
+
+export type ItemSystem = SpellEntry | EquipmentEntry | ClassEntry | ConsumableEntry | UndecoratedEntry | HoldableUndecoratedEntry
 export type ItemSystemData = ItemSystem["system"]

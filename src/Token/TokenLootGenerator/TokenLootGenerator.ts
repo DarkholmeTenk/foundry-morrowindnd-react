@@ -1,6 +1,7 @@
 import doRollTable from "../../RollTable/Rolling/TableRoller";
 import LogFactory from "../../Util/Logging";
 import {callRoll} from "../../Util/Helper/RollHelper";
+import {getTokenLootGeneratorFlag} from "./TokenLootGeneratorFlag";
 
 const log = LogFactory("TokenLootGenerator")
 
@@ -26,7 +27,8 @@ function fixTokenModifications(o: any): any {
 Hooks.on("createTokenMutate", async (update, {token})=>{
     let actor = token.actor
     update(async ()=>{
-        let rollTableIds: RollTableIds[] = actor.getFlag("morrowindnd", ACTOR_FLAG)?.rollTableIds || []
+        let [flag] = getTokenLootGeneratorFlag(actor)
+        let rollTableIds: RollTableIds[] = flag.rollTableIds
         let rollResult = (await Promise.all(rollTableIds.map(async ({id: rollTableId, qty})=>{
             let result = await callRoll(qty)
             let data = await Promise.all(Array(result).fill("").map(()=>doRollTable(rollTableId)))
@@ -36,7 +38,7 @@ Hooks.on("createTokenMutate", async (update, {token})=>{
         }))).flatMap(i=>i)
         let items = rollResult.flatMap(d=>d.getItemData())
         let modifications = {}
-        rollResult.map(x=>x.getModifications(actor.data)).forEach(modObj=>Object.assign(modifications, fixTokenModifications(modObj)))
+        rollResult.map(x=>x.getModifications(actor._source)).forEach(modObj=>Object.assign(modifications, fixTokenModifications(modObj)))
         log("Giving NPC items", token, items, modifications)
         return {"items": items, ...modifications}
     })

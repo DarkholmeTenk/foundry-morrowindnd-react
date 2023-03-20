@@ -4,14 +4,22 @@ import LoggerFactory from "../../Util/Logging"
 import {setupFolder} from "../../Util/Helper/FolderHelper";
 // @ts-ignore
 import {clone, isEqual} from '../../Util'
+import {FLAG_SCOPE} from "../../Util/Helper/FlagHelper";
+import {ConsumableData, ConsumableEntry, HoldableEntry, SpellEntry} from "../../../types/entities/item/ItemSystem";
+import {getGoldValue} from "../../Util/Helper/GoldHelper";
 
 const log = LoggerFactory("Enchanter")
 
+interface ChargeData {
+    charges: number
+    label: string
+    weight: number
+}
 export const Minor = {charges: 2, label: "Minor", weight: 8}
 export const Major = {charges: 5, label: "Major", weight: 3}
 export const Superior = {charges: 10, label: "Superior", weight: 1}
 export const Immense = {charges: 15, label: "Immense", weight: 0.5}
-export const ChargeTypes = [Minor, Major, Superior, Immense]
+export const ChargeTypes: ChargeData[] = [Minor, Major, Superior, Immense]
 
 export function getRandomCharge() {
     let max = ChargeTypes.map(x=>x.weight).reduce((p,c)=>p+c)
@@ -43,31 +51,36 @@ function getRarity(value) {
     return result.name
 }
 
-export function getEnchantData({itemData, charges, spellData}) {
+type HoldableIData = ItemData & HoldableEntry
+interface EnchantProps<T extends HoldableIData> {
+    itemData: T
+    charges: ChargeData
+    spellData: ItemData & SpellEntry
+}
+export function getEnchantData<T extends HoldableIData>({itemData, charges, spellData}: EnchantProps<T>): ItemData & ConsumableEntry {
     let enchantData = {item: itemData._id, charges: charges, spell: spellData._id}
     let newName = `${itemData.name} of ${charges.label} ${spellData.name}`
     log(`Enchanting item ${newName}`, itemData, charges, spellData)
-    let spellLevel = spellData.data.level
-    let newValue = Math.floor((itemData.data.price * 1.2) + calculateEnchantValueAdd(spellLevel, charges.charges))
-    let nestedData = {
-        ...spellData.data,
-        description: {value:`${itemData.data.description.value}<br/><br/>${spellData.data.description.value}`, chat: "", unidentified: `${itemData.data.description.value}<br/><br/>Unknown enchantment`},
+    let spellLevel = spellData.system.level
+    let newGoldValue = Math.floor((getGoldValue(itemData.system.price) * 1.2) + calculateEnchantValueAdd(spellLevel, charges.charges))
+    let nestedData: ConsumableData = {
+        ...spellData.system,
+        description: {value:`${itemData.system.description?.value ?? ""}<br/><br/>${spellData.system.description?.value ?? ""}`},
         consumableType: "trinket",
-        weight: itemData.data.weight,
-        price: newValue,
+        weight: itemData.system.weight,
+        price: {value: newGoldValue, denomination: "gp"},
         quantity: 1,
-        uses: {value: charges.charges, max: charges.charges, per: "day"},
-        armor: itemData.data.armor,
-        rarity: getRarity(newValue)
+        uses: {value: charges.charges, max: charges.charges, per: "day", recovery: '', autoDestroy: false},
+        rarity: getRarity(newGoldValue)
     }
     return {
         name: newName,
-        permission: itemData.permission,
+        ownership: itemData.ownership,
         type: "consumable",
-        data: nestedData,
+        system: nestedData,
         img: itemData.img,
         flags: {
-            "morrowindnd": {
+            [FLAG_SCOPE]: {
                 "enchanter_data": enchantData
             }
         }
@@ -89,7 +102,7 @@ export async function enchantWeapon({item, weaponEnchant, renderSheet = true}): 
     }
 
     let folderId = await setupFolder(`MorrowinDnD/Enchanted Items/Weapons`)
-    let newData = clone(item.data)
+    let newData = deepClone(item.data)
     newData.folder = folderId
     newData._id = null
     weaponEnchant.apply(newData)

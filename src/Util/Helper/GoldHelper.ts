@@ -18,8 +18,10 @@ export const CurrencyRates = [
     {name: CurrencyType.pp, m: 10},
     {name: CurrencyType.gp, m: 1},
     {name: CurrencyType.sp, m: 0.1},
-    {name: CurrencyType.cp, m: 0.01}
+    {name: CurrencyType.cp, m: 0.01},
 ]
+
+export const CurrencyLevels = [CurrencyType.pp, CurrencyType.gp, CurrencyType.sp, CurrencyType.cp]
 
 export type GoldBreakdown = Partial<Record<CurrencyType, number>>
 
@@ -74,4 +76,12 @@ export async function addGold(actor: Actor, amount: number) {
     let currency = new CurrencyItem(breakdown)
     let mod = currency.getModifications(actor._source)
     await actor.update(mod)
+}
+
+export function getGoldValue(price: {value: number, denomination: CurrencyDenomination } | undefined): number {
+    if(!price) return 0
+    let {value, denomination} = price
+    let v = CurrencyRates.find(x=>x.name == denomination)
+    if(!v) return 0
+    return v.m * value
 }

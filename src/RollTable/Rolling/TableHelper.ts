@@ -9,6 +9,12 @@ import TableTableHelper from "./TableTableHelper";
 
 const log = LoggerFactory("TableHelper")
 
+export enum RollType {
+	TEXT = 0,
+	DOCUMENT = 1,
+	COMPENDIUM = 2
+}
+
 export interface RollData  {
 	getModifications(actorData: any): {[field: string]: any}
 
@@ -67,7 +73,7 @@ export async function getRollTableData(result: RealTableResult): Promise<RollDat
 		}
 	} else if(result.type == RollType.COMPENDIUM) {
 		let pack = game.packs.get(result.documentCollection)
-		let item = await pack?.getDocument(result.documentId)
+		let item: DocumentBase | undefined = await pack?.getDocument(result.documentId)
 		if(item && item instanceof Item) return [new TableItemRollData(item)]
 	} else {
 		log.error("Somehow we got the wrong type", arguments)

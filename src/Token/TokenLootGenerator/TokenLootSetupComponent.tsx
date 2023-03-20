@@ -2,25 +2,21 @@ import {useCallback, useContext, useState} from "react";
 import Selector from "../../Util/Components/Selector";
 import {Button} from "@material-ui/core";
 import ApplicationContext from "../../Util/React/core/ApplicationContext";
+import {getTokenLootGeneratorFlag} from "./TokenLootGeneratorFlag";
+import {useArrayReducers} from "../../Util/Helper/ArrayReducers";
+import {useMappedSetter, useSetter} from "../../Util/React/update/Updater";
 
-export default function TokenLootSetupComponent({flag, setFlag}) {
+interface Props {
+    actor: Actor5e
+}
+export default function TokenLootSetupComponent({actor}: Props) {
+    let [flag, setFlag] = getTokenLootGeneratorFlag(actor)
     let tables = game.tables
-    let [rollTables, setRollTables] = useState(flag?.rollTableIds || [])
+    let [rollTables, setRollTables] = useState(flag?.rollTableIds ?? [])
+    let [updateTable, addTable, removeTable] = useArrayReducers(setRollTables)
     let app = useContext(ApplicationContext)
-    let removeTable = useCallback((slot)=>{
-        let newRollTables = [...rollTables]
-        newRollTables.splice(slot, 1)
-        setRollTables(newRollTables)
-    }, [rollTables])
-    let addTable = useCallback(()=>{
-        setRollTables([...rollTables, {id: null, qty: "1"}])
-    }, [rollTables])
-    let updateTable = useCallback((slot, newValue)=>{
-        let newTables = [...rollTables]
-        newTables[slot] = newValue
-        setRollTables(newTables)
-    }, [rollTables])
 
+    let first = tables.map(x=>x.id)[0]
     return <div>
         {rollTables.map((table, index)=>{
             let rolltable = tables.get(table.id)
@@ -30,7 +26,7 @@ export default function TokenLootSetupComponent({flag, setFlag}) {
                 <Button onClick={()=>removeTable(index)}>-</Button>
             </div>
         })}
-        <Button onClick={addTable}>+</Button>
+        <Button onClick={()=>addTable({id: first, qty: ""})}>+</Button>
         <Button onClick={async ()=>{
             await setFlag({rollTableIds: rollTables})
             await app.close()

@@ -5,10 +5,9 @@ import {SimpleReactApplication} from "../../Util/React/ReactApplication";
 
 const log = getLogger("TableModifier")
 
-function openTableModifier(table) {
-    let flag = table.getFlag("morrowindnd", "enchant_spells")
-    let setFlag = (v)=>table.setFlag("morrowindnd", "enchant_spells", v)
-    new SimpleReactApplication(<TableModifierComponent flag={flag} setFlag={setFlag} />, {width: 400, height: 150}).render(true)
+
+function openTableModifier(table: RollTable) {
+    new SimpleReactApplication(<TableModifierComponent table={table} />, {width: 400, height: 150}).render(true)
 }
 
 Hooks.on("rollTableConfigMenuItems", async (addMenuItem, app)=>{

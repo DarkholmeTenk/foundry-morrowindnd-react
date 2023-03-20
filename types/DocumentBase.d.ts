@@ -14,6 +14,7 @@ declare global {
     interface DocumentBaseData {
         ownership: Record<string, PermValue>
         name: string,
+        flags: {[scope: string]: {[flag: string]: any}}
     }
 
     class DocumentBase implements DocumentBaseData {

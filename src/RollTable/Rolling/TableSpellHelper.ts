@@ -19,6 +19,10 @@ export default class TableSpellHelper implements TableHelper {
 		log.debug("Getting random spell from pack", filters)
 		let allResults = await getAllSpells()
 		let filteredResults = allResults.filter(filterItem)
+		if(filteredResults.length == 0) {
+			log.error("Table spells has produced no results")
+			return []
+		}
 		log.debug("Filtered spells", filters, filteredResults)
 		let spellIndex = Math.floor(Math.random() * filteredResults.length)
 		let spell = filteredResults[spellIndex]

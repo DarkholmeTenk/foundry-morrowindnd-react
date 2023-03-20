@@ -7,5 +7,6 @@ declare global {
         static off(event: string, callback: number | HookCallback)
         static once(event: string, callback: HookCallback)
         static call(event: string, ...args: any[])
+        static callAll(event: string, ...args: any[])
     }
 }

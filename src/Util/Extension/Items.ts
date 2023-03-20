@@ -1,3 +1,5 @@
+import {getGoldValue} from "../Helper/GoldHelper";
+
 export function itemQty(item: Item): number {
     return item.qty()
 }
@@ -19,5 +21,5 @@ Item.prototype.qty = function (defaultQty = 0) {
 }
 
 Item.prototype.price = function (defaultPrice = 0) {
-    return "price" in this.system ? this.system.price : defaultPrice
+    return "price" in this.system ? getGoldValue(this.system.price) : defaultPrice
 }

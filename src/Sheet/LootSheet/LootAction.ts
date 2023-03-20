@@ -1,9 +1,8 @@
 import {registerGMSocket} from "../../Util/Socket/SocketHelper";
-import {getGoldDetails} from "./LootSheetGoldUtil";
 import {getGoldBreakdown, NoActorCurrency} from "../../Util/Helper/GoldHelper";
 import {CurrencyItem} from "../../RollTable/Rolling/TableGoldHelper";
 import {addItem, removeItem} from "../../Util/Helper/ItemTransferHelper";
-import {Desire, getLootFlag, ItemDesire} from "./LootFlags";
+import {Desire, getLootGoldDetails, getLootFlag, ItemDesire} from "./LootFlags";
 import {isEqual} from "../../Util";
 import {distributeDesires} from "./Desire/DesireDistribute";
 import {loadActor, loadItem} from "../../Util/Identifiers/UuidHelper";
@@ -23,7 +22,7 @@ interface LootSplitGoldAction {
 }
 export const LootSplitGold = registerGMSocket<LootSplitGoldAction>("LootSheet_SplitGold", async({lootId})=>{
     let actor = loadActor.sync(lootId)!
-    let {takers, splitAmount} = getGoldDetails(actor)
+    let {takers, splitAmount} = getLootGoldDetails(actor)
     let breakdown = getGoldBreakdown(splitAmount)
     let count = 0
     for(let key of Object.keys(takers)) {

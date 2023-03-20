@@ -52,18 +52,3 @@ export function isEqual(a, b, ignore = {}) {
     return isEqualDetailed(a, b, ignore).equal
 }
 
-export function clone(i) {
-    if(i !== null) {
-        if(Array.isArray(i)) {
-            return i.map(i=>clone(i))
-        } else if(typeof(i) === "object") {
-            let newObj = {}
-            Object.keys(i).forEach(key=>{
-                newObj[key] = clone(i[key])
-            })
-            return newObj
-        } else {
-            return i
-        }
-    }
-}

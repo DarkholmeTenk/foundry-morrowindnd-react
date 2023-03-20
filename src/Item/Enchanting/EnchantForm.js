@@ -6,6 +6,7 @@ import {SimpleReactApplication} from "../../Util/React/ReactApplication";
 const log = LogFactory("EnchantForm")
 
 function canFix(item) {
+	return false
 	let {value, max, per} = item.data.data.uses || {value: 0, max:0, per:""} 
 	if(item.data.type === "equipment" && max > 0 && per == "day") {
 		return true;

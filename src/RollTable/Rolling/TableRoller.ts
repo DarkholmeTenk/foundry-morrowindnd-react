@@ -1,11 +1,9 @@
 import {getRollTableData, RollData} from "./TableHelper";
 import LogFactory from "../../Util/Logging";
+import {FLAG_SCOPE} from "../../Util/Helper/FlagHelper";
+import {getRollTableFlag, RollTableFlagKey} from "../FlagData/RollTableFlag";
 
 const log = LogFactory("TableRoller")
-
-interface ModifierData {
-    tableId?: string
-}
 
 class EncapsulatingRollData implements RollData {
     constructor(private readonly rolls: RollData[], private readonly modifiers: RollData[]) {
@@ -42,7 +40,7 @@ class EncapsulatingRollData implements RollData {
 export default async function doRollTable(id: string): Promise<RollData[]> {
     if(!id) return []
     let rollTable = game.tables!.get(id)!
-    let {tableId} = (rollTable.getFlag("morrowindnd", "enchant_spells") || {}) as ModifierData
+    let [{tableId}] = getRollTableFlag(rollTable)
     let roll = await rollTable.roll()
     let results = (await Promise.all(roll.results.map(async result=>{
         return await getRollTableData(result)

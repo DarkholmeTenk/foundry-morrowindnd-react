@@ -1,5 +1,5 @@
 export const FLAG_SCOPE = "MorrowinDnDReact"
-export type FlagResult<T> = [T, (T)=>Promise<any>]
+export type FlagResult<T> = [T, (t: T)=>Promise<any>]
 
 export default function getFlag<T extends object>(object: DocumentBase, flagId: string, defaultFlag?: T): FlagResult<T> {
     let defFlag = defaultFlag || {}

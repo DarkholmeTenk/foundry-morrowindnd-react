@@ -1,7 +1,7 @@
 import {RollData} from "./TableHelper";
-// @ts-ignore
-import {clone} from "../../Util"
-import {getEnchantData, getRandomCharge, isSpellEnchantable} from "../../Item/Enchanting/Enchanter";
+import {getEnchantData, getRandomCharge} from "../../Item/Enchanting/Enchanter";
+import {isHoldable} from "../../Util/Helper/ItemHelper";
+
 
 export default class TableItemRollData implements RollData {
     constructor(private readonly item: Item, private readonly qtyMult: number = 1) {}
@@ -10,25 +10,23 @@ export default class TableItemRollData implements RollData {
         return this.item.type === "spell"
     }
 
-    applyItemModification(itemData: any): any {
-        if(isSpellEnchantable(itemData) && this.isSpell) {
+    applyItemModification(itemData: SmartItemData): any {
+        let spellSource = this.item._source
+        if(isHoldable(itemData) && spellSource.type == "spell") {
             let charges = getRandomCharge()
-            return getEnchantData({itemData, charges, spellData: this.item._source})
+            return getEnchantData({itemData, charges, spellData: spellSource})
         } else {
             return itemData
         }
     }
 
     getItemData(): any[] {
-        let newData = clone(this.item._source)
-        let newItemData = {
-            ...newData,
-            data: {
-                ...newData.data,
-                quantity: (newData.data.quantity || 1) * this.qtyMult
-            }
+        let newData = deepClone(this.item._source)
+        let {system} = newData
+        if("quantity" in system) {
+            system.quantity = (system.quantity ?? 1) * this.qtyMult
         }
-        return [newItemData];
+        return [newData];
     }
 
     getModifications(actorData: any): { [p: string]: any } {

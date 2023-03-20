@@ -1,5 +1,4 @@
 import LogFactory from "../Logging";
-import {cloneItemData} from "./ItemHelper";
 import {itemQty} from "../Extension/Items";
 import {loadActor, loadItem} from "../Identifiers/UuidHelper";
 
@@ -12,18 +11,25 @@ export interface ExtraAddItemOptions {
 }
 
 export function fixItemData(itemData: any, options: ExtraAddItemOptions) {
-    itemData = cloneItemData(itemData)
+    itemData = deepClone(itemData)
     if(itemData.effects && !Array.isArray(itemData.effects)) {
         itemData.effects = Object.values(itemData.effects).map(x=>x)
     }
     if(options?.qty) {
-        itemData.data.quantity = options.qty
+        itemData.system.quantity = options.qty
     }
     return itemData
 }
 
-export async function addItem(actorSource: UUID, itemData: AddableItemData, options: any & ExtraAddItemOptions = {}) {
-    let actor = loadActor.sync(actorSource)!
+type ActorSource = UUID | Actor5e
+function resolve(actorSource: ActorSource): Actor5e {
+    if(actorSource instanceof Actor)
+        return actorSource
+    else
+        return loadActor.sync(actorSource) as Actor5e
+}
+export async function addItem(actorSource: UUID | Actor5e, itemData: AddableItemData, options: any & ExtraAddItemOptions = {}) {
+    let actor = resolve(actorSource)
     let itemArr = (Array.isArray(itemData) ? itemData : [itemData]).map(i => fixItemData(i, options))
     let updating: any[] = []
     let newArr: any[] = []
@@ -50,7 +56,7 @@ export async function removeItem(itemId: UUID, qty: number): Promise<any> {
     if(qty >= iQty) {
         await item.delete()
     } else {
-        await item.update({"data.quantity": iQty - qty})
+        await item.update({"system.quantity": iQty - qty})
     }
     return item._source
 }

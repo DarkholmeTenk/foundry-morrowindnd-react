@@ -17,7 +17,7 @@ function calculateChange(entity: Actor5e, update: any) {
 }
 
 function getMagickaFromUpdate(update: any): Partial<MagickaFlag> | undefined {
-    let flags = update.flags || {}
+    let flags = update?.flags || {}
     let x = flags[FLAG_SCOPE] ?? {}
     if(x[MagickaFlagKey]) return x[MagickaFlagKey]
     return undefined

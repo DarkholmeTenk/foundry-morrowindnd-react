@@ -6,6 +6,10 @@ declare global {
         x: number
         y: number
         parent: Scene
+        isLinked: boolean;
+        texture: {
+            src: string
+        }
     }
     type Token = TokenDocument
 }

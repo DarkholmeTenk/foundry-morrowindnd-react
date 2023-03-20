@@ -1,15 +1,26 @@
 import {ClassEntry, ItemSystem, ItemSystemData, SpellEntry} from "./ItemSystem";
+import {SystemEntry} from "../../DocumentBase";
 
 export {}
 
 declare global {
-    class Item extends DocumentBase {
-        static create(data: any, context: any): Promise<Item5e>
+    interface ItemData extends DocumentBaseData {
+        _id?: string
+        img: string
+        type: string
+        system: ItemSystemData
+        name: string
+    }
+    type SmartItemData = ItemData & ItemSystem
+
+    class Item extends DocumentBase implements ItemData {
+        static create(data: ItemData, context: any): Promise<Item5e>
         img: string
         type: string
         system: ItemSystemData
 
         actor?: Actor5e
+        _source: SmartItemData
 
         //extensions
         weight(defaultWeight?: number): number

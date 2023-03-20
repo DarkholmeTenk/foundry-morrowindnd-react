@@ -2,6 +2,7 @@ import {NPCImage} from "../NPCMaker/NPCMakerUtils";
 import {getNpcNameData} from "../NPCMaker/NPCMakerApi";
 import {generateName} from "../NPCMaker/NameHelper";
 import LogFactory from "../Util/Logging";
+import {CreateTokenMutateArgs} from "../Util/Hooks/TokenMutateHooks";
 
 const log = LogFactory("TokenTraitModifier")
 
@@ -11,9 +12,10 @@ let traits = {
     "heavy": (actor)=>({"actorData.data.attributes.ac.flat": actor.getRollData().attributes.ac.value + 2})
 }
 
-Hooks.on("createTokenMutate", async (update, {token})=>{
+Hooks.on("createTokenMutate", async (update, {token}: CreateTokenMutateArgs)=>{
     update(async ()=>{
-        let image = token.data.img.replace(/.*\//, "")
+        let imgSrc = token.texture?.src
+        let image = imgSrc?.replace(/.*\//, "") ?? ""
         let matchedTraits = Object.keys(traits).filter((traitName)=>image.indexOf(traitName) !== -1)
         log.debug("Matching traits", image, matchedTraits)
         let updateData = {}
@@ -21,10 +23,10 @@ Hooks.on("createTokenMutate", async (update, {token})=>{
             let trait = traits[traitName](token.actor)
             Object.assign(updateData, trait)
         })
-        updateData["actorData.img"] = token.data.img
+        if(imgSrc) updateData["actorData.img"] = imgSrc
         let imageObj = new NPCImage({name: image})
         let {race, gender} = imageObj.getTags()
-        if(race && gender && !token.actorLink) {
+        if(race && gender && !token.isLinked) {
             let nameData = await getNpcNameData()
             let name = generateName(nameData, race, gender)
             updateData["name"] = name

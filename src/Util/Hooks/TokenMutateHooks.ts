@@ -16,20 +16,25 @@ function split(updates) {
     }
 }
 
-Hooks.on('createToken', async (token, data)=>{
+type Updater = ()=>PromiseLike<any>
+
+export interface CreateTokenMutateArgs {
+    token: TokenDocument
+}
+Hooks.on('createToken', async (token: TokenDocument, data)=>{
     if(token.isOwner && !token.isLinked) {
-        let promises = []
+        let promises: Updater[] = []
         let update = (updateData)=>promises.push(updateData)
         Hooks.callAll("createTokenMutate", update, {token})
         setTimeout(async ()=>{
             let updateDataArray = (await Promise.all(promises.map(p=>p()))).filter(x=>x)
-            let updateData = {}
+            let updateData: any = {}
             updateDataArray.forEach(ud=>Object.assign(updateData, ud))
             if(Object.keys(updateData).length !== 0) {
 
                 if(updateData.items && updateData.items.length > 0) {
                     let items = mergeItemData(updateData.items)
-                    await addItem(token, items)
+                    await addItem(token.actor, items)
                     delete updateData.items
                 }
                 let splitData = split(updateData)

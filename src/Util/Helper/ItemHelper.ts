@@ -1,24 +1,26 @@
 import LogFactory from "../Logging";
+import {HoldableEntry} from "../../../types/entities/item/ItemSystem";
 
 const log = LogFactory("ItemMerger")
 
-export function cloneItemData(i: any) {
-    return { ...i, data: {...i.data} }
+export function isHoldable(itemData: SmartItemData): itemData is ItemData & HoldableEntry {
+    return "price" in itemData.system || "weight" in itemData.system || "quantity" in itemData.system
 }
 
-export function mergeItemData(items: any[]) {
+export function mergeItemData(items: SmartItemData[]) {
     log.debug("Merging Items", items)
-    let nameArr: Record<string, {oldVal: any, newVal: any}> = {}
+    let nameArr: Record<string, {oldVal: SmartItemData, newVal: SmartItemData}> = {}
     items.forEach(i=>{
         let lowerName = i.name.toLowerCase()
         if(nameArr[lowerName]) {
             let eH = nameArr[lowerName]
             if(eH.newVal == eH.oldVal) {
-                eH.newVal = cloneItemData(eH.newVal)
+                eH.newVal = deepClone(eH.newVal)
             }
             let e = eH.newVal
-            e.data.quantity = (e.data.quantity ?? 1) + (i.data.quantity ?? 1)
-            e.isStack = e.data.quantity > 1
+            if(isHoldable(e) && isHoldable(i)) {
+                e.system.quantity = (e.system.quantity ?? 1) + (i.system.quantity ?? 1)
+            }
         } else {
             nameArr[lowerName] = {oldVal: i, newVal: i}
         }
