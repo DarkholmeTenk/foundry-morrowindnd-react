@@ -1,11 +1,11 @@
 import {useWatchEntity} from "../../Util/Helper/EntityHelper";
 import {LootSplitNGS} from "./LootAction";
-import GoldSection from "./GoldSection";
+import GoldSection from "./GoldBox/GoldSection";
 import Style from "./LootSheet.module.scss"
 import GoldDisplay from "../../Util/Components/GoldDisplay";
 import getFlag from "../../Util/Helper/FlagHelper";
 import {buildDesireMap, getLootFlag, LootFlag} from "./LootFlags";
-import LootSheetDesireComponent from "./LootSheetDesireComponent";
+import LootSheetDesireComponent from "./Desire/LootSheetDesireComponent";
 import {Button} from "@material-ui/core";
 import {useCallback, useMemo} from "react";
 import {NewItemTable} from "../../Util/Components/NewItemTable/NewItemTable";
@@ -51,10 +51,13 @@ export default function LootSheetComponent({npc}) {
             <GoldSection npc={npc}
                          disabled={!npc!.isOwner}
             />
-            <div className="flex-row">
-                <Button variant="outlined" style={{height: "64px"}} onClick={splitNGS}>Split NGS</Button>
-            </div>
         </div>
-        {items.length > 0 ? <NewItemTable items={items} expander={ItemExpander} extraData={extraData} filter={StandardItemFilter} columns={Columns}/> : null}
+        {items.length > 0 ? <NewItemTable items={items}
+                                          expander={ItemExpander}
+                                          extraData={extraData}
+                                          filter={StandardItemFilter}
+                                          columns={Columns}
+                                          actions={()=><Button variant="outlined" style={{height: "32px"}} onClick={splitNGS}>Split NGS</Button>}
+        /> : null}
     </div>
 }

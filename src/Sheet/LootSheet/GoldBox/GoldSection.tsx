@@ -1,10 +1,11 @@
-import GoldDisplay from "../../Util/Components/GoldDisplay";
+import GoldDisplay from "../../../Util/Components/GoldDisplay";
 import {Button, Card, CardActions, CardContent, Input, Typography} from "@material-ui/core";
 import React, {useCallback, useState} from "react";
-import {LootSplitGold} from "./LootAction";
-import {addGold, removeGold} from "../../Util/Helper/GoldHelper";
-import {UserGroupSelector} from "../../Util/Helper/UserHelper";
-import {getLootGoldDetails, getLootFlag} from "./LootFlags";
+import {addGold, removeGold} from "../../../Util/Helper/GoldHelper";
+import {UserGroupSelector} from "../../../Util/Helper/UserHelper";
+import {getLootGoldDetails, getLootFlag} from "../LootFlags";
+import {LootSplitGold} from "./SplitGoldAction";
+import Styles from "./GoldSection.module.scss"
 
 export default function GoldSection({npc, disabled}) {
     let [flag, setFlag] = getLootFlag(npc)
@@ -27,7 +28,7 @@ export default function GoldSection({npc, disabled}) {
     }, [newGold])
     let owner = npc.isOwner
 
-    return <Card>
+    return <Card className={Styles.GoldSection}>
         <CardContent>
             <Typography>Gold Loot</Typography>
             <UserGroupSelector selected={takers} setSelected={setTakers} disabled={disabled} />

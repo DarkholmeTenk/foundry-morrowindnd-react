@@ -1,19 +1,19 @@
-import {getBuyPrice, getMerchantFlag, MerchantFlag} from "./MerchantFlag";
-import {MerchantBuy} from "./MerchantAction";
-import {openItemQuantitySelect} from "../LootSheet/ItemQuantitySelector";
+    import {getBuyPrice, getMerchantFlag, MerchantFlag} from "../Flag/MerchantFlag";
+import {openItemQuantitySelect} from "../../LootSheet/ItemQuantitySelector";
 import React, {Fragment} from "react";
-import GoldDisplay from "../../Util/Components/GoldDisplay";
+import GoldDisplay from "../../../Util/Components/GoldDisplay";
 import {Paper} from "@material-ui/core";
-import {SellableItem} from "./Sellable/SellableData";
+import {SellableItem} from "../MerchantInventory/SellableData";
 // @ts-ignore
-import Styles from "./MerchantSheet.module.scss"
-import {SellableStuff} from "./MerchantSheetComponent";
-import {itemQty} from "../../Util/Extension/Items";
-import {ItemControl} from "../../Util/Components/NewItemTable/Item/ItemControls";
-import {getGoldAmountFromActor} from "../../Util/Helper/GoldHelper";
-import {DefaultItemColumns} from "../../Util/Components/NewItemTable/Item/ItemColumns";
-import {TableColumn} from "../../Util/Components/NewItemTable/TableColumn";
-import {NewItemTable} from "../../Util/Components/NewItemTable/NewItemTable";
+import Styles from "../MerchantSheet.module.scss"
+import {SellableStuff} from "../MerchantSheetComponent";
+import {itemQty} from "../../../Util/Extension/Items";
+import {ItemControl} from "../../../Util/Components/NewItemTable/Item/ItemControls";
+import {getGoldAmountFromActor} from "../../../Util/Helper/GoldHelper";
+import {DefaultItemColumns} from "../../../Util/Components/NewItemTable/Item/ItemColumns";
+import {TableColumn} from "../../../Util/Components/NewItemTable/TableColumn";
+import {NewItemTable} from "../../../Util/Components/NewItemTable/NewItemTable";
+    import {MerchantBuy} from "./BuyAction";
 
 function getGetQty(sellables: SellableItem[]): ((Item)=>number | undefined) {
     return (item: Item)=>{

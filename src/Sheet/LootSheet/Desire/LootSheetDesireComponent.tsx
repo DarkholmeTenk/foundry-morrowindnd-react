@@ -1,10 +1,10 @@
-import {Desire, MappedDesires} from "./LootFlags";
+import {Desire, MappedDesires} from "../LootFlags";
 import {Chip, CircularProgress, Tooltip} from "@material-ui/core";
 import {useCallback} from "react";
-import {MarkLootDesire} from "./LootAction";
-import {e} from "../../Util/Helper/DomEventHelper";
-import DesireTooltip from "./Desire/DesireTooltip";
-import {useNewSelf} from "../../Util/React/core/NewSelfSelector";
+import {MarkLootDesire} from "../LootAction";
+import {e} from "../../../Util/Helper/DomEventHelper";
+import DesireTooltip from "./DesireTooltip";
+import {useNewSelf} from "../../../Util/React/core/NewSelfSelector";
 
 let DESIRE_INFOS: {[key in Desire]: {text: string, name:  string}} = {
     [Desire.NEED]: {

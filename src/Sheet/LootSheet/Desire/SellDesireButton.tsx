@@ -1,14 +1,14 @@
 import {TokenSettings} from "../../../Token/TokenSettings";
 import {Button, CircularProgress, FormGroup} from "@material-ui/core";
 import {hasSellFlag} from "./SellDesire";
-import {getSellPrice} from "../../MerchantSheet/MerchantFlag";
+import {getSellPrice} from "../../MerchantSheet/Flag/MerchantFlag";
 import {useCallback, useState} from "react";
 import {useUserGroupSelector} from "../../../Util/Helper/UserHelper";
-import {MerchantSellJunk} from "../../MerchantSheet/MerchantAction";
 import GoldDisplay from "../../../Util/Components/GoldDisplay";
 import {useWatchedUuid} from "../../../Util/Helper/EntityHelper";
 import {isActor} from "../../../Util/Identifiers/UuidHelper";
 import {itemQty} from "../../../Util/Extension/Items";
+import {MerchantSellJunk} from "../../MerchantSheet/Sell/SellJunkAction";
 
 export function getSellDesireItems(actor: Actor): Item[] {
     return actor.items.filter(i=>hasSellFlag(i))

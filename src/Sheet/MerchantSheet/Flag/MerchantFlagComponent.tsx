@@ -1,6 +1,6 @@
 import {Button, MenuItem, Paper, Select, Slider} from "@material-ui/core";
 import {useState} from "react";
-import {StoredSellables} from "./Sellable/Settings";
+import {StoredSellables} from "../MerchantInventory/Settings";
 
 export default function MerchantFlagComponent({merchantFlag, setMerchantFlag}) {
     let [buyRate, setBuyRate] = useState(merchantFlag.buyRate)

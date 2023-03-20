@@ -1,3 +1,13 @@
 .itemTable button {
   width: auto;
 }
+
+.ActionContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  button {
+    width: auto;
+  }
+}

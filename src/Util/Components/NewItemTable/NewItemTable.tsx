@@ -1,4 +1,4 @@
-import React from "react";
+import React, {FunctionComponent} from "react";
 import {ItemTableFilter, useFilter} from "./NewItemTableFilters";
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
 import Styles from "./NewItemTable.module.scss";
@@ -12,11 +12,13 @@ interface NewItemTableProps<D, T, Q> {
     filter?: ItemTableFilter<T, Q>
     columns: TableColumn<D, T>[],
     expander?: ItemExpander<T, D>
-    items: T[]
+    items: T[],
+    actions?: FunctionComponent
 }
-export function NewItemTable<D, T, Q>({extraData, columns, items, filter, expander}: NewItemTableProps<D, T, Q>) {
+export function NewItemTable<D, T, Q>({extraData, columns, items, filter, expander, actions: Actions}: NewItemTableProps<D, T, Q>) {
     let { filtered, FilterComponent } = useFilter({items, filter})
     let { sliced, PaginationComponent } = usePagination({items: filtered})
+    let actionComp = Actions ? <Actions /> : null
     return <div>
         <div style={{all: 'initial'}}>
             {FilterComponent}
@@ -35,7 +37,9 @@ export function NewItemTable<D, T, Q>({extraData, columns, items, filter, expand
                     </TableBody>
                 </Table>
             </TableContainer>
-            <div style={{display: "flex"}}>
+            <div className={Styles.ActionContainer}>
+                { actionComp }
+                <div />
                 { PaginationComponent }
             </div>
         </div>

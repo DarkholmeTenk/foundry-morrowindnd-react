@@ -1,12 +1,12 @@
 import {Fragment, useState} from "react";
-import GoldDisplay from "../../Util/Components/GoldDisplay";
-import {getSellPrice} from "./MerchantFlag";
-import {openItemQuantitySelect} from "../LootSheet/ItemQuantitySelector.tsx";
-import {MerchantSell} from "./MerchantAction";
+import GoldDisplay from "../../../Util/Components/GoldDisplay";
+import {getSellPrice} from "../Flag/MerchantFlag";
+import {openItemQuantitySelect} from "../../LootSheet/ItemQuantitySelector.tsx";
 import {Button, Paper} from "@material-ui/core";
-import Styles from "./MerchantSheet.module.scss"
-import {onDrop} from "../../Util/Helper/DropHelper";
-import SellDesireButton from "../LootSheet/Desire/SellDesireButton";
+import Styles from "../MerchantSheet.module.scss"
+import {onDrop} from "../../../Util/Helper/DropHelper";
+import SellDesireButton from "../../LootSheet/Desire/SellDesireButton";
+import {MerchantSell} from "./SellAction";
 
 export default function SellSheet({self, merchant, merchantFlag}) {
     return <div>WIP</div>

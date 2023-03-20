@@ -2,7 +2,14 @@ export {}
 
 type Key = string | number | symbol
 declare global {
-    function mergeObject<A,B>(a: A, b: B): A & B
+    interface MergeOptions {
+        insertKeys?: boolean,
+        insertValues?: boolean,
+        overwrite?: boolean,
+        recursive?: boolean,
+        inplace?: boolean
+    }
+    function mergeObject<A,B>(a: A, b: B, options?: MergeOptions): A & B
     function getProperty(obj: any, key: string): any
     function setProperty(obj: any, key: string, value: any): boolean
     function invertObject<A extends Key, B extends Key>(obj: Record<A,B>): Record<B, A>

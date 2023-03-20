@@ -1,4 +1,4 @@
-import getFlag from "../../../Util/Helper/FlagHelper";
+import getFlag, {FLAG_SCOPE} from "../../../Util/Helper/FlagHelper";
 
 const sellFlag = "Desire_SELLME"
 
@@ -7,17 +7,6 @@ export function hasSellFlag(item: Item): boolean {
     return flag.sell
 }
 
-export function addSellFlag(itemData: any): any {
-    return {
-        ...itemData,
-        flags: {
-            ...(itemData.flags || {}),
-            MorrowinDnDReact: {
-                ...(itemData.flags["MorrowinDnDReact"] || {}),
-                [sellFlag]: {
-                    sell: true
-                }
-            }
-        }
-    }
+export function addSellFlag(itemData: SmartItemData): SmartItemData {
+    return mergeObject(itemData, {[FLAG_SCOPE]: {[sellFlag]: {sell: true}}})
 }

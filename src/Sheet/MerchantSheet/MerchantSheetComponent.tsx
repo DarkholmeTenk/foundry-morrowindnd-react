@@ -1,16 +1,16 @@
-import {getMerchantFlag} from "./MerchantFlag";
+import {getMerchantFlag} from "./Flag/MerchantFlag";
 import TokenPermission from "../../Util/Components/TokenPermission";
 import {getGoldAmountFromActor} from "../../Util/Helper/GoldHelper";
-import MerchantFlagComponent from "./MerchantFlagComponent";
-import SellSheet from "./SellSheet";
+import MerchantFlagComponent from "./Flag/MerchantFlagComponent";
+import SellSheet from "./Sell/SellSheet";
 import React from "react"
-import BuySheet from "./BuySheet";
+import BuySheet from "./Buy/BuySheet";
 // @ts-ignore
 import Styles from "./MerchantSheet.module.scss"
 import {usePromise} from "../../Util/Helper/PromiseHelper";
-import {SellableItem} from "./Sellable/SellableData";
-import {loadSellable} from "./Sellable/SellableLoader";
-import {getIdentifiableSellable, SellableSourceExtra} from "./Sellable/Settings";
+import {SellableItem} from "./MerchantInventory/SellableData";
+import {loadSellable} from "./MerchantInventory/SellableLoader";
+import {getIdentifiableSellable, SellableSourceExtra} from "./MerchantInventory/Settings";
 import {useNewSelf} from "../../Util/React/core/NewSelfSelector";
 import {useWatchEntity} from "../../Util/Helper/EntityHelper";
 
@@ -19,7 +19,10 @@ export interface SellableStuff {
     extra: SellableSourceExtra | null
 }
 
-export default function MerchantSheetComponent({merchant}: {merchant: Actor5e}) {
+interface Props {
+    merchant: Actor5e
+}
+export default function MerchantSheetComponent({merchant}: Props) {
     let self = useNewSelf()
     useWatchEntity(merchant)
     let [merchantFlag, setMerchantFlag] = getMerchantFlag(merchant)
@@ -49,7 +52,6 @@ export default function MerchantSheetComponent({merchant}: {merchant: Actor5e}) 
         return <div>
             {merchant.isOwner ? <div className="flexrow">
                 <MerchantFlagComponent merchantFlag={merchantFlag} setMerchantFlag={setMerchantFlag}/>
-                <TokenPermission token={merchant}/>
             </div> : null}
             {sellSheet}
             {buySheet}
