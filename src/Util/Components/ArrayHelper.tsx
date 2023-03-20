@@ -1,6 +1,8 @@
 import React, {useCallback} from "react";
 import IconButton from "./IconButton";
 import {Button} from "@material-ui/core";
+import {useArrayReducers} from "../Helper/ArrayReducers";
+import {StateSetter} from "../React/update/Updater";
 
 export interface ArrayFunctionArgs<T> {
     value: T,
@@ -39,22 +41,16 @@ function getNew<T>(getter: NewValueGetter<T>): T {
 type NewValueGetter<T> = T | (()=>T)
 interface ArrayHelperArgs<T> {
     value: T[],
-    setValue: (newValue: T[])=>void,
+    setValue: StateSetter<T[]>,
     component: ArrayFunction<T>,
     newValueGetter: NewValueGetter<T>,
     label?: string
 }
 export default function ArrayHelper<T>({value, setValue, component, newValueGetter, label}: ArrayHelperArgs<T>) {
-    let addItem = useCallback(()=>setValue([...value, getNew(newValueGetter)]), [newValueGetter, value, setValue])
-    let deleteItem = useCallback((index: number)=>setValue(value.filter((i,x)=>x !== index)), [value, setValue])
-    let setItem = useCallback((index: number, newValue: T)=>{
-        let nr = [...value]
-        nr[index] = newValue
-        setValue(nr)
-    }, [value, setValue])
+    let [setItem, addItem, deleteItem] = useArrayReducers(setValue)
     let rows = value.map((v,i)=><ArrayLine key={i} index={i} value={v} component={component} deleteItem={deleteItem} setItem={setItem} />)
     return <div style={{display: "flex", flexDirection: "column"}} >
         {rows}
-        <Button onClick={addItem}>Create {label}</Button>
+        <Button onClick={()=>addItem(getNew(newValueGetter))}>Create {label}</Button>
     </div>
 }

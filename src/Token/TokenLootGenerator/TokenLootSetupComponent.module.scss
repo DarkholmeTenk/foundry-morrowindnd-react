@@ -1,0 +1,16 @@
+.Row {
+  display: flex;
+  flex-direction: row;
+
+  .Qty {
+    width: 120px;
+
+    input {
+      width: 80px;
+    }
+  }
+
+  .Table {
+    flex-grow: 1;
+  }
+}

@@ -8,7 +8,7 @@ Hooks.on("actorSheetMenuItems", (add, app, html, data)=>{
             name: "Loot",
             icon: '<i class="fas fa-utensils"></i>',
             callback: ()=>{
-                new SimpleReactApplication(<TokenLootSetupComponent actor={actor} />, {width: 400, height: 500} ).render(true)
+                new SimpleReactApplication(<TokenLootSetupComponent actor={actor} />, {width: 500, height: 500} ).render(true)
             }
         })
     }

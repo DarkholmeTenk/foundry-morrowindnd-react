@@ -2,8 +2,9 @@ import getFlag from "../../Util/Helper/FlagHelper";
 
 export const TokenLootGeneratorFlagKey = "TokenLootGenerator"
 
+export interface RollTableChoice {id: UUID | undefined, qty: string}
 export interface TokenLootFlagData {
-    rollTableIds: {id: UUID, qty: string}[]
+    rollTableIds: RollTableChoice[]
 }
 
 export function getTokenLootGeneratorFlag(actor: Actor5e) {

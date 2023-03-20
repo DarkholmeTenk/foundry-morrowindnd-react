@@ -1,16 +1,11 @@
 import doRollTable from "../../RollTable/Rolling/TableRoller";
 import LogFactory from "../../Util/Logging";
 import {callRoll} from "../../Util/Helper/RollHelper";
-import {getTokenLootGeneratorFlag} from "./TokenLootGeneratorFlag";
+import {getTokenLootGeneratorFlag, RollTableChoice} from "./TokenLootGeneratorFlag";
 
 const log = LogFactory("TokenLootGenerator")
 
 export const ACTOR_FLAG = "extraActorData"
-
-interface RollTableIds {
-    id: string,
-    qty: string
-}
 
 function fixTokenModifications(o: any): any {
     let nO = {}
@@ -28,8 +23,9 @@ Hooks.on("createTokenMutate", async (update, {token})=>{
     let actor = token.actor
     update(async ()=>{
         let [flag] = getTokenLootGeneratorFlag(actor)
-        let rollTableIds: RollTableIds[] = flag.rollTableIds
+        let rollTableIds: RollTableChoice[] = flag.rollTableIds
         let rollResult = (await Promise.all(rollTableIds.map(async ({id: rollTableId, qty})=>{
+            if(!rollTableId) return []
             let result = await callRoll(qty)
             let data = await Promise.all(Array(result).fill("").map(()=>doRollTable(rollTableId)))
             let flatData = data.flatMap(i=>i)
