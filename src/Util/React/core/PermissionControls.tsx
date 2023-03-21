@@ -44,7 +44,7 @@ function PermissionControlRow({user, state, setState}: {user: UserInfo, state: P
             let active: PermActive = PermActive.NO
             if(myValue === undefined && defaultValue === index) active = PermActive.DEFAULT
             if(myValue === index) { active = PermActive.YES }
-            return <PermissionControlButton active={active} permissionData={value} permissionKey={index as PermValue} setUserPermissionType={setMe} />
+            return <PermissionControlButton key={value.name} active={active} permissionData={value} permissionKey={index as PermValue} setUserPermissionType={setMe} />
         })}
     </div>
 }
@@ -59,6 +59,6 @@ export function PermissionControls<T extends Document>({document}: {document: My
     }, [])
     return <div>
         <PermissionControlRow user={DefaultUser} state={perms} setState={updatePerms} />
-        {users.map((user)=><PermissionControlRow user={user} state={perms} setState={updatePerms} />)}
+        {users.map((user)=><PermissionControlRow key={user.uuid} user={user} state={perms} setState={updatePerms} />)}
     </div>
 }

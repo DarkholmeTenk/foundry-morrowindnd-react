@@ -1,6 +1,6 @@
 import React, {createContext, useState} from "react";
 import {Button, Card, CardActions, CardContent, TextField} from "@material-ui/core";
-import SellableSourceEditor from "./SellableSourceEditor";
+import SellableSourceEditor from "./Config/SellableSourceEditor";
 
 export const SellableSourceContext = createContext<any>({})
 

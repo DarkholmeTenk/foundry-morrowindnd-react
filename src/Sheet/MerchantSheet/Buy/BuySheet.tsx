@@ -1,44 +1,37 @@
-    import {getBuyPrice, getMerchantFlag, MerchantFlag} from "../Flag/MerchantFlag";
+import {getBuyPrice, getMerchantFlag, MerchantFlag} from "../Flag/MerchantFlag";
 import {openItemQuantitySelect} from "../../LootSheet/ItemQuantitySelector";
 import React, {Fragment} from "react";
 import GoldDisplay from "../../../Util/Components/GoldDisplay";
 import {Paper} from "@material-ui/core";
-import {SellableItem} from "../MerchantInventory/SellableData";
 // @ts-ignore
 import Styles from "../MerchantSheet.module.scss"
-import {SellableStuff} from "../MerchantSheetComponent";
-import {itemQty} from "../../../Util/Extension/Items";
 import {ItemControl} from "../../../Util/Components/NewItemTable/Item/ItemControls";
 import {getGoldAmountFromActor} from "../../../Util/Helper/GoldHelper";
-import {DefaultItemColumns} from "../../../Util/Components/NewItemTable/Item/ItemColumns";
-import {TableColumn} from "../../../Util/Components/NewItemTable/TableColumn";
 import {NewItemTable} from "../../../Util/Components/NewItemTable/NewItemTable";
-    import {MerchantBuy} from "./BuyAction";
+import {MerchantBuy} from "./BuyAction";
+import {DefaultMIICols} from "../MerchantInventory/Item/MerchantInventoryItemDefaultCols";
+import {miiPrice, miiQty} from "../MerchantInventory/Item/MerchantInventoryItemData";
 
-function getGetQty(sellables: SellableItem[]): ((Item)=>number | undefined) {
-    return (item: Item)=>{
-        let found = sellables.find(x=>x.item === item)
-        if(found && found.qty) {
-            return found.qty
-        } else {
-            return itemQty(item)
-        }
-    }
+function toBuyData({item, type, qty}: MerchantInventoryItem) {
+    if(type === "item5e")
+        return {type, item: item.uuid, qty}
+    else
+        return {type, item, qty}
 }
 
-function doBuy(self: Actor5e, merchant: Actor5e, item: Item5e) {
+function doBuy(self: Actor5e, merchant: Actor5e, item: MerchantInventoryItem) {
     let [merchantFlag] = getMerchantFlag(merchant)
     let myGoldAmount = getGoldAmountFromActor(self)
     let itemPrice = getBuyPrice(item, 1, merchantFlag)
     let buy = (qty) => MerchantBuy({
         self: self.uuid,
         merchant: merchant.uuid,
-        item: item.uuid,
+        item: toBuyData(item),
         qty
     })
     openItemQuantitySelect({
-        item,
-        max: Math.min(item.qty(10), Math.floor(myGoldAmount / itemPrice)),
+        item: item.item,
+        max: Math.min(miiQty(item), Math.floor(myGoldAmount / itemPrice)),
         buttonText: (qty) => <Fragment>
             Buy
             <GoldDisplay value={getBuyPrice(item, qty, merchantFlag)}/>
@@ -49,44 +42,43 @@ function doBuy(self: Actor5e, merchant: Actor5e, item: Item5e) {
 
 
 interface SellControlsArgs {
-    sellables: SellableStuff,
     self?: Actor5e,
     merchant: Actor5e,
     merchantFlag: MerchantFlag
-    item: Item5e
+    item: MerchantInventoryItem
 }
-function SellControls({sellables, merchant, self, item}: SellControlsArgs) {
-    let found = sellables.items.find(x=>x.item === item)
+function SellControls({merchant, self, item}: SellControlsArgs) {
     if(!self) return null
+    let itemResult = item.item
+    let canAfford = getGoldAmountFromActor(self) > miiPrice(item)
     return <>
-        {item.isOwner && !found && <ItemControl title="Delete" icon="fas fa-trash" onClick={()=>item.delete()} />}
-        {self  && <ItemControl title="Buy" icon="fas fa-hand-holding" onClick={()=>doBuy(self, merchant, item)} />}
+        {(merchant.isOwner && itemResult instanceof Item) ? <ItemControl title="Delete" icon="fas fa-trash" onClick={()=>(itemResult as Item5e).delete()} /> : null}
+        {canAfford && <ItemControl title="Buy" icon="fas fa-hand-holding" onClick={()=>doBuy(self, merchant, item)} />}
     </>
 }
 
 interface ExtraProps {
-    sellables: SellableStuff,
+    sellables: MerchantInventoryItem[],
     merchant: Actor5e,
     self: Actor5e
 }
 
 const NewColumns = [
-    ...DefaultItemColumns,
+    ...DefaultMIICols,
     {label: "", ColumnComponent: SellControls}
 ]
 
 interface BuySheetArgs {
     self?: Actor,
     merchant: Actor,
-    sellables: SellableStuff,
+    sellables: MerchantInventoryItem[],
     merchantFlag: MerchantFlag,
     myGoldAmount: number
 }
 export default function BuySheet({self, merchant, sellables, merchantFlag, myGoldAmount}: BuySheetArgs) {
-    let items = [...merchant.items.contents, ...sellables.items.map(x=>x.item)]
 
     return <Paper classes={{root: Styles.paperDiv}}>
         Buy:
-        <NewItemTable extraData={{merchant, self, sellables}} columns={NewColumns} items={items} />
+        <NewItemTable extraData={{merchant, self, sellables}} columns={NewColumns} items={sellables} />
     </Paper>
 }

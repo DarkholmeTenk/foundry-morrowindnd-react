@@ -1,5 +1,7 @@
 import getFlag, {FlagResult} from "../../../Util/Helper/FlagHelper";
 import {itemPrice} from "../../../Util/Extension/Items";
+import {getGoldValue, getGoldValueFromItemData} from "../../../Util/Helper/GoldHelper";
+import {miiPrice} from "../MerchantInventory/Item/MerchantInventoryItemData";
 
 interface MerchantItem {
     itemId: UUID,
@@ -23,9 +25,10 @@ export function getMerchantFlag(actor: Actor): FlagResult<MerchantFlag> {
     return getFlag(actor, "MerchantSheetData", defaultMerchantFlag)
 }
 
-export function getBuyPrice(item: Item, qty: number, merchantFlag?: MerchantFlag): number {
+export function getBuyPrice(item: MerchantInventoryItem, qty: number, merchantFlag?: MerchantFlag): number {
     let flag = merchantFlag || defaultMerchantFlag
-    return itemPrice(item) * qty * flag.buyRate
+    let basePrice = miiPrice(item)
+    return basePrice * qty * flag.buyRate
 }
 
 export function getSellPrice(item: Item, qty: number, merchantFlag?: MerchantFlag): number {

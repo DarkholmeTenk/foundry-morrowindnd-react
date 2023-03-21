@@ -6,14 +6,32 @@ import {loadUUID} from "../Identifiers/UuidHelper";
 
 const log = LogFactory("EntityHelper")
 
-export function useWatchEntity<T extends DocumentBase>(entity: Opt<T>): T | undefined {
-    let refresh = useRefresh()
+function useWatchActorItems(refresh: ()=>void, entity: Actor | undefined | TokenDocument) {
+    let a = (entity instanceof TokenDocument) ? entity.actor : entity
+    let uuid = a?.uuid
+    useEffect(()=>{
+        if(!uuid) return
+        let hookId = Hooks.on("dnd5e.prepareLeveledSlots", (a: any, actor: Actor5e)=>{
+            if(actor.uuid === uuid) refresh()
+        })
+        return ()=>Hooks.off("dnd5e.prepareLeveledSlots", hookId)
+    }, [uuid])
+}
+
+function getActor(documentBase: Opt<DocumentBase>) {
+    if(documentBase instanceof Actor || documentBase instanceof TokenDocument) return documentBase
+    return undefined
+}
+
+export function useWatchEntity<T extends DocumentBase>(entity: Opt<T>, onChange?: ()=>void): T | undefined {
+    let refresh = useRefresh(onChange)
     let uuid = entity?.uuid
     let type = entity?.documentName
     if(entity instanceof Actor && entity.token) {
         type = "Token"
         uuid = entity.token.uuid
     }
+    useWatchActorItems(refresh, getActor(entity))
     useEffect(()=>{
         if(!uuid || !type) return
         let event = `update${type}`

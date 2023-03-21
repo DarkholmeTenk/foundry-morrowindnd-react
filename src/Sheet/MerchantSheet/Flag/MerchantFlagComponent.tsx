@@ -1,12 +1,13 @@
 import {Button, MenuItem, Paper, Select, Slider} from "@material-ui/core";
 import {useState} from "react";
 import {StoredSellables} from "../MerchantInventory/Settings";
+import Styles from "./MerchantFlagComponent.module.scss"
 
 export default function MerchantFlagComponent({merchantFlag, setMerchantFlag}) {
     let [buyRate, setBuyRate] = useState(merchantFlag.buyRate)
     let [sellRate, setSellRate] = useState(merchantFlag.sellRate)
     let [sellables, setSellable] = useState(merchantFlag.sellables)
-    return <Paper>
+    return <div className={Styles.MerchantFlagComponent}>
         <div className="flexrow">
             Buy Rate:
             <Slider value={buyRate} onChange={(e,v)=>setBuyRate(v)} min={1} max={4} step={0.1} />
@@ -28,5 +29,5 @@ export default function MerchantFlagComponent({merchantFlag, setMerchantFlag}) {
         <Button onClick={()=>setMerchantFlag({...merchantFlag, sellables, buyRate, sellRate})}>
             Save
         </Button>
-    </Paper>
+    </div>
 }

@@ -85,3 +85,9 @@ export function getGoldValue(price: {value: number, denomination: CurrencyDenomi
     if(!v) return 0
     return v.m * value
 }
+
+export function getGoldValueFromItemData(data: SmartItemData): number {
+    if("price" in data.system)
+        return getGoldValue(data.system.price)
+    return 0
+}

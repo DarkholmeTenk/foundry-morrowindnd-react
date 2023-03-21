@@ -6,6 +6,7 @@ import {UserGroupSelector} from "../../../Util/Helper/UserHelper";
 import {getLootGoldDetails, getLootFlag} from "../LootFlags";
 import {LootSplitGold} from "./SplitGoldAction";
 import Styles from "./GoldSection.module.scss"
+import {LeftFloatingPanel} from "../../../Util/Components/LeftFloatingPanel/LeftFloatingPanel";
 
 export default function GoldSection({npc, disabled}) {
     let [flag, setFlag] = getLootFlag(npc)
@@ -28,8 +29,8 @@ export default function GoldSection({npc, disabled}) {
     }, [newGold])
     let owner = npc.isOwner
 
-    return <Card className={Styles.GoldSection}>
-        <CardContent>
+    return <LeftFloatingPanel>
+        <div style={{display: "flex", flexDirection: "column"}}>
             <Typography>Gold Loot</Typography>
             <UserGroupSelector selected={takers} setSelected={setTakers} disabled={disabled} />
             <div>
@@ -43,10 +44,10 @@ export default function GoldSection({npc, disabled}) {
             {owner ? <div>
                 <Input title="Add Gold" value={newGold} onChange={(e)=>setNewGold(e.target.value)} />
             </div> : null}
-        </CardContent>
-        <CardActions>
-            <Button size="small" disabled={takeCount === 0 || amount === 0} onClick={loot}>Loot Gold</Button>
-            {owner ? <Button size="small" onClick={setGold}>Add Gold</Button> : null}
-        </CardActions>
-    </Card>
+            <div style={{display: "flex", flexDirection: "row"}}>
+                <Button size="small" disabled={takeCount === 0 || amount === 0} onClick={loot}>Loot Gold</Button>
+                {owner ? <Button size="small" onClick={setGold}>Add Gold</Button> : null}
+            </div>
+        </div>
+    </LeftFloatingPanel>
 }

@@ -1,4 +1,4 @@
-import ItemViewer from "../../Util/Components/ItemViewer"
+import ItemViewer, {ItemViewerProps} from "../../Util/Components/ItemViewer"
 import {Button, Slider} from "@material-ui/core";
 import React, {useContext, useState} from "react";
 
@@ -24,7 +24,7 @@ export function ItemQuantitySelect({item, max, onConfirm, buttonText = "Confirm"
             <div className={styles.sliderHolder}> <Slider value={qty} onChange={(e,v)=>setQty(v as number)} max={max} /> </div>
             <div className={styles.numbers}> {qty} / {max} </div>
         </div> : null}
-        <Button onClick={(e)=>{
+        <Button disabled={qty === 0} onClick={(e)=>{
             e.preventDefault()
             onConfirm(qty)
             app.close()
@@ -33,7 +33,7 @@ export function ItemQuantitySelect({item, max, onConfirm, buttonText = "Confirm"
 }
 
 interface ItemQuantitySelectArgs {
-    item: Item,
+    item: ItemViewerProps,
     max: number,
     onConfirm: (number)=>any,
     buttonText: ReactNodeLike | ((number, Item)=>ReactNodeLike),

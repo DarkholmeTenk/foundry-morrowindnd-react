@@ -1,5 +1,5 @@
 import PackSelectorComponent, {PackSelectorOptions} from "../../../Constants/Packs/PackSelectorComponent";
-import {SellableSource} from "./SellableData";
+import {MerchantInventorySource} from "./Config/MerchantInventoryConfigData";
 import StoredSellableComponent, {StoredSellableComponentOptions} from "./StoredSellableComponent";
 import {setupSettingMenu} from "../../../Settings/SettingMenu";
 
@@ -18,7 +18,7 @@ export interface SellableSourceExtra {
     icon?: string
     name?: string
 }
-type IdentifiableSellable = SellableSource & SellableSourceExtra
+type IdentifiableSellable = MerchantInventorySource & SellableSourceExtra
 
 type StoredSellable = Record<string, IdentifiableSellable>
 
