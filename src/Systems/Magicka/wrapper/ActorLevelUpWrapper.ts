@@ -14,14 +14,15 @@ function hasWombburn(actor: Actor5e): boolean {
 }
 
 function prepareSpellSlots(wrapped: Function, spells: Record<string, ActorSpells>, actor: Actor5e, progression: any) {
-    if(actor.type === "npc") {
+    if(actor.type === "npc" || actor.id === undefined) {
         wrapped(spells, actor, progression)
         return
     }
     let newSpells = deepClone(EmptySlots)
     wrapped(newSpells, actor, progression)
     let wb = hasWombburn(actor)
-    let {current, max: oldMax} = getMagicka(actor)
+    let flag = getMagicka(actor)
+    let {current, max: oldMax} = flag
     let max = 0
     for (let i = 1; i <= 9; i++) {
         let m = newSpells["spell" + i].max
@@ -36,7 +37,9 @@ function prepareSpellSlots(wrapped: Function, spells: Record<string, ActorSpells
         r.override = r.max
         r.value = Math.floor(current / cost)
     }
-    setMagicka(actor, {current, max})
+    setMagicka(actor, {current: Math.min(current, max), max}).then(()=>{
+        console.log("Updated magicka!", actor.name, oldMax, max)
+    })
 }
 
 export function wrapPrepareSpellSlots() {
