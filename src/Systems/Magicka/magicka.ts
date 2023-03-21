@@ -6,6 +6,7 @@ import {getMagicka} from "./MagickaFlag";
 import {FLAG_SCOPE} from "../../Util/Helper/FlagHelper";
 import {wrapTokenAttributes} from "./wrapper/TokenAttributesWrapper";
 import {wrapActorSheets} from "./wrapper/ActorSheetWrapper";
+import {wrapPrepareSpellSlots} from "./wrapper/ActorLevelUpWrapper";
 
 
 Hooks.on('ready', async ()=>{
@@ -24,4 +25,5 @@ Hooks.on("renderTokenSheet", addCostTable);
 export function magickaReady() {
     wrapTokenAttributes()
     wrapActorSheets()
+    wrapPrepareSpellSlots()
 }

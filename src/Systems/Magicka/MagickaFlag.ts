@@ -15,3 +15,7 @@ export function getMagicka(actor: Actor5e): MagickaFlag {
     let base: MagickaFlag = actor.getFlag(FLAG_SCOPE, MagickaFlagKey) ?? DefaultMagickaFlag
     return base
 }
+
+export async function setMagicka(actor: Actor5e, flag: MagickaFlag): Promise<void> {
+    await actor.setFlag(FLAG_SCOPE, MagickaFlagKey, flag)
+}
