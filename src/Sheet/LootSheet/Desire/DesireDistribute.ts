@@ -33,7 +33,7 @@ async function give(needers: UUID[], loot: Actor, item: Item, type: String, resu
             let needActor = loadActor.sync(needId)!
             if(needActor) {
                 result.push(`Giving [${needActor.name}] [${item.name} x ${count}] for [${type}]`)
-                await addItem(needId, addFlags(type, item._source), {qty: count})
+                await addItem(needId, addFlags(type, deepClone(item._source)), {qty: count})
             } else {
                 ui.notifications.error("Unable to load actor to give items to")
             }
