@@ -10,7 +10,7 @@ import Styles from "./SpellSellerSheet.module.scss"
 import {usePromise} from "../../Util/Helper/PromiseHelper";
 import {SpellSellerPacks} from "./Settings";
 import {getSpellClasses} from "../../Data/SpellData";
-import {SpellSchools} from "../../Util/Components/ItemTable/ItemTypes";
+import {SpellSchools} from "../../Util/Components/NewItemTable/ItemTypes";
 import {calculateSpellCost, getMatches, SpellMatches} from "./SpellCostCalculator";
 import {SpellSellerBuy} from "./SpellSellerAction";
 import LogFactory from "../../Util/Logging";

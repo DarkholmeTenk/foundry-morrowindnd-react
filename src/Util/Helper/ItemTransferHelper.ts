@@ -4,7 +4,7 @@ import {loadActor, loadItem} from "../Identifiers/UuidHelper";
 
 const Log = LogFactory("ItemTransferHelper")
 
-export type AddableItemData = any | any[]
+export type AddableItemData = SmartItemData | SmartItemData[]
 
 export interface ExtraAddItemOptions {
     qty?: number
@@ -28,7 +28,7 @@ function resolve(actorSource: ActorSource): Actor5e {
     else
         return loadActor.sync(actorSource) as Actor5e
 }
-export async function addItem(actorSource: UUID | Actor5e, itemData: AddableItemData, options: any & ExtraAddItemOptions = {}) {
+export async function addItem(actorSource: UUID | Actor5e, itemData: AddableItemData, options: ExtraAddItemOptions = {}) {
     let actor = resolve(actorSource)
     let itemArr = (Array.isArray(itemData) ? itemData : [itemData]).map(i => fixItemData(i, options))
     let updating: any[] = []
@@ -36,16 +36,16 @@ export async function addItem(actorSource: UUID | Actor5e, itemData: AddableItem
     itemArr.forEach(i=>{
         let existing = actor.items.find(x=>x.name == i.name)
         if(existing) {
-            updating.push({_id: existing.id, "data.quantity": existing.qty() + (i.data.quantity ?? 1)})
+            updating.push({_id: existing.id, "system.quantity": existing.qty() + (options.qty ?? i.data.quantity ?? 1)})
         } else {
             newArr.push(i)
         }
     })
     if(updating.length > 0) {
-        await actor.updateEmbeddedDocuments("Item", updating, options)
+        await actor.updateEmbeddedDocuments("Item", updating)
     }
     if(newArr.length > 0) {
-        await actor.createEmbeddedDocuments("Item", newArr, options)
+        await actor.createEmbeddedDocuments("Item", newArr)
     }
 }
 

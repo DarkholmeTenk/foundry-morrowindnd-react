@@ -34,7 +34,7 @@ export interface SpellData extends BaseItemData {
 export type SpellEntry = SystemEntry<"spell", SpellData>
 
 export type UndecoratedEntry = SystemEntry<"backpack" | "feat" | "subclass", BaseItemData>
-export type HoldableUndecoratedEntry = SystemEntry<"loot" | "tool", HoldableItemData>
+export type HoldableUndecoratedEntry = SystemEntry<"loot" | "tool" | "weapon", HoldableItemData>
 
 export type HoldableEntry = HoldableUndecoratedEntry | EquipmentEntry | ConsumableEntry
 

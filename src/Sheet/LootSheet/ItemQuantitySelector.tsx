@@ -1,4 +1,4 @@
-import ItemViewer, {ItemViewerProps} from "../../Util/Components/ItemViewer"
+import ItemViewer, {ItemViewerProps} from "../../Util/Components/ItemViewer/ItemViewer"
 import {Button, Slider} from "@material-ui/core";
 import React, {useContext, useState} from "react";
 

@@ -1,0 +1,23 @@
+.EnchantingForm {
+  display: flex;
+  flex-direction: column;
+  .Row {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 6px;
+
+    span {
+      width: 110px;
+      flex-grow: 0;
+    }
+
+    select {
+      flex-grow: 1;
+    }
+
+    div {
+      width: auto;
+    }
+  }
+
+}

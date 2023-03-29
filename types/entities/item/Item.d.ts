@@ -10,6 +10,7 @@ declare global {
         type: string
         system: ItemSystemData
         name: string
+        folder?: string
     }
     type SmartItemData = ItemData & ItemSystem
 
@@ -29,6 +30,6 @@ declare global {
     }
 
     type Item5e = Item & ItemSystem
-    type ItemSpell = Item & SpellEntry
-    type ItemClass = Item & ClassEntry
+    type ItemSpell = Item5e & SpellEntry
+    type ItemClass = Item5e & ClassEntry
 }

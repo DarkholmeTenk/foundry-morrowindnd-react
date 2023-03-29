@@ -1,4 +1,4 @@
-import Selector from "../../Util/Components/Selector";
+import Selector from "../../Util/Components/Selector/Selector";
 import {useContext, useState} from "react";
 import {Button} from "@material-ui/core";
 import ApplicationContext from "../../Util/React/core/ApplicationContext";
@@ -17,7 +17,7 @@ export default function TableModifierComponent({table}: Props) {
     let app = useContext(ApplicationContext)
     return <div>
         Roll Table
-        <Selector values={tables.contents} value={nestedTable} setValue={setNestedTable} labelFunction={t=>t.name} includeNull />
+        <Selector values={tables.contents} value={nestedTable} setValue={setNestedTable} labelFunction={t=>t?.name ?? "Undefined"} includeNull />
         <Button onClick={async ()=>{
             await setFlag({tableId: nestedTable?.id})
             app.close()

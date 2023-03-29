@@ -1,3 +1,18 @@
 .paperDiv {
   margin-top: 7px;
 }
+
+.MerchantSheet {
+  display: flex;
+  flex-direction: column;
+}
+
+.TabRow {
+  display: flex;
+  flex-direction: row;
+
+  button:disabled {
+    color: blue;
+    background-color: rgba(33, 66, 100, 0.2);
+  }
+}

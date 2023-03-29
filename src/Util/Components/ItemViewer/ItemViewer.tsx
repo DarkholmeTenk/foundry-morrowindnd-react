@@ -8,13 +8,13 @@ export interface ItemViewerProps {
     img: string,
     sheet?: Application
 }
-interface ItemViewerArgs {
-    item: ItemViewerProps
+interface ItemViewerArgs extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+    item?: ItemViewerProps | undefined | null
     children?: ReactNodeLike,
     onClick?: ()=>void
 }
 export default function ItemViewer({item, children, onClick, ...other}: ItemViewerArgs) {
-    if(!onClick && item.sheet) onClick = ()=>item.sheet?.render(true)
+    if(!onClick && item?.sheet) onClick = ()=>item.sheet?.render(true)
     let image = item?.img || "icons/svg/mystery-man.svg"
     let name = item?.name || "No Item"
     return <div className={styles.viewer} onClick={onClick} {...other}>

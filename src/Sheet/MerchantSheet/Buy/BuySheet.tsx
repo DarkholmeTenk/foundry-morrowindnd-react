@@ -9,7 +9,7 @@ import {ItemControl} from "../../../Util/Components/NewItemTable/Item/ItemContro
 import {getGoldAmountFromActor} from "../../../Util/Helper/GoldHelper";
 import {NewItemTable} from "../../../Util/Components/NewItemTable/NewItemTable";
 import {MerchantBuy} from "./BuyAction";
-import {DefaultMIICols} from "../MerchantInventory/Item/MerchantInventoryItemDefaultCols";
+import {DefaultMIICols, MIIExpander} from "../MerchantInventory/Item/MerchantInventoryItemDefaultCols";
 import {miiPrice, miiQty} from "../MerchantInventory/Item/MerchantInventoryItemData";
 
 function toBuyData({item, type, qty}: MerchantInventoryItem) {
@@ -40,17 +40,16 @@ function doBuy(self: Actor5e, merchant: Actor5e, item: MerchantInventoryItem) {
     })
 }
 
-
-interface SellControlsArgs {
+interface BuyControlsArgs {
     self?: Actor5e,
     merchant: Actor5e,
     merchantFlag: MerchantFlag
     item: MerchantInventoryItem
 }
-function SellControls({merchant, self, item}: SellControlsArgs) {
+function BuyControls({merchant, self, item, merchantFlag}: BuyControlsArgs) {
     if(!self) return null
     let itemResult = item.item
-    let canAfford = getGoldAmountFromActor(self) > miiPrice(item)
+    let canAfford = getGoldAmountFromActor(self) > getBuyPrice(item, 1, merchantFlag)
     return <>
         {(merchant.isOwner && itemResult instanceof Item) ? <ItemControl title="Delete" icon="fas fa-trash" onClick={()=>(itemResult as Item5e).delete()} /> : null}
         {canAfford && <ItemControl title="Buy" icon="fas fa-hand-holding" onClick={()=>doBuy(self, merchant, item)} />}
@@ -65,7 +64,7 @@ interface ExtraProps {
 
 const NewColumns = [
     ...DefaultMIICols,
-    {label: "", ColumnComponent: SellControls}
+    {label: "", ColumnComponent: BuyControls}
 ]
 
 interface BuySheetArgs {
@@ -73,12 +72,7 @@ interface BuySheetArgs {
     merchant: Actor,
     sellables: MerchantInventoryItem[],
     merchantFlag: MerchantFlag,
-    myGoldAmount: number
 }
-export default function BuySheet({self, merchant, sellables, merchantFlag, myGoldAmount}: BuySheetArgs) {
-
-    return <Paper classes={{root: Styles.paperDiv}}>
-        Buy:
-        <NewItemTable extraData={{merchant, self, sellables}} columns={NewColumns} items={sellables} />
-    </Paper>
+export default function BuySheet({self, merchant, sellables, merchantFlag}: BuySheetArgs) {
+    return <NewItemTable extraData={{merchant, self, sellables, merchantFlag}} columns={NewColumns} expander={MIIExpander} items={sellables} />
 }

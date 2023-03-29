@@ -7,7 +7,7 @@ import {
 } from "./MerchantInventoryConfigData";
 import React, {FunctionComponent, useContext} from "react";
 import {usePromise} from "../../../../Util/Helper/PromiseHelper";
-import ItemViewer from "../../../../Util/Components/ItemViewer";
+import ItemViewer from "../../../../Util/Components/ItemViewer/ItemViewer";
 import {SellableSourceContext} from "../StoredSellableComponent";
 import {Button, MenuItem, Select, TextField} from "@material-ui/core";
 import {onItemDrop} from "../../../../Util/Helper/DropHelper";

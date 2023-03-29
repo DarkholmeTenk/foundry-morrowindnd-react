@@ -1,14 +1,15 @@
 import {useCallback} from "react";
 import {e} from "../Helper/DomEventHelper"
 
-const states = [
+interface TokenPermissionState {name: string, icon: JSX.Element}
+const states: TokenPermissionState[] = [
     {name: "None", icon: <i className="fas fa-times-circle"/>},
     {name: "Limited", icon: <i className="fas fa-question-circle"/>},
     {name: "Vision", icon: <i className="fas fa-eye"/>},
     {name: "Full", icon: <i className="fas fa-check-circle"/>}
 ]
 
-function getState(user, state) {
+function getState(user: string, state) {
     return (state[user] === undefined || state[user] === null) ? state.default : state[user]
 }
 

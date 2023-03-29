@@ -9,7 +9,7 @@ export interface TokenSetting {
 export const TokenSettings = setupSettingMenu<TokenSetting>({
     label: "Token Settings",
     name: "Token Settings",
-    key: "tokens",
+    key: "tokenSettings",
     type: TokenSettingComponent,
     sheetOptions: {width: 600, height: 800},
     restricted: true,

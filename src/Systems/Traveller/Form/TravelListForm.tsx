@@ -2,7 +2,7 @@ import {TravelData, TravelInfo} from "../Data/NoteData";
 import {FormGroup, FormLabel} from "@material-ui/core";
 import {InOut, ObjectUpdater, useFieldInOut, useObjectUpdater} from "../../../Util/React/update/ObjectUpdater";
 import {OtherNode} from "./TravelDataForm";
-import Selector from "../../../Util/Components/Selector";
+import Selector from "../../../Util/Components/Selector/Selector";
 import {useCallback, useMemo} from "react";
 import {ArrayUpdater, useArrayField} from "../../../Util/React/update/ArrayUpdater";
 import {NumberInOut, SimpleInput} from "./SimpleInput";

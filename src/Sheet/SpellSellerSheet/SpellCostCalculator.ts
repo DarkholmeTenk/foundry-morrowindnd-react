@@ -1,5 +1,5 @@
 import {SpellClassData} from "../../Data/SpellData";
-import {SpellSchools} from "../../Util/Components/ItemTable/ItemTypes";
+import {SpellSchools} from "../../Util/Components/NewItemTable/ItemTypes";
 import {getClasses} from "../../Data/ActorData";
 
 interface Settings {

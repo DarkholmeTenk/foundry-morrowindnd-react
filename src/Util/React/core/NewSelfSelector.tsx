@@ -24,7 +24,7 @@ export function AvatarChip({actor, selected, setSelected, short = false}: {actor
     let image = actor.img ?? DefaultIcon
     if(short) {
         if(selected)
-            return <Badge badgeContent="X" color="primary">
+            return <Badge badgeContent="X" color="primary" overlap="rectangular">
                 <Avatar onClick={clearMe} src={image} imgProps={{style: {border: '0px'}}} style={{ border: '0px', width: 32, height: 32 }}/>
             </Badge>
         else
@@ -56,7 +56,7 @@ export function SelfSelector({state, setState}: {state: SelfState, setState: Sta
     if(potentials.length == 0) return null
     let short = potentials.length > 3
     return <div style={{display: "flex"}}>
-        {potentials.map(actor=>actor ? <SelfAvatarChip actor={actor} state={state} setState={setState} short={short}/> : null)}
+        {potentials.map(actor=>actor ? <SelfAvatarChip key={actor.uuid} actor={actor} state={state} setState={setState} short={short}/> : null)}
     </div>
 }
 

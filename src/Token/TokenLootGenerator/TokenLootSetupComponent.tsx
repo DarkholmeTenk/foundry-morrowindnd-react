@@ -1,5 +1,5 @@
 import {useContext, useState} from "react";
-import Selector from "../../Util/Components/Selector";
+import Selector from "../../Util/Components/Selector/Selector";
 import {Button} from "@material-ui/core";
 import ApplicationContext from "../../Util/React/core/ApplicationContext";
 import {getTokenLootGeneratorFlag, RollTableChoice} from "./TokenLootGeneratorFlag";
@@ -11,7 +11,7 @@ function LootTableRow({value: table, setValue}: ArrayFunctionArgs<RollTableChoic
     let rolltable = table.id ? tables.get(table.id) : undefined
     return <div className={Styles.Row}>
         <span className={Styles.Qty}>Qty: <input value={table.qty} onChange={(e)=>setValue({...table, qty: e.target.value})} /></span>
-        <span className={Styles.Table}>Table: <Selector values={tables.contents} value={rolltable} setValue={(n)=>setValue({...table, id: n.id})} labelFunction={n=>n.name} /></span>
+        <span className={Styles.Table}>Table: <Selector values={tables.contents} value={rolltable} setValue={(n)=>setValue({...table, id: n?.id ?? "Undefined"})} labelFunction={n=>n?.name ?? "Undefined"} /></span>
     </div>
 }
 

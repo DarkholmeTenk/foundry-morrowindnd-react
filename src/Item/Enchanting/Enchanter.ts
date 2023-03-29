@@ -7,6 +7,7 @@ import {clone, isEqual} from '../../Util'
 import {FLAG_SCOPE} from "../../Util/Helper/FlagHelper";
 import {ConsumableData, ConsumableEntry, HoldableEntry, SpellEntry} from "../../../types/entities/item/ItemSystem";
 import {getGoldValue} from "../../Util/Helper/GoldHelper";
+import {WeaponEnchantment} from "../../RollTable/Rolling/TableWeaponEnchantHelper";
 
 const log = LoggerFactory("Enchanter")
 
@@ -87,11 +88,16 @@ export function getEnchantData<T extends HoldableIData>({itemData, charges, spel
     }
 }
 
-export function isSpellEnchantable(itemData) {
-    return itemData.type === "equipment" && !itemData.flags["MorrowinDnDReact"]?.enchanter_data
+export function isSpellEnchantable(itemData: SmartItemData) {
+    return itemData.type === "equipment" && !itemData.flags[FLAG_SCOPE]?.enchanter_data
 }
 
-export async function enchantWeapon({item, weaponEnchant, renderSheet = true}): Promise<Item> {
+interface EnchantWeaponProps {
+    item: Item5e & {type: "weapon"},
+    weaponEnchant: WeaponEnchantment,
+    renderSheet?: boolean
+}
+export async function enchantWeapon({item, weaponEnchant, renderSheet = true}: EnchantWeaponProps): Promise<Item> {
     let enchantData = {item: item.id, weaponEnchant}
     let existing = game.items!.find(i=>{
         let enchantedData = i.getFlag("MorrowinDnDReact", "enchanter_data")
@@ -102,10 +108,10 @@ export async function enchantWeapon({item, weaponEnchant, renderSheet = true}): 
     }
 
     let folderId = await setupFolder(`MorrowinDnD/Enchanted Items/Weapons`)
-    let newData = deepClone(item.data)
+    let newData = deepClone(item._source)
     newData.folder = folderId
-    newData._id = null
-    weaponEnchant.apply(newData)
+    delete newData._id
+    weaponEnchant.applyItemModification(newData)
 
     log("Creating " + newData.name, item, weaponEnchant, newData)
     let newItem = (await Item.create(newData, {temporary: false, renderSheet}))!

@@ -1,4 +1,5 @@
 import {RollData, RollTableArguments, TableHelper} from "./TableHelper";
+import {getGoldValue} from "../../Util/Helper/GoldHelper";
 
 type DamagePart = [amount: string, type: string]
 interface WeaponEnchantmentData {
@@ -14,14 +15,15 @@ export class WeaponEnchantment implements RollData {
 	constructor(private readonly data: WeaponEnchantmentData = {}) {
 	}
 
-	applyItemModification(weaponData: any) {
+	applyItemModification(weaponData: SmartItemData) {
 		if(weaponData.type !== "weapon") return weaponData
 		let {attackBonus, damageParts, prefix, suffix, valueAdd, valueMult} = this.data
+		let {system} = weaponData
 		if(attackBonus && attackBonus != "0") {
-			weaponData.data.attackBonus += ` + ${this.data.attackBonus}`
+			system.attackBonus = system.attackBonus ? system.attackBonus + ` + ${this.data.attackBonus}` : this.data.attackBonus
 		}
 		if(damageParts) {
-			weaponData.data.damage.parts.push(...damageParts)
+			system.damage?.parts.push(...damageParts)
 		}
 		if(prefix) {
 			weaponData.name = prefix + " " + weaponData.name
@@ -29,12 +31,14 @@ export class WeaponEnchantment implements RollData {
 		if(suffix) {
 			weaponData.name += " " + suffix
 		}
+		let price = getGoldValue(weaponData.system.price)
 		if(valueMult) {
-			weaponData.data.price = Math.round(weaponData.data.price * parseFloat(valueMult))
+			price *= parseFloat(valueMult)
 		}
 		if(valueAdd) {
-			weaponData.data.price += parseInt(valueAdd)
+			price += parseInt(valueAdd)
 		}
+		if(valueAdd || valueMult) system.price = {value: price, denomination: "gp"}
 		return weaponData
 	}
 

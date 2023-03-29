@@ -1,4 +1,14 @@
-export default function Selector({values, value, setValue, labelFunction=(s)=>`${s}`, includeNull=true, label=""}) {
+import {StateSetter} from "../../React/update/Updater";
+
+interface Props<V> {
+    values: V[]
+    value: V
+    setValue: (v: V)=>void
+    labelFunction?: (v: V)=>string
+    includeNull?: boolean
+    label?: string
+}
+export default function Selector<T>({values, value, setValue, labelFunction=(s)=>`${s}`, includeNull=true, label=""}: Props<T>) {
     let map = {}
     values.forEach((v)=>{
         let label = labelFunction(v)

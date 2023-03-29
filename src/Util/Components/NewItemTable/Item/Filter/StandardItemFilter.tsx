@@ -1,7 +1,7 @@
 import React, {useCallback} from "react";
 import {InputAdornment, TextField} from "@material-ui/core";
 import IconButton from "../../../IconButton";
-import {ItemTypes, SpellSchools} from "../../../ItemTable/ItemTypes";
+import {ItemTypes, SpellSchools} from "../../ItemTypes";
 import {StateSetter} from "../../../../React/update/Updater";
 import {ItemTableFilter} from "../../NewItemTableFilters";
 import {ItemTypeControlsContainer, mapItemTypeRecord, useTypeState} from "./TypeFilter";

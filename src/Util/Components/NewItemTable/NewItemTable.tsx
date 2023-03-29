@@ -13,12 +13,12 @@ interface NewItemTableProps<D, T, Q> {
     columns: TableColumn<D, T>[],
     expander?: ItemExpander<T, D>
     items: T[],
-    actions?: FunctionComponent
+    actions?: FunctionComponent<D & {items: T[]}>
 }
 export function NewItemTable<D, T, Q>({extraData, columns, items, filter, expander, actions: Actions}: NewItemTableProps<D, T, Q>) {
     let { filtered, FilterComponent } = useFilter({items, filter})
     let { sliced, PaginationComponent } = usePagination({items: filtered})
-    let actionComp = Actions ? <Actions /> : null
+    let actionComp = Actions ? <Actions {...extraData} items={items} /> : null
     return <div>
         <div style={{all: 'initial'}}>
             {FilterComponent}
@@ -26,13 +26,13 @@ export function NewItemTable<D, T, Q>({extraData, columns, items, filter, expand
                 <Table size="small">
                     <TableHead>
                         <TableRow>
-                            {expander && <TableCell />}
-                            {columns.map((c,i)=><TableCell key={i}>{c.label}</TableCell>)}
+                            {expander && <TableCell width={26} />}
+                            {columns.map((c,i)=><TableCell key={i} width={c.cellProps?.width}>{c.label}</TableCell>)}
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {sliced.map((item, index)=>
-                            <NewItemTableRow key={index} item={item} columns={columns} extraData={extraData} expander={expander}/>)
+                            <NewItemTableRow key={index} item={item} rowIndex={index} columns={columns} extraData={extraData} expander={expander}/>)
                         }
                     </TableBody>
                 </Table>

@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from "react";
-import Selector from "../../Util/Components/Selector";
+import Selector from "../../Util/Components/Selector/Selector";
 import {Button} from "@material-ui/core";
 import {getPackId} from "../../Util/Identifiers/PackHelper";
 

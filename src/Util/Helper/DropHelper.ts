@@ -27,8 +27,10 @@ async function loadThing(event) {
         }
         if(data.data) {
             return new type.cons(data.data)
-        } else {
+        } else if(data.id) {
             return await type.coll.get(data.id)
+        } else if(data.uuid) {
+            return await fromUuid(data.uuid)
         }
     }
 }

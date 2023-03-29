@@ -1,5 +1,5 @@
 import EnchantConfig from "../EnchantConfig";
-import Selector from "../../../Util/Components/Selector";
+import Selector from "../../../Util/Components/Selector/Selector";
 
 export default function SoulGemPropertiesComponent({soulGemState, setSoulGemState}) {
     let SoulSizes = EnchantConfig.instance.SoulSizes
