@@ -3,18 +3,20 @@ import {usePromise, UsePromiseResult} from "./PromiseHelper";
 import LogFactory from "../Logging";
 import {useRefresh} from "./useForceUpdate";
 import {loadUUID} from "../Identifiers/UuidHelper";
+import {useHook} from "./HookHelper";
 
 const log = LogFactory("EntityHelper")
 
 function useWatchActorItems(refresh: ()=>void, entity: Actor | undefined | TokenDocument) {
     let a = (entity instanceof TokenDocument) ? entity.actor : entity
     let uuid = a?.uuid
-    useEffect(()=>{
+    useHook("dnd5e.prepareLeveledSlots", (a: any, actor: Actor5e)=>{
         if(!uuid) return
-        let hookId = Hooks.on("dnd5e.prepareLeveledSlots", (a: any, actor: Actor5e)=>{
-            if(actor.uuid === uuid) refresh()
-        })
-        return ()=>Hooks.off("dnd5e.prepareLeveledSlots", hookId)
+        if(actor.uuid === uuid) refresh()
+    }, [uuid])
+    useHook("createItem", (item: Item5e)=>{
+        if(!uuid) return
+        if(item.actor?.uuid === uuid) refresh()
     }, [uuid])
 }
 

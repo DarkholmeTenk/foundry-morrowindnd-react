@@ -4,17 +4,18 @@ import {getSellPrice, MerchantFlag} from "../Flag/MerchantFlag";
 import GoldDisplay from "../../../Util/Components/GoldDisplay";
 import {MerchantSell} from "./SellAction";
 import {useArrayAdder} from "../../../Util/Helper/ArrayReducers";
-import {loadActor} from "../../../Util/Identifiers/UuidHelper";
-import {TokenSettings} from "../../../Token/TokenSettings";
+import {getPartyCargoHolder} from "../../../Token/TokenSettings";
 import {getSellDesireItems} from "../../LootSheet/Desire/SellDesireButton";
+import {useWatchEntity} from "../../../Util/Helper/EntityHelper";
 
 type ACBProps = Pick<Props, "items" | "setItems" | "self">
 export function AddCargoButton({self, items, setItems}: ACBProps) {
+    let cargo = getPartyCargoHolder()
+    useWatchEntity(cargo)
+    let hasCargo = cargo && getSellDesireItems(cargo).length > 0
     let adder = useArrayAdder(setItems)
+    if(!hasCargo) return null
     let addCargo = ()=>{
-        let cargoUuid = TokenSettings.value.sellLootDump
-        if(!cargoUuid) return
-        let cargo = loadActor.sync(cargoUuid)
         if(!cargo) return
         let newItems: SellItem[] = [...getSellDesireItems(cargo),...getSellDesireItems(self)].filter(y=>!items.some(x=>x.item.uuid === y.uuid)).map(q=>({item: q, qty: q.qty(1)}))
         adder(newItems)
