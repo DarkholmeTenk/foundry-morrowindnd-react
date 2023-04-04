@@ -1,6 +1,9 @@
 import {CurrencyRates, getGoldBreakdown} from "../Helper/GoldHelper";
 
-export default function GoldDisplay({value}) {
+interface Props {
+    value: number
+}
+export default function GoldDisplay({value}: Props) {
     if(value === 0) {
         return <span>0 gp</span>
     }

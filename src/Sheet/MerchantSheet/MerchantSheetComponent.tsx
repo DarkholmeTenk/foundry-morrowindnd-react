@@ -30,6 +30,7 @@ function Loaded({self, merchant, merchantFlag, sellable}: LoadedProps) {
             <button onClick={()=>setTab("buy")} disabled={tab === "buy"}>Buy</button>
             <button onClick={()=>setTab("sell")} disabled={tab === "sell"}>Sell</button>
         </div>
+        <hr />
         <TabContents merchant={merchant} sellables={sellable} merchantFlag={merchantFlag} self={self} />
     </div>
 }

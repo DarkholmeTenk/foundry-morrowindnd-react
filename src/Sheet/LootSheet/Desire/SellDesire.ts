@@ -8,5 +8,8 @@ export function hasSellFlag(item: Item): boolean {
 }
 
 export function addSellFlag(itemData: SmartItemData): SmartItemData {
-    return mergeObject(itemData, {[FLAG_SCOPE]: {[sellFlag]: {sell: true}}})
+    return mergeObject(itemData, {flags: {
+        [FLAG_SCOPE]: {[sellFlag]: {sell: true}},
+        dnd5e: {vehicleCargo: true}
+    }})
 }

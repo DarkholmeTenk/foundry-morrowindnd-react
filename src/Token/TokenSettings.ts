@@ -1,9 +1,11 @@
 import TokenSettingComponent from "./TokenSettingComponent";
 import {setupSettingMenu} from "../Settings/SettingMenu";
+import {loadActor} from "../Util/Identifiers/UuidHelper";
 
 export interface TokenSetting {
     lootTokenBase?: UUID,
-    sellLootDump?: UUID
+    sellLootDump?: UUID,
+    partyCharacters?: UUID[]
 }
 
 export const TokenSettings = setupSettingMenu<TokenSetting>({
@@ -16,3 +18,17 @@ export const TokenSettings = setupSettingMenu<TokenSetting>({
     default: {},
     scope: "world"
 })
+
+export function getPartyCargoHolder(): Actor5e | undefined {
+    let uuid = TokenSettings.value.sellLootDump
+    if(uuid) return loadActor.sync(uuid)
+    return undefined
+}
+
+export function isPartyCargoHolder(actor: Actor5e): boolean {
+    return TokenSettings.value.sellLootDump === actor.uuid
+}
+
+export function getPartyUUIDs(): UUID[] {
+    return TokenSettings.value.partyCharacters ?? []
+}

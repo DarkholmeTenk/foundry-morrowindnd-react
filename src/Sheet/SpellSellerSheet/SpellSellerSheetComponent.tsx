@@ -48,7 +48,7 @@ function SpellClassComponent({self, merchant, spell, goldAmount}: {self: Actor, 
         let matches = getMatches(self, spell, result)
         return <div>
             <SpellMatch match={matches} />
-            <GoldDisplay value={cost} />
+            <GoldDisplay value={cost ?? 0} />
         </div>
     } else {
         return <CircularProgress />

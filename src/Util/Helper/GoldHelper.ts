@@ -42,6 +42,13 @@ export function getGoldAmount(breakdown: GoldBreakdown): number {
     return CurrencyRates.reduce((acc, {m, name})=>acc + ((breakdown[name] ?? 0) * m), 0)
 }
 
+export function getGoldString(value: number): string {
+    let breakdown = getGoldBreakdown(value)
+    return CurrencyRates.filter(x=>breakdown[x.name]).map(({name})=>{
+        return breakdown[name] + name
+    }).join(".")
+}
+
 export function getActorDataCurrencyAmount(x: any): number {
     if(typeof(x) === "number") {
         return x

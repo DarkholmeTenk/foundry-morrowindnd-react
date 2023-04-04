@@ -3,7 +3,7 @@ import GoldDisplay from "../../../Util/Components/GoldDisplay";
 import {getBuyPrice, getSellPrice, MerchantFlag} from "../Flag/MerchantFlag";
 import {openItemQuantitySelect} from "../../LootSheet/ItemQuantitySelector";
 import {Button, Paper} from "@material-ui/core";
-import Styles from "../MerchantSheet.module.scss"
+import Styles from "./SellSheet.module.scss"
 import {onDrop} from "../../../Util/Helper/DropHelper";
 import SellDesireButton from "../../LootSheet/Desire/SellDesireButton";
 import {MerchantSell} from "./SellAction";
@@ -18,7 +18,9 @@ import {StateSetter} from "../../../Util/React/update/Updater";
 import {DropBox} from "./DropBox";
 import {getterColumn} from "../../../Util/Components/NewItemTable/Util/GetterColumn";
 import {ItemExpander} from "../../../Util/Components/NewItemTable/Item/ItemExpander";
-import {SellCompleteAction} from "./SellCompleteAction";
+import {AddCargoButton, SellCompleteAction} from "./SellCompleteAction";
+import {getPartyCargoHolder, isPartyCargoHolder, TokenSettings} from "../../../Token/TokenSettings";
+import {act} from "react-dom/test-utils";
 
 export interface SellItem {
     item: Item5e,
@@ -58,10 +60,13 @@ interface Props {
 export default function SellSheet({self, merchant, merchantFlag}: Props) {
     let [items, setItems] = useState<SellItem[]>([])
     let adder = useArrayAdder(setItems)
+    let cargo = getPartyCargoHolder()
     let drop = onDrop((i)=>{
         if(i instanceof Item) {
             let item = i as Item5e
-            if(item.actor?.uuid !== self.uuid) return
+            let actor = item.actor
+            if(!actor) return
+            if(actor.uuid !== self.uuid && !isPartyCargoHolder(actor)) return
             if(items.some(x=>x.item.uuid === item.uuid)) return
             let maxQty = item.qty(1)
             if(maxQty === 1)
@@ -71,10 +76,11 @@ export default function SellSheet({self, merchant, merchantFlag}: Props) {
         }
     })
     return <div onDrop={drop}>
-        <div>
+        <div className={Styles.OpenActorBar}>
+            {cargo ? <button onClick={()=>cargo?.sheet?.render(true)}>Open {cargo.name}</button> : null }
             <button onClick={()=>self.sheet?.render(true)}>Open {self.name}</button>
         </div>
-        {items.length == 0 && <DropBox />}
+        {items.length == 0 && <div><DropBox /><AddCargoButton items={items} setItems={setItems} self={self} /></div>}
         {items.length > 0 && <NewItemTable
             extraData={{self, merchant, merchantFlag, setItems}}
             columns={NewColumns}

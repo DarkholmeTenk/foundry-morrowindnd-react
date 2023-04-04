@@ -10,7 +10,7 @@ import {isActor} from "../../../Util/Identifiers/UuidHelper";
 import {itemQty} from "../../../Util/Extension/Items";
 import {MerchantSellJunk} from "../../MerchantSheet/Sell/SellJunkAction";
 
-export function getSellDesireItems(actor: Actor): Item[] {
+export function getSellDesireItems(actor: Actor): Item5e[] {
     return actor.items.filter(i=>hasSellFlag(i))
 }
 
