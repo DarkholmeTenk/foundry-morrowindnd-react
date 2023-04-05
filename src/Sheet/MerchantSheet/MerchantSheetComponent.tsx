@@ -1,19 +1,14 @@
 import {getMerchantFlag, MerchantFlag} from "./Flag/MerchantFlag";
-import TokenPermission from "../../Util/Components/TokenPermission";
-import {getGoldAmountFromActor} from "../../Util/Helper/GoldHelper";
 import MerchantFlagComponent from "./Flag/MerchantFlagComponent";
 import SellSheet from "./Sell/SellSheet";
 import React, {useReducer, useState} from "react"
 import BuySheet from "./Buy/BuySheet";
 // @ts-ignore
 import Styles from "./MerchantSheet.module.scss"
-import {usePromise} from "../../Util/Helper/PromiseHelper";
-import {loadSellable} from "./MerchantInventory/Config/MerchantInventoryConfigLoader";
-import {getIdentifiableSellable, SellableSourceExtra} from "./MerchantInventory/Settings";
-import {useNewSelf} from "../../Util/React/core/NewSelfSelector";
-import {useWatchEntity} from "../../Util/Helper/EntityHelper";
-import {LeftFloatingPanel} from "../../Util/Components/LeftFloatingPanel/LeftFloatingPanel";
-import {loadMerchantInventory, useMerchantActorInventory} from "./MerchantInventory/MerchantInventoryLoader";
+import {useNewSelf} from "Util/React/core/NewSelfSelector";
+import {useWatchEntity} from "Util/Helper/EntityHelper";
+import {LeftFloatingPanel} from "Util/Components/LeftFloatingPanel/LeftFloatingPanel";
+import {useMerchantActorInventory} from "./MerchantInventory/MerchantInventoryLoader";
 
 interface LoadedProps {
     self: Actor5e
@@ -45,7 +40,6 @@ export default function MerchantSheetComponent({merchant}: Props) {
     let [merchantFlag, setMerchantFlag] = getMerchantFlag(merchant)
     let {loading: loadingSellables, result: sellableData} = useMerchantActorInventory(merchant)
 
-    console.log("MSC", loadingSellables, sellableData, self)
     if(!self) return <div>Select yourself!</div>
 
     return <div>

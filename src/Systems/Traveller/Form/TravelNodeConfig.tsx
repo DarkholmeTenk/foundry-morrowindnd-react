@@ -1,5 +1,5 @@
 import {TravelData, TravelInfo} from "../Data/NoteData";
-import {useFieldInOut, ObjectUpdater} from "../../../Util/React/update/ObjectUpdater";
+import {useFieldInOut, ObjectUpdater} from "Util/React/update/ObjectUpdater";
 import {FormGroup, FormLabel} from "@material-ui/core";
 import {SimpleCheckbox} from "./SimpleCheckbox";
 import {OtherNode} from "./TravelDataForm";

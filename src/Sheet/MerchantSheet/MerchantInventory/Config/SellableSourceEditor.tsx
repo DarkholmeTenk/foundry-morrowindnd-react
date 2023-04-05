@@ -6,12 +6,12 @@ import {
     MerchantInventorySourceSimple
 } from "./MerchantInventoryConfigData";
 import React, {FunctionComponent, useContext} from "react";
-import {usePromise} from "../../../../Util/Helper/PromiseHelper";
+import {usePromise} from "Util/Helper/PromiseHelper";
 import ItemViewer from "../../../../Util/Components/ItemViewer/ItemViewer";
 import {SellableSourceContext} from "../StoredSellableComponent";
 import {Button, MenuItem, Select, TextField} from "@material-ui/core";
-import {onItemDrop} from "../../../../Util/Helper/DropHelper";
-import {loadItem} from "../../../../Util/Identifiers/UuidHelper";
+import {onItemDrop} from "Util/Helper/DropHelper";
+import {loadItem} from "Util/Identifiers/UuidHelper";
 
 function ReferencedSellableEditor({source, setSource}: SellableSourceEditorArgs<ReferencedMerchantInventorySource>) {
     let context = useContext(SellableSourceContext)

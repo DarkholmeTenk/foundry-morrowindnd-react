@@ -1,10 +1,10 @@
-import {registerGMSocket} from "../../../Util/Socket/SocketHelper";
-import {loadActor, loadItem} from "../../../Util/Identifiers/UuidHelper";
+import {registerGMSocket} from "Util/Socket/SocketHelper";
+import {loadActor, loadItem} from "Util/Identifiers/UuidHelper";
 import {getMerchantFlag, getSellPrice} from "../Flag/MerchantFlag";
-import {addItem, removeItem} from "../../../Util/Helper/ItemTransferHelper";
-import {addGold} from "../../../Util/Helper/GoldHelper";
-import {getPartyUUIDs, isPartyCargoHolder} from "../../../Token/TokenSettings";
-import {Messages} from "../../../Util/Messages";
+import {addItem, removeItem} from "Util/Helper/ItemTransferHelper";
+import {addGold} from "Util/Helper/GoldHelper";
+import {getPartyUUIDs, isPartyCargoHolder} from "Token/TokenSettings";
+import {Messages} from "Util/Messages";
 
 interface SellItem {
     itemId: UUID,

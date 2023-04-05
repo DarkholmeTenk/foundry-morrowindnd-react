@@ -1,5 +1,4 @@
-import {ActorSpells} from "../../../../types/entities/actor/ActorSystem";
-import {FLAG_SCOPE} from "../../../Util/Helper/FlagHelper";
+import {FLAG_SCOPE} from "Util/Helper/FlagHelper";
 import {getMagicka, setMagicka} from "../MagickaFlag";
 import {getSlotCost} from "./slot-costs";
 

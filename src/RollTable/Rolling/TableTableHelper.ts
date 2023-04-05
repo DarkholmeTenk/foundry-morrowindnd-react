@@ -1,6 +1,6 @@
 import {RollData, RollTableArguments, TableHelper} from "./TableHelper";
 import doRollTable from "./TableRoller";
-import {callRoll} from "../../Util/Helper/RollHelper";
+import {callRoll} from "Util/Helper/RollHelper";
 
 async function nAsync(number, generator) {
 	let array = Array(number).fill(" ")

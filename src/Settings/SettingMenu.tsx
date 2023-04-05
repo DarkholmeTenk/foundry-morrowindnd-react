@@ -1,4 +1,4 @@
-import {SimpleReactFormSheet} from "../Util/React/ReactFormApplication";
+import {SimpleReactFormSheet} from "Util/React/ReactFormApplication";
 import * as React from "react";
 import {
     addSetting,
@@ -36,12 +36,12 @@ export class SettingMenu<X extends object> extends BaseSetting<RealSettingMenuDa
     }
 
     register() {
-        let type = this.data.type
+        let Type = this.data.type
         let self = this
 
-        class TempClass extends SimpleReactFormSheet {
-            constructor(...args) {
-                super(React.createElement(type, {setting: self.setting}), ...args)
+        class TempClass<T> extends SimpleReactFormSheet<T> {
+            constructor() {
+                super(<Type setting={self.setting} />)
             }
 
             static get defaultOptions() {

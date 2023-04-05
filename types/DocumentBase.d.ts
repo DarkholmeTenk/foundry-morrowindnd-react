@@ -43,6 +43,7 @@ declare global {
 
         createEmbeddedDocuments(name: string, data: any, context?: any): Promise<void>
         updateEmbeddedDocuments(name: string, update: any, context?: any): Promise<void>
+        deleteEmbeddedDocuments(name: string, uuids: UUID[]): Promise<void>
     }
 
     function fromUuid(uuid: UUID): Promise<unknown | undefined>

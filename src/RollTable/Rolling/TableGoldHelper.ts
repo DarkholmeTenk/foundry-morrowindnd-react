@@ -1,6 +1,6 @@
 import {RollData, RollTableArguments, TableHelper} from "./TableHelper";
-import {CurrencyLevels, CurrencyType, getActorDataCurrencyAmount, GoldBreakdown} from "../../Util/Helper/GoldHelper";
-import {callRoll} from "../../Util/Helper/RollHelper";
+import {CurrencyLevels, CurrencyType, getActorDataCurrencyAmount, GoldBreakdown} from "Util/Helper/GoldHelper";
+import {callRoll} from "Util/Helper/RollHelper";
 
 type CurrencyLevel = CurrencyType
 const defaultLevel = "gp"

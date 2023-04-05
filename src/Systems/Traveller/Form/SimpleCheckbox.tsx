@@ -1,4 +1,4 @@
-import {InOut, ObjectUpdater} from "../../../Util/React/update/ObjectUpdater";
+import {InOut, ObjectUpdater} from "Util/React/update/ObjectUpdater";
 import {useCallback, useMemo} from "react";
 import {Checkbox, FormControlLabel} from "@material-ui/core";
 

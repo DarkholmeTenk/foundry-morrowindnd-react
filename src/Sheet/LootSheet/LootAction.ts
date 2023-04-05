@@ -1,8 +1,8 @@
-import {registerGMSocket} from "../../Util/Socket/SocketHelper";
-import {addItem, removeItem} from "../../Util/Helper/ItemTransferHelper";
+import {registerGMSocket} from "Util/Socket/SocketHelper";
+import {addItem, removeItem} from "Util/Helper/ItemTransferHelper";
 import {Desire, getLootFlag, ItemDesire} from "./LootFlags";
 import {distributeDesires} from "./Desire/DesireDistribute";
-import {loadActor, loadItem} from "../../Util/Identifiers/UuidHelper";
+import {loadActor, loadItem} from "Util/Identifiers/UuidHelper";
 
 interface LootTakeSocketAction {
     selfId: UUID,

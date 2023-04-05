@@ -1,9 +1,9 @@
 import {Desire, getLootFlag} from "../LootFlags";
-import {addItem, removeItem} from "../../../Util/Helper/ItemTransferHelper";
-import {TokenSettings} from "../../../Token/TokenSettings";
+import {addItem, removeItem} from "Util/Helper/ItemTransferHelper";
+import {TokenSettings} from "Token/TokenSettings";
 import {addSellFlag} from "./SellDesire";
-import {itemQty} from "../../../Util/Extension/Items";
-import {loadActor} from "../../../Util/Identifiers/UuidHelper";
+import {itemQty} from "Util/Extension/Items";
+import {loadActor} from "Util/Identifiers/UuidHelper";
 
 function split<T>(qty: number, desirers: T[]): Map<T, number> {
     let map = new Map<T, number>()

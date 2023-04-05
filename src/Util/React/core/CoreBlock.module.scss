@@ -1,0 +1,16 @@
+.CoreBlock {
+  position: absolute;
+  border: 1px solid saddlebrown;
+  border-bottom: 0;
+  border-radius: 5px 5px 0 0;
+  top: 0;
+  left: 10px;
+  padding: 10px 20px;
+
+  background-color: antiquewhite;
+
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  transform: translateY(-100%);
+}

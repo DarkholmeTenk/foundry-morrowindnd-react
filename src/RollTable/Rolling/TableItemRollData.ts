@@ -1,6 +1,6 @@
 import {RollData} from "./TableHelper";
-import {getEnchantData, getRandomCharge} from "../../Item/Enchanting/Enchanter";
-import {isHoldable} from "../../Util/Helper/ItemHelper";
+import {getEnchantData, getRandomCharge} from "Item/Enchanting/Enchanter";
+import {isHoldable} from "Util/Helper/ItemHelper";
 
 
 export default class TableItemRollData implements RollData {

@@ -1,4 +1,4 @@
-import {isItem} from "../Util/Identifiers/UuidHelper";
+import {isItem} from "Util/Identifiers/UuidHelper";
 
 export function isSpell(value: any): value is ItemSpell {
 	return isItem(value) && value.type === "spell"

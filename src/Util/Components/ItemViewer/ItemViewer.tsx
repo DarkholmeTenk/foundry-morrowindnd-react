@@ -23,3 +23,8 @@ export default function ItemViewer({item, children, onClick, ...other}: ItemView
         {children}
     </div>
 }
+
+export function ItemUUIDViewer({item, ...rest}: Omit<ItemViewerArgs, "item"> & {item: UUID | undefined | null}) {
+    let realItem = item ? fromUuidSync(item) as ItemViewerProps : undefined
+    return <ItemViewer item={realItem} {...rest} />
+}

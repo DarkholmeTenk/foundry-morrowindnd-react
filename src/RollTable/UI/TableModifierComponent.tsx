@@ -4,7 +4,7 @@ import {Button} from "@material-ui/core";
 import ApplicationContext from "../../Util/React/core/ApplicationContext";
 import getFlag from "../../Util/Helper/FlagHelper";
 import {RollTableFlag, RollTableFlagKey} from "../FlagData/RollTableFlag";
-import {useWatchEntity} from "../../Util/Helper/EntityHelper";
+import {useWatchEntity} from "Util/Helper/EntityHelper";
 
 interface Props {
     table: RollTable

@@ -1,6 +1,6 @@
 import ItemPropertiesComponent from "./ItemPropertiesComponent";
 import {getProperties} from "./ItemProperties";
-import {SimpleReactApplication} from "../Util/React/ReactApplication";
+import {SimpleReactApplication} from "Util/React/ReactApplication";
 
 Hooks.on("itemSheetMenuItems", async (addMenuItem, app)=>{
     let item = app.object

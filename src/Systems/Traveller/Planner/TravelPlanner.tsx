@@ -1,5 +1,5 @@
 import React from "react"
-import {useCanvasToken, useParty} from "../../../Util/Components/SelfActorSelector";
+import {useCanvasToken, useParty} from "Util/Components/SelfActorSelector";
 import {getSceneNoteData} from "../Data/NoteDataUtil";
 import {NoteData} from "../Data/NoteData";
 import {calculateDijkstra, DijkstraData} from "./Dijkstra";

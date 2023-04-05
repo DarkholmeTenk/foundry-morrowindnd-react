@@ -1,6 +1,6 @@
-import {SpellClassData} from "../../Data/SpellData";
-import {SpellSchools} from "../../Util/Components/NewItemTable/ItemTypes";
-import {getClasses} from "../../Data/ActorData";
+import {SpellClassData} from "Data/SpellData";
+import {SpellSchools} from "Util/Components/NewItemTable/ItemTypes";
+import {getClasses} from "Data/ActorData";
 
 interface Settings {
     BaseCosts: Record<number, number>

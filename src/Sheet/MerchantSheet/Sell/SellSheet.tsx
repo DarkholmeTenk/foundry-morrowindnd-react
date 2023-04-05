@@ -1,26 +1,20 @@
-import React, {Fragment, useState} from "react";
+import React, {useState} from "react";
 import GoldDisplay from "../../../Util/Components/GoldDisplay";
-import {getBuyPrice, getSellPrice, MerchantFlag} from "../Flag/MerchantFlag";
+import {getSellPrice, MerchantFlag} from "../Flag/MerchantFlag";
 import {openItemQuantitySelect} from "../../LootSheet/ItemQuantitySelector";
-import {Button, Paper} from "@material-ui/core";
 import Styles from "./SellSheet.module.scss"
-import {onDrop} from "../../../Util/Helper/DropHelper";
-import SellDesireButton from "../../LootSheet/Desire/SellDesireButton";
-import {MerchantSell} from "./SellAction";
-import {DefaultItemColumns, ImageColumn, NameColumn} from "../../../Util/Components/NewItemTable/Item/ItemColumns";
-import {getGoldAmountFromActor} from "../../../Util/Helper/GoldHelper";
-import {ItemControl} from "../../../Util/Components/NewItemTable/Item/ItemControls";
-import {NewItemTable} from "../../../Util/Components/NewItemTable/NewItemTable";
-import {isHoldable} from "../../../Util/Helper/ItemHelper";
-import {useArrayAdder, useArrayReducers, useArrayRemover} from "../../../Util/Helper/ArrayReducers";
-import {mappedColumn} from "../../../Util/Components/NewItemTable/Util/MapColumns";
-import {StateSetter} from "../../../Util/React/update/Updater";
+import {onDrop} from "Util/Helper/DropHelper";
+import {ImageColumn, NameColumn} from "Util/Components/NewItemTable/Item/ItemColumns";
+import {ItemControl} from "Util/Components/NewItemTable/Item/ItemControls";
+import {NewItemTable} from "Util/Components/NewItemTable/NewItemTable";
+import {useArrayAdder, useArrayRemover} from "Util/Helper/ArrayReducers";
+import {mappedColumns} from "Util/Components/NewItemTable/Util/MapColumns";
+import {StateSetter} from "Util/React/update/Updater";
 import {DropBox} from "./DropBox";
-import {getterColumn} from "../../../Util/Components/NewItemTable/Util/GetterColumn";
-import {ItemExpander} from "../../../Util/Components/NewItemTable/Item/ItemExpander";
+import {getterColumn} from "Util/Components/NewItemTable/Util/GetterColumn";
+import {ItemExpander} from "Util/Components/NewItemTable/Item/ItemExpander";
 import {AddCargoButton, SellCompleteAction} from "./SellCompleteAction";
-import {getPartyCargoHolder, isPartyCargoHolder, TokenSettings} from "../../../Token/TokenSettings";
-import {act} from "react-dom/test-utils";
+import {getPartyCargoHolder, isPartyCargoHolder} from "Token/TokenSettings";
 
 export interface SellItem {
     item: Item5e,
@@ -30,7 +24,7 @@ export interface SellItem {
 function mapSI(i: SellItem) { return i.item }
 
 const NewColumns = [
-    ...mappedColumn(mapSI, [ImageColumn, NameColumn]),
+    ...mappedColumns(mapSI, [ImageColumn, NameColumn]),
     getterColumn<SellItem>("Qty", ({qty})=><>{qty}</>, {cellProps: {width: 120}}),
     {label: "Price", ColumnComponent: ({item, merchantFlag})=><GoldDisplay value={getSellPrice(item.item, item.qty, merchantFlag)}/>},
     {label: "", ColumnComponent: SellControls, cellProps: {width: 120}}

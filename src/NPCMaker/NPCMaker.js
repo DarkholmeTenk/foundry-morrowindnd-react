@@ -1,6 +1,6 @@
 import NPCMakerComponent from "./NPCMakerComponent";
 import React from "react";
-import {SimpleReactApplication} from "../Util/React/ReactApplication";
+import {SimpleReactApplication} from "Util/React/ReactApplication";
 
 let loaded = false
 

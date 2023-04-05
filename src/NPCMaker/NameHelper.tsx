@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useState} from "react";
 import RefreshButton from "./RefreshButton";
 import Selector from "../Util/Components/Selector/Selector";
-import {genders, races} from "./NPCMakerUtils";
+import {genders, races} from "NPCMaker/NPCMakerUtils";
 
 const raceMap = {
     "dark elf": "dunmer",
@@ -9,13 +9,13 @@ const raceMap = {
     "high elf": "altmer"
 }
 
-function map(map, choice) {
+function doMap(map: Record<string, string>, choice: string) {
     let tlc = choice.toLowerCase()
-    return map[tlc] || tlc
+    return map[tlc] ?? tlc
 }
 
-function filter(data, race, gender) {
-    let nr = map(raceMap, data.race)
+function filter(data, race: string, gender: string) {
+    let nr = doMap(raceMap, data.race)
     let ng = data.gender.toLowerCase()
     return (race == null || race === nr) && (gender == null || gender === ng)
 }
@@ -34,10 +34,10 @@ export function generateName(data, race, gender) {
 }
 
 export function useName(data, image, choice) {
-    let {race: imageRace, gender: imageGender} = image ? image.getTags(choice) : {}
+    let {race: imageRace, gender: imageGender} = image?.getTags(choice) ?? {}
     let [name, setName] = useState(()=>"")
     let [race, setRace] = useState("dunmer")
-    let [gender, setGender] = useState(null)
+    let [gender, setGender] = useState<string | null>(null)
     let dependants = [data, imageRace, imageGender, race, gender]
     let refreshName = useCallback(()=>{
         let raceToUse = imageRace || race

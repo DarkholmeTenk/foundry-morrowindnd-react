@@ -3,14 +3,6 @@ import "./Socket"
 import "./Helper/AsyncHelper"
 import "./Extension"
 import "./Render"
-import ReactDOM from "react-dom";
-
-export function createReactElement(parentContainer, reactComponent) {
-    let div = document.createElement("div")
-    div.id = `react-element-${count++}`
-    parentContainer.appendChild(div)
-    ReactDOM.render(reactComponent, div)
-}
 
 export function randomIndex(array) {
     return Math.floor(Math.random() * array.length)

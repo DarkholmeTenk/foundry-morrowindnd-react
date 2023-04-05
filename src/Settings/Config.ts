@@ -1,7 +1,7 @@
 //@ts-ignore
-import {SimpleReactFormSheet} from "../Util/React/ReactFormApplication"
+import {SimpleReactFormSheet} from "Util/React/ReactFormApplication"
 import {migrateSettings} from "./SettingsMigrator";
-import {FLAG_SCOPE} from "../Util/Helper/FlagHelper";
+import {FLAG_SCOPE} from "Util/Helper/FlagHelper";
 
 export const SettingsModuleKey = FLAG_SCOPE
 let isInitialised = false

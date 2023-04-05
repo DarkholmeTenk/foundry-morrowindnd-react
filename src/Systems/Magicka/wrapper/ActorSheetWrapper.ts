@@ -1,4 +1,4 @@
-import {FLAG_SCOPE} from "../../../Util/Helper/FlagHelper";
+import {FLAG_SCOPE} from "Util/Helper/FlagHelper";
 import {getMagicka, MagickaFlagKey} from "../MagickaFlag";
 
 async function getData(wrapped: Function, options: any) {

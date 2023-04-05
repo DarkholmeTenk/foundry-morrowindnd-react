@@ -1,4 +1,4 @@
-import {CurrencyItem} from "../../RollTable/Rolling/TableGoldHelper";
+import {CurrencyItem} from "RollTable/Rolling/TableGoldHelper";
 
 export enum CurrencyType {
     pp = "pp",

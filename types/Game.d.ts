@@ -8,6 +8,8 @@ interface Game {
     items: DocumentCollection<Item>,
     packs: DocumentCollection<CompendiumCollection<any>>
     tables: DocumentCollection<RollTable>
+    messages: DocumentCollection<ChatMessage>
+    folders: DocumentCollection<any>
     user: User
     socket: Socket
     settings: ClientSettings

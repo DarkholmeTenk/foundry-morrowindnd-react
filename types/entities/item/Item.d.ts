@@ -1,6 +1,3 @@
-import {ClassEntry, ItemSystem, ItemSystemData, SpellEntry} from "./ItemSystem";
-import {SystemEntry} from "../../DocumentBase";
-
 export {}
 
 declare global {

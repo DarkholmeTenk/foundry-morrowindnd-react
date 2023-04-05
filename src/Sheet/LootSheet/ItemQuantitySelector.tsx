@@ -2,11 +2,10 @@ import ItemViewer, {ItemViewerProps} from "../../Util/Components/ItemViewer/Item
 import {Button, Slider} from "@material-ui/core";
 import React, {useContext, useState} from "react";
 
-// @ts-ignore
 import styles from "./ItemQuantitySelector.module.scss"
 import {ReactNodeLike} from "prop-types";
-import {SimpleReactApplication} from "../../Util/React/ReactApplication";
 import ApplicationContext from "../../Util/React/core/ApplicationContext";
+import {openReactApplication} from "Util/React/openReactApplication";
 
 export function ItemQuantitySelect({item, max, onConfirm, buttonText = "Confirm", text}: ItemQuantitySelectArgs) {
     let [qty, setQty] = useState(max)
@@ -40,5 +39,5 @@ interface ItemQuantitySelectArgs {
     text?: ReactNodeLike
 }
 export function openItemQuantitySelect({item, max, onConfirm, buttonText = "Confirm", text}: ItemQuantitySelectArgs) {
-    new SimpleReactApplication(<ItemQuantitySelect {...{item, max, onConfirm, buttonText, text}} />, {width: 600, height: 180}).render(true)
+    openReactApplication(<ItemQuantitySelect {...{item, max, onConfirm, buttonText, text}} />, {width: 600, height: 180})
 }

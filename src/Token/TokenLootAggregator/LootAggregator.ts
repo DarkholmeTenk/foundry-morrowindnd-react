@@ -1,9 +1,9 @@
-import {mergeItemData} from "../../Util/Helper/ItemHelper";
+import {mergeItemData} from "Util/Helper/ItemHelper";
 import LogFactory from "../../Util/Logging";
-import {addItem} from "../../Util/Helper/ItemTransferHelper";
-import {migrate} from "../../Util/Helper/FlagMigrationHelper";
-import {FLAG_SCOPE} from "../../Util/Helper/FlagHelper";
-import {getGoldAmountFromActor, getGoldBreakdown} from "../../Util/Helper/GoldHelper";
+import {addItem} from "Util/Helper/ItemTransferHelper";
+import {migrate} from "Util/Helper/FlagMigrationHelper";
+import {FLAG_SCOPE} from "Util/Helper/FlagHelper";
+import {getGoldAmountFromActor, getGoldBreakdown} from "Util/Helper/GoldHelper";
 
 const log = LogFactory("LootSheetCreator")
 const LootedFlagKey = "LootedFlag"

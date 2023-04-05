@@ -1,13 +1,12 @@
-import {calculateEnchantValueAdd} from "../../Constants/SpellConstants";
+import {calculateEnchantValueAdd} from "Constants/SpellConstants";
 import LoggerFactory from "../../Util/Logging"
 // @ts-ignore
-import {setupFolder} from "../../Util/Helper/FolderHelper";
+import {setupFolder} from "Util/Helper/FolderHelper";
 // @ts-ignore
-import {clone, isEqual} from '../../Util'
-import {FLAG_SCOPE} from "../../Util/Helper/FlagHelper";
-import {ConsumableData, ConsumableEntry, HoldableEntry, SpellEntry} from "../../../types/entities/item/ItemSystem";
-import {getGoldValue} from "../../Util/Helper/GoldHelper";
-import {WeaponEnchantment} from "../../RollTable/Rolling/TableWeaponEnchantHelper";
+import {clone, isEqual} from '@/Util'
+import {FLAG_SCOPE} from "Util/Helper/FlagHelper";
+import {getGoldValue} from "Util/Helper/GoldHelper";
+import {WeaponEnchantment} from "RollTable/Rolling/TableWeaponEnchantHelper";
 
 const log = LoggerFactory("Enchanter")
 

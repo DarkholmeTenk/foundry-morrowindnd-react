@@ -7,6 +7,8 @@ declare global {
     }
 
     class Application {
+        constructor(...args: any[])
+
         appId: string
 
         static get defaultOptions(): Partial<ApplicationOptions>
@@ -16,6 +18,8 @@ declare global {
     }
 
     abstract class FormApplication<T> extends Application {
+        protected constructor(object?: T, options?: any)
+
         object: T
 
         abstract getData(): any

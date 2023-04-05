@@ -1,6 +1,6 @@
 import { TravellerSettings } from './Settings.js';
 import LogFactory from "../../Util/Logging";
-import {SimpleReactApplication} from "../../Util/React/ReactApplication";
+import {SimpleReactApplication} from "Util/React/ReactApplication";
 import TravelPlanner from "./Planner/TravelPlanner";
 
 const log = LogFactory("Traveller_Controls")

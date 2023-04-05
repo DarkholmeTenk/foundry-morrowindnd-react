@@ -2,7 +2,7 @@ import React, {useCallback} from "react";
 import {FormControl, Input, InputLabel, Tooltip} from "@material-ui/core";
 import Styles from "./ItemFilter.module.scss";
 import IconButton from "../../../IconButton";
-import {StateSetter} from "../../../../React/update/Updater";
+import {StateSetter} from "Util/React/update/Updater";
 
 export function mapItemTypeRecord(x: Record<string, {name: string, icon: string}>): ItemType[] {
     return Object.keys(x).map(id=>({...x[id], id}))

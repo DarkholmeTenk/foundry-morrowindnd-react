@@ -7,7 +7,7 @@ let thePromise = Promise.resolve()
 export async function setupFolder(path, type = "Item") {
     let x = thePromise.then(async () => {
         let parts = path.split("/")
-        let folderSoFar = null
+        let folderSoFar: any = null
         await parts.forEachAsyncOrdered(async part => {
             let folder;
             if(folderSoFar) {
@@ -25,7 +25,7 @@ export async function setupFolder(path, type = "Item") {
             }
             folderSoFar = folder
         })
-        return folderSoFar.id
+        return folderSoFar?.id
     })
     thePromise = x
     return await x
@@ -34,7 +34,7 @@ export async function setupFolder(path, type = "Item") {
 export function findFolder(path, type = "Item") {
     let parts = path.split("/")
     let searching = true
-    let retFolder = null
+    let retFolder: any = null
     parts.forEach(async part => {
         if (!searching) return
         let folder;
@@ -60,7 +60,7 @@ function explore(folder, onExplore) {
 
 export function getSubFolders(path) {
     let parent = findFolder(path)
-    let results = []
+    let results: any[] = []
     if (parent) {
         explore(parent, (f) => results.push(f.id))
     }

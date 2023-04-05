@@ -1,5 +1,4 @@
 import {FLAG_SCOPE} from "./FlagHelper";
-import {TravelDataFlagKey} from "../../Systems/Traveller/Data/NoteDataUtil";
 
 interface MigrateAll {
     oldScope: string

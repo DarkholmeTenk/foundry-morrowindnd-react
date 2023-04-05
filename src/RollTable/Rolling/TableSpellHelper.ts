@@ -2,8 +2,8 @@ import LoggerFactory from "../../Util/Logging"
 import {RollData, RollTableArguments, TableHelper} from "./TableHelper";
 import TableItemRollData from "./TableItemRollData";
 import {SpellPackSetting} from "./Settings";
-import {loadPack} from "../../Util/Identifiers/PackHelper";
-import {isSpell} from "../../Constants/SpellConstants";
+import {loadPack} from "Util/Identifiers/PackHelper";
+import {isSpell} from "Constants/SpellConstants";
 
 const log = LoggerFactory("TableSpellHelper")
 

@@ -1,8 +1,8 @@
-import {registerGMSocket} from "../../../Util/Socket/SocketHelper";
-import {loadActor, loadItem} from "../../../Util/Identifiers/UuidHelper";
+import {registerGMSocket} from "Util/Socket/SocketHelper";
+import {loadActor, loadItem} from "Util/Identifiers/UuidHelper";
 import {getBuyPrice, getMerchantFlag} from "../Flag/MerchantFlag";
-import {getGoldAmountFromActor, removeGold} from "../../../Util/Helper/GoldHelper";
-import {addItem, removeItem} from "../../../Util/Helper/ItemTransferHelper";
+import {getGoldAmountFromActor, removeGold} from "Util/Helper/GoldHelper";
+import {addItem, removeItem} from "Util/Helper/ItemTransferHelper";
 
 type BuyItem = ({"type": "item5e", "item": UUID} | {"type": "itemdata", "item": SmartItemData}) & {qty?: number}
 interface BuyAction {

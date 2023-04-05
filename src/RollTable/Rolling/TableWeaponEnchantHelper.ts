@@ -1,5 +1,5 @@
 import {RollData, RollTableArguments, TableHelper} from "./TableHelper";
-import {getGoldValue} from "../../Util/Helper/GoldHelper";
+import {getGoldValue} from "Util/Helper/GoldHelper";
 
 type DamagePart = [amount: string, type: string]
 interface WeaponEnchantmentData {

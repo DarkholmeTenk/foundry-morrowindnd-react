@@ -1,6 +1,12 @@
-.GoldSection {
-  position: absolute;
-  left: 0;
-  transform: translateX(-100%);
-  top: 30px;
+.Title {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 16px;
+}
+
+.PartyButton {
+  display: inline;
+  width: 24px;
+  height: 24px;
+  line-height: 0;
 }

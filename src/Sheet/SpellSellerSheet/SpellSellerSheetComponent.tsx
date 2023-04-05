@@ -1,28 +1,28 @@
 import {getMerchantFlag} from "./SpellSellertFlag";
 import TokenPermission from "../../Util/Components/TokenPermission";
-import {getGoldAmountFromActor} from "../../Util/Helper/GoldHelper";
+import {getGoldAmountFromActor} from "Util/Helper/GoldHelper";
 import GoldDisplay from "../../Util/Components/GoldDisplay";
 import SpellSellerFlagComponent from "./SpellSellerFlagComponent";
 import {CircularProgress, Tooltip} from "@material-ui/core";
 import React, {useMemo} from "react"
 // @ts-ignore
 import Styles from "./SpellSellerSheet.module.scss"
-import {usePromise} from "../../Util/Helper/PromiseHelper";
+import {usePromise} from "Util/Helper/PromiseHelper";
 import {SpellSellerPacks} from "./Settings";
-import {getSpellClasses} from "../../Data/SpellData";
-import {SpellSchools} from "../../Util/Components/NewItemTable/ItemTypes";
+import {getSpellClasses} from "Data/SpellData";
+import {SpellSchools} from "Util/Components/NewItemTable/ItemTypes";
 import {calculateSpellCost, getMatches, SpellMatches} from "./SpellCostCalculator";
 import {SpellSellerBuy} from "./SpellSellerAction";
 import LogFactory from "../../Util/Logging";
-import {useNewSelf} from "../../Util/React/core/NewSelfSelector";
-import {loadPack} from "../../Util/Identifiers/PackHelper";
-import {isSpell} from "../../Constants/SpellConstants";
-import {useWatchEntity} from "../../Util/Helper/EntityHelper";
-import {DefaultItemColumns} from "../../Util/Components/NewItemTable/Item/ItemColumns";
-import {getterColumn} from "../../Util/Components/NewItemTable/Util/GetterColumn";
-import {NewItemTable} from "../../Util/Components/NewItemTable/NewItemTable";
-import {ItemExpander} from "../../Util/Components/NewItemTable/Item/ItemExpander";
-import {ItemControl} from "../../Util/Components/NewItemTable/Item/ItemControls";
+import {useNewSelf} from "Util/React/core/NewSelfSelector";
+import {loadPack} from "Util/Identifiers/PackHelper";
+import {isSpell} from "Constants/SpellConstants";
+import {useWatchEntity} from "Util/Helper/EntityHelper";
+import {DefaultItemColumns} from "Util/Components/NewItemTable/Item/ItemColumns";
+import {getterColumn} from "Util/Components/NewItemTable/Util/GetterColumn";
+import {NewItemTable} from "Util/Components/NewItemTable/NewItemTable";
+import {ItemExpander} from "Util/Components/NewItemTable/Item/ItemExpander";
+import {ItemControl} from "Util/Components/NewItemTable/Item/ItemControls";
 
 const log = LogFactory("SpellSellerSheetComponent")
 

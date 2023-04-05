@@ -1,8 +1,8 @@
-import {NPCImage} from "../NPCMaker/NPCMakerUtils";
-import {getNpcNameData} from "../NPCMaker/NPCMakerApi";
-import {generateName} from "../NPCMaker/NameHelper";
+import {NPCImage} from "@/NPCMaker/NPCMakerUtils";
+import {getNpcNameData} from "NPCMaker/NPCMakerApi";
+import {generateName} from "@/NPCMaker/NameHelper";
 import LogFactory from "../Util/Logging";
-import {CreateTokenMutateArgs} from "../Util/Hooks/TokenMutateHooks";
+import {CreateTokenMutateArgs} from "Util/Hooks/TokenMutateHooks";
 
 const log = LogFactory("TokenTraitModifier")
 

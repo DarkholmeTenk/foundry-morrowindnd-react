@@ -1,6 +1,6 @@
 import {getGoldString} from "./Helper/GoldHelper";
 
-type MessagePart = string | {name: string} | {"type": "gp", value: number}
+export type MessagePart = string | {name: string} | {"type": "gp", value: number}
 type Message = MessagePart[] | string
 
 async function loadPart(part: MessagePart): Promise<string> {
@@ -32,9 +32,16 @@ export class Messages {
         this.messageSoFar.push("<hr>")
     }
 
-    async send() {
+    async getFinalMessage(): Promise<string> {
         let messages = await this.messageSoFar.mapAsync(createMessage)
-        let finalMessage = messages.join("")
-        await ChatMessage.create({content: finalMessage})
+        return messages.join("")
+    }
+
+    async send() {
+        await ChatMessage.create({content: await this.getFinalMessage()})
+    }
+
+    async update(message: ChatMessage) {
+        await message.update({content: await this.getFinalMessage()})
     }
 }

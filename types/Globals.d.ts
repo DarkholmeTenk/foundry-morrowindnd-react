@@ -18,4 +18,8 @@ declare global {
     interface Number {
         toNearest: (interval?: number, method?: "round" | "ceil" | "floor")=>number
     }
+
+    interface Window {
+        MorrowinDnDReact: any
+    }
 }

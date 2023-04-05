@@ -1,3 +1,0 @@
-interface OpenPayWindow {
-    callbackId: number,
-}

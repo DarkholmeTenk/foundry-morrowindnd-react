@@ -5,7 +5,7 @@ import styles from "./NPCViewer.module.scss"
 import {useImageChooser} from "./ImageChooser";
 import {Button} from "@material-ui/core";
 import {useNpcNameData} from "./NPCMakerApi";
-import {setupFolder} from "../Util/Helper/FolderHelper";
+import {setupFolder} from "Util/Helper/FolderHelper";
 import ApplicationContext from "../Util/React/core/ApplicationContext";
 
 export default function NPCViewer({filtered, choice}) {

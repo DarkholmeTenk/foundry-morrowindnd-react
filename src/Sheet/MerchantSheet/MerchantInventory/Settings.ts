@@ -1,7 +1,7 @@
 import PackSelectorComponent, {PackSelectorOptions} from "../../../Constants/Packs/PackSelectorComponent";
 import {MerchantInventorySource} from "./Config/MerchantInventoryConfigData";
 import StoredSellableComponent, {StoredSellableComponentOptions} from "./StoredSellableComponent";
-import {setupSettingMenu} from "../../../Settings/SettingMenu";
+import {setupSettingMenu} from "@/Settings/SettingMenu";
 
 export const SellableItemPacks = setupSettingMenu<UUID[]>({
     key: "sellable.itempack",

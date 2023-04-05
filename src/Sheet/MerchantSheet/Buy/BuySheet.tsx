@@ -2,15 +2,14 @@ import {getBuyPrice, getMerchantFlag, MerchantFlag} from "../Flag/MerchantFlag";
 import {openItemQuantitySelect} from "../../LootSheet/ItemQuantitySelector";
 import React, {Fragment} from "react";
 import GoldDisplay from "../../../Util/Components/GoldDisplay";
-import {Paper} from "@material-ui/core";
 // @ts-ignore
 import Styles from "../MerchantSheet.module.scss"
-import {ItemControl} from "../../../Util/Components/NewItemTable/Item/ItemControls";
-import {getGoldAmountFromActor} from "../../../Util/Helper/GoldHelper";
-import {NewItemTable} from "../../../Util/Components/NewItemTable/NewItemTable";
+import {ItemControl} from "Util/Components/NewItemTable/Item/ItemControls";
+import {getGoldAmountFromActor} from "Util/Helper/GoldHelper";
+import {NewItemTable} from "Util/Components/NewItemTable/NewItemTable";
 import {MerchantBuy} from "./BuyAction";
 import {DefaultMIICols, MIIExpander} from "../MerchantInventory/Item/MerchantInventoryItemDefaultCols";
-import {miiPrice, miiQty} from "../MerchantInventory/Item/MerchantInventoryItemData";
+import {miiQty} from "../MerchantInventory/Item/MerchantInventoryItemData";
 
 function toBuyData({item, type, qty}: MerchantInventoryItem) {
     if(type === "item5e")

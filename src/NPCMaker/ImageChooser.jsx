@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useState} from "react";
 import RefreshButton from "./RefreshButton";
 import styles from "./ImageChooser.module.scss"
-import {randomIndex} from "../Util";
+import {randomIndex} from "Util/index";
 
 function ImageChooser({length, index, setIndex, setRandom}) {
     return <div className={styles.buttonHolder}>

@@ -1,8 +1,8 @@
 import doRollTable from "../../RollTable/Rolling/TableRoller";
 import LogFactory from "../../Util/Logging";
-import {callRoll} from "../../Util/Helper/RollHelper";
+import {callRoll} from "Util/Helper/RollHelper";
 import {getTokenLootGeneratorFlag, RollTableChoice} from "./TokenLootGeneratorFlag";
-import {CreateTokenMutateArgs} from "../../Util/Hooks/TokenMutateHooks";
+import {CreateTokenMutateArgs} from "Util/Hooks/TokenMutateHooks";
 
 const log = LogFactory("TokenLootGenerator")
 

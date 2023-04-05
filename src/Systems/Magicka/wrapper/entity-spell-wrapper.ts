@@ -1,6 +1,6 @@
 import { getSlotCost } from "./slot-costs"
 import {getMagicka, MagickaFlag, MagickaFlagKey} from "../MagickaFlag";
-import {FLAG_SCOPE} from "../../../Util/Helper/FlagHelper";
+import {FLAG_SCOPE} from "Util/Helper/FlagHelper";
 
 function calculateChange(entity: Actor5e, update: any) {
     let original = entity.system.spells

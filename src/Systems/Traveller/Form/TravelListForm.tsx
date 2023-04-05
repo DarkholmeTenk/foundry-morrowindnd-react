@@ -1,12 +1,12 @@
 import {TravelData, TravelInfo} from "../Data/NoteData";
 import {FormGroup, FormLabel} from "@material-ui/core";
-import {InOut, ObjectUpdater, useFieldInOut, useObjectUpdater} from "../../../Util/React/update/ObjectUpdater";
+import {InOut, ObjectUpdater, useFieldInOut, useObjectUpdater} from "Util/React/update/ObjectUpdater";
 import {OtherNode} from "./TravelDataForm";
 import Selector from "../../../Util/Components/Selector/Selector";
 import {useCallback, useMemo} from "react";
-import {ArrayUpdater, useArrayField} from "../../../Util/React/update/ArrayUpdater";
+import {ArrayUpdater, useArrayField} from "Util/React/update/ArrayUpdater";
 import {NumberInOut, SimpleInput} from "./SimpleInput";
-import {SButton} from "../../../Util/React/ReactHelpers";
+import {Button} from "Util/Components/SimpleComponents";
 
 interface OtherData {
     ids: string[],
@@ -33,7 +33,7 @@ function TravelRow({data, index, updater, others: {ids, nameMap}, hasCosts}: Tra
                 <SimpleInput label="Time in hours" data={data} updater={fieldUpdater} field={time} converter={NumberInOut} />
                 <SimpleInput label="Cost" data={data} updater={fieldUpdater} field={cost} converter={NumberInOut} />
             </> : null}
-        <SButton onClick={rowUpdater.delete} style={{width: "24px", height: "24px"}}>X</SButton>
+        <Button onClick={rowUpdater.delete} style={{width: "24px", height: "24px"}}>X</Button>
     </div>
 }
 
@@ -63,7 +63,7 @@ export default function TravelListForm({data, setData, field, title, others, has
     let children = val.map((info, index)=><TravelRow data={info} index={index} updater={updater} others={otherData} hasCosts={hasCosts} />)
     return <FormGroup>
         <FormLabel component="legend">{title}</FormLabel>
-        <SButton onClick={add} style={{width: "24px", height: "24px"}}>+</SButton>
+        <Button onClick={add} style={{width: "24px", height: "24px"}}>+</Button>
         {children}
     </FormGroup>
 }

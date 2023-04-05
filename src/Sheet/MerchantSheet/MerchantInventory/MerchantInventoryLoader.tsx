@@ -1,5 +1,5 @@
-import {isHoldable} from "../../../Util/Helper/ItemHelper";
-import {usePromise} from "../../../Util/Helper/PromiseHelper";
+import {isHoldable} from "Util/Helper/ItemHelper";
+import {usePromise} from "Util/Helper/PromiseHelper";
 import {getMerchantFlag} from "../Flag/MerchantFlag";
 
 export async function loadMerchantInventory(merchant: Actor5e): Promise<MerchantInventoryItem[]> {

@@ -1,6 +1,6 @@
 import {SimplePos} from "../Canvas/SimpleParts";
 import {NoteData, TravelInfo} from "../Data/NoteData";
-import {getDistance} from "../../../Util/Helper/DistanceHelper";
+import {getDistance} from "Util/Helper/DistanceHelper";
 import {getTeleportDestinations} from "../Data/NoteDataUtil";
 import {TravelSortData} from "./JumpSorter";
 

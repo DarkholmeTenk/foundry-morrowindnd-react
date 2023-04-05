@@ -1,4 +1,4 @@
-import {isEqualDetailed} from "../../../Util"
+import {isEqualDetailed} from "@/Util"
 // @ts-ignore
 import IgnoredProperties from "./MergerIgnoredProperties.json"
 

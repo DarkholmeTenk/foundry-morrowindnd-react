@@ -1,4 +1,4 @@
-import {getSubFolders} from "../../Util/Helper/FolderHelper";
+import {getSubFolders} from "Util/Helper/FolderHelper";
 import LogFactory from "../../Util/Logging";
 import {isCompendiumItemInPath} from "../../Interop/CompendiumFolders";
 

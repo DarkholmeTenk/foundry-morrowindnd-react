@@ -1,20 +1,23 @@
 import {SystemEntry} from "../../DocumentBase";
 
-export interface ActorSpells {
-    value: number,
-    max: number,
-    override?: number
+export {}
+declare global {
+    interface ActorSpells {
+        value: number,
+        max: number,
+        override?: number
+    }
+
+    interface ActorBaseSystemData {
+        currency: CurrencyValues
+        spells: Record<string, ActorSpells>
+    }
+
+    interface ActorCharacterData extends ActorBaseSystemData {}
+    type ActorCharacterEntry = SystemEntry<"character", ActorCharacterData>
+
+    interface ActorNpcData extends ActorBaseSystemData{}
+    type ActorNpcEntry = SystemEntry<"npc", ActorNpcData>
+
+    type ActorSystem = ActorCharacterEntry | ActorNpcEntry
 }
-
-export interface ActorBaseSystemData {
-    currency: CurrencyValues
-    spells: Record<string, ActorSpells>
-}
-
-export interface ActorCharacterData extends ActorBaseSystemData {}
-export type ActorCharacterEntry = SystemEntry<"character", ActorCharacterData>
-
-export interface ActorNpcData extends ActorBaseSystemData{}
-export type ActorNpcEntry = SystemEntry<"npc", ActorNpcData>
-
-export type ActorSystem = ActorCharacterEntry | ActorNpcEntry

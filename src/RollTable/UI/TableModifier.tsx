@@ -1,13 +1,13 @@
 import getLogger from "../../Util/Logging";
 import doRollTable from "../Rolling/TableRoller";
 import TableModifierComponent from "./TableModifierComponent";
-import {SimpleReactApplication} from "../../Util/React/ReactApplication";
+import {openReactApplication} from "Util/React/openReactApplication";
 
 const log = getLogger("TableModifier")
 
 
 function openTableModifier(table: RollTable) {
-    new SimpleReactApplication(<TableModifierComponent table={table} />, {width: 400, height: 150}).render(true)
+    openReactApplication(<TableModifierComponent table={table} />, {width: 400, height: 150})
 }
 
 Hooks.on("rollTableConfigMenuItems", async (addMenuItem, app)=>{

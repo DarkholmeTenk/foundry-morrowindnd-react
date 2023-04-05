@@ -1,6 +1,5 @@
 import getFlag, {FlagResult} from "../../../Util/Helper/FlagHelper";
-import {itemPrice} from "../../../Util/Extension/Items";
-import {getGoldValue, getGoldValueFromItemData} from "../../../Util/Helper/GoldHelper";
+import {itemPrice} from "Util/Extension/Items";
 import {miiPrice} from "../MerchantInventory/Item/MerchantInventoryItemData";
 
 interface MerchantItem {

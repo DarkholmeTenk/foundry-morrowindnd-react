@@ -1,5 +1,5 @@
 import TokenLootSetupComponent from "./TokenLootSetupComponent";
-import {SimpleReactApplication} from "../../Util/React/ReactApplication";
+import {openReactApplication} from "Util/React/openReactApplication";
 
 Hooks.on("actorSheetMenuItems", (add, app, html, data)=>{
     let actor = app.object
@@ -8,7 +8,7 @@ Hooks.on("actorSheetMenuItems", (add, app, html, data)=>{
             name: "Loot",
             icon: '<i class="fas fa-utensils"></i>',
             callback: ()=>{
-                new SimpleReactApplication(<TokenLootSetupComponent actor={actor} />, {width: 500, height: 500} ).render(true)
+                openReactApplication(<TokenLootSetupComponent actor={actor} />, {width: 500, height: 500} )
             }
         })
     }

@@ -1,7 +1,7 @@
 import {useCallback, useState} from "react";
 import {Button, Popover} from "@material-ui/core";
 import {PermissionControls} from "./PermissionControls";
-import {useWatchEntity} from "../../Helper/EntityHelper";
+import {useWatchEntity} from "Util/Helper/EntityHelper";
 
 export type MyDocument = Actor | Item | JournalEntry
 export function DocumentControls<T extends DocumentBase>({doc}: {doc: DocumentBase}) {

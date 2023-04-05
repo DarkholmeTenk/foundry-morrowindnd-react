@@ -1,4 +1,4 @@
-import {InOut, ObjectUpdater} from "../../../Util/React/update/ObjectUpdater";
+import {InOut, ObjectUpdater} from "Util/React/update/ObjectUpdater";
 import {useCallback, useMemo} from "react";
 import {TextField} from "@material-ui/core";
 

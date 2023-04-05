@@ -2,7 +2,7 @@ import {TableColumn} from "./TableColumn";
 import {Button, TableCell, TableRow} from "@material-ui/core";
 import React, {useCallback, useState} from "react";
 import {ItemExpander, ItemExpanderComponent} from "./NewItemTableExpander";
-import {StateSetter} from "../../React/update/Updater";
+import {StateSetter} from "Util/React/update/Updater";
 
 function RowCell<T, D>({item, extraData, c, index}: {item: T, extraData: D, c: TableColumn<D, T>, index: number}) {
     let {ColumnComponent} = c

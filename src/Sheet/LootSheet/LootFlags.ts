@@ -1,6 +1,6 @@
 import getFlag from "../../Util/Helper/FlagHelper";
-import {getGoldAmountFromActor} from "../../Util/Helper/GoldHelper";
-import {getActivePlayerUsers} from "../../Util/Helper/UserHelper";
+import {getGoldAmountFromActor} from "Util/Helper/GoldHelper";
+import {getPartyUUIDs} from "Token/TokenSettings";
 
 export enum Desire {
     NEED,
@@ -20,16 +20,19 @@ export interface ItemDesire {
 
 export interface LootFlag {
     desires: ItemDesire[],
-    goldTakers: string[]
+    goldTakers: UUID[]
 }
 
-const DEFAULT_LOOT_FLAG: LootFlag = {desires: [], goldTakers: []}
 const LOOT_FLAG_ID = "LootSheet"
+
+function getDefaultLootFlag(): LootFlag {
+    return {desires: [], goldTakers: getPartyUUIDs()}
+}
 
 export function getLootFlag(x: Actor5e | TokenDocument) {
     let doc = x
     if(x instanceof Actor && x.token) doc = x.token
-    return getFlag(doc, LOOT_FLAG_ID, DEFAULT_LOOT_FLAG)
+    return getFlag(doc, LOOT_FLAG_ID, getDefaultLootFlag())
 }
 
 export type MappedDesires = Map<string, Map<string, Desire>>
@@ -47,10 +50,9 @@ export function getLootGoldDetails(npc: Actor5e) {
     let amount = getGoldAmountFromActor(npc)
     let [flag] = getLootFlag(npc)
 
-    let users = getActivePlayerUsers()
-    let takers: { [id: string]: boolean } = {}
-    users.forEach(x => takers[x.id!] = flag.goldTakers[x.id!] === true)
-    let takeCount = users.filter(x => takers[x.id!]).length
+    let takers = flag.goldTakers ?? getPartyUUIDs()
+    if(!Array.isArray(takers)) takers = getPartyUUIDs()
+    let takeCount = takers.length
     let splitAmount = amount / (takeCount || 1)
-    return {users, takers, amount, splitAmount, takeCount}
+    return {takers, amount, splitAmount, takeCount}
 }

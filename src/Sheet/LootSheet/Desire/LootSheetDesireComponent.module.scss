@@ -1,0 +1,14 @@
+.DesireTooltip {
+  display: flex;
+  flex-direction: column;
+
+  .Row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .NotSelected {
+    @extend .Row;
+    background-color: darkred;
+  }
+}

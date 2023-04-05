@@ -1,4 +1,4 @@
-import {Button, MenuItem, Paper, Select, Slider} from "@material-ui/core";
+import {Button, MenuItem, Select, Slider} from "@material-ui/core";
 import {useState} from "react";
 import {StoredSellables} from "../MerchantInventory/Settings";
 import Styles from "./MerchantFlagComponent.module.scss"

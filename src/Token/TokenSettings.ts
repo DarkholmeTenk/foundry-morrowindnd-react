@@ -1,6 +1,6 @@
 import TokenSettingComponent from "./TokenSettingComponent";
-import {setupSettingMenu} from "../Settings/SettingMenu";
-import {loadActor} from "../Util/Identifiers/UuidHelper";
+import {setupSettingMenu} from "@/Settings/SettingMenu";
+import {loadActor} from "Util/Identifiers/UuidHelper";
 
 export interface TokenSetting {
     lootTokenBase?: UUID,

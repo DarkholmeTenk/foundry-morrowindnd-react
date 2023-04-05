@@ -1,7 +1,6 @@
 import {getRollTableData, RollData} from "./TableHelper";
 import LogFactory from "../../Util/Logging";
-import {FLAG_SCOPE} from "../../Util/Helper/FlagHelper";
-import {getRollTableFlag, RollTableFlagKey} from "../FlagData/RollTableFlag";
+import {getRollTableFlag} from "../FlagData/RollTableFlag";
 
 const log = LogFactory("TableRoller")
 

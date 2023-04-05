@@ -1,4 +1,4 @@
-import {getArguments} from "../../../../RollTable/Rolling/TableHelper";
+import {getArguments} from "RollTable/Rolling/TableHelper";
 import {
     MerchantInventorySource,
     MerchantInventorySourceSimple,
@@ -7,8 +7,8 @@ import {
 } from "./MerchantInventoryConfigData";
 import {SellableItemPacks, StoredSellables} from "../Settings";
 import LogFactory from "../../../../Util/Logging";
-import {isItem, loadItem} from "../../../../Util/Identifiers/UuidHelper";
-import {loadPack} from "../../../../Util/Identifiers/PackHelper";
+import {isItem, loadItem} from "Util/Identifiers/UuidHelper";
+import {loadPack} from "Util/Identifiers/PackHelper";
 
 const log = LogFactory("SellableLoader")
 

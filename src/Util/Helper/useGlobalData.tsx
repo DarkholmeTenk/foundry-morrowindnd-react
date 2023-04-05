@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {useForceUpdate} from "./useForceUpdate";
 import {useIsGm} from "../React/core/GmContext";
 import getFlag, {FLAG_SCOPE} from "./FlagHelper";

@@ -1,8 +1,8 @@
 import {useCallback} from "react";
-import {ItemControl} from "../../Util/Components/NewItemTable/Item/ItemControls";
+import {ItemControl} from "Util/Components/NewItemTable/Item/ItemControls";
 import {LootTakeSocket} from "./LootAction";
 import {openItemQuantitySelect} from "./ItemQuantitySelector";
-import {itemQty} from "../../Util/Extension/Items";
+import {itemQty} from "Util/Extension/Items";
 
 interface LootControlsProps {
     item: Item,

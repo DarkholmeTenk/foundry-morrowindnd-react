@@ -1,5 +1,5 @@
 import TokenLootDropComponent from "./TokenLootDropComponent";
-import {SimpleReactApplication} from "../../Util/React/ReactApplication";
+import {SimpleReactApplication} from "Util/React/ReactApplication";
 
 Hooks.on("dropActorSheetData", (actor, sheet, data)=>{
     if(data.type === "RollTable") {

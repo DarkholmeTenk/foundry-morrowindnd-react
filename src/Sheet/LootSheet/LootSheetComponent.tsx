@@ -1,20 +1,19 @@
-import {useWatchEntity} from "../../Util/Helper/EntityHelper";
+import {useWatchEntity} from "Util/Helper/EntityHelper";
 import {LootSplitNGS} from "./LootAction";
 import GoldSection from "./GoldBox/GoldSection";
 import Style from "./LootSheet.module.scss"
 import GoldDisplay from "../../Util/Components/GoldDisplay";
-import getFlag from "../../Util/Helper/FlagHelper";
-import {buildDesireMap, getLootFlag, LootFlag} from "./LootFlags";
+import {buildDesireMap, getLootFlag} from "./LootFlags";
 import LootSheetDesireComponent from "./Desire/LootSheetDesireComponent";
 import {Button} from "@material-ui/core";
 import {useCallback, useMemo} from "react";
-import {NewItemTable} from "../../Util/Components/NewItemTable/NewItemTable";
-import {DefaultItemColumns} from "../../Util/Components/NewItemTable/Item/ItemColumns";
-import {StandardItemFilter} from "../../Util/Components/NewItemTable/Item/Filter/StandardItemFilter";
-import {getterColumn} from "../../Util/Components/NewItemTable/Util/GetterColumn";
+import {NewItemTable} from "Util/Components/NewItemTable/NewItemTable";
+import {DefaultItemColumns} from "Util/Components/NewItemTable/Item/ItemColumns";
+import {StandardItemFilter} from "Util/Components/NewItemTable/Item/Filter/StandardItemFilter";
+import {getterColumn} from "Util/Components/NewItemTable/Util/GetterColumn";
 import {LootControls} from "./LootControls";
-import {useNewSelf} from "../../Util/React/core/NewSelfSelector";
-import {ItemExpander} from "../../Util/Components/NewItemTable/Item/ItemExpander";
+import {useNewSelf} from "Util/React/core/NewSelfSelector";
+import {ItemExpander} from "Util/Components/NewItemTable/Item/ItemExpander";
 
 const ValueIndColumn = getterColumn<Item>("Value (i)", item=><GoldDisplay value={item.price()} /> )
 const ValueTotalColumn = getterColumn<Item>("Value (t)", item=><GoldDisplay value={item.qty() * item.price()} />)
@@ -52,6 +51,7 @@ export default function LootSheetComponent({npc}) {
                          disabled={!npc!.isOwner}
             />
         </div>
+        {items.length == 0 ? <div>No Items available to loot!</div> : null}
         {items.length > 0 ? <NewItemTable items={items}
                                           expander={ItemExpander}
                                           extraData={extraData}

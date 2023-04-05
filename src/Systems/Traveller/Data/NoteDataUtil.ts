@@ -1,8 +1,8 @@
 import {NoteData, TravelData} from "./NoteData";
 import {p2pRoutes, teleportation} from "../const";
-import {getDistance} from "../../../Util/Helper/DistanceHelper";
+import {getDistance} from "Util/Helper/DistanceHelper";
 import {SimplePos} from "../Canvas/SimpleParts";
-import {FLAG_SCOPE} from "../../../Util/Helper/FlagHelper";
+import {FLAG_SCOPE} from "Util/Helper/FlagHelper";
 
 export const TravelDataFlagKey = "travelData"
 

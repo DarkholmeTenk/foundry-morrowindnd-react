@@ -1,5 +1,5 @@
 import {ReactNode} from "react";
-import {SimpleReactApplication} from "./ReactApplication";
+import {SimpleReactApplication} from "Util/React/ReactApplication";
 
 type Options = ApplicationOptions & {
     width: number,

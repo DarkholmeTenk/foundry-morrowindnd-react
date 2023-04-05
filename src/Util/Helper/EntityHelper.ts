@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {usePromise, UsePromiseResult} from "./PromiseHelper";
 import LogFactory from "../Logging";
 import {useRefresh} from "./useForceUpdate";

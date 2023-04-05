@@ -1,22 +1,18 @@
 import {StateSetter} from "../update/Updater";
-import {createContext, useCallback, useContext, useState} from "react";
+import {useCallback} from "react";
 import {Avatar, Badge, Chip} from "@material-ui/core";
-import {loadActor} from "../../Identifiers/UuidHelper";
+import {loadActor} from "Util/Identifiers/UuidHelper";
 import {useWatchEntity} from "../../Helper/EntityHelper";
+import {atom, useAtom} from "jotai";
 
 const DefaultIcon = "icons/svg/mystery-man.svg"
 type SelfState = UUID | undefined
 
-export function useSelfState(): [SelfState, StateSetter<SelfState>] {
-    return useState<SelfState>(()=>{
-        let actor = game.user?.character
-        if(actor) {
-            return actor.uuid
-        }
-    })
-}
+export const SelfAtom = atom<SelfState>(undefined)
 
-export const SelfContext = createContext<SelfState>(undefined)
+Hooks.on("ready", ()=>{
+    SelfAtom.init = game.user.character?.uuid
+})
 
 export function AvatarChip({actor, selected, setSelected, short = false}: {actor: Actor, selected: boolean, setSelected: (v: boolean)=>void, short?: boolean}) {
     let selectMe = useCallback(()=>setSelected(true), [setSelected])
@@ -48,7 +44,8 @@ function SelfAvatarChip({actor, state, setState, short}: {actor: Actor, state: S
     return <AvatarChip actor={actor} selected={state == actor.uuid} setSelected={setMe} short={short} />
 }
 
-export function SelfSelector({state, setState}: {state: SelfState, setState: StateSetter<SelfState>}) {
+export function SelfSelector() {
+    let [state, setState] = useAtom(SelfAtom)
     let users = game.users
     let me = game.user
     if(!users || !me) return null
@@ -61,7 +58,7 @@ export function SelfSelector({state, setState}: {state: SelfState, setState: Sta
 }
 
 export function useNewSelf(): Actor5e | undefined {
-    let selfId = useContext(SelfContext)
+    let [selfId] = useAtom(SelfAtom)
     let actor = selfId ? loadActor.sync(selfId) : undefined
     useWatchEntity(actor)
     return actor

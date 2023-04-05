@@ -1,5 +1,5 @@
-import {TableColumn} from "../../../../Util/Components/NewItemTable/TableColumn";
-import {miiPrice, miiQty} from "./MerchantInventoryItemData";
+import {TableColumn} from "Util/Components/NewItemTable/TableColumn";
+import {miiQty} from "./MerchantInventoryItemData";
 import {getBuyPrice, MerchantFlag} from "../../Flag/MerchantFlag";
 import GoldDisplay from "../../../../Util/Components/GoldDisplay";
 import ItemDescription from "../../../../Util/Components/ItemDescription";

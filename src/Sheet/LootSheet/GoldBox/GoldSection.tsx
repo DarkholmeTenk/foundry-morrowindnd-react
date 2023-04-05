@@ -1,21 +1,22 @@
 import GoldDisplay from "../../../Util/Components/GoldDisplay";
-import {Button, Card, CardActions, CardContent, Input, Typography} from "@material-ui/core";
+import {Button, Input, Typography} from "@material-ui/core";
 import React, {useCallback, useState} from "react";
-import {addGold, removeGold} from "../../../Util/Helper/GoldHelper";
-import {UserGroupSelector} from "../../../Util/Helper/UserHelper";
-import {getLootGoldDetails, getLootFlag} from "../LootFlags";
+import {addGold, removeGold} from "Util/Helper/GoldHelper";
+import {getLootFlag, getLootGoldDetails} from "../LootFlags";
 import {LootSplitGold} from "./SplitGoldAction";
+import {LeftFloatingPanel} from "Util/Components/LeftFloatingPanel/LeftFloatingPanel";
+import {useMappedSetter, useSafeSetter, useSetter} from "Util/React/update/Updater";
+import {PartyActorSelector} from "Util/Components/PartyActorSelector/PartyActorSelector";
+import {getPartyUUIDs} from "Token/TokenSettings";
 import Styles from "./GoldSection.module.scss"
-import {LeftFloatingPanel} from "../../../Util/Components/LeftFloatingPanel/LeftFloatingPanel";
 
 export default function GoldSection({npc, disabled}) {
     let [flag, setFlag] = getLootFlag(npc)
+    let flagSetter = useSetter(flag, setFlag)
 
     let {takers, amount, splitAmount, takeCount} = getLootGoldDetails(npc)
     let [newGold, setNewGold] = useState("0")
-    let setTakers=useCallback((takerUpdate)=> {
-        setFlag({...flag, goldTakers: takerUpdate(flag.goldTakers || {})})
-    }, [takers, setFlag])
+    let setTakers = useSafeSetter(useMappedSetter("goldTakers", flagSetter), [])
     let loot = useCallback(()=>{
         LootSplitGold({lootId: npc.uuid})
     }, [npc])
@@ -31,8 +32,8 @@ export default function GoldSection({npc, disabled}) {
 
     return <LeftFloatingPanel>
         <div style={{display: "flex", flexDirection: "column"}}>
-            <Typography>Gold Loot</Typography>
-            <UserGroupSelector selected={takers} setSelected={setTakers} disabled={disabled} />
+            <div className={Styles.Title}><Typography>Gold Loot</Typography><button className={Styles.PartyButton} onClick={()=>setTakers(getPartyUUIDs)}>P</button> </div>
+            <PartyActorSelector value={takers} setValue={setTakers} />
             <div>
                 Total:
                 <GoldDisplay value={amount} />

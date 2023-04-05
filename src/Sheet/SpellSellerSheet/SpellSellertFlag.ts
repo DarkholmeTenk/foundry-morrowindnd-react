@@ -1,4 +1,4 @@
-import {itemPrice} from "../../Util/Extension/Items";
+import {itemPrice} from "Util/Extension/Items";
 
 interface MerchantItem {
     itemId: UUID,

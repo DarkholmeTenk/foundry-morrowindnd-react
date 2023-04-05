@@ -1,4 +1,4 @@
-import {setupSetting} from "../../Settings/Config";
+import {setupSetting} from "Settings/Config";
 
 export const RenderHackEnabled = setupSetting<Boolean>({
     key: "RenderHack.Enabled",

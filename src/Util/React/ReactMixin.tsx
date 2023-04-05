@@ -1,46 +1,29 @@
-import {ReactNode} from "react";
 import ReactDOM from "react-dom";
 import {CoreBlock} from "./core/CoreBlock";
 
-type Con<T extends Application> = new (...args: any[]) => T
+export type Con<T extends Application> = new (...args: any[]) => T
 
-export function Reactify<T extends Application>(Original: Con<T>) {
-    let o = Original as any
-    //@ts-ignore
-    return class ReactApp extends Original {
-        xrendered = false
-        me: T
+export interface ReactApp {
+    getComponent(): Promise<Element>
+    superRender: (force: boolean, ...args)=>Promise<void>
+}
 
-        constructor(props) {
-            super(props);
-            // @ts-ignore
-            this.me = this
-        }
+export class ReactObj {
+    private hasRendered = false
+    constructor(
+        private application: Application & ReactApp
+    ) {
+    }
 
-        getComponent(): ReactNode {
-            return <div>Incomplete</div>
-        }
+    async render(force: boolean, ...args: any[]) {
+        if(this.hasRendered && !force) return
+        this.hasRendered = true
 
-        static get defaultOptions() {
-            return mergeObject(o.defaultOptions, {
-                template: "modules/MorrowinDnDReact/templates/ReactApplication.hbs",
-            })
-        }
-
-        getData(options) {
-            return {id: this.appId};
-        }
-
-        async _render(force, ...args) {
-            if(this.xrendered && !force) return
-            this.xrendered = true
-
-            await super._render(force, ...args);
-            if(!force) return
-            let component = this.getComponent()
-            ReactDOM.render(<CoreBlock application={this.me}>
-                {component}
-            </CoreBlock>, document.getElementById(`react-${this.appId}`))
-        }
+        await this.application.superRender(force, ...args)
+        if(!force) return
+        let component = await this.application.getComponent()
+        ReactDOM.render(<CoreBlock application={this.application}>
+            {component}
+        </CoreBlock>, document.getElementById(`react-${this.application.appId}`))
     }
 }

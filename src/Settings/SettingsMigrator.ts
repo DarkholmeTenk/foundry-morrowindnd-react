@@ -1,4 +1,4 @@
-import {FLAG_SCOPE} from "../Util/Helper/FlagHelper";
+import {FLAG_SCOPE} from "Util/Helper/FlagHelper";
 
 const OLD_KEYS = ["morrowindnd.", "moss."]
 

@@ -1,4 +1,4 @@
-import {StateSetter} from "../../React/update/Updater";
+import {StateSetter} from "Util/React/update/Updater";
 import React, {ReactNode, useMemo, useState} from "react";
 
 interface FilterComponentArgs<T, Q> {

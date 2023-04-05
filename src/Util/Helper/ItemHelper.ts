@@ -1,9 +1,9 @@
 import LogFactory from "../Logging";
-import {HoldableEntry} from "../../../types/entities/item/ItemSystem";
 
 const log = LogFactory("ItemMerger")
 
-export function isHoldable(itemData: SmartItemData): itemData is ItemData & HoldableEntry {
+type HID = ItemData & HoldableEntry
+export function isHoldable(itemData: SmartItemData): itemData is HID {
     return "price" in itemData.system || "weight" in itemData.system || "quantity" in itemData.system
 }
 
@@ -13,13 +13,15 @@ export function mergeItemData(items: SmartItemData[]) {
     items.forEach(i=>{
         let lowerName = i.name.toLowerCase()
         if(nameArr[lowerName]) {
-            let eH = nameArr[lowerName]
-            if(eH.newVal == eH.oldVal) {
-                eH.newVal = deepClone(eH.newVal)
+            let existing = nameArr[lowerName]
+            if(existing.newVal == existing.oldVal) {
+                existing.newVal = deepClone(existing.newVal)
             }
-            let e = eH.newVal
-            if(isHoldable(e) && isHoldable(i)) {
-                e.system.quantity = (e.system.quantity ?? 1) + (i.system.quantity ?? 1)
+            let newValue = existing.newVal
+            if(isHoldable(newValue) && isHoldable(i)) {
+                let nv: HID = newValue
+                let iv: HID = i
+                nv.system.quantity = (nv.system.quantity ?? 1) + (iv.system.quantity ?? 1)
             }
         } else {
             nameArr[lowerName] = {oldVal: i, newVal: i}

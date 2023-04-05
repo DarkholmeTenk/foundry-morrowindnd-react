@@ -1,5 +1,3 @@
-import {StateSetter} from "../../React/update/Updater";
-
 interface Props<V> {
     values: V[]
     value: V

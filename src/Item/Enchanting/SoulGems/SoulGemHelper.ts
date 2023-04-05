@@ -1,7 +1,7 @@
 import EnchantConfig, {SoulSize} from "../EnchantConfig";
-import {getProperties, ITEM_FLAG} from "../../ItemProperties";
-import {addItem} from "../../../Util/Helper/ItemTransferHelper";
-import {itemQty} from "../../../Util/Extension/Items";
+import {getProperties, ITEM_FLAG} from "Item/ItemProperties";
+import {addItem} from "Util/Helper/ItemTransferHelper";
+import {itemQty} from "Util/Extension/Items";
 
 interface SoulInfo {
     size: SoulSize,

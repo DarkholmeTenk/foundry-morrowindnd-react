@@ -3,9 +3,8 @@ import EnchantConfig from "./EnchantConfig";
 import ItemViewer from "../../Util/Components/ItemViewer/ItemViewer";
 import Selector from "../../Util/Components/Selector/Selector";
 import {getEnchantData} from "./Enchanter";
-import {onDrop} from "../../Util/Helper/DropHelper";
+import {onDrop} from "Util/Helper/DropHelper";
 import ApplicationContext from "../../Util/React/core/ApplicationContext";
-import {HoldableEntry, SpellEntry} from "../../../types/entities/item/ItemSystem";
 import Styles from "./EnchantingFormComponent.module.scss"
 
 interface Props {

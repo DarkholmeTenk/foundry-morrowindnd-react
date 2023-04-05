@@ -1,4 +1,4 @@
-import {getGoldValue} from "../../../../Util/Helper/GoldHelper";
+import {getGoldValue} from "Util/Helper/GoldHelper";
 
 export function miiSrc({type, item}: MerchantInventoryItem): SmartItemData {
     return (type === "item5e") ? item._source : item

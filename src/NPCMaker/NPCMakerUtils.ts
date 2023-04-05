@@ -1,5 +1,3 @@
-import {generateName} from "./NameHelper";
-
 export const genders = ["male", "female"]
 export const races = ["altmer", "argonian", "bosmer", "breton", "dunmer", "imperial", "khajiit", "nord", "orc", "redguard"]
 
@@ -8,30 +6,25 @@ export function isIn(value, array) {
 }
 
 export class NPCImage {
-    constructor(image) {
-        this.image = image;
+    path: string
+    name: string
+    constructor(private image: any) {
         this.path = image.path
         this.name = image.name;
     }
 
-    getTags(backup = {}) {
+    getTags(backup: any = {}) {
         let name = this.name
         let race = backup.race || null
         let gender = backup.gender || null
-        let other = []
+        let other: string[] = []
         let split = name.substring(0, name.indexOf(".")).split("_")
-        split.forEach((part,index)=>{
-            if(!isNaN(part)) return
+        split.forEach((part)=>{
             if(isIn(part, genders)) gender = part.toLowerCase()
             else if(isIn(part, races)) race = part.toLowerCase()
             else other.push(part.toLowerCase())
         })
         return {race, gender, other}
-    }
-
-    getRandomName(choices) {
-        let {race, gender} = this.getTags(choices)
-        return generateName(race, gender)
     }
 }
 
@@ -50,6 +43,7 @@ function matchProperty(value, choice, ignore = true) {
 }
 
 export class NPCChoices {
+    data: any
     constructor({race= null, gender= null, other= [], ignoreNoGender= false, ignoreNoRace = false} = {}) {
         this.data = {race, gender, other, ignoreNoGender, ignoreNoRace}
         Object.assign(this, this.data)

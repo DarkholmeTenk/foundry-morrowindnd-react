@@ -1,5 +1,5 @@
 import {useCallback} from "react";
-import {e} from "../Helper/DomEventHelper"
+import {e} from "Util/Helper/DomEventHelper"
 
 interface TokenPermissionState {name: string, icon: JSX.Element}
 const states: TokenPermissionState[] = [

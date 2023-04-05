@@ -1,5 +1,5 @@
-import React, {Component, ReactNode, useRef, useState} from "react";
-import {Button, Input, Menu, MenuItem, MenuList, Popover} from "@material-ui/core";
+import React, {useRef, useState} from "react";
+import {Button, Input, MenuItem, MenuList, Popover} from "@material-ui/core";
 import Styles from "./ComplexSelector.module.scss"
 
 function ComplexSelectorMenu<T>({values, setValue, displayComponent: DisplayComponent, nameFunction}: Omit<Props<T>, "text">) {

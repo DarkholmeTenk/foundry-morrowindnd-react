@@ -1,11 +1,11 @@
-import {registerGMSocket} from "../../../Util/Socket/SocketHelper";
-import {loadActor} from "../../../Util/Identifiers/UuidHelper";
-import {TokenSettings} from "../../../Token/TokenSettings";
+import {registerGMSocket} from "Util/Socket/SocketHelper";
+import {loadActor} from "Util/Identifiers/UuidHelper";
+import {TokenSettings} from "Token/TokenSettings";
 import {getMerchantFlag, getSellPrice} from "../Flag/MerchantFlag";
 import {getSellDesireItems} from "../../LootSheet/Desire/SellDesireButton";
-import {itemQty} from "../../../Util/Extension/Items";
-import {removeItem} from "../../../Util/Helper/ItemTransferHelper";
-import {addGold} from "../../../Util/Helper/GoldHelper";
+import {itemQty} from "Util/Extension/Items";
+import {removeItem} from "Util/Helper/ItemTransferHelper";
+import {addGold} from "Util/Helper/GoldHelper";
 
 interface SellJunkAction {
     merchant: UUID,
