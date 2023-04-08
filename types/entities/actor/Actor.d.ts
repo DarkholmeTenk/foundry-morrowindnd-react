@@ -1,5 +1,3 @@
-import {ActorSystem} from "./ActorSystem";
-
 export {}
 
 declare global {
@@ -13,4 +11,8 @@ declare global {
     }
 
     type Actor5e = ActorSystem & Omit<Actor, keyof ActorSystem> & Actor
+
+    class Actors extends WorldCollection<Actor5e> {
+        static registerSheet(scope: string, sheet: typeof DocumentSheet<Actor5e>, options: any)
+    }
 }

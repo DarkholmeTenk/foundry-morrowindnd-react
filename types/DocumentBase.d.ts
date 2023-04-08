@@ -48,4 +48,11 @@ declare global {
 
     function fromUuid(uuid: UUID): Promise<unknown | undefined>
     function fromUuidSync(uuid: UUID): unknown | undefined
+
+    abstract class DocumentSheet<T extends DocumentBase> extends FormApplication<T>{
+        document: T
+    }
+
+    abstract class WorldCollection<T> {
+    }
 }

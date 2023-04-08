@@ -6,10 +6,17 @@ import {calculateSpellCost} from "./SpellCostCalculator";
 import {loadActor, loadUUID} from "Util/Identifiers/UuidHelper";
 import {isSpell} from "Constants/SpellConstants";
 
+export enum Discount {
+    NONE = "none",
+    CLASS = "class",
+    SPEC = "spec",
+    NO_SPEC = "no_spec"
+}
 interface BuyAction {
     self: UUID,
     merchant: UUID,
-    spell: UUID
+    spell: UUID,
+    discount: Discount
 }
 
 export const SpellSellerBuy = registerGMSocket<BuyAction>("SpellSellerSheet_Buy", async ({self: selfId, merchant: merchantId, spell: spellId})=>{

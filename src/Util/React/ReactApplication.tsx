@@ -9,7 +9,7 @@ export default class ReactApplication extends Application implements ReactApp {
         })
     }
 
-    getComponent(): Promise<Element> {
+    getComponent(): Promise<JSX.Element> {
         throw Error("No component defined!")
     }
     superRender = (f, ...o)=>super._render(f, ...o)

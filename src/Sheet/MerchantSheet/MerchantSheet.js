@@ -1,4 +1,4 @@
-import {ReactActorSheet} from "../../Util/React/SheetHelper";
+import {ReactActorSheet} from "Util/React/SheetHelper";
 import MerchantSheetComponent from "./MerchantSheetComponent";
 
 export class MerchantSheet extends ReactActorSheet {

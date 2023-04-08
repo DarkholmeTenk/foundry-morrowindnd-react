@@ -2,6 +2,7 @@ import React, {useCallback, useState} from "react";
 import Selector from "../../Util/Components/Selector/Selector";
 import {Button} from "@material-ui/core";
 import {getPackId} from "../../Util/Identifiers/PackHelper";
+import {useArrayReducers} from "Util/Helper/ArrayReducers";
 
 export const PackSelectorOptions = {
     width: 600,
@@ -31,23 +32,7 @@ export default function PackSelectorComponent({setting}) {
     let save = useCallback(()=>{
         setting.value = packs
     }, [setting, packs])
-    let add = useCallback(()=>{
-        setPacks((prev)=>[...prev, null])
-    }, [])
-    let remove = useCallback((index)=>{
-        setPacks((prev)=>{
-            let newPacks = [...prev]
-            newPacks.splice(index, 1)
-            return newPacks
-        })
-    }, [setPacks])
-    let set = useCallback((index, newValue)=>{
-        setPacks((prev)=>{
-            let newPacks = [...prev]
-            newPacks[index] = newValue
-            return newPacks
-        })
-    }, [setPacks])
+    let [set, add, remove] = useArrayReducers(setPacks)
 
     return <div>
         {packs.map((p, i)=><PackSelector pack={p} index={i} setPack={set} key={i} remove={remove}/>)}

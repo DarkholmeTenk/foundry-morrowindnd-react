@@ -1,10 +1,10 @@
-import {ReactActorSheet} from "../../Util/React/SheetHelper";
+import {ReactActorSheet} from "Util/React/SheetHelper";
 import SpellSellerSheetComponent from "./SpellSellerSheetComponent";
 
 export class SpellSellerSheet extends ReactActorSheet {
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
-            height: super.defaultOptions.height + 120
+            height: (super.defaultOptions.height ?? 0) + 120
         })
     }
 

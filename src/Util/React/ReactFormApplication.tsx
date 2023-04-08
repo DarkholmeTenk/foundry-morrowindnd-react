@@ -9,9 +9,9 @@ export default class ReactFormApplication<T> extends FormApplication<T> implemen
         })
     }
 
-    superRender = super._render
+    superRender = (a,b)=>super._render(a,b)
 
-    getComponent(): Promise<Element> {
+    getComponent(): Promise<JSX.Element> {
         throw Error("No component defined!")
     }
 

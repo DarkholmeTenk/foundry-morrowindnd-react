@@ -1,5 +1,5 @@
 import LootSheetComponent from "./LootSheetComponent.tsx";
-import {ReactActorSheet} from "../../Util/React/SheetHelper";
+import {ReactActorSheet} from "Util/React/SheetHelper";
 
 export class LootSheet extends ReactActorSheet {
     static get defaultOptions() {

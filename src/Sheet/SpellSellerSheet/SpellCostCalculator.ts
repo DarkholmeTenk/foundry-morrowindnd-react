@@ -90,7 +90,6 @@ export function calculateSpellCostFromMatches(spell: ItemSpell, matches: SpellMa
     return baseCost * (matchClass ? 1 : SETTINGS.NotClassPenalty[l]) * ((matchSchool || matchSubClass) ? SETTINGS.SpecBonus[l] : 1)
 }
 
-
 export function calculateSpellCost(actor: Actor, spell: ItemSpell, spellData: SpellClassData): number | null {
     let matches = getMatches(actor, spell, spellData)
     return calculateSpellCostFromMatches(spell, matches)
