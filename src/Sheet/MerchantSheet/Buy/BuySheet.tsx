@@ -2,15 +2,14 @@ import {getBuyPrice, getMerchantFlag, MerchantFlag} from "../Flag/MerchantFlag";
 import {openItemQuantitySelect} from "../../LootSheet/ItemQuantitySelector";
 import React, {Fragment} from "react";
 import GoldDisplay from "../../../Util/Components/GoldDisplay";
-// @ts-ignore
-import Styles from "../MerchantSheet.module.scss"
 import {ItemControl} from "Util/Components/NewItemTable/Item/ItemControls";
 import {getGoldAmountFromActor} from "Util/Helper/GoldHelper";
 import {NewItemTable} from "Util/Components/NewItemTable/NewItemTable";
 import {MerchantBuy} from "./BuyAction";
 import {DefaultMIICols, MIIExpander} from "../MerchantInventory/Item/MerchantInventoryItemDefaultCols";
 import {miiQty} from "../MerchantInventory/Item/MerchantInventoryItemData";
-import {MerchantInventoryItemFilter} from "@/Sheet/MerchantSheet/Buy/BuyFilter";
+import {MerchantInventoryItemFilter} from "Sheet/MerchantSheet/Buy/BuyFilter";
+import {useMoneyRequest} from "Systems/GroupPay/useMoneyRequest";
 
 function toBuyData({item, type, qty}: MerchantInventoryItem) {
     if(type === "item5e")
@@ -49,10 +48,13 @@ interface BuyControlsArgs {
 function BuyControls({merchant, self, item, merchantFlag}: BuyControlsArgs) {
     if(!self) return null
     let itemResult = item.item
-    let canAfford = getGoldAmountFromActor(self) > getBuyPrice(item, 1, merchantFlag)
+    let buyPrice = getBuyPrice(item, 1, merchantFlag)
+    let canAfford = getGoldAmountFromActor(self) >= getBuyPrice(item, 1, merchantFlag)
+    let {canRequestMoney, requestMoney} = useMoneyRequest()
     return <>
         {(merchant.isOwner && itemResult instanceof Item) ? <ItemControl title="Delete" icon="fas fa-trash" onClick={()=>(itemResult as Item5e).delete()} /> : null}
-        {canAfford && <ItemControl title="Buy" icon="fas fa-hand-holding" onClick={()=>doBuy(self, merchant, item)} />}
+        {canAfford && <ItemControl title="Buy" icon="fas fa-cart-plus" onClick={()=>doBuy(self, merchant, item)} />}
+        {canRequestMoney && <ItemControl title="Request money from party" icon="fa-solid fa-money-bill-wave" onClick={()=>requestMoney(buyPrice, "To purchase " + item.item.name)} />}
     </>
 }
 

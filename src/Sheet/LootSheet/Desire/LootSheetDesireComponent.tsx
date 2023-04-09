@@ -5,7 +5,7 @@ import {MarkLootDesire} from "../LootAction";
 import {e} from "Util/Helper/DomEventHelper";
 import DesireTooltip from "./DesireTooltip";
 import {useNewSelf} from "Util/React/core/NewSelfSelector";
-import {getPartyUUIDs} from "Token/TokenSettings";
+import {getPartyUUIDs} from "Settings/token/TokenSettings";
 import {ItemUUIDViewer} from "Util/Components/ItemViewer/ItemViewer";
 import Styles from "./LootSheetDesireComponent.module.scss"
 

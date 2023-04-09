@@ -4,7 +4,7 @@ import {getSellPrice, MerchantFlag} from "../Flag/MerchantFlag";
 import GoldDisplay from "../../../Util/Components/GoldDisplay";
 import {MerchantSell} from "./SellAction";
 import {useArrayAdder} from "Util/Helper/ArrayReducers";
-import {getPartyCargoHolder} from "Token/TokenSettings";
+import {getPartyCargoHolder} from "Settings/token/TokenSettings";
 import {getSellDesireItems} from "../../LootSheet/Desire/SellDesireButton";
 import {useWatchEntity} from "Util/Helper/EntityHelper";
 

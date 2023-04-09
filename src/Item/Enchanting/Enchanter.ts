@@ -1,12 +1,10 @@
 import {calculateEnchantValueAdd} from "Constants/SpellConstants";
 import LoggerFactory from "../../Util/Logging"
-// @ts-ignore
 import {setupFolder} from "Util/Helper/FolderHelper";
-// @ts-ignore
-import {clone, isEqual} from '@/Util'
+import {isEqual} from 'Util'
 import {FLAG_SCOPE} from "Util/Helper/FlagHelper";
 import {getGoldValue} from "Util/Helper/GoldHelper";
-import {WeaponEnchantment} from "RollTable/Rolling/TableWeaponEnchantHelper";
+import {WeaponEnchantment} from "Systems/RollTable/Rolling/TableWeaponEnchantHelper";
 
 const log = LoggerFactory("Enchanter")
 

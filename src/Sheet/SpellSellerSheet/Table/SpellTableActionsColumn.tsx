@@ -1,4 +1,4 @@
-import {Discount, SpellSellerBuy} from "@/Sheet/SpellSellerSheet/SpellSellerAction";
+import {Discount, SpellSellerBuy} from "Sheet/SpellSellerSheet/SpellSellerAction";
 import {ItemControl} from "Util/Components/NewItemTable/Item/ItemControls";
 import React from "react";
 

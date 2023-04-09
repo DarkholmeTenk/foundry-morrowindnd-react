@@ -1,5 +1,5 @@
 import {getTotalPledged, GroupPayFlag} from "../Model/GroupPayFlag";
-import {getPartyUUIDs} from "Token/TokenSettings";
+import {getPartyUUIDs} from "Settings/token/TokenSettings";
 import {useNewSelf} from "Util/React/core/NewSelfSelector";
 import {PledgeGroupPayAction} from "../socket/PledgeGroupPayAction";
 import GoldDisplay from "../../../Util/Components/GoldDisplay";

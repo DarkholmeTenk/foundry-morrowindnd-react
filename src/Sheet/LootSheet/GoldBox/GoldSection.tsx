@@ -7,7 +7,7 @@ import {LootSplitGold} from "./SplitGoldAction";
 import {LeftFloatingPanel} from "Util/Components/LeftFloatingPanel/LeftFloatingPanel";
 import {useMappedSetter, useSafeSetter, useSetter} from "Util/React/update/Updater";
 import {PartyActorSelector} from "Util/Components/PartyActorSelector/PartyActorSelector";
-import {getPartyUUIDs} from "Token/TokenSettings";
+import {getPartyUUIDs} from "Settings/token/TokenSettings";
 import Styles from "./GoldSection.module.scss"
 
 export default function GoldSection({npc, disabled}) {

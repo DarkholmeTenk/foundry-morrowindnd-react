@@ -3,8 +3,8 @@ import {NewItemTable} from "Util/Components/NewItemTable/NewItemTable";
 import React from "react";
 import {getterColumn} from "Util/Components/NewItemTable/Util/GetterColumn";
 import {ImageColumn, NameColumn} from "Util/Components/NewItemTable/Item/ItemColumns";
-import {SpellIcon} from "@/Sheet/SpellSellerSheet/Table/SpellIconColumn";
-import {SpellActionsColumn} from "@/Sheet/SpellSellerSheet/Table/SpellTableActionsColumn";
+import {SpellIcon} from "Sheet/SpellSellerSheet/Table/SpellIconColumn";
+import {SpellActionsColumn} from "Sheet/SpellSellerSheet/Table/SpellTableActionsColumn";
 import {StandardItemFilter} from "Util/Components/NewItemTable/Item/Filter/StandardItemFilter";
 
 const LevelColumn = getterColumn<ItemSpell>("Level", (item)=>item.system.level ?? "-", {cellProps: {width: 32}})

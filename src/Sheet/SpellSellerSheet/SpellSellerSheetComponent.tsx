@@ -7,7 +7,7 @@ import {loadPack} from "Util/Identifiers/PackHelper";
 import {isSpell} from "Constants/SpellConstants";
 import {useWatchEntity} from "Util/Helper/EntityHelper";
 import {chainSort, mapSort, NumSorter, StringSorter} from "Util/Sorting";
-import {SpellSellerTable} from "@/Sheet/SpellSellerSheet/Table/SpellSellerTable";
+import {SpellSellerTable} from "Sheet/SpellSellerSheet/Table/SpellSellerTable";
 
 const Sorter = chainSort<ItemSpell>(
     mapSort(a=>a.system.level, NumSorter),

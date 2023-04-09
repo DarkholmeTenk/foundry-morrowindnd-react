@@ -14,7 +14,7 @@ import {DropBox} from "./DropBox";
 import {getterColumn} from "Util/Components/NewItemTable/Util/GetterColumn";
 import {ItemExpander} from "Util/Components/NewItemTable/Item/ItemExpander";
 import {AddCargoButton, SellCompleteAction} from "./SellCompleteAction";
-import {getPartyCargoHolder, isPartyCargoHolder} from "Token/TokenSettings";
+import {getPartyCargoHolder, isPartyCargoHolder} from "Settings/token/TokenSettings";
 
 export interface SellItem {
     item: Item5e,

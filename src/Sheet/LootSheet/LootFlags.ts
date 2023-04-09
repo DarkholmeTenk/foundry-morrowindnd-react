@@ -1,6 +1,6 @@
 import getFlag from "../../Util/Helper/FlagHelper";
 import {getGoldAmountFromActor} from "Util/Helper/GoldHelper";
-import {getPartyUUIDs} from "Token/TokenSettings";
+import {getPartyUUIDs} from "Settings/token/TokenSettings";
 
 export enum Desire {
     NEED,

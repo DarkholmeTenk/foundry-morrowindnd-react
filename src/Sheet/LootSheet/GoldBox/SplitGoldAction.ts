@@ -2,7 +2,7 @@ import {registerGMSocket} from "Util/Socket/SocketHelper";
 import {loadActor} from "Util/Identifiers/UuidHelper";
 import {getLootGoldDetails} from "../LootFlags";
 import {getGoldBreakdown, NoActorCurrency} from "Util/Helper/GoldHelper";
-import {CurrencyItem} from "RollTable/Rolling/TableGoldHelper";
+import {CurrencyItem} from "Systems/RollTable/Rolling/TableGoldHelper";
 import {Messages} from "Util/Messages";
 
 interface LootSplitGoldAction {

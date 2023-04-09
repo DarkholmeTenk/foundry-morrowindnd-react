@@ -1,4 +1,4 @@
-import {getArguments} from "RollTable/Rolling/TableHelper";
+import {getArguments} from "Systems/RollTable/Rolling/TableHelper";
 import {
     MerchantInventorySource,
     MerchantInventorySourceSimple,

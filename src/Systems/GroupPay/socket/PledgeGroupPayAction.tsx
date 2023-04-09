@@ -8,7 +8,7 @@ interface PledgeGroupPayData {
     selfId: string,
     amount: number
 }
-export const PledgeGroupPayAction = registerGMSocket("GroupPay_Resolve", async ({chatMessageId, selfId, amount}: PledgeGroupPayData)=>{
+export const PledgeGroupPayAction = registerGMSocket("GroupPay_Pledge", async ({chatMessageId, selfId, amount}: PledgeGroupPayData)=>{
     let message = game.messages.get(chatMessageId)
     let self = await loadActor(selfId)
     if(!self || !message || !hasGroupPayFlag(message)) return

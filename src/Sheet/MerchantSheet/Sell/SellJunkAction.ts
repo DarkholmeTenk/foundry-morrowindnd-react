@@ -1,6 +1,6 @@
 import {registerGMSocket} from "Util/Socket/SocketHelper";
 import {loadActor} from "Util/Identifiers/UuidHelper";
-import {TokenSettings} from "Token/TokenSettings";
+import {TokenSettings} from "Settings/token/TokenSettings";
 import {getMerchantFlag, getSellPrice} from "../Flag/MerchantFlag";
 import {getSellDesireItems} from "../../LootSheet/Desire/SellDesireButton";
 import {itemQty} from "Util/Extension/Items";
