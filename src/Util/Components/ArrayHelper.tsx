@@ -1,6 +1,6 @@
 import React, {useCallback} from "react";
 import IconButton from "./IconButton";
-import {Button} from "@material-ui/core";
+import {Button} from "@mui/material";
 import {useArrayReducers} from "../Helper/ArrayReducers";
 import {StateSetter} from "../React/update/Updater";
 
@@ -20,14 +20,16 @@ interface ArrayLineArgs<T> {
 function ArrayLine<T>({index, value, deleteItem, setItem, component: Component}: ArrayLineArgs<T>) {
     let deleteIt = useCallback(()=>deleteItem(index), [deleteItem, index])
     let setValue = useCallback((v)=>setItem(index, v), [index, setItem])
-    return <div style={{display: "flex", flexDirection: "row"}}>
-        <div style={{flexGrow: 1}}>
-            <Component value={value} setValue={setValue} />
+    return (
+        <div style={{display: "flex", flexDirection: "row"}}>
+            <div style={{flexGrow: 1}}>
+                <Component value={value} setValue={setValue} />
+            </div>
+            <div>
+                <IconButton onClick={deleteIt} title="Delete Effect" clz="fas fa-trash" size="large" />
+            </div>
         </div>
-        <div>
-            <IconButton onClick={deleteIt} title="Delete Effect" clz="fas fa-trash"/>
-        </div>
-    </div>
+    );
 }
 
 function getNew<T>(getter: NewValueGetter<T>): T {

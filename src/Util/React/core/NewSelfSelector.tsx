@@ -1,6 +1,6 @@
 import {StateSetter} from "../update/Updater";
 import {useCallback} from "react";
-import {Avatar, Badge, Chip} from "@material-ui/core";
+import {Avatar, Badge, Chip} from "@mui/material";
 import {loadActor} from "Util/Identifiers/UuidHelper";
 import {useWatchEntity} from "../../Helper/EntityHelper";
 import {atom, useAtom} from "jotai";

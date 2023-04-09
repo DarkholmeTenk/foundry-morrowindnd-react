@@ -1,5 +1,5 @@
 import {useCallback, useState} from "react";
-import {Button, Popover} from "@material-ui/core";
+import {Button, Popover} from "@mui/material";
 import {PermissionControls} from "./PermissionControls";
 import {useWatchEntity} from "Util/Helper/EntityHelper";
 import {useIsGm} from "Util/React/core/GmContext";

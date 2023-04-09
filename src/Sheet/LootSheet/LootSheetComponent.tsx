@@ -5,7 +5,7 @@ import Style from "./LootSheet.module.scss"
 import GoldDisplay from "../../Util/Components/GoldDisplay";
 import {buildDesireMap, getLootFlag} from "./LootFlags";
 import LootSheetDesireComponent from "./Desire/LootSheetDesireComponent";
-import {Button} from "@material-ui/core";
+import {Button} from "@mui/material";
 import {useCallback, useMemo} from "react";
 import {NewItemTable} from "Util/Components/NewItemTable/NewItemTable";
 import {DefaultItemColumns} from "Util/Components/NewItemTable/Item/ItemColumns";

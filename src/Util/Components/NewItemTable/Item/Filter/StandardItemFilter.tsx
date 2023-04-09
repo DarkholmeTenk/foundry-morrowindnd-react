@@ -1,5 +1,5 @@
 import React, {useCallback} from "react";
-import {InputAdornment, TextField} from "@material-ui/core";
+import {InputAdornment, TextField} from "@mui/material";
 import IconButton from "../../../IconButton";
 import {ItemTypes, SpellSchools} from "../../ItemTypes";
 import {StateSetter} from "Util/React/update/Updater";
@@ -29,10 +29,12 @@ function SpellTypeControls({items, filter, setFilter}) {
 function NameFilter({state, setState}: Pick<ItemTableFilterArgs, "state" | "setState">) {
     let setName = useCallback((e) => setState(f => ({...f, name: e.target.value})), [setState])
     let clearName = useCallback(() => setState(f => ({...f, name: ""})), [setState])
-    return <TextField style={{flexGrow: 1}} label="Filter" value={state.name || ""} onChange={setName} InputProps={{
-        endAdornment: state.name &&
-            <InputAdornment position="end"><IconButton clz="fas fa-backspace" onClick={clearName}/></InputAdornment>
-    }}/>
+    return (
+        <TextField style={{flexGrow: 1}} label="Filter" value={state.name || ""} onChange={setName} InputProps={{
+            endAdornment: state.name &&
+                <InputAdornment position="end"><IconButton clz="fas fa-backspace" onClick={clearName} size="large" /></InputAdornment>
+        }}/>
+    );
 }
 
 interface ItemTableFilterArgs {

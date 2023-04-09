@@ -1,4 +1,4 @@
-import {Avatar, Badge} from "@material-ui/core";
+import {Avatar, Badge} from "@mui/material";
 import {StateSetter} from "Util/React/update/Updater";
 import {useArrayEnableDisable} from "Util/Helper/ArrayReducers";
 import Styles from "./PartyActorSelector.module.scss";

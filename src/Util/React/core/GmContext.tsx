@@ -1,6 +1,6 @@
 import {createContext, PropsWithChildren, useCallback, useContext, useState} from "react";
 import {StateSetter} from "../update/Updater";
-import {Checkbox, FormControlLabel} from "@material-ui/core";
+import {Checkbox, FormControlLabel} from "@mui/material";
 
 type GMInfo = boolean
 

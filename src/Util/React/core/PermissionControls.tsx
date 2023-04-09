@@ -1,7 +1,7 @@
 import {useIsGm} from "./GmContext";
 import {MyDocument} from "./DocumentControls";
 import {ReactNode, useCallback} from "react";
-import {IconButton} from "@material-ui/core";
+import {IconButton} from "@mui/material";
 
 const DefaultUser = {id: "default", name: "Default"}
 interface PermType { name: string, icon: ReactNode }
@@ -25,9 +25,11 @@ function PermissionControlButton({active, permissionKey, permissionData, setUser
     let color: "primary" | "secondary" | undefined = undefined
     if(active == PermActive.DEFAULT) color = "secondary"
     if(active == PermActive.YES) color = "primary"
-    return <div><IconButton onClick={setMe} color={color}>
-        {permissionData.icon}
-    </IconButton></div>
+    return (
+        <div><IconButton onClick={setMe} color={color} size="large">
+            {permissionData.icon}
+        </IconButton></div>
+    );
 }
 
 interface UserInfo {

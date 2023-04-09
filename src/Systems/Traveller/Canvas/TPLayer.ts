@@ -3,6 +3,7 @@ import {teleportation} from "../const";
 import {shift} from "./canvas";
 import {Circle, FillStyle, LineStyle} from "./SimpleParts";
 import {getTeleportDestinations} from "../Data/NoteDataUtil";
+import * as PIXI from "pixi.js"
 
 export default class TPLayer extends PIXI.Container {
     constructor(private notes: NoteData[]) {

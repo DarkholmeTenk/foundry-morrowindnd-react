@@ -1,5 +1,6 @@
 import {defaultShift, shift} from "./canvas";
 import {SimplePos} from "./SimpleParts";
+import * as PIXI from "pixi.js"
 
 interface TextData {
     text: string,

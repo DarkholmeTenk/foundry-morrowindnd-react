@@ -1,5 +1,5 @@
 import {SpellSchools} from "Util/Components/NewItemTable/ItemTypes";
-import {Tooltip} from "@material-ui/core";
+import {Tooltip} from "@mui/material";
 import React from "react";
 
 export function SpellIcon({item}: { item: ItemSpell }) {

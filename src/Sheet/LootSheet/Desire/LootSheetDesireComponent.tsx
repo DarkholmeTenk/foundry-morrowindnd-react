@@ -1,5 +1,5 @@
 import {Desire, MappedDesires} from "../LootFlags";
-import {Chip, CircularProgress, Tooltip} from "@material-ui/core";
+import {Chip, CircularProgress, Tooltip} from "@mui/material";
 import {useCallback} from "react";
 import {MarkLootDesire} from "../LootAction";
 import {e} from "Util/Helper/DomEventHelper";

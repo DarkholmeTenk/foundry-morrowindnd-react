@@ -1,11 +1,12 @@
 import React, {useCallback} from "react";
-import {Tooltip} from "@material-ui/core";
+import {Tooltip} from "@mui/material";
 
 interface IconButtonArgs {
     title?: string,
     clz: string,
     onClick: ()=>any,
-    classes?: string
+    classes?: string,
+    size?: string
 }
 export default function IconButton({title, clz, onClick, classes}: IconButtonArgs) {
     let click = useCallback((e)=>{

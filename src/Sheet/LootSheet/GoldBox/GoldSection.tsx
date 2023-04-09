@@ -1,5 +1,5 @@
 import GoldDisplay from "../../../Util/Components/GoldDisplay";
-import {Button, Input, Typography} from "@material-ui/core";
+import {Button, Input, Typography} from "@mui/material";
 import React, {useCallback, useState} from "react";
 import {addGold, removeGold} from "Util/Helper/GoldHelper";
 import {getLootFlag, getLootGoldDetails} from "../LootFlags";

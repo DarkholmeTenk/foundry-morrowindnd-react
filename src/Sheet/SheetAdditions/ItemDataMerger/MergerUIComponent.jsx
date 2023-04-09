@@ -1,6 +1,6 @@
 import {useContext, useState} from "react";
 import {doMerge} from "./Merger";
-import {Button} from "@material-ui/core";
+import {Button} from "@mui/material";
 import ApplicationContext from "../../../Util/React/core/ApplicationContext";
 
 function SingleRow({selected, setSelected, item, matchedItem, differences}) {

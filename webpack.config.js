@@ -67,6 +67,9 @@ module.exports = (env, argv) => {
             ],
         },
         plugins: [
+            new webpack.ProvidePlugin({
+                'PIXI': 'pixi.js'
+            }),
             dev && new webpack.HotModuleReplacementPlugin(),
             dev && new ReactRefreshWebpackPlugin({overlay: false, }),
             //new BundleAnalyzerPlugin()
@@ -74,6 +77,9 @@ module.exports = (env, argv) => {
         resolve: {
             extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
             plugins: [new TsconfigPathsPlugin({})]
+        },
+        externals: {
+            "pixi.js": "PIXI"
         },
         output: {
             path: path.resolve(__dirname, './dist'),

@@ -1,6 +1,6 @@
 import {useContext, useState} from "react";
 import Selector from "../../Util/Components/Selector/Selector";
-import {Button} from "@material-ui/core";
+import {Button} from "@mui/material";
 import ApplicationContext from "../../Util/React/core/ApplicationContext";
 import {getTokenLootGeneratorFlag, RollTableChoice} from "./TokenLootGeneratorFlag";
 import ArrayHelper, {ArrayFunctionArgs} from "../../Util/Components/ArrayHelper";

@@ -1,5 +1,5 @@
 import React, {ReactNode, useCallback, useMemo} from "react";
-import {TablePagination} from "@material-ui/core";
+import {TablePagination} from "@mui/material";
 
 interface UsePaginationProps<T> {
     items: T[]

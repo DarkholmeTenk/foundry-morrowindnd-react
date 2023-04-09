@@ -1,5 +1,5 @@
 import React, {ReactNode} from "react";
-import {Tooltip} from "@material-ui/core";
+import {Tooltip} from "@mui/material";
 
 export function ItemControl({title, icon, onClick}: {title: string, icon: string | ReactNode, onClick: ()=>void}) {
     let iconElem = typeof icon === "string" ? <i className={icon} /> : icon

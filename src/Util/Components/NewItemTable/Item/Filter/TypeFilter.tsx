@@ -1,5 +1,5 @@
 import React, {useCallback} from "react";
-import {FormControl, Input, InputLabel, Tooltip} from "@material-ui/core";
+import {FormControl, Input, InputLabel, Tooltip} from "@mui/material";
 import Styles from "./ItemFilter.module.scss";
 import IconButton from "../../../IconButton";
 import {StateSetter} from "Util/React/update/Updater";
@@ -27,7 +27,7 @@ function TypeControl({type: {icon, name, id}, state, toggleState}: {type: ItemTy
     let selected = !state[id]
     let clz = selected ? icon : `${icon} ${Styles.disabled}`
     let onClick = useCallback(()=>toggleState(id), [toggle, id])
-    return <Tooltip title={name}><IconButton clz={clz} onClick={onClick} /></Tooltip>
+    return <Tooltip title={name}><IconButton clz={clz} onClick={onClick} size="large" /></Tooltip>;
 }
 
 function TypeControls({types, value, toggleMe, id}: {types: ItemType[], value: TypeFilterState, toggleMe: (t: string)=>void, id: string}) {

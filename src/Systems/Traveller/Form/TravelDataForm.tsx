@@ -1,6 +1,6 @@
 import {TravelData} from "../Data/NoteData";
 import {useCallback, useState} from "react";
-import {FormGroup} from "@material-ui/core";
+import {FormGroup} from "@mui/material";
 import useStateObjectUpdater, {useFieldInOut} from "../../../Util/React/update/ObjectUpdater";
 import TravelNodeConfig from "./TravelNodeConfig";
 import {SimpleCheckbox} from "./SimpleCheckbox";

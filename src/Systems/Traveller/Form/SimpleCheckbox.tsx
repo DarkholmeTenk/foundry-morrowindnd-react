@@ -1,6 +1,6 @@
 import {InOut, ObjectUpdater} from "Util/React/update/ObjectUpdater";
 import {useCallback, useMemo} from "react";
-import {Checkbox, FormControlLabel} from "@material-ui/core";
+import {Checkbox, FormControlLabel} from "@mui/material";
 
 interface SimpleCheckboxArgs<T extends object> {
     data: T,

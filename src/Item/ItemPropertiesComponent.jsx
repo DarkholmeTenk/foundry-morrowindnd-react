@@ -1,7 +1,7 @@
 import {useCallback, useContext, useState} from "react";
 import SoulGemPropertiesComponent from "./Enchanting/SoulGems/SoulGemPropertiesComponent";
 import ApplicationContext from "../Util/React/core/ApplicationContext";
-import {Button} from "@material-ui/core";
+import {Button} from "@mui/material";
 
 export default function ItemPropertiesComponent({flag, setFlag}) {
     let app = useContext(ApplicationContext)

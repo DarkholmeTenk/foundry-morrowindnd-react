@@ -1,4 +1,4 @@
-import {CircularProgress} from "@material-ui/core";
+import {CircularProgress} from "@mui/material";
 import React, {useMemo} from "react"
 import {usePromise} from "Util/Helper/PromiseHelper";
 import {SpellSellerPacks} from "./Settings";

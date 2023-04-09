@@ -1,5 +1,6 @@
 import {defaultShift, shift} from "./canvas";
 import AngledText from "./AngledText";
+import * as PIXI from "pixi.js"
 
 export interface LineStyle {
     width?: number,
@@ -22,7 +23,7 @@ export interface SimplePos {
     y: number
 }
 
-export class Circle extends PIXI.Container{
+export class Circle extends PIXI.Container {
     graphics: PIXI.Graphics = this.addChild(new PIXI.Graphics())
     constructor(private myRadius: number, pos: SimplePos, private line?: LineStyle, private fill?: FillStyle) {
         super()

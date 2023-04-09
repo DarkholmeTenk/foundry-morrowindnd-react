@@ -1,5 +1,6 @@
 import {NoteData} from "../Data/NoteData";
 import {Circle, CircleLine} from "./SimpleParts";
+import * as PIXI from "pixi.js"
 
 export default class MageLayer extends PIXI.Container {
     constructor(private notes: NoteData[]) {

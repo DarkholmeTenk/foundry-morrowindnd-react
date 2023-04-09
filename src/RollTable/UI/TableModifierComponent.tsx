@@ -1,6 +1,6 @@
 import Selector from "../../Util/Components/Selector/Selector";
 import {useContext, useState} from "react";
-import {Button} from "@material-ui/core";
+import {Button} from "@mui/material";
 import ApplicationContext from "../../Util/React/core/ApplicationContext";
 import getFlag from "../../Util/Helper/FlagHelper";
 import {RollTableFlag, RollTableFlagKey} from "../FlagData/RollTableFlag";

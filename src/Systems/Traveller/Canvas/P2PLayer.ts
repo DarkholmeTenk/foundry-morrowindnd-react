@@ -2,6 +2,7 @@ import {NoteData} from "../Data/NoteData";
 import {p2pRoutes, P2PRouteType} from "../const";
 import {CircleLine} from "./SimpleParts";
 import {TravellerSettings} from "../Settings";
+import * as PIXI from "pixi.js"
 
 function getText(fromNote, toNote, fromEntry, toEntry, travel) {
     let text = {

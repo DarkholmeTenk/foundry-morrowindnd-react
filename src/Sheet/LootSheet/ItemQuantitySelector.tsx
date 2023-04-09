@@ -1,5 +1,5 @@
 import ItemViewer, {ItemViewerProps} from "../../Util/Components/ItemViewer/ItemViewer"
-import {Button, Slider} from "@material-ui/core";
+import {Button, Slider} from "@mui/material";
 import React, {useContext, useState} from "react";
 
 import styles from "./ItemQuantitySelector.module.scss"

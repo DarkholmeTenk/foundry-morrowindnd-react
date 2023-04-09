@@ -1,5 +1,5 @@
 import {TableColumn} from "./TableColumn";
-import {Button, TableCell, TableRow} from "@material-ui/core";
+import {Button, TableCell, TableRow} from "@mui/material";
 import React, {useCallback, useState} from "react";
 import {ItemExpander, ItemExpanderComponent} from "./NewItemTableExpander";
 import {StateSetter} from "Util/React/update/Updater";

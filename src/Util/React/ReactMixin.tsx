@@ -11,6 +11,8 @@ export interface ReactApp {
 
 export class ReactObj {
     private hasRendered = false
+    private root: any = null
+
     constructor(
         private application: Application & ReactApp
     ) {
@@ -22,6 +24,8 @@ export class ReactObj {
 
         await this.application.superRender(force, ...args)
         if(!force) return
+
+
         let component = await this.application.getComponent()
         ReactDOM.render(<CoreBlock application={this.application} document={this.application.document}>
             {component}

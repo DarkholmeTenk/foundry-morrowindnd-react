@@ -1,7 +1,7 @@
 import {Setting} from "Settings/Config";
 import {TokenSetting} from "./TokenSettings";
 import {useCallback, useState} from "react";
-import {Button, CircularProgress} from "@material-ui/core";
+import {Button, CircularProgress} from "@mui/material";
 import {usePromise} from "Util/Helper/PromiseHelper";
 import {loadActor} from "Util/Identifiers/UuidHelper";
 import {ActorChooser} from "Util/Components/Selector/ActorChooser";

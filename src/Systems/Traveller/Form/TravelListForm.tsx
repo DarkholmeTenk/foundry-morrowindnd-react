@@ -1,5 +1,5 @@
 import {TravelData, TravelInfo} from "../Data/NoteData";
-import {FormGroup, FormLabel} from "@material-ui/core";
+import {FormGroup, FormLabel} from "@mui/material";
 import {InOut, ObjectUpdater, useFieldInOut, useObjectUpdater} from "Util/React/update/ObjectUpdater";
 import {OtherNode} from "./TravelDataForm";
 import Selector from "../../../Util/Components/Selector/Selector";
