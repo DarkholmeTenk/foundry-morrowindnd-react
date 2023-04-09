@@ -67,12 +67,9 @@ module.exports = (env, argv) => {
             ],
         },
         plugins: [
-            new webpack.ProvidePlugin({
-                'PIXI': 'pixi.js'
-            }),
+            //new BundleAnalyzerPlugin(),
             dev && new webpack.HotModuleReplacementPlugin(),
             dev && new ReactRefreshWebpackPlugin({overlay: false, }),
-            //new BundleAnalyzerPlugin()
         ].filter(Boolean),
         resolve: {
             extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],

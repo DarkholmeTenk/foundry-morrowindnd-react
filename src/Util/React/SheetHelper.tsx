@@ -4,7 +4,6 @@ import {ReactApp, ReactObj} from "Util/React/ReactMixin";
 
 export class ReactActorSheet extends ActorSheet implements ReactApp {
     reactObj = new ReactObj(this)
-    xrendered = false
 
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
@@ -13,23 +12,13 @@ export class ReactActorSheet extends ActorSheet implements ReactApp {
         })
     }
 
-    getData() {
-        return {id: this.appId};
-    }
-
     getComponent() {
         return <div>Test</div>;
-    }
-    superRender = (a,b)=>super._render(a,b)
-
-    async _render(force, ...args) {
-        await this.reactObj.render(force, ...args)
     }
 }
 
 export class ReactItemSheet extends ItemSheet implements ReactApp {
     reactObj = new ReactObj(this)
-    xrendered = false
 
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
@@ -39,16 +28,7 @@ export class ReactItemSheet extends ItemSheet implements ReactApp {
         })
     }
 
-    getData() {
-        return {id: this.appId};
-    }
-
     getComponent() {
         return <div />;
-    }
-    superRender = (f,a)=>super._render(f, a)
-
-    async _render(force, ...args) {
-        await this.reactObj.render(force, ...args)
     }
 }

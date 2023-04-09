@@ -1,7 +1,7 @@
 import {ReactApp, ReactObj} from "Util/React/ReactMixin";
 
 export default class ReactFormApplication<T> extends FormApplication<T> implements ReactApp {
-    private reactObj = new ReactObj(this)
+    reactObj = new ReactObj(this)
 
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
@@ -9,18 +9,8 @@ export default class ReactFormApplication<T> extends FormApplication<T> implemen
         })
     }
 
-    superRender = (a,b)=>super._render(a,b)
-
     getComponent(): Promise<JSX.Element> {
         throw Error("No component defined!")
-    }
-
-    getData() {
-        return {id: this.appId};
-    }
-
-    async _render(force, ...args) {
-        await this.reactObj.render(force, ...args)
     }
 }
 

@@ -11,17 +11,22 @@ export type ItemFilterState = Partial<{
     itemTypes: Record<string, boolean>,
     spellTypes: Record<string, boolean>
 }>
-const getSchool = (i: Item5e) => i.type === "spell" ? i.system.school : ""
+const getSchool = (i: Item5e | SmartItemData) => i.type === "spell" ? i.system.school : ""
 const schoolTypes = mapItemTypeRecord(SpellSchools)
-const getType = (i: Item5e) => i.type
+const getType = (i: Item5e | SmartItemData) => i.type
 const itemTypes = mapItemTypeRecord(ItemTypes)
 
-function ItemTypeControls({items, filter, setFilter}) {
+interface TypeControlProps {
+    items: Item5e[] | SmartItemData[]
+    filter: any,
+    setFilter: any
+}
+function ItemTypeControls({items, filter, setFilter}: TypeControlProps) {
     let [state, updateState] = useTypeState(filter, setFilter, "itemTypes")
     return <ItemTypeControlsContainer items={items} typeGetter={getType} types={itemTypes} label="Item Types" state={state} updateState={updateState} />
 }
 
-function SpellTypeControls({items, filter, setFilter}) {
+function SpellTypeControls({items, filter, setFilter}: TypeControlProps) {
     let [state, updateState] = useTypeState(filter, setFilter, "spellTypes")
     return <ItemTypeControlsContainer items={items} typeGetter={getSchool} types={schoolTypes} label="Spell Schools" state={state} updateState={updateState} />
 }
@@ -38,7 +43,7 @@ function NameFilter({state, setState}: Pick<ItemTableFilterArgs, "state" | "setS
 }
 
 interface ItemTableFilterArgs {
-    items: Item[],
+    items: Item5e[] | SmartItemData[],
     state: ItemFilterState
     setState: StateSetter<ItemFilterState | undefined>
 }
@@ -50,13 +55,13 @@ export function ItemTableFilterComp({items, state, setState}: ItemTableFilterArg
     </div>
 }
 
-export const StandardItemFilter: ItemTableFilter<Item, ItemFilterState> = {
+export const StandardItemFilter: ItemTableFilter<Item5e, ItemFilterState> = {
     defaultState: {},
     FilterComponent: ItemTableFilterComp,
     generateFilter: generateFilterFunction
 }
 
-type FilterFunction = (item: Item5e) => boolean
+type FilterFunction = (item: Item5e | SmartItemData) => boolean
 export function generateFilterFunction(filter: ItemFilterState): FilterFunction {
     let filters: FilterFunction[] = []
     if(filter.name) {

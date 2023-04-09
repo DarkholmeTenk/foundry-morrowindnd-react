@@ -12,9 +12,10 @@ declare global {
         appId: string
 
         static get defaultOptions(): Partial<ApplicationOptions>
+        getData(options: any): any
         render(force?: boolean, options?: object)
         _render(force?: boolean, options?: object)
-        close()
+        close(): Promise<void>
     }
 
     abstract class FormApplication<T> extends Application {
@@ -22,6 +23,6 @@ declare global {
 
         object: T
 
-        abstract getData(): any
+        getData(): any
     }
 }

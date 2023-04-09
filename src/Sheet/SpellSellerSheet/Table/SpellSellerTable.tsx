@@ -5,6 +5,7 @@ import {getterColumn} from "Util/Components/NewItemTable/Util/GetterColumn";
 import {ImageColumn, NameColumn} from "Util/Components/NewItemTable/Item/ItemColumns";
 import {SpellIcon} from "@/Sheet/SpellSellerSheet/Table/SpellIconColumn";
 import {SpellActionsColumn} from "@/Sheet/SpellSellerSheet/Table/SpellTableActionsColumn";
+import {StandardItemFilter} from "Util/Components/NewItemTable/Item/Filter/StandardItemFilter";
 
 const LevelColumn = getterColumn<ItemSpell>("Level", (item)=>item.system.level ?? "-", {cellProps: {width: 32}})
 const Columns = [
@@ -30,5 +31,5 @@ interface Props {
     spells: ItemSpell[]
 }
 export function SpellSellerTable({self, merchant, spells}: Props) {
-    return <NewItemTable extraData={{self, merchant}} expander={ItemExpander} columns={Columns} items={spells} />
+    return <NewItemTable filter={StandardItemFilter} extraData={{self, merchant}} expander={ItemExpander} columns={Columns} items={spells} />
 }

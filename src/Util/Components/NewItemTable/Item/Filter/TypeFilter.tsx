@@ -27,7 +27,7 @@ function TypeControl({type: {icon, name, id}, state, toggleState}: {type: ItemTy
     let selected = !state[id]
     let clz = selected ? icon : `${icon} ${Styles.disabled}`
     let onClick = useCallback(()=>toggleState(id), [toggle, id])
-    return <Tooltip title={name}><IconButton clz={clz} onClick={onClick} size="large" /></Tooltip>;
+    return <IconButton title={name} clz={clz} onClick={onClick} size="large" />;
 }
 
 function TypeControls({types, value, toggleMe, id}: {types: ItemType[], value: TypeFilterState, toggleMe: (t: string)=>void, id: string}) {
@@ -37,8 +37,8 @@ function TypeControls({types, value, toggleMe, id}: {types: ItemType[], value: T
 
 interface ItemTypeControlsArgs {
     label: string,
-    items: Item[],
-    typeGetter: (i: Item)=>string
+    items: Item5e[] | SmartItemData[],
+    typeGetter: (i: Item5e | SmartItemData)=>string
     types: ItemType[],
     state: TypeFilterState
     updateState: Updater

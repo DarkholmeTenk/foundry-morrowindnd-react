@@ -10,6 +10,7 @@ import {NewItemTable} from "Util/Components/NewItemTable/NewItemTable";
 import {MerchantBuy} from "./BuyAction";
 import {DefaultMIICols, MIIExpander} from "../MerchantInventory/Item/MerchantInventoryItemDefaultCols";
 import {miiQty} from "../MerchantInventory/Item/MerchantInventoryItemData";
+import {MerchantInventoryItemFilter} from "@/Sheet/MerchantSheet/Buy/BuyFilter";
 
 function toBuyData({item, type, qty}: MerchantInventoryItem) {
     if(type === "item5e")
@@ -73,5 +74,5 @@ interface BuySheetArgs {
     merchantFlag: MerchantFlag,
 }
 export default function BuySheet({self, merchant, sellables, merchantFlag}: BuySheetArgs) {
-    return <NewItemTable extraData={{merchant, self, sellables, merchantFlag}} columns={NewColumns} expander={MIIExpander} items={sellables} />
+    return <NewItemTable filter={MerchantInventoryItemFilter} extraData={{merchant, self, sellables, merchantFlag}} columns={NewColumns} expander={MIIExpander} items={sellables} />
 }
