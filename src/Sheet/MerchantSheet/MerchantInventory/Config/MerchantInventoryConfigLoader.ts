@@ -1,9 +1,10 @@
 import {getArguments} from "Systems/RollTable/Rolling/TableHelper";
 import {
     MerchantInventorySource,
-    MerchantInventorySourceSimple,
     MerchantInventorySourcePackFilter,
-    NestedMerchantInventorySource, ReferencedMerchantInventorySource
+    MerchantInventorySourceSimple,
+    NestedMerchantInventorySource,
+    ReferencedMerchantInventorySource
 } from "./MerchantInventoryConfigData";
 import {SellableItemPacks, StoredSellables} from "../Settings";
 import LogFactory from "../../../../Util/Logging";
@@ -42,17 +43,24 @@ async function loadNested(source: NestedMerchantInventorySource): LoadResult {
 }
 
 async function loadReferenced(source: ReferencedMerchantInventorySource): LoadResult {
-    if(!source.merchantInventoryId) return []
-    let sellable = StoredSellables.value[source.merchantInventoryId]
-    if(sellable) {
-        return loadSellable(sellable)
-    }  else {
-        log("No sellable found with id", source.merchantInventoryId)
-        return []
-    }
+    return loadSellableId(source.merchantInventoryId)
 }
 
 export async function loadSellable(source: MerchantInventorySource): Promise<MerchantInventoryItem[]> {
-    let loaded = await (Loaders[source.type](source as any))
+    if(!source.type) return []
+    let loader = Loaders[source.type]
+    if(!loader) return []
+    let loaded = await loader(source as any)
     return loaded.filter(x=>x) as MerchantInventoryItem[]
+}
+
+export async function loadSellableId(sellableId: string | undefined) {
+    if(!sellableId) return []
+    let sellable = StoredSellables.value[sellableId]
+    if(sellable) {
+        return loadSellable(sellable)
+    }  else {
+        log("No sellable found with id", sellableId)
+        return []
+    }
 }

@@ -1,7 +1,3 @@
-import {SpellClassData} from "Data/SpellData";
-import {SpellSchools} from "Util/Components/NewItemTable/ItemTypes";
-import {getClasses} from "Data/ActorData";
-
 interface Settings {
     BaseCosts: Record<number, number>
     NotClassPenalty: Record<number, number>
@@ -26,10 +22,10 @@ const SETTINGS: Settings = {
         3: 2.5,
         4: 2.75,
         5: 3,
-        6: 3.5,
-        7: 4,
-        8: 4.5,
-        9: 5
+        6: 3,
+        7: 3,
+        8: 3,
+        9: 3
     },
     SpecBonus: {
         1: 0.5,
@@ -61,44 +57,21 @@ export function getSpellBaseCost(item: ItemSpell): number {
     return SETTINGS.BaseCosts[level]
 }
 
-function hasSchool(matchClass: Boolean, actor: Actor, spell: ItemSpell): Boolean {
-    if(!matchClass) return false
-    let schoolData = SpellSchools[spell.system.school]
-    if(schoolData) {
-        return actor.items.find(x=>x.type === "class" && x.system.subclass.toLowerCase().includes(schoolData.name.toLowerCase())) != null
-    } else {
-        return false
+function getPrices(modifier: SpellPurchasePriceModifier) {
+    switch(modifier) {
+        case SpellPurchasePriceModifier.NONE: return {}
+        case SpellPurchasePriceModifier.SPEC: return SETTINGS.SpecBonus
+        case SpellPurchasePriceModifier.CROSS_CLASS: return SETTINGS.NotClassPenalty
+        case SpellPurchasePriceModifier.NO_SPEC: return SETTINGS.NoSpecBonus
     }
 }
 
-function elq(a: string, b: string): Boolean {
-    return a.toLowerCase() == b.toLowerCase()
-}
-
-export interface SpellMatches {
-    matchClass: Boolean,
-    matchSchool: Boolean,
-    matchSubClass: Boolean
-}
-export function getMatches(actor: Actor, spell: ItemSpell, spellData: SpellClassData): SpellMatches {
-    let actorClasses = getClasses(actor)
-    let matchClass = spellData.classes.some(x=>actorClasses.map[x.name.toLowerCase()])
-    let matchSchool = hasSchool(matchClass, actor, spell)
-    let matchSubClass = spellData.subclasses.some(x=>(actorClasses.map[x.class.name.toLowerCase()]?.subclass?.toLowerCase() || "").includes(x.subclass.name.toLowerCase()))
-    return {matchClass, matchSchool, matchSubClass}
-}
-
-export function calculateSpellCostFromMatches(spell: ItemSpell, matches: SpellMatches): number | null {
-    let l = spell.system.level
-    let baseCost = SETTINGS.BaseCosts[l]
-    if(!baseCost) return null
-    let {matchClass, matchSchool, matchSubClass} = matches
-    return baseCost * (matchClass ? 1 : SETTINGS.NotClassPenalty[l]) * ((matchSchool || matchSubClass) ? SETTINGS.SpecBonus[l] : 1)
-}
-
-export function calculateSpellCost(actor: Actor, spell: ItemSpell, spellData: SpellClassData): number | null {
-    let matches = getMatches(actor, spell, spellData)
-    return calculateSpellCostFromMatches(spell, matches)
+export function calculateSpellCost(spell: ItemSpell, modifier: SpellPurchasePriceModifier): number | null {
+    let level = spell.system.level
+    if(level < 1 || level > 9) return null
+    let x: Record<number, number> = getPrices(modifier)
+    let mod = x[level] ?? 1
+    return SETTINGS.BaseCosts[level] * mod
 }
 
 export enum SpellPurchasePriceModifier {

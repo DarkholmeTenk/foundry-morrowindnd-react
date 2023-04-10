@@ -28,7 +28,7 @@ declare global {
 
     type Item5e = Item & ItemSystem
     type ItemSpell = Item5e & SpellEntry
-    type ItemClass = Item5e & ClassEntry
+    type ItemClass = Item5e & ClassEntry & {subclass: Opt<ItemClass>}
 
     class Items extends WorldCollection<Item5e> {
         static registerSheet(scope: String, sheet: typeof DocumentSheet<Item5e>, options: any)

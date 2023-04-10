@@ -1,11 +1,12 @@
 import {isHoldable} from "Util/Helper/ItemHelper";
 import {getMerchantFlag} from "../Flag/MerchantFlag";
 import {useSuspensePromise} from "Util/Suspense/SuspenseContext";
+import {loadSellableId} from "Sheet/MerchantSheet/MerchantInventory/Config/MerchantInventoryConfigLoader";
 
 export async function loadMerchantInventory(merchant: Actor5e): Promise<MerchantInventoryItem[]> {
-
-    await new Promise(r=>setTimeout(r, 3000))
-    return []
+    let [merchantFlag] = getMerchantFlag(merchant)
+    let {sellables} = merchantFlag
+    return loadSellableId(sellables)
 }
 
 export function useMerchantActorInventory(merchant: Actor5e): MerchantInventoryItem[] {

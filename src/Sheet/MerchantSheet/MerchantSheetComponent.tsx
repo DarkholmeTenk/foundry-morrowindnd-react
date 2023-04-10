@@ -1,4 +1,4 @@
-import {getMerchantFlag, MerchantFlag} from "./Flag/MerchantFlag";
+import {getMerchantFlag} from "./Flag/MerchantFlag";
 import MerchantFlagComponent from "./Flag/MerchantFlagComponent";
 import SellSheet from "./Sell/SellSheet";
 import React, {useReducer, useState} from "react"
@@ -8,6 +8,13 @@ import {useNewSelf} from "Util/React/core/NewSelfSelector";
 import {useWatchEntity} from "Util/Helper/EntityHelper";
 import {LeftFloatingPanel} from "Util/Components/LeftFloatingPanel/LeftFloatingPanel";
 import {useMerchantActorInventory} from "./MerchantInventory/MerchantInventoryLoader";
+import {chainSort, mapSort, StringSorter} from "Util/Sorting";
+
+let MIISorter = chainSort<MerchantInventoryItem>(
+    mapSort(i=>i.item.type, StringSorter),
+    mapSort(i=>i.item.type === "consumable" ? i.item.system.consumableType : "", StringSorter),
+    mapSort(i=>i.item.name, StringSorter)
+)
 
 interface Props {
     merchant: Actor5e
@@ -19,6 +26,7 @@ export default function MerchantSheetComponent({merchant}: Props) {
     let [merchantFlag, setMerchantFlag] = getMerchantFlag(merchant)
     let sellableData = useMerchantActorInventory(merchant)
     let [tab, setTab] = useState<"buy" | "sell">("buy")
+    let sorted = sellableData.sort(MIISorter)
 
 
     if(!self) return <div>Select yourself!</div>

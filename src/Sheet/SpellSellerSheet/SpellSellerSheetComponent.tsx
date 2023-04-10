@@ -1,4 +1,4 @@
-import React, {useMemo} from "react"
+import React, {useMemo, useState} from "react"
 import {SpellSellerPacks} from "./Settings";
 import {useNewSelf} from "Util/React/core/NewSelfSelector";
 import {loadPack} from "Util/Identifiers/PackHelper";
@@ -7,6 +7,7 @@ import {useWatchEntity} from "Util/Helper/EntityHelper";
 import {chainSort, mapSort, NumSorter, StringSorter} from "Util/Sorting";
 import {SpellSellerTable} from "Sheet/SpellSellerSheet/Table/SpellSellerTable";
 import {useSuspensePromise} from "Util/Suspense/SuspenseContext";
+import {PurchaseModal} from "Sheet/SpellSellerSheet/PurchaseModal/PurchaseModal";
 
 const Sorter = chainSort<ItemSpell>(
     mapSort(a=>a.system.level, NumSorter),
@@ -23,23 +24,27 @@ async function loadSpells(): Promise<ItemSpell[]> {
     })
 }
 
+function hasSpell(self: Actor5e | undefined, spell: ItemSpell) {
+    if(!self) return false
+    if(self.items.getName(spell.name)) return true
+    return false
+}
+
 export default function SpellSellerSheetComponent({merchant}: {merchant: Actor5e}) {
     let self = useNewSelf()
     useWatchEntity(merchant)
     let spells = useSuspensePromise("spells", loadSpells)
     let filteredSpells = useMemo(()=>{
-        return spells.filter(x=>x.system.level < 4 && x.system.level > 0)
+        return spells.filter(x=>x.system.level > 0)
+            .filter(x=>!hasSpell(self, x))
                 .sort(Sorter)
-    }, [spells])
+    }, [spells, self])
+    let [buying, setBuying] = useState<ItemSpell | undefined>()
 
     if(!self) return <div>Select yourself</div>
 
     return <div>
-        <SpellSellerTable self={self} merchant={merchant} spells={filteredSpells} />
+        {buying && <PurchaseModal merchant={merchant} self={self} spell={buying} close={()=>setBuying(undefined)} /> }
+        <SpellSellerTable self={self} merchant={merchant} spells={filteredSpells} setBuying={setBuying} />
     </div>
-}
-
-function SuspenseTest() {
-    let value = useSuspensePromise("timer", ()=>new Promise<boolean>(r=>setTimeout(()=>r(true), 5000)))
-    return <div>LOADED! {value}</div>
 }

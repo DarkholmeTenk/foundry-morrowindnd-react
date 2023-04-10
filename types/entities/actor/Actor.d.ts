@@ -6,7 +6,7 @@ declare global {
         img: string
         isToken: boolean
         token?: TokenDocument
-        classes: Record<string, ItemClass>
+        classes: Record<string, ItemClass & {subclass: ItemClass | undefined}>
         system: any
     }
 

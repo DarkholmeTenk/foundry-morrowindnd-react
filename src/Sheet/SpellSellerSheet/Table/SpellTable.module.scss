@@ -1,0 +1,20 @@
+.Filter {
+  display: flex;
+  flex-direction: row;
+
+  .OldBlock {
+    flex-grow: 1;
+  }
+
+  .LevelBlock {
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    width: 80px;
+
+    .Row {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+}

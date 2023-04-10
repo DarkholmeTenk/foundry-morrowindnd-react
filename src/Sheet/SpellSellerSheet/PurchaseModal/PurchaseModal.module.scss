@@ -1,0 +1,27 @@
+.Box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 350px;
+  border: 2px solid saddlebrown;
+  background-color: antiquewhite;
+  padding: 10px;
+}
+
+.PriceModifierButtons {
+  display: flex;
+  flex-direction: row;
+
+  button:disabled {
+    background-color: rgba(33, 66, 255, 0.3);
+    color: darkred;
+  }
+}
+
+.ActionSection {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
