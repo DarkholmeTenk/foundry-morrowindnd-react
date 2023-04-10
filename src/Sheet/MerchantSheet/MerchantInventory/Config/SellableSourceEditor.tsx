@@ -5,13 +5,12 @@ import {
     NestedMerchantInventorySource,
     ReferencedMerchantInventorySource
 } from "./MerchantInventoryConfigData";
-import React, {FunctionComponent, useContext} from "react";
+import React, {FunctionComponent, ReactNode, useContext} from "react";
 import ItemViewer from "../../../../Util/Components/ItemViewer/ItemViewer";
 import {SellableSourceContext} from "../StoredSellableComponent";
 import {Button, MenuItem, Select, TextField} from "@mui/material";
 import {onItemDrop} from "Util/Helper/DropHelper";
 import {loadItem} from "Util/Identifiers/UuidHelper";
-import {useSuspensePromise} from "Util/Suspense/SuspenseContext";
 
 function ReferencedSellableEditor({source, setSource}: SellableSourceEditorArgs<ReferencedMerchantInventorySource>) {
     let context = useContext(SellableSourceContext)
@@ -43,11 +42,11 @@ function NestedSellableEditor({source, setSource}: SellableSourceEditorArgs<Nest
             />
         </div>
     })
-    let drop = onItemDrop((item)=>setSource({type: "nested", sellables: [...source.sellables, {type: "simple", itemId: item.uuid}]}))
+    let drop = onItemDrop((item)=>setSource({type: "nested", sellables: [...source.sellables, {type: "simple", itemIds: [item.uuid]}]}))
     return <div style={{paddingLeft: '8px', borderLeft: '1px solid black'}} onDrop={drop}>
         Nested:
         {subEditors}
-        <Button onClick={()=>setSource({type: "nested", sellables: [...source.sellables, {type: "simple", itemId: undefined}]})}>+</Button>
+        <Button onClick={()=>setSource({type: "nested", sellables: [...source.sellables, {type: "simple", itemIds: []}]})}>+</Button>
     </div>
 }
 
@@ -60,12 +59,12 @@ function FilterSellableEditor({source, setSource}: SellableSourceEditorArgs<Merc
 
 function SimpleSellableEditor({source, setSource}: SellableSourceEditorArgs<MerchantInventorySourceSimple>) {
     let drop = onItemDrop((item)=>{
-        setSource({itemId: item.uuid, type: "simple"})
+        setSource({itemIds: [item.uuid], type: "simple"})
     })
-    let result = useSuspensePromise("source." + source?.itemId, async ()=>source.itemId ? loadItem(source.itemId) : null, [source.itemId])
+    let result = source.itemIds.map(x=>loadItem.sync(x)).filter(x=>x) as Item5e[]
     return <div onDrop={drop}>
-        Item ID: {JSON.stringify(source.itemId)}
-        {result ? <ItemViewer item={result} /> : null}
+        Item ID: {JSON.stringify(source.itemIds)}
+        {result.map(i=><ItemViewer key={i.uuid} item={i} />)}
     </div>
 }
 
@@ -82,22 +81,26 @@ function EditorChild<K extends MerchantInventorySource>({source, setSource}: Sel
     return <ChildObj source={source} setSource={setSource} />
 }
 
-const DefaultOptions: any[] = [
+interface DefaultOption {
+    icon: ReactNode
+    setTo: MerchantInventorySource
+}
+const DefaultOptions: DefaultOption[] = [
     {
         icon: <i className="fas fa-bowling-ball" />,
-        setTo: {itemId: null}
+        setTo: {type: "simple", itemIds: []}
     },
     {
         icon: <i className="fas fa-link" />,
-        setTo: {sellableId: null}
+        setTo: {type: "referenced", merchantInventoryId: ""}
     },
     {
         icon: <i className="fas fa-folder-open"/>,
-        setTo: {sellables: []}
+        setTo: {type: "nested", sellables: []}
     },
     {
         icon: <i className="fas fa-filter"/>,
-        setTo: {filter: ""}
+        setTo: {type: "filter", filter: ""}
     }
 ]
 

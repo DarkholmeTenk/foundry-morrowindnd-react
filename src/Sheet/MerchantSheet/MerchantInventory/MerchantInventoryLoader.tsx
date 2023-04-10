@@ -3,6 +3,7 @@ import {getMerchantFlag} from "../Flag/MerchantFlag";
 import {useSuspensePromise} from "Util/Suspense/SuspenseContext";
 
 export async function loadMerchantInventory(merchant: Actor5e): Promise<MerchantInventoryItem[]> {
+
     await new Promise(r=>setTimeout(r, 3000))
     return []
 }

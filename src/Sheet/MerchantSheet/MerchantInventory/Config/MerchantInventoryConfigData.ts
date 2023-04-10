@@ -4,7 +4,7 @@ interface BaseMerchantInventory {
 
 export interface MerchantInventorySourceSimple extends BaseMerchantInventory {
     type: "simple"
-    itemId?: UUID
+    itemIds: UUID[]
 }
 
 export interface MerchantInventorySourcePackFilter extends BaseMerchantInventory {
@@ -20,7 +20,7 @@ export interface NestedMerchantInventorySource {
 
 export interface ReferencedMerchantInventorySource {
     type: "referenced"
-    merchantInventoryId: string
+    merchantInventoryId: string | undefined
 }
 
 export type MerchantInventorySource = MerchantInventorySourceSimple | MerchantInventorySourcePackFilter | NestedMerchantInventorySource | ReferencedMerchantInventorySource

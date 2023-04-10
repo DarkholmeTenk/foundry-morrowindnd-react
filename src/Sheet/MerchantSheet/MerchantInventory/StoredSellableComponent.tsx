@@ -5,7 +5,7 @@ import SellableSourceEditor from "./Config/SellableSourceEditor";
 export const SellableSourceContext = createContext<any>({})
 
 export const StoredSellableComponentOptions = {
-    width: 600,
+    width: 1400,
     height: 700
 }
 

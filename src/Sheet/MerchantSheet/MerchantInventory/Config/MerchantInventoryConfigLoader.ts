@@ -22,18 +22,8 @@ const Loaders: {[key in MerchantInventorySource['type']]: Loader<MerchantInvento
 }
 
 async function loadSimple(source: MerchantInventorySourceSimple): LoadResult {
-    if(source.itemId) {
-        let item = await loadItem(source.itemId)
-        if(item) {
-            return [{
-                type: "item5e",
-                item,
-                qty: source.qty
-            }]
-        }
-    }
-    log.warn("Unable to find simple sellable", source)
-    return []
+    let items = await source.itemIds.mapAsync(loadItem)
+    return items.filter(x=>x).map(i=>({type: "item5e", item: i as Item5e}))
 }
 
 async function loadFilter(source: MerchantInventorySourcePackFilter): LoadResult {
@@ -52,6 +42,7 @@ async function loadNested(source: NestedMerchantInventorySource): LoadResult {
 }
 
 async function loadReferenced(source: ReferencedMerchantInventorySource): LoadResult {
+    if(!source.merchantInventoryId) return []
     let sellable = StoredSellables.value[source.merchantInventoryId]
     if(sellable) {
         return loadSellable(sellable)
