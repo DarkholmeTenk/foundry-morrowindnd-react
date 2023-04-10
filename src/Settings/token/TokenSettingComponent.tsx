@@ -1,8 +1,7 @@
 import {Setting} from "Settings/Config";
 import {TokenSetting} from "Settings/token/TokenSettings";
 import {useCallback, useState} from "react";
-import {Button, CircularProgress} from "@mui/material";
-import {usePromise} from "Util/Helper/PromiseHelper";
+import {Button} from "@mui/material";
 import {loadActor} from "Util/Identifiers/UuidHelper";
 import {ActorChooser} from "Util/Components/Selector/ActorChooser";
 import Styles from "Settings/token/TokenSettingsComponent.module.scss"
@@ -15,18 +14,15 @@ interface TokenSettingComponentArgs {
 
 export default function TokenSettingComponent({setting}: TokenSettingComponentArgs) {
     let [current, setCurrent] = useState(setting.value)
-    let {result, loading} = usePromise(async ()=>{
-        return {
-            lootTokenBase: current.lootTokenBase ? await loadActor(current.lootTokenBase) : null,
-            sellLootDump: current.sellLootDump ? await loadActor(current.sellLootDump) : null
-        }
-    }, [current])
+    let result = {
+        lootTokenBase: current.lootTokenBase ? loadActor.sync(current.lootTokenBase) : null,
+        sellLootDump: current.sellLootDump ? loadActor.sync(current.sellLootDump) : null
+    }
     let save = useCallback(()=>setting.value = current, [current, setting])
     let setLootToken = useCallback((x: Actor5e)=>setCurrent({...current, lootTokenBase: x.uuid}), [current])
     let setLootDump = useCallback((x: Actor5e)=>setCurrent({...current, sellLootDump: x.uuid}), [current])
     let setPartyTokens = useSafeSetter(useMappedSetter("partyCharacters", setCurrent), [])
     let potentials = game.actors!.map(x=>x) as Actor5e[]
-    if(loading || !result) return <CircularProgress />
     return <div>
         Token settings
         <div className={Styles.Field}>

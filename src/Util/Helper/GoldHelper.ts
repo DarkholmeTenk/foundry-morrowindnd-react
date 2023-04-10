@@ -14,14 +14,15 @@ export const NoActorCurrency = {
     [CurrencyType.cp]: 0,
 }
 
-export const CurrencyRates = [
-    {name: CurrencyType.pp, m: 10},
-    {name: CurrencyType.gp, m: 1},
-    {name: CurrencyType.sp, m: 0.1},
-    {name: CurrencyType.cp, m: 0.01},
-]
-
+interface Rate {name: CurrencyType, m: number}
 export const CurrencyLevels = [CurrencyType.pp, CurrencyType.gp, CurrencyType.sp, CurrencyType.cp]
+export const CurrencyRatesMap: {[t in CurrencyType]: Rate} = {
+    cp: {name: CurrencyType.cp, m: 0.01},
+    sp: {name: CurrencyType.sp, m: 0.1},
+    gp: {name: CurrencyType.gp, m: 1},
+    pp: {name: CurrencyType.pp, m: 10}
+}
+export const CurrencyRates: Rate[] = CurrencyLevels.map(x=>CurrencyRatesMap[x])
 
 export type GoldBreakdown = Partial<Record<CurrencyType, number>>
 
@@ -43,8 +44,13 @@ export function getGoldAmount(breakdown: GoldBreakdown): number {
 }
 
 export function getGoldString(value: number): string {
+    let prefix = ""
+    if(value < 0) {
+        prefix = "-"
+        value = -value
+    }
     let breakdown = getGoldBreakdown(value)
-    return CurrencyRates.filter(x=>breakdown[x.name]).map(({name})=>{
+    return prefix + CurrencyRates.filter(x=>breakdown[x.name]).map(({name})=>{
         return breakdown[name] + name
     }).join(".")
 }
@@ -97,4 +103,12 @@ export function getGoldValueFromItemData(data: SmartItemData): number {
     if("price" in data.system)
         return getGoldValue(data.system.price)
     return 0
+}
+
+const CopperRate = CurrencyRatesMap[CurrencyType.cp]
+export function parseGold(amount: string | number): number {
+    let numValue = typeof amount === "string" ? parseFloat(amount) : amount
+    if(isNaN(numValue)) return numValue
+    let copperAmount = Math.floor(numValue / CopperRate.m)
+    return copperAmount * CopperRate.m
 }

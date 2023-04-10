@@ -55,6 +55,12 @@ const SETTINGS: Settings = {
     }
 }
 
+export function getSpellBaseCost(item: ItemSpell): number {
+    let level = item.system.level
+    if(level < 1 || level > 9) return NaN
+    return SETTINGS.BaseCosts[level]
+}
+
 function hasSchool(matchClass: Boolean, actor: Actor, spell: ItemSpell): Boolean {
     if(!matchClass) return false
     let schoolData = SpellSchools[spell.system.school]
@@ -93,4 +99,11 @@ export function calculateSpellCostFromMatches(spell: ItemSpell, matches: SpellMa
 export function calculateSpellCost(actor: Actor, spell: ItemSpell, spellData: SpellClassData): number | null {
     let matches = getMatches(actor, spell, spellData)
     return calculateSpellCostFromMatches(spell, matches)
+}
+
+export enum SpellPurchasePriceModifier {
+    NONE = "none",
+    SPEC = "spec",
+    CROSS_CLASS = "cross_class",
+    NO_SPEC = "no_spec"
 }

@@ -1,6 +1,7 @@
-import {Discount, SpellSellerBuy} from "Sheet/SpellSellerSheet/SpellSellerAction";
+import {SpellSellerBuy} from "Sheet/SpellSellerSheet/SpellSellerAction";
 import {ItemControl} from "Util/Components/NewItemTable/Item/ItemControls";
 import React from "react";
+import {SpellPurchasePriceModifier} from "Sheet/SpellSellerSheet/SpellCostCalculator";
 
 interface SpellActionsColumnArgs {
     item: ItemSpell,
@@ -13,7 +14,7 @@ export function SpellActionsColumn({item, self, merchant}: SpellActionsColumnArg
         merchant: merchant.uuid,
         self: self.uuid,
         spell: item.uuid,
-        discount: Discount.NONE
+        modifier: SpellPurchasePriceModifier.NONE
     })
     return <>
         <ItemControl title="Open" icon="fas fa-eye" onClick={() => item.sheet?.render(true)}/>

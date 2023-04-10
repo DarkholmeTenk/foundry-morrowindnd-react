@@ -6,6 +6,6 @@ interface SpellSellerFlag {
 
 }
 
-export function getMerchantFlag(actor: Actor) {
+export function getSpellSellerFlag(actor: Actor5e) {
     return getFlag<SpellSellerFlag>(actor, SpellSellerFlagKey, {})
 }

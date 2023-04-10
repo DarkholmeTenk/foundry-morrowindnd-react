@@ -6,8 +6,11 @@ import {ImageColumn, NameColumn} from "Util/Components/NewItemTable/Item/ItemCol
 import {SpellIcon} from "Sheet/SpellSellerSheet/Table/SpellIconColumn";
 import {SpellActionsColumn} from "Sheet/SpellSellerSheet/Table/SpellTableActionsColumn";
 import {StandardItemFilter} from "Util/Components/NewItemTable/Item/Filter/StandardItemFilter";
+import GoldDisplay from "Util/Components/GoldDisplay";
+import {getSpellBaseCost} from "Sheet/SpellSellerSheet/SpellCostCalculator";
 
 const LevelColumn = getterColumn<ItemSpell>("Level", (item)=>item.system.level ?? "-", {cellProps: {width: 32}})
+const BasePriceColumn = getterColumn<ItemSpell>("Base Price", (item)=><GoldDisplay value={getSpellBaseCost(item)} />)
 const Columns = [
     ImageColumn,
     NameColumn,
@@ -19,6 +22,7 @@ const Columns = [
         }
     },
     LevelColumn,
+    BasePriceColumn,
     {
         label: "",
         ColumnComponent: SpellActionsColumn

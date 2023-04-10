@@ -1,17 +1,17 @@
 import {
-    MerchantInventorySourcePackFilter,
-    NestedMerchantInventorySource,
-    ReferencedMerchantInventorySource,
     MerchantInventorySource,
-    MerchantInventorySourceSimple
+    MerchantInventorySourcePackFilter,
+    MerchantInventorySourceSimple,
+    NestedMerchantInventorySource,
+    ReferencedMerchantInventorySource
 } from "./MerchantInventoryConfigData";
 import React, {FunctionComponent, useContext} from "react";
-import {usePromise} from "Util/Helper/PromiseHelper";
 import ItemViewer from "../../../../Util/Components/ItemViewer/ItemViewer";
 import {SellableSourceContext} from "../StoredSellableComponent";
 import {Button, MenuItem, Select, TextField} from "@mui/material";
 import {onItemDrop} from "Util/Helper/DropHelper";
 import {loadItem} from "Util/Identifiers/UuidHelper";
+import {useSuspensePromise} from "Util/Suspense/SuspenseContext";
 
 function ReferencedSellableEditor({source, setSource}: SellableSourceEditorArgs<ReferencedMerchantInventorySource>) {
     let context = useContext(SellableSourceContext)
@@ -62,7 +62,7 @@ function SimpleSellableEditor({source, setSource}: SellableSourceEditorArgs<Merc
     let drop = onItemDrop((item)=>{
         setSource({itemId: item.uuid, type: "simple"})
     })
-    let {result, loading} = usePromise(async ()=>source.itemId ? loadItem(source.itemId) : null, [source.itemId])
+    let result = useSuspensePromise("source." + source?.itemId, async ()=>source.itemId ? loadItem(source.itemId) : null, [source.itemId])
     return <div onDrop={drop}>
         Item ID: {JSON.stringify(source.itemId)}
         {result ? <ItemViewer item={result} /> : null}

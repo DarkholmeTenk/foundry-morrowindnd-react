@@ -1,8 +1,6 @@
 import {useEffect} from "react";
-import {usePromise, UsePromiseResult} from "./PromiseHelper";
 import LogFactory from "../Logging";
 import {useRefresh} from "./useForceUpdate";
-import {loadUUID} from "../Identifiers/UuidHelper";
 import {useHook} from "./HookHelper";
 
 const log = LogFactory("EntityHelper")
@@ -44,13 +42,4 @@ export function useWatchEntity<T extends DocumentBase>(entity: Opt<T>, onChange?
         return ()=>Hooks.off(event, hookId)
     }, [uuid, type, refresh])
     return entity ?? undefined
-}
-
-export function useWatchedUuid<T extends DocumentBase>(uuid: Opt<UUID>, tester: Tester<T>): UsePromiseResult<T> {
-    let {result, loading} = usePromise(async ()=>{
-        if(uuid)
-            return await loadUUID(uuid, tester)
-    }, [uuid, tester])
-    useWatchEntity(result)
-    return {result: result ?? null, loading}
 }
