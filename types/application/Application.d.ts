@@ -24,5 +24,6 @@ declare global {
         object: T
 
         getData(): any
+        submit(options: any): Promise<void>
     }
 }

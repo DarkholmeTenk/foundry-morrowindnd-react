@@ -1,13 +1,15 @@
 import styles from "./MenuButtonsHandler.module.scss"
 
-function upper(name) {
-    return name.charAt(0).toUpperCase() + name.slice(1)
+interface ItemData {
+    name: string
+    icon: string,
+    callback: ()=>void
 }
 
 function registerMenuButtonsHandler(names) {
     names.forEach(name=>{
-        Hooks.on(`render${upper(name)}`, function(_,html) {
-            let menuItems = []
+        Hooks.on(`render${name.capitalize()}`, function(_, html) {
+            let menuItems: ItemData[] = []
             function addMenuItem(itemData) {
                 menuItems.push(itemData)
             }
@@ -20,7 +22,7 @@ function registerMenuButtonsHandler(names) {
                     clz += expanded ? "" : ` ${styles.shrunk}`
                     let btn = $(`<a class="${clz}" title="${mi.name}">${mi.icon}<div class="${styles.text}">${mi.name}</div></a>`)
                     if(mi.callback) {
-                        btn.click(e=>mi.callback(e))
+                        btn.click(e=>mi.callback())
                     }
                     html.closest('.app').find(dotClz).remove();
                     let titleElement = html.closest('.app').find('.window-title');

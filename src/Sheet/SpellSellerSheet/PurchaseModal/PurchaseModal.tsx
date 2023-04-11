@@ -1,7 +1,7 @@
 import {Box, CircularProgress, Modal} from "@mui/material";
 import {Suspense, useState} from "react";
 import Styles from "./PurchaseModal.module.scss"
-import {useSuspensePromise} from "Util/Suspense/SuspenseContext";
+import {SuspenseContext, useSuspensePromise} from "Util/Suspense/SuspenseContext";
 import {getDefaultPurchasePriceModifier} from "Sheet/SpellSellerSheet/SpellData/SpellData";
 import {PurchasePriceModifierButtons} from "Sheet/SpellSellerSheet/PurchaseModal/PurchasePriceModifierButtons";
 import ItemViewer from "Util/Components/ItemViewer/ItemViewer";
@@ -10,6 +10,8 @@ import {calculateSpellCost} from "Sheet/SpellSellerSheet/SpellCostCalculator";
 import {useMoneyRequest} from "Systems/GroupPay/useMoneyRequest";
 import {getGoldAmountFromActor} from "Util/Helper/GoldHelper";
 import {SpellSellerBuy} from "Sheet/SpellSellerSheet/SpellSellerAction";
+import {SuspenseLayer} from "Util/Suspense/SuspenseLoadIndicator";
+import {Button} from "Util/Components/SimpleComponents";
 
 function PurchaseWindow({merchant, spell, self, close}: Props) {
     let baseModifier = useSuspensePromise("spellseller.basemodifier", ()=>getDefaultPurchasePriceModifier(self, spell), [spell, self])
@@ -43,8 +45,8 @@ function PurchaseWindow({merchant, spell, self, close}: Props) {
                 <GoldDisplay actor={self} />
             </div>
             <div>
-                <button onClick={()=>requestMoney(price, "To buy spell: " + spell.name)} disabled={!canRequestMoney && price > 0}>Request money from Party</button>
-                <button onClick={doBuy} disabled={!canAfford}>Buy Spell</button>
+                <Button onClick={()=>requestMoney(price, "To buy spell: " + spell.name)} disabled={!canRequestMoney && price > 0}>Request money from Party</Button>
+                <Button onClick={doBuy} disabled={!canAfford}>Buy Spell</Button>
             </div>
         </div>
     </div>
@@ -59,9 +61,9 @@ interface Props {
 export function PurchaseModal({merchant, self, spell, close}: Props) {
     return <Modal open={true} onClose={close} >
         <Box className={Styles.Box}>
-            <Suspense fallback={<CircularProgress /> }>
+            <SuspenseLayer>
                 <PurchaseWindow merchant={merchant} self={self} spell={spell} close={close} />
-            </Suspense>
+            </SuspenseLayer>
         </Box>
     </Modal>
 }

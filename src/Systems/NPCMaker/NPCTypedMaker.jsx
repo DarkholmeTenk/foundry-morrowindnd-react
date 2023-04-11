@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {NPCChoices, NPCImage} from "./NPCMakerUtils";
 import NPCTagChooser from "./NPCTagChooser";
 import NPCViewer from "./NPCViewer";
+import {Button} from "Util/Components/SimpleComponents";
 
 
 export default function NPCTypedMaker({dir, setDir}) {
@@ -19,7 +20,7 @@ export default function NPCTypedMaker({dir, setDir}) {
     } else {
         let filtered = choice.filter(files)
         return <div>
-            {dirs.map(d=><button key={d.name} onClick={()=>setDir(d)}>{d.name}</button>)}
+            {dirs.map(d=><Button key={d.name} onClick={()=>setDir(d)}>{d.name}</Button>)}
             <NPCTagChooser files={files} filtered={filtered} choice={choice} setChoice={setChoice} />
             <NPCViewer filtered={filtered} choice={choice} />
         </div>

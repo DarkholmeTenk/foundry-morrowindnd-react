@@ -15,6 +15,7 @@ import {getterColumn} from "Util/Components/NewItemTable/Util/GetterColumn";
 import {ItemExpander} from "Util/Components/NewItemTable/Item/ItemExpander";
 import {AddCargoButton, SellCompleteAction} from "./SellCompleteAction";
 import {getPartyCargoHolder, isPartyCargoHolder} from "Settings/token/TokenSettings";
+import {Button} from "Util/Components/SimpleComponents";
 
 export interface SellItem {
     item: Item5e,
@@ -71,8 +72,8 @@ export default function SellSheet({self, merchant, merchantFlag}: Props) {
     })
     return <div onDrop={drop}>
         <div className={Styles.OpenActorBar}>
-            {cargo ? <button onClick={()=>cargo?.sheet?.render(true)}>Open {cargo.name}</button> : null }
-            <button onClick={()=>self.sheet?.render(true)}>Open {self.name}</button>
+            {cargo ? <Button onClick={()=>cargo?.sheet?.render(true)}>Open {cargo.name}</Button> : null }
+            <Button onClick={()=>self.sheet?.render(true)}>Open {self.name}</Button>
         </div>
         {items.length == 0 && <div><DropBox /><AddCargoButton items={items} setItems={setItems} self={self} /></div>}
         {items.length > 0 && <NewItemTable

@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {listFiles} from "Util/Helper/FilesHelper";
+import {Button} from "Util/Components/SimpleComponents";
 
 export default function NPCMakerInitialDirSelector({setDir}) {
     let [dirs, setDirs] = useState(null)
@@ -15,7 +16,7 @@ export default function NPCMakerInitialDirSelector({setDir}) {
         return "Loading..."
     } else {
         return <div>xd
-            {Object.keys(dirs).map(dir=><button key={dir} onClick={()=>setDir(dirs[dir])}>{dir}</button> )}
+            {Object.keys(dirs).map(dir=><Button key={dir} onClick={()=>setDir(dirs[dir])}>{dir}</Button> )}
         </div>
     }
 }

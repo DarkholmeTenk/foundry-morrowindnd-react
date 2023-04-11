@@ -7,6 +7,7 @@ import {useArrayAdder} from "Util/Helper/ArrayReducers";
 import {getPartyCargoHolder} from "Settings/token/TokenSettings";
 import {getSellDesireItems} from "../../LootSheet/Desire/SellDesireButton";
 import {useWatchEntity} from "Util/Helper/EntityHelper";
+import {Button} from "Util/Components/SimpleComponents";
 
 type ACBProps = Pick<Props, "items" | "setItems" | "self">
 export function AddCargoButton({self, items, setItems}: ACBProps) {
@@ -20,7 +21,7 @@ export function AddCargoButton({self, items, setItems}: ACBProps) {
         let newItems: SellItem[] = [...getSellDesireItems(cargo),...getSellDesireItems(self)].filter(y=>!items.some(x=>x.item.uuid === y.uuid)).map(q=>({item: q, qty: q.qty(1)}))
         adder(newItems)
     }
-    return <button onClick={addCargo}>Add Cargo</button>
+    return <Button onClick={addCargo}>Add Cargo</Button>
 }
 
 interface Props {
@@ -38,7 +39,7 @@ export function SellCompleteAction({items, setItems, self, merchant, merchantFla
         setItems([])
     }
     return <div>
-        <button onClick={sell}>Sell <GoldDisplay value={totalValue}/></button>
+        <Button onClick={sell}>Sell <GoldDisplay value={totalValue}/></Button>
         <AddCargoButton items={items} setItems={setItems} self={self} />
     </div>
 }

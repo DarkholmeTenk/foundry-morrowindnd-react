@@ -3,7 +3,7 @@
     "typeRoots": ["node_modules/@types", "./types"],
     "target": "esnext",
     "moduleResolution": "Node",
-    "types": ["React", "react-dom", "node"],
+    "types": ["React", "react-dom", "node", "jquery"],
     "jsx": "preserve",
     "strictNullChecks": true,
     "resolveJsonModule": true,

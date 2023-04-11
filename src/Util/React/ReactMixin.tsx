@@ -22,35 +22,54 @@ function wrap<A extends Application, K extends AppKey<A>>(app: A, t: K, fun: (ol
     }
 }
 
+interface Options {
+    skipWrap?: boolean
+}
+
 export class ReactObj {
     private hasRendered = false
     private root: Root | null = null
 
     constructor(
-        private application: Application & ReactApp
+        private application: Application & ReactApp,
+        private options: Options = {}
     ) {
-        wrap(application, "close", async (old)=>{
+        if(!(options?.skipWrap)) {
+            this.wrapClose();
+
+            wrap(application, "getData", ()=>{
+                return {id: application.appId}
+            })
+
+            wrap(application, "_render", async(old, force, ...options)=>{
+                if(this.hasRendered && !force) return
+                this.hasRendered = true
+                await old(force, ...options)
+
+                let component = await this.application.getComponent()
+                this.renderComponent(component)
+            })
+
+            if(application instanceof FormApplication) {
+                wrap(application, "submit", async ()=>{})
+            }
+        }
+    }
+
+    private wrapClose() {
+        wrap(this.application, "close", async (old) => {
             this.unmount()
             await old()
         })
+    }
 
-        wrap(application, "getData", ()=>{
-            return {id: application.appId}
-        })
-
-        wrap(application, "_render", async(old, force, ...options)=>{
-            if(this.hasRendered && !force) return
-            this.hasRendered = true
-            await old(force, ...options)
-
-            let component = await this.application.getComponent()
-            let element = document.getElementById(`react-${this.application.appId}`)
-            if(!element) throw Error("No element")
-            this.root = createRoot(element)
-            this.root.render(<CoreBlock application={this.application} document={this.application.document}>
-                {component}
-            </CoreBlock>)
-        })
+    renderComponent(component) {
+        let element = document.getElementById(`react-${this.application.appId}`)?.parentElement
+        if(!element) throw Error("No element")
+        this.root = createRoot(element)
+        this.root.render(<CoreBlock application={this.application} document={this.application.document}>
+            {component}
+        </CoreBlock>)
     }
 
     unmount() {

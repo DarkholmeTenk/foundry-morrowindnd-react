@@ -9,6 +9,7 @@ import {useWatchEntity} from "Util/Helper/EntityHelper";
 import {LeftFloatingPanel} from "Util/Components/LeftFloatingPanel/LeftFloatingPanel";
 import {useMerchantActorInventory} from "./MerchantInventory/MerchantInventoryLoader";
 import {chainSort, mapSort, StringSorter} from "Util/Sorting";
+import {Button} from "Util/Components/SimpleComponents";
 
 let MIISorter = chainSort<MerchantInventoryItem>(
     mapSort(i=>i.item.type, StringSorter),
@@ -38,8 +39,8 @@ export default function MerchantSheetComponent({merchant}: Props) {
         </LeftFloatingPanel> : null}
         <div className={Styles.MerchantSheet}>
             <div className={Styles.TabRow}>
-                <button onClick={()=>setTab("buy")} disabled={tab === "buy"}>Buy</button>
-                <button onClick={()=>setTab("sell")} disabled={tab === "sell"}>Sell</button>
+                <Button onClick={()=>setTab("buy")} disabled={tab === "buy"}>Buy</Button>
+                <Button onClick={()=>setTab("sell")} disabled={tab === "sell"}>Sell</Button>
             </div>
             <hr />
             <TabContents merchant={merchant} sellables={sellableData} merchantFlag={merchantFlag} self={self} />

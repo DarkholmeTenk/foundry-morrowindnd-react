@@ -59,7 +59,7 @@ export default function TravelPlanner() {
             return <div style={{width: '100%'}}>
                 <SceneTravelPlanner party={actor} partyToken={token} noteData={sceneData}/>
             </div>
-        } else if (sceneData) {
+        } else {
             return <>
                 No Party can be found
             </>

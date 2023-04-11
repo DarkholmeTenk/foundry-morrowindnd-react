@@ -6,6 +6,7 @@ import {getEnchantData} from "./Enchanter";
 import {onDrop} from "Util/Helper/DropHelper";
 import ApplicationContext from "../../Util/React/core/ApplicationContext";
 import Styles from "./EnchantingFormComponent.module.scss"
+import {Button} from "Util/Components/SimpleComponents";
 
 interface Props {
     item: Item5e
@@ -38,11 +39,11 @@ export default function EnchantingFormComponent({item}: Props) {
             <span>Result:</span>
             <ItemViewer item={result} />
         </div>
-        <button disabled={result == null} onClick={async ()=>{
+        <Button disabled={result == null} onClick={async ()=>{
             if(!result) return
             await Item.create(result, {renderSheet: true})
             App.close()
-        }}>Create</button>
+        }}>Create</Button>
     </div>
 
 }

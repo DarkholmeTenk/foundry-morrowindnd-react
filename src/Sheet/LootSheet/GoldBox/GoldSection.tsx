@@ -1,5 +1,5 @@
 import GoldDisplay from "../../../Util/Components/GoldDisplay";
-import {Button, Input, Typography} from "@mui/material";
+import {Input, Typography} from "@mui/material";
 import React, {useCallback, useState} from "react";
 import {addGold, removeGold} from "Util/Helper/GoldHelper";
 import {getLootFlag, getLootGoldDetails} from "../LootFlags";
@@ -9,6 +9,7 @@ import {useMappedSetter, useSafeSetter, useSetter} from "Util/React/update/Updat
 import {PartyActorSelector} from "Util/Components/PartyActorSelector/PartyActorSelector";
 import {getPartyUUIDs} from "Settings/token/TokenSettings";
 import Styles from "./GoldSection.module.scss"
+import {Button} from "Util/Components/SimpleComponents";
 
 export default function GoldSection({npc, disabled}) {
     let [flag, setFlag] = getLootFlag(npc)
@@ -32,7 +33,7 @@ export default function GoldSection({npc, disabled}) {
 
     return <LeftFloatingPanel>
         <div style={{display: "flex", flexDirection: "column"}}>
-            <div className={Styles.Title}><Typography>Gold Loot</Typography><button className={Styles.PartyButton} onClick={()=>setTakers(getPartyUUIDs)}>P</button> </div>
+            <div className={Styles.Title}><Typography>Gold Loot</Typography><Button className={Styles.PartyButton} onClick={()=>setTakers(getPartyUUIDs)}>P</Button> </div>
             <PartyActorSelector value={takers} setValue={setTakers} />
             <div>
                 Total:
@@ -46,8 +47,8 @@ export default function GoldSection({npc, disabled}) {
                 <Input title="Add Gold" value={newGold} onChange={(e)=>setNewGold(e.target.value)} />
             </div> : null}
             <div style={{display: "flex", flexDirection: "row"}}>
-                <Button size="small" disabled={takeCount === 0 || amount === 0} onClick={loot}>Loot Gold</Button>
-                {owner ? <Button size="small" onClick={setGold}>Add Gold</Button> : null}
+                <Button disabled={takeCount === 0 || amount === 0} onClick={loot}>Loot Gold</Button>
+                {owner ? <Button onClick={setGold}>Add Gold</Button> : null}
             </div>
         </div>
     </LeftFloatingPanel>

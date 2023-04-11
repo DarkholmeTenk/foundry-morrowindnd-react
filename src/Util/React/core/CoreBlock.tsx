@@ -1,11 +1,12 @@
-import {PropsWithChildren, Suspense} from "react";
+import {PropsWithChildren} from "react";
 import ApplicationContext from "./ApplicationContext";
 import {SelfSelector} from "./NewSelfSelector";
 import {GmContext, GmContextControl, useGmState} from "./GmContext";
 import {DocumentControls, MyDocument} from "./DocumentControls";
 import Styles from "./CoreBlock.module.scss"
-import {CircularProgress, createTheme, ThemeProvider} from "@mui/material";
+import {createTheme, ThemeProvider} from "@mui/material";
 import {SuspenseContext} from "Util/Suspense/SuspenseContext";
+import {SuspenseLayer} from "Util/Suspense/SuspenseLoadIndicator";
 
 const theme = createTheme({
     palette: {
@@ -29,18 +30,14 @@ export function CoreBlock({children, application, document}: PropsWithChildren<C
             <SuspenseContext>
                 <ThemeProvider theme={theme}>
                     <GmContext state={gm}>
-                        <div>
-                            <div className={Styles.CoreBlock}>
-                                <GmContextControl state={gm} setState={setGm} />
-                                <SelfSelector />
-                                {document && <DocumentControls doc={document} /> }
-                            </div>
-                            <div>
-                                <Suspense fallback={<CircularProgress />}>
-                                    {children}
-                                </Suspense>
-                            </div>
+                        <div className={Styles.CoreBlock}>
+                            <GmContextControl state={gm} setState={setGm} />
+                            <SelfSelector />
+                            {document && <DocumentControls doc={document} /> }
                         </div>
+                        <SuspenseLayer>
+                            {children}
+                        </SuspenseLayer>
                     </GmContext>
                 </ThemeProvider>
             </SuspenseContext>

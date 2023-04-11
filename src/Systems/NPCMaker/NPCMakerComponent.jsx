@@ -1,13 +1,14 @@
 import {useState} from "react";
 import NPCTypedMaker from "./NPCTypedMaker";
 import NPCMakerInitialDirSelector from "./NPCMakerInitialDirSelector";
+import {Button} from "Util/Components/SimpleComponents";
 
 function TypeSelector({types, selectType}) {
     return (<div>
         {types.map(type=>(
-            <button key={type} onClick={()=>selectType(type)}>
+            <Button key={type} onClick={()=>selectType(type)}>
                 {type}
-            </button>
+            </Button>
         ))}
     </div>);
 }
@@ -19,7 +20,7 @@ export default function NPCMakerComponent({}) {
 
     if(dir != null) {
         return <div>
-            {dir.name} - <button onClick={()=>setDir(null)}>X</button>
+            {dir.name} - <Button onClick={()=>setDir(null)}>X</Button>
             <NPCTypedMaker dir={dir} setDir={setDir} />
         </div>
     } else {

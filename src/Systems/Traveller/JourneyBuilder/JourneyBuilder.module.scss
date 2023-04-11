@@ -1,0 +1,48 @@
+.arrowSteps {
+  list-style: none;
+  overflow: hidden;
+}
+.arrowSteps .step {
+  padding: 10px 0 10px 40px;
+  background-color: moccasin;
+  position: relative;
+  float: left;
+}
+.arrowSteps .step:nth-child(1) {
+  padding-left: 10px;
+}
+.arrowSteps .step::after {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 50px solid transparent; /* Go big on the size, and let overflow hide */
+  border-bottom: 50px solid transparent;
+  border-left: 30px solid moccasin;
+  position: absolute;
+  top: 50%;
+  margin-top: -50px;
+  left: 100%;
+  z-index: 2;
+}
+.arrowSteps .step::before {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 50px solid transparent;
+  border-bottom: 50px solid transparent;
+  position: absolute;
+  top: 50%;
+  margin-top: -50px;
+  margin-left: 1px;
+  left: 100%;
+  z-index: 1;
+}
+
+.arrowSteps .step:nth-child(odd) {
+  background-color: lemonchiffon;
+}
+.arrowSteps .step:nth-child(odd)::after {
+  border-left-color: lemonchiffon;
+}
