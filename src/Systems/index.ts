@@ -1,6 +1,6 @@
 import "./Magicka/magicka"
 import "./Traveller"
-import "./GroupPay/Message/ChatMessageRenderer"
+import "./GroupPay"
 import "Systems/RollTable"
 import "./TokenLootAggregator"
 import "./TokenLootGenerator"
