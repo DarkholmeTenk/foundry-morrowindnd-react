@@ -41,11 +41,16 @@ function matchClass(actor: Actor5e, data: RemoteSpellData) {
 }
 
 export async function getDefaultPurchasePriceModifier(actor: Actor5e, spell: ItemSpell): Promise<SpellPurchasePriceModifier> {
-    let data = await getRemoteSpellData()
-    if(!data) return SpellPurchasePriceModifier.NONE
-    let flatSpell = flatSource(data)[spell.name.toLowerCase()]
-    if(!flatSpell) return SpellPurchasePriceModifier.NONE
-    if(matchSubclass(actor, spell, flatSpell)) return SpellPurchasePriceModifier.SPEC
-    if(matchClass(actor, flatSpell)) return SpellPurchasePriceModifier.NONE
-    return SpellPurchasePriceModifier.CROSS_CLASS
+    try {
+        let data = await getRemoteSpellData()
+        if(!data) return SpellPurchasePriceModifier.NONE
+        let flatSpell = flatSource(data)[spell.name.toLowerCase()]
+        if(!flatSpell) return SpellPurchasePriceModifier.NONE
+        if(matchSubclass(actor, spell, flatSpell)) return SpellPurchasePriceModifier.SPEC
+        if(matchClass(actor, flatSpell)) return SpellPurchasePriceModifier.NONE
+        return SpellPurchasePriceModifier.CROSS_CLASS
+    } catch (e) {
+        console.error(e)
+        return SpellPurchasePriceModifier.NONE
+    }
 }
