@@ -8,6 +8,8 @@ declare global {
         token?: TokenDocument
         classes: Record<string, ItemClass & {subclass: ItemClass | undefined}>
         system: any
+
+        getTokenDocument(data: any): Promise<TokenDocument>
     }
 
     type Actor5e = ActorSystem & Omit<Actor, keyof ActorSystem> & Actor

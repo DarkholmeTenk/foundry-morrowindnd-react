@@ -85,6 +85,7 @@ function filterItem(filters) {
 	return (item)=>{
 		return filters.every(filter=>{
 			let {field, compareFunction} = filter
+			if(field.startsWith("data.")) field.replace("data.", "system.")
 			let propValue = getProperty(item._source, field)
 			return compareFunction(propValue, item._source)
 		})	

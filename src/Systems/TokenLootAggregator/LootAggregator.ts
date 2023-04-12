@@ -18,10 +18,12 @@ function isLootSheet(actor: Actor5e) {
     return actor.isToken && (sheet === "LootSheet5eNPC" || sheet.includes("Loot"))
 }
 
-function canBeLooted(token: Token, lootContainer) {
+function canBeLooted(token: Token, lootContainer: Actor5e | undefined) {
     if(token.actor.hasPlayerOwner) return false
+    if(lootContainer && token.actor === lootContainer) return false
     let flag = token.getFlag<LootedFlagData>(FLAG_SCOPE, LootedFlagKey)
     if(flag) {
+        if(!lootContainer) return false
         let {container} = flag
         return container === lootContainer.uuid
     } else {
@@ -37,7 +39,7 @@ function getCurrency(token: TokenDocument) {
     return getGoldAmountFromActor(token.actor)
 }
 
-async function lootTokens(lootContainer: Actor5e, tokens: TokenDocument[]) {
+export async function lootTokens(lootContainer: Actor5e, tokens: TokenDocument[]) {
     log.debug("Looting Tokens", lootContainer, tokens)
     let items = tokens.flatMap(token=>{
         let actor = getBaseActor(token)
@@ -57,6 +59,12 @@ async function lootTokens(lootContainer: Actor5e, tokens: TokenDocument[]) {
     await addItem(lootContainer, mergedItems)
 }
 
+export function getLootable(lootToken: Actor5e | undefined): TokenDocument[] {
+    return canvas.tokens.controlled
+        .map(x=>x.document)
+        .filter(t=>canBeLooted(t, lootToken))
+}
+
 Hooks.on("actorSheetMenuItems", (add, app: FormApplication<Actor5e>)=>{
     let actor = app.object
     if(game.user.isGM) {
@@ -65,11 +73,7 @@ Hooks.on("actorSheetMenuItems", (add, app: FormApplication<Actor5e>)=>{
                 name: "Loot Tokens",
                 icon: '<i class="fas fa-shopping-bag"></i>',
                 callback: async ()=>{
-                    let selected = canvas.tokens.controlled
-                        .map(x=>x.document)
-                        .filter(t=>canBeLooted(t, actor))
-                        .filter(t=>t.actor !== actor)
-                        .filter(t=>!t.actor.hasPlayerOwner)
+                    let selected = getLootable(actor)
                     await lootTokens(actor, selected)
                 }
             })

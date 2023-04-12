@@ -10,6 +10,10 @@ declare global {
         texture: {
             src: string
         }
+        width: number;
+        height: number
+
+        updateSource(update: any)
     }
     type Token = TokenDocument
 }

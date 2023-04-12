@@ -1,1 +1,2 @@
 import "./LootAggregator"
+import "./TokenCreateLootAggregator"
