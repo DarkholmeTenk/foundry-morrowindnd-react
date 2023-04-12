@@ -18,6 +18,7 @@ function matchSchool(subclassName: string, spell: ItemSpell): boolean {
 
 function matchSubclass(actor: Actor5e, spell: ItemSpell, data: RemoteSpellData) {
     let classes = Object.keys(actor.classes)
+    if(!data.subclass) return false
     let flatClasses = flatSource(data.subclass)
     return classes.some((clzName)=>{
         let sub = actor.classes[clzName].subclass
@@ -33,6 +34,7 @@ function matchSubclass(actor: Actor5e, spell: ItemSpell, data: RemoteSpellData) 
 }
 
 function matchClass(actor: Actor5e, data: RemoteSpellData) {
+    if(!data.class) return false
     let classes = Object.keys(actor.classes).map(x=>x.toLowerCase())
     let flatClasses = Object.keys(flatSource(data.class)).map(x=>x.toLowerCase())
     return classes.some(clz=>flatClasses.includes(clz))
