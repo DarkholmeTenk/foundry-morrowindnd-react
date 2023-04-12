@@ -4,7 +4,8 @@ function toMap(things) {
     return map
 }
 
-export function listFiles({storage="data", target="", extensions=[], bucket=""}) {
+
+export function listFiles({storage="data", target="", extensions=[], bucket=""}): Promise<{dirs: any, files: any, dirMap: any, fileMap: any}> {
     return new Promise((resolve, reject)=>{
         game.socket.emit("manageFiles", {action: "browseFiles", storage, target}, {extensions, bucket}, result=>{
             if(result.error) return reject(result.error)

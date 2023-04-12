@@ -1,4 +1,5 @@
 import LogFactory from "../Logging";
+import {DragEventHandler} from "react";
 const log = LogFactory("DropHelper")
 
 const map = ()=>({
@@ -33,6 +34,29 @@ async function loadThing(event) {
             return await fromUuid(data.uuid)
         }
     }
+}
+
+function getData(x: DocumentBase): object | undefined {
+    if(x instanceof Item) {
+        let b = {type: "Item", uuid: x.uuid}
+        if(x.compendium) {
+            return {...b, pack: x.compendium.metadata.id, id: x.id}
+        } else if(!x.parent) {
+            return {...b, id: x.id}
+        }
+        return b
+    }
+}
+
+export function useDragHandler(x: any): DragEventHandler<any> | undefined {
+    let data = getData(x)
+    if(data) {
+        return (e) => {
+            if (data)
+                e.dataTransfer.setData('text/plain', JSON.stringify(data))
+        }
+    } else return undefined
+
 }
 
 export function onDrop(callback: (i: DocumentBase)=>void) {

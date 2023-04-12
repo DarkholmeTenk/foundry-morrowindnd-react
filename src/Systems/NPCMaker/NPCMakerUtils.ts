@@ -20,6 +20,7 @@ export class NPCImage {
         let other: string[] = []
         let split = name.substring(0, name.indexOf(".")).split("_")
         split.forEach((part)=>{
+            if(!isNaN(parseInt(part))) return
             if(isIn(part, genders)) gender = part.toLowerCase()
             else if(isIn(part, races)) race = part.toLowerCase()
             else other.push(part.toLowerCase())

@@ -8,6 +8,7 @@ import {TravelJourneyOptions} from "Systems/Traveller/JourneyBuilder/JourneyStep
 import {useArrayAdder} from "Util/Helper/ArrayReducers";
 import {StateSetter} from "Util/React/update/Updater";
 import {TravelJourneyStepList} from "Systems/Traveller/JourneyBuilder/TravelJourneyStepList";
+import {TravelJourneyDecoratedViewer} from "Systems/Traveller/JourneyBuilder/TravelJourneyDecoratedViewer";
 
 interface CtxData {
     token: TokenDocument,
@@ -39,7 +40,13 @@ function TravelJourneyBuilderContents({token, sceneData}: {token: TokenDocument,
     return <div>
         <TravelJourneyContext.Provider value={ctx} >
             {starting.entry.name} to {decorated.destination.entry.name}
+            {decorated && <>
+                <hr />
+                <TravelJourneyDecoratedViewer />
+            </>}
+            <hr />
             <TravelJourneyStepList />
+            <hr />
             <TravelJourneyOptions />
         </TravelJourneyContext.Provider>
     </div>

@@ -30,7 +30,8 @@ declare global {
         sheet?: FormApplication<any>
 
         isOwner: boolean
-        compendium?: unknown
+        parent?: DocumentBase
+        compendium?: Pack<any>
         flags: Record<string, Record<string, any>>
         hasPlayerOwner: boolean
 

@@ -3,20 +3,17 @@ import {NPCChoices, NPCImage} from "./NPCMakerUtils";
 import NPCTagChooser from "./NPCTagChooser";
 import NPCViewer from "./NPCViewer";
 import {Button} from "Util/Components/SimpleComponents";
+import {CircularProgress} from "@mui/material";
+import {useSuspensePromise} from "Util/Suspense/SuspenseContext";
 
 
 export default function NPCTypedMaker({dir, setDir}) {
-    let [files, setFiles] = useState(null)
-    let [dirs, setDirs] = useState([])
+    let {files: baseFiles, dirs} = useSuspensePromise("files." + dir.name, async ()=>dir.browse())
+    let files = baseFiles.map(x=>new NPCImage(x))
     let [choice, setChoice] = useState(new NPCChoices())
-    useEffect(async ()=>{
-        let {files: newFiles, dirs: newDirs} = await dir.browse()
-        setFiles(newFiles.map(f=>new NPCImage(f)))
-        setDirs(newDirs)
-    }, [dir])
 
     if(files === null) {
-        return "Loading"
+        return <CircularProgress />
     } else {
         let filtered = choice.filter(files)
         return <div>

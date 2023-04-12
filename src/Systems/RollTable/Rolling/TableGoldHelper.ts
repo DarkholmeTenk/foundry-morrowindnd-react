@@ -8,7 +8,7 @@ const defaultLevel = "gp"
 type CurrencyValues = GoldBreakdown
 
 export class CurrencyItem implements RollData {
-	constructor(private readonly values: CurrencyValues) {
+	constructor(readonly values: CurrencyValues) {
 	}
 
 	map(fun) {

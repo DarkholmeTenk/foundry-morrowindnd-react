@@ -4,8 +4,8 @@ import {getRollTableFlag} from "Systems/RollTable/FlagData/RollTableFlag";
 
 const log = LogFactory("TableRoller")
 
-class EncapsulatingRollData implements RollData {
-    constructor(private readonly rolls: RollData[], private readonly modifiers: RollData[]) {
+export class EncapsulatingRollData implements RollData {
+    constructor(readonly rolls: RollData[], private readonly modifiers: RollData[]) {
     }
 
     applyItemModification(itemData: any) {
@@ -36,9 +36,15 @@ class EncapsulatingRollData implements RollData {
     }
 }
 
-export default async function doRollTable(id: string): Promise<RollData[]> {
-    if(!id) return []
-    let rollTable = game.tables!.get(id)!
+function getRollTable(x: string | RollTable | undefined): RollTable | undefined {
+    if(!x) return undefined
+    if(x instanceof RollTable) return x
+    return game.tables.get(x)
+}
+
+export default async function doRollTable(id: string | RollTable): Promise<RollData[]> {
+    let rollTable = getRollTable(id)
+    if(!rollTable) return []
     let [{tableId}] = getRollTableFlag(rollTable)
     let roll = await rollTable.roll()
     let results = (await Promise.all(roll.results.map(async result=>{

@@ -29,13 +29,13 @@ const specialFilters = {
 	"lrare": (target)=>{
 		let index = rarity.indexOf(target.toLowerCase())
 		if(index !== -1) {
-			return (_,{data:{rarity: v}}) => rarity.indexOf(v.toLowerCase()) !== -1 && rarity.indexOf(v.toLowerCase()) < index
+			return (_,{system:{rarity: v}}) => rarity.indexOf(v.toLowerCase()) !== -1 && rarity.indexOf(v.toLowerCase()) < index
 		}
 	},
 	"rarer": (target)=>{
 		let index = rarity.indexOf(target.toLowerCase())
 		if(index !== -1) {
-			return (_,{data:{rarity: v}}) => rarity.indexOf(v.toLowerCase()) !== -1 && rarity.indexOf(v.toLowerCase()) > index
+			return (_,{system:{rarity: v}}) => rarity.indexOf(v.toLowerCase()) !== -1 && rarity.indexOf(v.toLowerCase()) > index
 		}
 	},
 	"inside": (target) =>{
@@ -55,8 +55,8 @@ const specialFilters = {
 	"enchanted": ()=>{
 		return (_,itemData)=>itemData.flags["MorrowinDnDReact"]?.enchanter_data
 	},
-	"melee": ()=>(_,itemData)=>itemData.data.weaponType?.endsWith("M") || false,
-	"ranged": ()=>(_,itemData)=>itemData.data.weaponType?.endsWith("R") || false,
+	"melee": ()=>(_,itemData)=>itemData.system.weaponType?.endsWith("M") || false,
+	"ranged": ()=>(_,itemData)=>itemData.system.weaponType?.endsWith("R") || false,
 	"spell": ()=>(_,itemData)=>itemData.type === "spell",
 	"weapon": ()=>(_,itemData)=>itemData.type === "weapon"
 }
@@ -85,8 +85,8 @@ function filterItem(filters) {
 	return (item)=>{
 		return filters.every(filter=>{
 			let {field, compareFunction} = filter
-			let propValue = getProperty(item.data, field)
-			return compareFunction(propValue, item.data)
+			let propValue = getProperty(item._source, field)
+			return compareFunction(propValue, item._source)
 		})	
 	}
 }

@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {listFiles} from "Util/Helper/FilesHelper";
 import {Button} from "Util/Components/SimpleComponents";
+import {CircularProgress} from "@mui/material";
 
 export default function NPCMakerInitialDirSelector({setDir}) {
     let [dirs, setDirs] = useState(null)
@@ -13,10 +14,11 @@ export default function NPCMakerInitialDirSelector({setDir}) {
         run()
     }, [setDir])
     if(dirs == null) {
-        return "Loading..."
+        return <CircularProgress />
     } else {
+        let q = dirs!
         return <div>xd
-            {Object.keys(dirs).map(dir=><Button key={dir} onClick={()=>setDir(dirs[dir])}>{dir}</Button> )}
+            {Object.keys(dirs).map(dir=><Button key={dir} onClick={()=>setDir(q[dir])}>{dir}</Button> )}
         </div>
     }
 }
