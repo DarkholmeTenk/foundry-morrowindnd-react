@@ -1,9 +1,9 @@
-import {StateSetter} from "../React/update/Updater";
+import {callUpdater, StateSetter, UpdateCallback} from "../React/update/Updater";
 import {useCallback} from "react";
 
-type Adder<T> = (newValue: T | T[])=>void
-type Remover = (slot: number)=>void
-type Updater<T> = (slot: number, newValue: T)=>void
+export type Adder<T> = (newValue: T | T[])=>void
+export type Remover = (slot: number)=>void
+export type Updater<T> = (slot: number, newValue: T | UpdateCallback<T>)=>void
 export function useArrayRemover<T>(setter: StateSetter<T[]>): Remover {
     return useCallback((slot: number)=>{
         setter(original=>{
@@ -25,7 +25,8 @@ export function useArrayUpdater<T>(setter: StateSetter<T[]>): Updater<T> {
     return useCallback((slot, newValue)=>{
         setter((original)=>{
             let newTables = [...original]
-            newTables[slot] = newValue
+            let oldValue = newTables[slot]
+            newTables[slot] = callUpdater(oldValue, newValue)
             return newTables
         })
     }, [setter])

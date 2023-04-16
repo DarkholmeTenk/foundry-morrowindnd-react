@@ -18,13 +18,14 @@ export function AvatarChip({actor, selected, setSelected, short = false}: {actor
     let selectMe = useCallback(()=>setSelected(true), [setSelected])
     let clearMe = useCallback(()=>setSelected(false) , [setSelected])
     let image = actor.img ?? DefaultIcon
+    let onCtx = ()=>actor.sheet?.render(true)
     if(short) {
         if(selected)
             return <Badge badgeContent="X" color="primary" overlap="rectangular">
-                <Avatar onClick={clearMe} src={image} imgProps={{style: {border: '0px'}}} style={{ border: '0px', width: 32, height: 32 }}/>
+                <Avatar onClick={clearMe} onContextMenu={onCtx} src={image} imgProps={{style: {border: '0px'}}} style={{ border: '0px', width: 32, height: 32 }}/>
             </Badge>
         else
-            return <Avatar onClick={selectMe} src={image} imgProps={{style: {border: '0px'}}} style={{ width: 24, height: 24 }}/>
+            return <Avatar onClick={selectMe} onContextMenu={onCtx} src={image} imgProps={{style: {border: '0px'}}} style={{ width: 24, height: 24 }}/>
     } else {
         return <Chip
             avatar={<Avatar src={image} />}
@@ -32,6 +33,7 @@ export function AvatarChip({actor, selected, setSelected, short = false}: {actor
             label={actor.name ?? "Actor?"}
             onClick={selected ? undefined : selectMe}
             onDelete={selected ? clearMe : undefined}
+            onContextMenu={onCtx}
         />
     }
 }

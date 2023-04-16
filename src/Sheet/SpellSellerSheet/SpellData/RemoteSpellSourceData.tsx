@@ -1,10 +1,10 @@
 export interface RemoteSpellData {
-    "class": {
+    "class"?: {
         [classSource: string]: {
             [className: string]: boolean
         }
     },
-    "subclass": {
+    "subclass"?: {
         [classSource: string]: {
             [className: string]: {
                 [subclassSource: string]: {

@@ -53,7 +53,7 @@ function BuyControls({merchant, self, item, merchantFlag}: BuyControlsArgs) {
     let {canRequestMoney, requestMoney} = useMoneyRequest()
     return <>
         {item.type === "item5e" ? <ItemControl title="Open" icon="fas fa-eye" onClick={() => item.item.sheet?.render(true)}/> : null}
-        {(merchant.isOwner && itemResult instanceof Item) ? <ItemControl title="Delete" icon="fas fa-trash" onClick={()=>(itemResult as Item5e).delete()} /> : null}
+        {(merchant.isOwner && itemResult instanceof Item && itemResult.parent === merchant) ? <ItemControl title="Delete" icon="fas fa-trash" onClick={()=>(itemResult as Item5e).delete()} /> : null}
         {canAfford && <ItemControl title="Buy" icon="fas fa-cart-plus" onClick={()=>doBuy(self, merchant, item)} />}
         {canRequestMoney && <ItemControl title="Request money from party" icon="fa-solid fa-money-bill-wave" onClick={()=>requestMoney(buyPrice, "To purchase " + item.item.name)} />}
     </>

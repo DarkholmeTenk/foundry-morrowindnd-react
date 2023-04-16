@@ -16,6 +16,7 @@ import {ItemExpander} from "Util/Components/NewItemTable/Item/ItemExpander";
 import {AddCargoButton, SellCompleteAction} from "./SellCompleteAction";
 import {getPartyCargoHolder, isPartyCargoHolder} from "Settings/token/TokenSettings";
 import {Button} from "Util/Components/SimpleComponents";
+import {State} from "pixi.js";
 
 export interface SellItem {
     item: Item5e,
@@ -50,27 +51,13 @@ function SellControls({merchant, self, item, index, merchantFlag, setItems}: Buy
 interface Props {
     self: Actor5e
     merchant: Actor5e
-    merchantFlag: MerchantFlag
+    merchantFlag: MerchantFlag,
+    items: SellItem[],
+    setItems: StateSetter<SellItem[]>
 }
-export default function SellSheet({self, merchant, merchantFlag}: Props) {
-    let [items, setItems] = useState<SellItem[]>([])
-    let adder = useArrayAdder(setItems)
+export default function SellSheet({self, merchant, merchantFlag, items, setItems}: Props) {
     let cargo = getPartyCargoHolder()
-    let drop = onDrop((i)=>{
-        if(i instanceof Item) {
-            let item = i as Item5e
-            let actor = item.actor
-            if(!actor) return
-            if(actor.uuid !== self.uuid && !isPartyCargoHolder(actor)) return
-            if(items.some(x=>x.item.uuid === item.uuid)) return
-            let maxQty = item.qty(1)
-            if(maxQty === 1)
-                adder({item, qty: 1})
-            else
-                openItemQuantitySelect({item, max: item.qty(), text: "How many to sell", onConfirm: (qty)=>adder({item, qty}), buttonText: "Sell"})
-        }
-    })
-    return <div onDrop={drop}>
+    return <div>
         <div className={Styles.OpenActorBar}>
             {cargo ? <Button onClick={()=>cargo?.sheet?.render(true)}>Open {cargo.name}</Button> : null }
             <Button onClick={()=>self.sheet?.render(true)}>Open {self.name}</Button>

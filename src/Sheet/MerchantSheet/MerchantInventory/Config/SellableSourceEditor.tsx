@@ -7,7 +7,7 @@ import {
 } from "./MerchantInventoryConfigData";
 import React, {FunctionComponent, ReactNode, useContext} from "react";
 import ItemViewer from "../../../../Util/Components/ItemViewer/ItemViewer";
-import {SellableSourceContext} from "../StoredSellableComponent";
+import {SellableSourceContext} from "Sheet/MerchantSheet/MerchantInventory/Config/StoredSellableComponent";
 import {Button, MenuItem, Select, TextField} from "@mui/material";
 import {onItemDrop} from "Util/Helper/DropHelper";
 import {loadItem} from "Util/Identifiers/UuidHelper";

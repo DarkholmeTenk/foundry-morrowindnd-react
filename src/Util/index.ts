@@ -1,7 +1,6 @@
 import "./Hooks"
 import "./Socket"
 import "./Extension"
-import "./Render"
 
 export function randomIndex(array) {
     return Math.floor(Math.random() * array.length)

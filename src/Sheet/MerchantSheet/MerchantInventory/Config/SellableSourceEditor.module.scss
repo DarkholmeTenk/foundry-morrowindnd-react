@@ -1,0 +1,46 @@
+.LeftPane {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 220px;
+  height: 100%;
+  padding: 1rem;
+  border-right: 1px solid var(--color-border-light-primary);
+  font-size: var(--font-size-12);
+
+  .StoredSellableList {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    ul {
+      flex-grow: 1;
+      li {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
+  }
+
+  .IdentifiableSellableList {
+    display: flex;
+    flex-direction: column;
+
+    .Title {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .List {
+      .Title {
+        justify-content: space-between;
+      }
+
+      .Nesting {
+        border-left: 1px saddlebrown solid;
+        padding-left: 5px;
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+}

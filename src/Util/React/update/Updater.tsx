@@ -14,7 +14,7 @@ export function useStateUpdate<T>(setState: StateSetter<T>): BaseUpdater<T> {
     }), [setState])
 }
 
-function call<T>(oldValue: T, x: T | UpdateCallback<T>): T {
+export function callUpdater<T>(oldValue: T, x: T | UpdateCallback<T>): T {
     if(typeof x === "function") {
         let u = x as UpdateCallback<T>
         return u(oldValue)
@@ -27,7 +27,7 @@ export function useMappedSetter<T, K extends keyof T, U extends T[K]>(key: K, se
     return useCallback((x)=>{
         set((oldT)=>{
             let newT = {...oldT}
-            newT[key] = call(oldT[key] as U, x)
+            newT[key] = callUpdater(oldT[key] as U, x)
             return newT
         })
     }, [set, key])
@@ -37,13 +37,13 @@ export function useSafeSetter<T>(set: StateSetter<T | undefined>, def: T): State
     return useCallback((x)=>{
         set((oldT)=>{
             let safeT = oldT ? oldT : def
-            return call(safeT, x)
+            return callUpdater(safeT, x)
         })
     }, [set, def])
 }
 
 export function useSetter<T>(value: T, set: (newValue: T)=>unknown): StateSetter<T> {
     return useCallback((x)=>{
-        set(call(value, x))
+        set(callUpdater(value, x))
     }, [value, set])
 }

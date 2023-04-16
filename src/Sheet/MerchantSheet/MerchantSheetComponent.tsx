@@ -1,6 +1,6 @@
 import {getMerchantFlag} from "./Flag/MerchantFlag";
 import MerchantFlagComponent from "./Flag/MerchantFlagComponent";
-import SellSheet from "./Sell/SellSheet";
+import SellSheet, {SellItem} from "./Sell/SellSheet";
 import React, {useReducer, useState} from "react"
 import BuySheet from "./Buy/BuySheet";
 import Styles from "./MerchantSheet.module.scss"
@@ -10,6 +10,15 @@ import {LeftFloatingPanel} from "Util/Components/LeftFloatingPanel/LeftFloatingP
 import {useMerchantActorInventory} from "./MerchantInventory/MerchantInventoryLoader";
 import {chainSort, mapSort, StringSorter} from "Util/Sorting";
 import {Button} from "Util/Components/SimpleComponents";
+import {onDrop} from "Util/Helper/DropHelper";
+import {addItem} from "Util/Helper/ItemTransferHelper";
+import {StateSetter} from "Util/React/update/Updater";
+import {useArrayAdder} from "Util/Helper/ArrayReducers";
+import {isPartyCargoHolder} from "Settings/token/TokenSettings";
+import {openItemQuantitySelect} from "Sheet/LootSheet/ItemQuantitySelector";
+import {Simulate} from "react-dom/test-utils";
+import drop = Simulate.drop;
+import {openTokenLootDrop} from "Systems/TokenLootGenerator/TokenLootDrop";
 
 let MIISorter = chainSort<MerchantInventoryItem>(
     mapSort(i=>i.item.type, StringSorter),
@@ -17,23 +26,54 @@ let MIISorter = chainSort<MerchantInventoryItem>(
     mapSort(i=>i.item.name, StringSorter)
 )
 
+function useDropHandler(merchant: Actor5e, tab: "buy" | "sell", sellItems: SellItem[], setSellItems: StateSetter<SellItem[]>) {
+    let addSellItem = useArrayAdder(setSellItems)
+    let isOwner = merchant.isOwner
+    let self = useNewSelf()
+    return onDrop(async (i)=>{
+        if(i instanceof RollTable) {
+            openTokenLootDrop(merchant, i)
+            return
+        }
+        if(!(i instanceof Item)) return
+        if(tab === "buy") {
+            if(isOwner) {
+                await addItem(merchant, i._source)
+            }
+        } else {
+            if(!self) return
+            let item = i as Item5e
+            let actor = item.actor
+            if(!actor) return
+            if(actor.uuid !== self.uuid && !isPartyCargoHolder(actor)) return
+            if(sellItems.some(x=>x.item.uuid === item.uuid)) return
+            let maxQty = item.qty(1)
+            if(maxQty === 1)
+                addSellItem({item, qty: 1})
+            else
+                openItemQuantitySelect({item, max: item.qty(), text: "How many to sell", onConfirm: (qty)=>addSellItem({item, qty}), buttonText: "Sell"})
+
+        }
+    })
+}
+
 interface Props {
     merchant: Actor5e
 }
 export default function MerchantSheetComponent({merchant}: Props) {
-    let [value, refresh] = useReducer((x)=>x+1, 0)
+    let [tab, setTab] = useState<"buy" | "sell">("buy")
+    let [sellItems, setSellItems] = useState<SellItem[]>([])
+
     let self = useNewSelf()
-    useWatchEntity(merchant, refresh)
+    useWatchEntity(merchant)
     let [merchantFlag, setMerchantFlag] = getMerchantFlag(merchant)
     let sellableData = useMerchantActorInventory(merchant)
-    let [tab, setTab] = useState<"buy" | "sell">("buy")
     let sorted = sellableData.sort(MIISorter)
-
+    let dropHandler = useDropHandler(merchant, tab, sellItems, setSellItems)
 
     if(!self) return <div>Select yourself!</div>
 
-    let TabContents = tab === "buy" ? BuySheet : SellSheet
-    return <div>
+    return <div onDrop={dropHandler}>
         {merchant.isOwner ? <LeftFloatingPanel>
             <MerchantFlagComponent merchantFlag={merchantFlag} setMerchantFlag={setMerchantFlag}/>
         </LeftFloatingPanel> : null}
@@ -43,7 +83,8 @@ export default function MerchantSheetComponent({merchant}: Props) {
                 <Button onClick={()=>setTab("sell")} disabled={tab === "sell"}>Sell</Button>
             </div>
             <hr />
-            <TabContents merchant={merchant} sellables={sellableData} merchantFlag={merchantFlag} self={self} />
+            {tab === "buy" && <BuySheet self={self} merchant={merchant} sellables={sorted} merchantFlag={merchantFlag} />}
+            {tab === "sell" && <SellSheet self={self} merchant={merchant} merchantFlag={merchantFlag} items={sellItems} setItems={setSellItems} /> }
         </div>
     </div>
 }

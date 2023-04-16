@@ -37,3 +37,6 @@ export const loadActor = typedLoad(isActor, x=>x instanceof TokenDocument ? x.ac
 
 export function isItem(value: any): value is Item5e { return value instanceof Item }
 export const loadItem = typedLoad(isItem)
+
+export function isRollTable(value: any): value is RollTable { return value instanceof RollTable }
+export const loadRollTable = typedLoad(isRollTable)

@@ -99,12 +99,6 @@ export function getGoldValue(price: {value: number, denomination: CurrencyDenomi
     return v.m * value
 }
 
-export function getGoldValueFromItemData(data: SmartItemData): number {
-    if("price" in data.system)
-        return getGoldValue(data.system.price)
-    return 0
-}
-
 const CopperRate = CurrencyRatesMap[CurrencyType.cp]
 export function parseGold(amount: string | number): number {
     let numValue = typeof amount === "string" ? parseFloat(amount) : amount

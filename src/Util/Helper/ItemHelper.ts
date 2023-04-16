@@ -31,7 +31,3 @@ export function mergeItemData(items: SmartItemData[]) {
     log.debug("Merged items", mergedItems)
     return mergedItems
 }
-
-export async function getActorItems(actor: Actor): Promise<Item[]> {
-    return actor.items.map(x=>x)
-}

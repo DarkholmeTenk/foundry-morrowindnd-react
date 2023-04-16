@@ -1,5 +1,7 @@
 import {CoreBlock} from "./core/CoreBlock";
 import {createRoot, Root} from "react-dom/client";
+import {openReactApplication} from "Util/React/openReactApplication";
+import {ClosePreventionModal} from "Util/React/core/MixinContext";
 
 export type Con<T extends Application> = new (...args: any[]) => T
 
@@ -29,6 +31,7 @@ interface Options {
 export class ReactObj {
     private hasRendered = false
     private root: Root | null = null
+    private closeStoppers = 0
 
     constructor(
         private application: Application & ReactApp,
@@ -58,16 +61,32 @@ export class ReactObj {
 
     private wrapClose() {
         wrap(this.application, "close", async (old) => {
+            if(this.closeStoppers > 0) {
+                openReactApplication(<ClosePreventionModal forceClose={()=>this.hardClose()} />, {width: 600, height: 100})
+                return
+            }
             this.unmount()
             await old()
         })
+    }
+
+    stopClosing(enable: boolean) {
+        if (enable)
+            this.closeStoppers++
+        else
+            this.closeStoppers--
+    }
+
+    async hardClose() {
+        this.closeStoppers = 0
+        await this.application.close()
     }
 
     renderComponent(component) {
         let element = document.getElementById(`react-${this.application.appId}`)?.parentElement
         if(!element) throw Error("No element")
         this.root = createRoot(element)
-        this.root.render(<CoreBlock application={this.application} document={this.application.document}>
+        this.root.render(<CoreBlock application={this.application} document={this.application.document} mixin={this}>
             {component}
         </CoreBlock>)
     }

@@ -1,6 +1,8 @@
 import PackSelectorComponent, {PackSelectorOptions} from "../../../Constants/Packs/PackSelectorComponent";
-import {MerchantInventorySource} from "./Config/MerchantInventoryConfigData";
-import StoredSellableComponent, {StoredSellableComponentOptions} from "./StoredSellableComponent";
+import {NestedMerchantInventorySource} from "./Config/MerchantInventoryConfigData";
+import StoredSellableComponent, {
+    StoredSellableComponentOptions
+} from "Sheet/MerchantSheet/MerchantInventory/Config/StoredSellableComponent";
 import {setupSettingMenu} from "Settings/SettingMenu";
 
 export const SellableItemPacks = setupSettingMenu<UUID[]>({
@@ -16,11 +18,11 @@ export const SellableItemPacks = setupSettingMenu<UUID[]>({
 
 export interface SellableSourceExtra {
     icon?: string
-    name?: string
+    name: string
 }
-type IdentifiableSellable = MerchantInventorySource & SellableSourceExtra
+export type IdentifiableSellable = NestedMerchantInventorySource & SellableSourceExtra
 
-type StoredSellable = Record<string, IdentifiableSellable>
+export type StoredSellable = Record<string, IdentifiableSellable>
 
 export const StoredSellables = setupSettingMenu<StoredSellable>({
     key: "sellable.stored",

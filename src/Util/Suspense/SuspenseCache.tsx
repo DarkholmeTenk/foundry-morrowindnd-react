@@ -22,6 +22,10 @@ export class SuspenseCache {
             value.loading = false
             value.promise = undefined
             value.result = r
+        }).catch(r=>{
+            value.loading = false
+            value.error = {value: r}
+            value.promise = undefined
         })
         this.results[key] = value
         return value

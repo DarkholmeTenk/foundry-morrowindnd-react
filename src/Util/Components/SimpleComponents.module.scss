@@ -1,0 +1,16 @@
+.IconButton {
+  font-size: 12px;
+  text-align: center;
+
+  .disabled {
+    color: #b5b3a4;
+  }
+}
+
+.TwoClickClicked {
+  color: red !important;
+
+  .disabled {
+    color: lightpink !important
+  }
+}

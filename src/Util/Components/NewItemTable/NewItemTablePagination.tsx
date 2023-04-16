@@ -13,12 +13,14 @@ export function usePagination<T>({items}: UsePaginationProps<T>): UsePaginationR
     let [rowsPerPage, setRowsPerPage] = React.useState(20);
     let handleChangePage = useCallback((e,p)=>setPage(p), [setPage])
     const handleChangeRowsPerPage = useCallback((event) => {
-        setRowsPerPage(+event.target.value);
+        setRowsPerPage(+event.target.valueAsNumber);
         setPage(0);
     }, [setRowsPerPage, setPage]);
+    let maxPages = Math.ceil(items.length / rowsPerPage)
+    let realPage = Math.min(maxPages - 1, Math.max(page, 0))
     let sliced = useMemo(()=>{
-        return items.slice(page * rowsPerPage, (page + 1) * rowsPerPage)
-    }, [page, rowsPerPage, items])
+        return items.slice(realPage * rowsPerPage, (realPage + 1) * rowsPerPage)
+    }, [realPage, rowsPerPage, items])
     if(items.length <= 1) {
         return {
             sliced,
@@ -32,7 +34,7 @@ export function usePagination<T>({items}: UsePaginationProps<T>): UsePaginationR
                 count={items.length}
                 component="div"
                 rowsPerPage={rowsPerPage}
-                page={page}
+                page={realPage}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />

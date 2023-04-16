@@ -1,4 +1,4 @@
-import {createContext, PropsWithChildren, useContext, useEffect, useReducer, useRef} from "react";
+import {createContext, DependencyList, PropsWithChildren, useContext, useEffect, useReducer, useRef} from "react";
 import {SuspenseCache} from "Util/Suspense/SuspenseCache";
 import {useRefresh} from "Util/Helper/useForceUpdate";
 
@@ -12,7 +12,7 @@ export function SuspenseContext({children}: PropsWithChildren<{}>) {
     </Ctx.Provider>
 }
 
-export function useSuspensePromise<T>(key: string, generator: ()=>Promise<T>, deps: any[] = []): T {
+export function useSuspensePromise<T>(key: string, generator: ()=>Promise<T>, deps: DependencyList = []): T {
     let ctx = useContext(Ctx)
     let result = ctx.get(key, generator)
     let {id} = result
@@ -21,6 +21,7 @@ export function useSuspensePromise<T>(key: string, generator: ()=>Promise<T>, de
         return ()=>ctx.unwatch(key, id)
     }, [...deps, id])
     if(result.loading) throw result.promise
+    if(result.error) throw result.error.value
     return result.result
 }
 

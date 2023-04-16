@@ -29,7 +29,7 @@ export const MerchantBuy = registerGMSocket<BuyAction>("MerchantSheet_Buy", asyn
     let price = getBuyPrice(x, qty, merchantFlag)
     let myGold = getGoldAmountFromActor(self)
     if (myGold >= price) {
-        if (x.type == "item5e") await removeItem(x.item.uuid, qty)
+        if (x.type == "item5e" && x.item.parent === merchant) await removeItem(x.item.uuid, qty)
         await addItem(selfId, x.type == "item5e" ? x.item._source : x.item, {qty})
         await removeGold(self, price)
     }

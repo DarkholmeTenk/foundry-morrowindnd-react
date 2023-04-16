@@ -36,7 +36,7 @@ export async function addItem(actorSource: UUID | Actor5e, itemData: AddableItem
     itemArr.forEach(i=>{
         let existing = actor.items.find(x=>x.name == i.name)
         if(existing) {
-            updating.push({_id: existing.id, "system.quantity": existing.qty() + (options.qty ?? i.data.quantity ?? 1)})
+            updating.push({_id: existing.id, "system.quantity": existing.qty() + (options.qty ?? i.system?.quantity ?? 1)})
         } else {
             newArr.push(i)
         }

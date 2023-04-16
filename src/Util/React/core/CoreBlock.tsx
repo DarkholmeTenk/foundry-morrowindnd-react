@@ -7,6 +7,8 @@ import Styles from "./CoreBlock.module.scss"
 import {createTheme, ThemeProvider} from "@mui/material";
 import {SuspenseContext} from "Util/Suspense/SuspenseContext";
 import {SuspenseLayer} from "Util/Suspense/SuspenseLoadIndicator";
+import {ReactObj} from "Util/React/ReactMixin";
+import {MixinProvider} from "Util/React/core/MixinContext";
 
 const theme = createTheme({
     palette: {
@@ -21,26 +23,29 @@ const theme = createTheme({
 
 interface CoreBlockProps {
     application: Application,
-    document?: MyDocument
+    document?: MyDocument,
+    mixin: ReactObj
 }
-export function CoreBlock({children, application, document}: PropsWithChildren<CoreBlockProps>) {
+export function CoreBlock({children, application, document, mixin}: PropsWithChildren<CoreBlockProps>) {
     let [gm, setGm] = useGmState()
     return (
         <ApplicationContext.Provider value={application}>
-            <SuspenseContext>
-                <ThemeProvider theme={theme}>
-                    <GmContext state={gm}>
-                        <div className={Styles.CoreBlock}>
-                            <GmContextControl state={gm} setState={setGm} />
-                            <SelfSelector />
-                            {document && <DocumentControls doc={document} /> }
-                        </div>
-                        <SuspenseLayer>
-                            {children}
-                        </SuspenseLayer>
-                    </GmContext>
-                </ThemeProvider>
-            </SuspenseContext>
+            <MixinProvider mixin={mixin}>
+                <SuspenseContext>
+                    <ThemeProvider theme={theme}>
+                        <GmContext state={gm}>
+                            <div className={Styles.CoreBlock}>
+                                <GmContextControl state={gm} setState={setGm} />
+                                <SelfSelector />
+                                {document && <DocumentControls doc={document} /> }
+                            </div>
+                            <SuspenseLayer>
+                                {children}
+                            </SuspenseLayer>
+                        </GmContext>
+                    </ThemeProvider>
+                </SuspenseContext>
+            </MixinProvider>
         </ApplicationContext.Provider>
     )
 }
