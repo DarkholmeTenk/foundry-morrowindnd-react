@@ -1,5 +1,4 @@
 import getLogger from "Util/Logging";
-import doRollTable from "Systems/RollTable/Rolling/TableRoller";
 import TableModifierComponent from "Systems/RollTable/UI/TableModifierComponent";
 import {openReactApplication} from "Util/React/openReactApplication";
 import {HelperUI} from "Systems/RollTable/HelperUI/HelperUI";

@@ -10,7 +10,7 @@ import {openReactApplication} from "Util/React/openReactApplication";
 export function ItemQuantitySelect({item, max, onConfirm, buttonText = "Confirm", text}: ItemQuantitySelectArgs) {
     let [qty, setQty] = useState(max)
     let app = useContext(ApplicationContext) as any
-    let buttonString: ReactNodeLike = ""
+    let buttonString: ReactNodeLike
     if(typeof(buttonText) === "function") {
         buttonString = buttonText(qty, item)
     } else {

@@ -1,7 +1,7 @@
-import {Box, CircularProgress, Modal} from "@mui/material";
-import {Suspense, useState} from "react";
+import {Box, Modal} from "@mui/material";
+import {useState} from "react";
 import Styles from "./PurchaseModal.module.scss"
-import {SuspenseContext, useSuspensePromise} from "Util/Suspense/SuspenseContext";
+import {useSuspensePromise} from "Util/Suspense/SuspenseContext";
 import {getDefaultPurchasePriceModifier} from "Sheet/SpellSellerSheet/SpellData/SpellData";
 import {PurchasePriceModifierButtons} from "Sheet/SpellSellerSheet/PurchaseModal/PurchasePriceModifierButtons";
 import ItemViewer from "Util/Components/ItemViewer/ItemViewer";

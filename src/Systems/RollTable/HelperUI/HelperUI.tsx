@@ -1,13 +1,11 @@
-import {LeftFloatingPanel} from "Util/Components/LeftFloatingPanel/LeftFloatingPanel";
-import {Suspense, useReducer} from "react";
-import {SuspenseLayer} from "Util/Suspense/SuspenseLoadIndicator";
+import {useReducer} from "react";
 import {useSuspensePromise} from "Util/Suspense/SuspenseContext";
 import doRollTable, {EncapsulatingRollData} from "Systems/RollTable/Rolling/TableRoller";
 import {RollData} from "Systems/RollTable/Rolling/TableHelper";
 import {CurrencyItem} from "Systems/RollTable/Rolling/TableGoldHelper";
-import {getGoldAmount, getGoldValue} from "Util/Helper/GoldHelper";
+import {getGoldAmount} from "Util/Helper/GoldHelper";
 import GoldDisplay from "Util/Components/GoldDisplay";
-import ItemViewer, {ItemDataViewer} from "Util/Components/ItemViewer/ItemViewer";
+import {ItemDataViewer} from "Util/Components/ItemViewer/ItemViewer";
 import {Button} from "Util/Components/SimpleComponents";
 
 function curr(data: RollData[]) {

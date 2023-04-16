@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {NPCChoices, NPCImage} from "./NPCMakerUtils";
 import NPCTagChooser from "./NPCTagChooser";
 import NPCViewer from "./NPCViewer";

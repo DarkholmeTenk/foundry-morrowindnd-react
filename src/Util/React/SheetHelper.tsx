@@ -1,5 +1,3 @@
-import ReactDOM from "react-dom";
-import {CoreBlock} from "./core/CoreBlock";
 import {ReactApp, ReactObj} from "Util/React/ReactMixin";
 
 export class ReactActorSheet extends ActorSheet implements ReactApp {

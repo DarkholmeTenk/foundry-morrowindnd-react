@@ -1,6 +1,5 @@
 import {MISEditorProps} from "Sheet/MerchantSheet/MerchantInventory/Config/SingleMerchantInventorySourceEditor";
 import {
-    MerchantInventorySourceSimple,
     ReferencedMerchantInventorySource
 } from "Sheet/MerchantSheet/MerchantInventory/Config/MerchantInventoryConfigData";
 

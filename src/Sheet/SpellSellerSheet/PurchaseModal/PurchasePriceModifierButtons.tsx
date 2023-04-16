@@ -1,7 +1,6 @@
 import {SpellPurchasePriceModifier} from "Sheet/SpellSellerSheet/SpellCostCalculator";
 import {StateSetter} from "Util/React/update/Updater";
 import {Tooltip} from "@mui/material";
-import {e} from "Util/Helper/DomEventHelper";
 import Styles from "./PurchaseModal.module.scss"
 import {Button} from "Util/Components/SimpleComponents";
 

@@ -5,7 +5,7 @@ import {
 } from "Sheet/MerchantSheet/MerchantInventory/Config/MerchantInventoryConfigData";
 import Styles from "./SellableSourceEditor.module.scss"
 import {Button, TwoPressButton} from "Util/Components/SimpleComponents";
-import {StateSetter, useMappedSetter, useSafeSetter, useSetter} from "Util/React/update/Updater";
+import {StateSetter, useMappedSetter, useSetter} from "Util/React/update/Updater";
 import {Remover, Updater, useArrayReducers} from "Util/Helper/ArrayReducers";
 
 interface ListRowProps {

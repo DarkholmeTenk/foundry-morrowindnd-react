@@ -1,7 +1,7 @@
 import {getMerchantFlag} from "./Flag/MerchantFlag";
 import MerchantFlagComponent from "./Flag/MerchantFlagComponent";
 import SellSheet, {SellItem} from "./Sell/SellSheet";
-import React, {useReducer, useState} from "react"
+import React, {useState} from "react"
 import BuySheet from "./Buy/BuySheet";
 import Styles from "./MerchantSheet.module.scss"
 import {useNewSelf} from "Util/React/core/NewSelfSelector";
@@ -17,7 +17,7 @@ import {useArrayAdder} from "Util/Helper/ArrayReducers";
 import {isPartyCargoHolder} from "Settings/token/TokenSettings";
 import {openItemQuantitySelect} from "Sheet/LootSheet/ItemQuantitySelector";
 import {Simulate} from "react-dom/test-utils";
-import drop = Simulate.drop;
+
 import {openTokenLootDrop} from "Systems/TokenLootGenerator/TokenLootDrop";
 
 let MIISorter = chainSort<MerchantInventoryItem>(

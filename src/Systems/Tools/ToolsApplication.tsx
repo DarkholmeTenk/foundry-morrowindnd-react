@@ -1,5 +1,4 @@
-import {FunctionComponent, Suspense, useState} from "react";
-import {CircularProgress} from "@mui/material";
+import {FunctionComponent, useState} from "react";
 import TravelPlanner from "Systems/Traveller/Planner/TravelPlanner";
 import Styles from "./ToolsApplication.module.scss"
 import {SuspenseLayer} from "Util/Suspense/SuspenseLoadIndicator";

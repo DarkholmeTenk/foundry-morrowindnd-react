@@ -1,4 +1,3 @@
-import {itemPrice} from "Util/Extension/Items";
 import getFlag from "Util/Helper/FlagHelper";
 
 const SpellSellerFlagKey = "SpellSeller"

@@ -1,5 +1,5 @@
 import React, {useCallback} from "react";
-import {FormControl, Input, InputLabel, Tooltip} from "@mui/material";
+import {FormControl, Input, InputLabel} from "@mui/material";
 import Styles from "./ItemFilter.module.scss";
 import IconButton from "../../../IconButton";
 import {StateSetter} from "Util/React/update/Updater";

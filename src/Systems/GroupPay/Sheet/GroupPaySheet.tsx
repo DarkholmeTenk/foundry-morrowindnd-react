@@ -4,7 +4,6 @@ import {GroupPayRequestView} from "./GroupPayRequestView";
 import {GroupPayPledgeView} from "./GroupPayPledgeView";
 import {GroupPayPledgeActionView} from "./GroupPayPledgeActionView";
 import {createContext} from "react";
-import {GroupPayRequest} from "Systems/GroupPay/Model/GroupPayRequest";
 
 interface Ctx extends GroupPayFlag {
     message: ChatMessage

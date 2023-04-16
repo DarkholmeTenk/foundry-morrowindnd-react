@@ -1,7 +1,6 @@
 import {MISEditorProps} from "Sheet/MerchantSheet/MerchantInventory/Config/SingleMerchantInventorySourceEditor";
 import {
-    MerchantInventorySourcePackFilter,
-    MerchantInventorySourceSimple
+    MerchantInventorySourcePackFilter
 } from "Sheet/MerchantSheet/MerchantInventory/Config/MerchantInventoryConfigData";
 
 export function MISEditorFilterRightPane({value}: MISEditorProps<MerchantInventorySourcePackFilter>) {

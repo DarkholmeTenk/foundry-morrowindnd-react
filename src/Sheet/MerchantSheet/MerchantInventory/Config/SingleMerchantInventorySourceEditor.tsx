@@ -1,7 +1,6 @@
 import {StoredSellable} from "Sheet/MerchantSheet/MerchantInventory/Settings";
 import {StateSetter} from "Util/React/update/Updater";
 import {useNestedMISSetter} from "Sheet/MerchantSheet/MerchantInventory/Config/NestedSetter";
-import SellableSourceEditor from "Sheet/MerchantSheet/MerchantInventory/Config/SellableSourceEditor";
 import {
     MerchantInventorySource, MerchantInventorySourcePackFilter,
     MerchantInventorySourceSimple, ReferencedMerchantInventorySource

@@ -3,7 +3,7 @@ import {MerchantInventorySourceSimple} from "Sheet/MerchantSheet/MerchantInvento
 import {useMappedSetter} from "Util/React/update/Updater";
 import {ItemUUIDViewer} from "Util/Components/ItemViewer/ItemViewer";
 import {useArrayReducers} from "Util/Helper/ArrayReducers";
-import {onDrop, useDragHandler} from "Util/Helper/DropHelper";
+import {onDrop} from "Util/Helper/DropHelper";
 import {isHoldable} from "Util/Helper/ItemHelper";
 import {Button} from "Util/Components/SimpleComponents";
 

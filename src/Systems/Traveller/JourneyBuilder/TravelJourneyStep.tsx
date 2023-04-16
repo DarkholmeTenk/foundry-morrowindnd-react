@@ -1,5 +1,4 @@
 import {NoteData} from "Systems/Traveller/Data/NoteData";
-import {getDistance} from "Util/Helper/DistanceHelper";
 import {getClosestIntervention} from "Systems/Traveller/JourneyBuilder/TravelJourneyUtil";
 
 export type TravelMethod = "almsivi" | "divine" | "direct" | "mages" | "siltstrider" | "boat" | "propylon"

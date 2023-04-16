@@ -1,5 +1,4 @@
 import TokenLootDropComponent from "./TokenLootDropComponent";
-import {SimpleReactApplication} from "Util/React/ReactApplication";
 import {loadRollTable} from "Util/Identifiers/UuidHelper";
 import {openReactApplication} from "Util/React/openReactApplication";
 
