@@ -4,6 +4,7 @@ declare global {
     interface ApplicationOptions {
         width: number
         height: number
+        title?: string
     }
 
     class Application {

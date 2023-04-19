@@ -1,7 +1,9 @@
-import {Button, MenuItem, Select, Slider} from "@mui/material";
+import {MenuItem, Select, Slider} from "@mui/material";
 import {useState} from "react";
 import {StoredSellables} from "../MerchantInventory/Settings";
 import Styles from "./MerchantFlagComponent.module.scss"
+import {DeleteIcon} from "Util/Components/SimpleComponents/IconLibrary";
+import {Button} from "Util/Components/SimpleComponents/SimpleButton";
 
 export default function MerchantFlagComponent({merchantFlag, setMerchantFlag}) {
     let [buyRate, setBuyRate] = useState(merchantFlag.buyRate)
@@ -24,7 +26,7 @@ export default function MerchantFlagComponent({merchantFlag, setMerchantFlag}) {
                     {source}
                 </MenuItem>)}
             </Select>
-            <a onClick={()=>setSellable(null)}><i className="fas fa-trash"/></a>
+            <Button onClick={()=>setSellable(null)} icon={DeleteIcon} />
         </div>
         <Button onClick={()=>setMerchantFlag({...merchantFlag, sellables, buyRate, sellRate})}>
             Save

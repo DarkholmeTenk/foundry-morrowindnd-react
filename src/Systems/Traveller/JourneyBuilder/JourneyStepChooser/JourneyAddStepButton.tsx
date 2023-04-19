@@ -2,8 +2,8 @@ import {NoteData} from "Systems/Traveller/Data/NoteData";
 import {handleStep, TravelJourneyStep} from "Systems/Traveller/JourneyBuilder/TravelJourneyStep";
 import {useTravelJourneyContext} from "Systems/Traveller/JourneyBuilder/TravelJourneyBuilder";
 import {useArrayAdder} from "Util/Helper/ArrayReducers";
-import GoldDisplay from "Util/Components/GoldDisplay";
-import {Button} from "Util/Components/SimpleComponents";
+import GoldDisplay from "Util/Components/GoldDisplay/GoldDisplay";
+import {Button} from "Util/Components/SimpleComponents/SimpleButton";
 
 export function JourneyAddStepButton({step, from, text}: { from: NoteData, step: TravelJourneyStep, text: string }) {
     let {sceneData, setSteps} = useTravelJourneyContext()

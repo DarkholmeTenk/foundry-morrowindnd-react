@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {listFiles} from "Util/Helper/FilesHelper";
-import {Button} from "Util/Components/SimpleComponents";
+import {Button} from "Util/Components/SimpleComponents/SimpleButton";
 import {CircularProgress} from "@mui/material";
 
 export default function NPCMakerInitialDirSelector({setDir}) {

@@ -2,7 +2,7 @@ import {useState} from "react";
 import {NPCChoices, NPCImage} from "./NPCMakerUtils";
 import NPCTagChooser from "./NPCTagChooser";
 import NPCViewer from "./NPCViewer";
-import {Button} from "Util/Components/SimpleComponents";
+import {Button} from "Util/Components/SimpleComponents/SimpleButton";
 import {CircularProgress} from "@mui/material";
 import {useSuspensePromise} from "Util/Suspense/SuspenseContext";
 

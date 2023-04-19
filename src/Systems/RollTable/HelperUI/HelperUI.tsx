@@ -4,9 +4,9 @@ import doRollTable, {EncapsulatingRollData} from "Systems/RollTable/Rolling/Tabl
 import {RollData} from "Systems/RollTable/Rolling/TableHelper";
 import {CurrencyItem} from "Systems/RollTable/Rolling/TableGoldHelper";
 import {getGoldAmount} from "Util/Helper/GoldHelper";
-import GoldDisplay from "Util/Components/GoldDisplay";
+import GoldDisplay from "Util/Components/GoldDisplay/GoldDisplay";
 import {ItemDataViewer} from "Util/Components/ItemViewer/ItemViewer";
-import {Button} from "Util/Components/SimpleComponents";
+import {Button} from "Util/Components/SimpleComponents/SimpleButton";
 
 function curr(data: RollData[]) {
     let value = 0

@@ -6,7 +6,7 @@ import Selector from "../../../Util/Components/Selector/Selector";
 import {useCallback, useMemo} from "react";
 import {ArrayUpdater, useArrayField} from "Util/React/update/ArrayUpdater";
 import {NumberInOut, SimpleInput} from "./SimpleInput";
-import {Button} from "Util/Components/SimpleComponents";
+import {Button} from "Util/Components/SimpleComponents/SimpleButton";
 
 interface OtherData {
     ids: string[],

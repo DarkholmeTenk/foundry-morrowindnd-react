@@ -1,5 +1,5 @@
 import {useTravelJourneyContext} from "Systems/Traveller/JourneyBuilder/TravelJourneyBuilder";
-import GoldDisplay from "Util/Components/GoldDisplay";
+import GoldDisplay from "Util/Components/GoldDisplay/GoldDisplay";
 import {DecoratedJourney} from "Systems/Traveller/JourneyBuilder/TravelJourneyStep";
 
 function TravelJourneyActions({decorated, totalPrice, totalHours}: {decorated: DecoratedJourney, totalPrice: number, totalHours: number}) {

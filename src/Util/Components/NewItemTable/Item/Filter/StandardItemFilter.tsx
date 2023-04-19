@@ -5,6 +5,8 @@ import {ItemTypes, SpellSchools} from "../../ItemTypes";
 import {StateSetter} from "Util/React/update/Updater";
 import {ItemTableFilter} from "../../NewItemTableFilters";
 import {ItemTypeControlsContainer, mapItemTypeRecord, useTypeState} from "./TypeFilter";
+import {Button} from "Util/Components/SimpleComponents/SimpleButton";
+import Styles from "./ItemFilter.module.scss"
 
 export type ItemFilterState = Partial<{
     name: string,
@@ -34,12 +36,13 @@ function SpellTypeControls({items, filter, setFilter}: TypeControlProps) {
 function NameFilter({state, setState}: Pick<ItemTableFilterArgs, "state" | "setState">) {
     let setName = useCallback((e) => setState(f => ({...f, name: e.target.value})), [setState])
     let clearName = useCallback(() => setState(f => ({...f, name: ""})), [setState])
-    return (
-        <TextField style={{flexGrow: 1}} label="Filter" value={state.name || ""} onChange={setName} InputProps={{
-            endAdornment: state.name &&
-                <InputAdornment position="end"><IconButton clz="fas fa-backspace" onClick={clearName} size="large" /></InputAdornment>
-        }}/>
-    );
+    return <div className={Styles.NameFilter}>
+        <label htmlFor="filter-input">Filter</label>
+        <div className={Styles.InputRow}>
+            <input name="filter-input" value={state.name ?? ""} onChange={setName}/>
+            <Button tooltip="Clear" onClick={clearName} icon="fas fa-backspace" disabled={!state.name}/>
+        </div>
+    </div>
 }
 
 interface ItemTableFilterArgs {

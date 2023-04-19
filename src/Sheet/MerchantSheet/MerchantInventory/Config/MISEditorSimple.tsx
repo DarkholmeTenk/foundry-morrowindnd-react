@@ -5,7 +5,7 @@ import {ItemUUIDViewer} from "Util/Components/ItemViewer/ItemViewer";
 import {useArrayReducers} from "Util/Helper/ArrayReducers";
 import {onDrop} from "Util/Helper/DropHelper";
 import {isHoldable} from "Util/Helper/ItemHelper";
-import {Button} from "Util/Components/SimpleComponents";
+import {Button} from "Util/Components/SimpleComponents/SimpleButton";
 
 export function MISEditorSimple({value, setValue}: MISEditorProps<MerchantInventorySourceSimple>) {
     let itemIds = value.itemIds

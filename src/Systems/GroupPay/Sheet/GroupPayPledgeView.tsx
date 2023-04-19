@@ -5,11 +5,11 @@ import {getterColumn} from "Util/Components/NewItemTable/Util/GetterColumn";
 import {mappedColumns} from "Util/Components/NewItemTable/Util/MapColumns";
 import {ActorItemTableColumns} from "Util/Components/NewItemTable/Item/ActorItemTableColumns";
 import {loadActor} from "Util/Identifiers/UuidHelper";
-import GoldDisplay from "../../../Util/Components/GoldDisplay";
+import GoldDisplay from "Util/Components/GoldDisplay/GoldDisplay";
 import {ResolveGroupPayAction} from "../socket/ResolveGroupPayAction";
 import {ItemControl} from "Util/Components/NewItemTable/Item/ItemControls";
 import {PledgeGroupPayAction} from "../socket/PledgeGroupPayAction";
-import { Button } from "Util/Components/SimpleComponents";
+import { Button } from "Util/Components/SimpleComponents/SimpleButton";
 
 interface ED {
     amount: number

@@ -5,7 +5,7 @@ import {StoredSellable} from "Sheet/MerchantSheet/MerchantInventory/Settings";
 import {useSavableData} from "Util/Helper/useSavableData";
 import {StoredSellableList} from "Sheet/MerchantSheet/MerchantInventory/Config/StoredSellableList";
 import Styles from "./SellableSourceEditor.module.scss"
-import {Button} from "Util/Components/SimpleComponents";
+import {Button} from "Util/Components/SimpleComponents/SimpleButton";
 import {IdentifiableSellableListPane} from "Sheet/MerchantSheet/MerchantInventory/Config/IdentifiableSellableListPane";
 import {
     SingleMerchantInventorySourceEditor

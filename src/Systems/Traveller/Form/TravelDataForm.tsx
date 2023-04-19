@@ -7,7 +7,7 @@ import {SimpleCheckbox} from "./SimpleCheckbox";
 import {fixReciprocal} from "../Data/NoteSettingsFlag";
 import {FLAG_SCOPE} from "Util/Helper/FlagHelper";
 import {TravelDataFlagKey} from "../Data/NoteDataUtil";
-import {Button} from "Util/Components/SimpleComponents";
+import {Button} from "Util/Components/SimpleComponents/SimpleButton";
 
 export interface OtherNode {
     entry: JournalEntry,

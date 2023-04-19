@@ -1,7 +1,7 @@
 import {TableColumn} from "Util/Components/NewItemTable/TableColumn";
 import {miiQty} from "./MerchantInventoryItemData";
 import {getBuyPrice, MerchantFlag} from "../../Flag/MerchantFlag";
-import GoldDisplay from "../../../../Util/Components/GoldDisplay";
+import GoldDisplay from "Util/Components/GoldDisplay/GoldDisplay";
 import ItemDescription from "../../../../Util/Components/ItemDescription";
 
 type MIICol<X> = TableColumn<X, MerchantInventoryItem>

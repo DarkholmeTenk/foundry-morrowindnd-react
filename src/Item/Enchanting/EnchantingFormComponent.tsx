@@ -6,7 +6,7 @@ import {getEnchantData} from "./Enchanter";
 import {onDrop} from "Util/Helper/DropHelper";
 import ApplicationContext from "../../Util/React/core/ApplicationContext";
 import Styles from "./EnchantingFormComponent.module.scss"
-import {Button} from "Util/Components/SimpleComponents";
+import {Button} from "Util/Components/SimpleComponents/SimpleButton";
 
 interface Props {
     item: Item5e

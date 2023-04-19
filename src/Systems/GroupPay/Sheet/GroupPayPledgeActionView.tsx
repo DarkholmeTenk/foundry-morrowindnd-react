@@ -2,8 +2,8 @@ import {getTotalPledged, GroupPayFlag} from "../Model/GroupPayFlag";
 import {getPartyUUIDs} from "Settings/token/TokenSettings";
 import {useNewSelf} from "Util/React/core/NewSelfSelector";
 import {PledgeGroupPayAction} from "../socket/PledgeGroupPayAction";
-import GoldDisplay from "../../../Util/Components/GoldDisplay";
-import {Button} from "Util/Components/SimpleComponents";
+import GoldDisplay from "Util/Components/GoldDisplay/GoldDisplay";
+import {Button} from "Util/Components/SimpleComponents/SimpleButton";
 import {getGoldAmountFromActor, parseGold} from "Util/Helper/GoldHelper";
 import Styles from "./GroupPaySheet.module.scss"
 import {useContext, useState} from "react";

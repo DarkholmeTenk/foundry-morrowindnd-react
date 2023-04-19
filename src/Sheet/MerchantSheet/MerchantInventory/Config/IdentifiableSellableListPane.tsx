@@ -4,9 +4,10 @@ import {
     NestedMerchantInventorySource
 } from "Sheet/MerchantSheet/MerchantInventory/Config/MerchantInventoryConfigData";
 import Styles from "./SellableSourceEditor.module.scss"
-import {Button, TwoPressButton} from "Util/Components/SimpleComponents";
+import {Button, TwoPressButton} from "Util/Components/SimpleComponents/SimpleButton";
 import {StateSetter, useMappedSetter, useSetter} from "Util/React/update/Updater";
 import {Remover, Updater, useArrayReducers} from "Util/Helper/ArrayReducers";
+import {DeleteIcon, EditIcon} from "Util/Components/SimpleComponents/IconLibrary";
 
 interface ListRowProps {
     sellable: MerchantInventorySource,
@@ -22,8 +23,8 @@ function NestedIdentifiableListRow({sellable, index, update, remove, keySoFar, s
     }
     return <div>
         {sellable.type}
-        <Button onClick={()=>setEditingPart(keySoFar + index)} icon="fas fa-pen-to-square" />
-        <TwoPressButton onClick={()=>remove(index)} icon="fas fa-trash" />
+        <Button onClick={()=>setEditingPart(keySoFar + index)} icon={EditIcon} />
+        <TwoPressButton onClick={()=>remove(index)} icon={DeleteIcon} />
     </div>
 }
 function NestedIdentifiableNestedListRow({sellable, index, update, remove, keySoFar, setEditingPart}: ListRowProps & {sellable: NestedMerchantInventorySource}) {

@@ -3,6 +3,7 @@ import Selector from "../../Util/Components/Selector/Selector";
 import {Button} from "@mui/material";
 import {getPackId} from "../../Util/Identifiers/PackHelper";
 import {useArrayReducers} from "Util/Helper/ArrayReducers";
+import {DeleteIcon} from "Util/Components/SimpleComponents/IconLibrary";
 
 export const PackSelectorOptions = {
     width: 600,
@@ -23,7 +24,7 @@ function PackSelector({pack, index, setPack, remove}) {
 
     return <div className="flexrow" >
         <Selector values={game.packs.map(p=>getPackId(p))} value={pack} setValue={setValue} labelFunction={labeler} />
-        <a style={{flexGrow: 0}} onClick={remove}><i className="fas fa-trash"/></a>
+        <a style={{flexGrow: 0}} onClick={remove}><i className={DeleteIcon}/></a>
     </div>
 }
 

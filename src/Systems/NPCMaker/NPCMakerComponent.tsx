@@ -1,7 +1,7 @@
 import {useState} from "react";
 import NPCTypedMaker from "./NPCTypedMaker";
 import NPCMakerInitialDirSelector from "Systems/NPCMaker/NPCMakerInitialDirSelector";
-import {Button} from "Util/Components/SimpleComponents";
+import {Button} from "Util/Components/SimpleComponents/SimpleButton";
 
 function TypeSelector({types, selectType}) {
     return (<div>

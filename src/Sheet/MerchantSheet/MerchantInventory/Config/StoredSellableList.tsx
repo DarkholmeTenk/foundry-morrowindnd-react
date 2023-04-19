@@ -1,7 +1,7 @@
 import {StoredSellable} from "Sheet/MerchantSheet/MerchantInventory/Settings";
 import {StateSetter} from "Util/React/update/Updater";
 import {useState} from "react";
-import {Button} from "Util/Components/SimpleComponents";
+import {Button} from "Util/Components/SimpleComponents/SimpleButton";
 import {mapSort, StringSorter} from "Util/Sorting";
 import Styles from "./SellableSourceEditor.module.scss"
 

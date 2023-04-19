@@ -1,3 +1,26 @@
 .disabled {
   color: gray;
 }
+
+.NameFilter {
+  display: flex;
+  flex-direction: column;
+  label {
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.4375em;
+    letter-spacing: 0.00938em;
+    margin: 0;
+    width: min-content;
+    transform: scale(0.75);
+  }
+
+  .InputRow {
+    display: flex;
+    flex-direction: row;
+    input {
+      height: 24px;
+      flex-grow: 1
+    }
+  }
+}

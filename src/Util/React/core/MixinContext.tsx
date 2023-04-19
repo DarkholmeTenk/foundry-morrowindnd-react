@@ -1,7 +1,7 @@
 import {createContext, PropsWithChildren, useContext, useEffect, useState} from "react";
 import {ReactObj} from "Util/React/ReactMixin";
 import ApplicationContext from "Util/React/core/ApplicationContext";
-import {Button} from "Util/Components/SimpleComponents";
+import {Button} from "Util/Components/SimpleComponents/SimpleButton";
 
 interface MixinCtxData {
     stopClosing: ()=> void

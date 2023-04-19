@@ -5,13 +5,13 @@ import {useSuspensePromise} from "Util/Suspense/SuspenseContext";
 import {getDefaultPurchasePriceModifier} from "Sheet/SpellSellerSheet/SpellData/SpellData";
 import {PurchasePriceModifierButtons} from "Sheet/SpellSellerSheet/PurchaseModal/PurchasePriceModifierButtons";
 import ItemViewer from "Util/Components/ItemViewer/ItemViewer";
-import GoldDisplay from "Util/Components/GoldDisplay";
+import GoldDisplay from "Util/Components/GoldDisplay/GoldDisplay";
 import {calculateSpellCost} from "Sheet/SpellSellerSheet/SpellCostCalculator";
 import {useMoneyRequest} from "Systems/GroupPay/useMoneyRequest";
 import {getGoldAmountFromActor} from "Util/Helper/GoldHelper";
 import {SpellSellerBuy} from "Sheet/SpellSellerSheet/SpellSellerAction";
 import {SuspenseLayer} from "Util/Suspense/SuspenseLoadIndicator";
-import {Button} from "Util/Components/SimpleComponents";
+import {Button} from "Util/Components/SimpleComponents/SimpleButton";
 
 function PurchaseWindow({merchant, spell, self, close}: Props) {
     let baseModifier = useSuspensePromise("spellseller.basemodifier", ()=>getDefaultPurchasePriceModifier(self, spell), [spell, self])

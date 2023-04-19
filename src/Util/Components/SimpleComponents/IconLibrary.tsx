@@ -1,0 +1,6 @@
+export const ViewIcon = "fas fa-eye"
+export const BuyIcon = "fas fa-cart-plus"
+export const DeleteIcon = "fas fa-trash"
+export const EditIcon = "fas fa-edit"
+export const TakeIcon = "fas fa-hand-holding"
+export const RequestMoneyIcon = "fa-solid fa-money-bill-wave"

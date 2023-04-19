@@ -55,7 +55,7 @@ export class Setting<X> extends BaseSetting<RealSettingData<X>, X> {
         } as any)
     }
 }
-export function setupSetting<X extends object>(data: MySettingData<X>): Setting<X> {
+export function setupSetting<X>(data: MySettingData<X>): Setting<X> {
     return addSetting(new Setting<X>(data))
 }
 

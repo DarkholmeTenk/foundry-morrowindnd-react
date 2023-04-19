@@ -9,7 +9,7 @@ import {useWatchEntity} from "Util/Helper/EntityHelper";
 import {LeftFloatingPanel} from "Util/Components/LeftFloatingPanel/LeftFloatingPanel";
 import {useMerchantActorInventory} from "./MerchantInventory/MerchantInventoryLoader";
 import {chainSort, mapSort, StringSorter} from "Util/Sorting";
-import {Button} from "Util/Components/SimpleComponents";
+import {Button} from "Util/Components/SimpleComponents/SimpleButton";
 import {onDrop} from "Util/Helper/DropHelper";
 import {addItem} from "Util/Helper/ItemTransferHelper";
 import {StateSetter} from "Util/React/update/Updater";
@@ -19,6 +19,7 @@ import {openItemQuantitySelect} from "Sheet/LootSheet/ItemQuantitySelector";
 import {Simulate} from "react-dom/test-utils";
 
 import {openTokenLootDrop} from "Systems/TokenLootGenerator/TokenLootDrop";
+import GoldDisplay from "Util/Components/GoldDisplay/GoldDisplay";
 
 let MIISorter = chainSort<MerchantInventoryItem>(
     mapSort(i=>i.item.type, StringSorter),
@@ -71,13 +72,21 @@ export default function MerchantSheetComponent({merchant}: Props) {
     let sorted = sellableData.sort(MIISorter)
     let dropHandler = useDropHandler(merchant, tab, sellItems, setSellItems)
 
-    if(!self) return <div>Select yourself!</div>
+    if(!self)
+        return <div>Select yourself!</div>
 
     return <div onDrop={dropHandler}>
         {merchant.isOwner ? <LeftFloatingPanel>
             <MerchantFlagComponent merchantFlag={merchantFlag} setMerchantFlag={setMerchantFlag}/>
         </LeftFloatingPanel> : null}
         <div className={Styles.MerchantSheet}>
+            <div>
+                <div>
+                    <h3>{self.name}'s Available Gold</h3>
+                    <GoldDisplay actor={self} />
+                </div>
+            </div>
+            <hr />
             <div className={Styles.TabRow}>
                 <Button onClick={()=>setTab("buy")} disabled={tab === "buy"}>Buy</Button>
                 <Button onClick={()=>setTab("sell")} disabled={tab === "sell"}>Sell</Button>

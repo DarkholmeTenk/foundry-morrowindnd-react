@@ -1,5 +1,5 @@
 import React from "react";
-import GoldDisplay from "../../../Util/Components/GoldDisplay";
+import GoldDisplay from "Util/Components/GoldDisplay/GoldDisplay";
 import {getSellPrice, MerchantFlag} from "../Flag/MerchantFlag";
 import Styles from "./SellSheet.module.scss"
 import {ImageColumn, NameColumn} from "Util/Components/NewItemTable/Item/ItemColumns";
@@ -13,7 +13,8 @@ import {getterColumn} from "Util/Components/NewItemTable/Util/GetterColumn";
 import {ItemExpander} from "Util/Components/NewItemTable/Item/ItemExpander";
 import {AddCargoButton, SellCompleteAction} from "./SellCompleteAction";
 import {getPartyCargoHolder} from "Settings/token/TokenSettings";
-import {Button} from "Util/Components/SimpleComponents";
+import {Button} from "Util/Components/SimpleComponents/SimpleButton";
+import {DeleteIcon} from "Util/Components/SimpleComponents/IconLibrary";
 
 export interface SellItem {
     item: Item5e,
@@ -41,7 +42,7 @@ function SellControls({merchant, self, item, index, merchantFlag, setItems}: Buy
     if(!self) return null
     let remover = useArrayRemover(setItems)
     return <>
-        <ItemControl title="Delete" icon="fas fa-trash" onClick={()=>remover(index)} />
+        <ItemControl title="Delete" icon={DeleteIcon} onClick={()=>remover(index)} />
     </>
 }
 

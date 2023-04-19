@@ -3,6 +3,7 @@ import {ItemControl} from "Util/Components/NewItemTable/Item/ItemControls";
 import {LootTakeSocket} from "./LootAction";
 import {openItemQuantitySelect} from "./ItemQuantitySelector";
 import {itemQty} from "Util/Extension/Items";
+import {DeleteIcon, EditIcon, TakeIcon} from "Util/Components/SimpleComponents/IconLibrary";
 
 interface LootControlsProps {
     item: Item,
@@ -17,8 +18,8 @@ export function LootControls({item, self, npc}:  LootControlsProps) {
         openItemQuantitySelect({item, max: itemQty(item) || 1, buttonText: "Take", onConfirm: take})
     }, [item, self, npc])
     return <>
-        <ItemControl title={"Edit Item"} icon={"fas fa-edit"} onClick={()=>item.sheet!.render(true, {editable: item.isOwner} as any)} />
-        {item.isOwner ? <ItemControl title={"Delete"} icon={"fas fa-trash"} onClick={deleteMe} /> : null}
-        {self && npc ? <ItemControl title={"Take"} icon={"fas fa-hand-holding"} onClick={takeMe} /> : null}
+        <ItemControl title={"Edit Item"} icon={EditIcon} onClick={()=>item.sheet!.render(true, {editable: item.isOwner} as any)} />
+        {item.isOwner ? <ItemControl title={"Delete"} icon={DeleteIcon} onClick={deleteMe} /> : null}
+        {self && npc ? <ItemControl title={"Take"} icon={TakeIcon} onClick={takeMe} /> : null}
     </>
 }

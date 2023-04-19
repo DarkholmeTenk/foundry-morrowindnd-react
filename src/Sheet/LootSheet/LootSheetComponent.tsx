@@ -2,7 +2,7 @@ import {useWatchEntity} from "Util/Helper/EntityHelper";
 import {LootSplitNGS} from "./LootAction";
 import GoldSection from "./GoldBox/GoldSection";
 import Style from "./LootSheet.module.scss"
-import GoldDisplay from "../../Util/Components/GoldDisplay";
+import GoldDisplay from "Util/Components/GoldDisplay/GoldDisplay";
 import {buildDesireMap, getLootFlag} from "./LootFlags";
 import LootSheetDesireComponent from "./Desire/LootSheetDesireComponent";
 import {Button} from "@mui/material";

@@ -1,8 +1,7 @@
 import {SpellPurchasePriceModifier} from "Sheet/SpellSellerSheet/SpellCostCalculator";
 import {StateSetter} from "Util/React/update/Updater";
-import {Tooltip} from "@mui/material";
 import Styles from "./PurchaseModal.module.scss"
-import {Button} from "Util/Components/SimpleComponents";
+import {Button} from "Util/Components/SimpleComponents/SimpleButton";
 
 const Labels: {[key in SpellPurchasePriceModifier]: {
     name: string,
@@ -27,22 +26,12 @@ const Labels: {[key in SpellPurchasePriceModifier]: {
 }
 const ButtonList = [SpellPurchasePriceModifier.NONE, SpellPurchasePriceModifier.SPEC, SpellPurchasePriceModifier.CROSS_CLASS, SpellPurchasePriceModifier.NO_SPEC]
 
-function XButton({text, tooltip, selected, onClick}: {text: string, tooltip: string, selected: boolean, onClick: ()=>void}) {
-    return <Tooltip title={tooltip}>
-        <span>
-            <Button disabled={selected} onClick={onClick}>
-                {text}
-            </Button>
-        </span>
-    </Tooltip>
-}
-
 interface Props {
     modifier: SpellPurchasePriceModifier
     setModifier: StateSetter<SpellPurchasePriceModifier>
 }
 export function PurchasePriceModifierButtons({modifier, setModifier}: Props) {
     return <div className={Styles.PriceModifierButtons}>
-        {ButtonList.map(y=><XButton text={Labels[y].name} tooltip={Labels[y].tooltip} selected={modifier === y} onClick={()=>setModifier(y)} key={y}/>)}
+        {ButtonList.map(y=><Button tooltip={Labels[y].tooltip} disabled={modifier === y} onClick={()=>setModifier(y)} key={y}>{Labels[y].name}</Button>)}
     </div>
 }

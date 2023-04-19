@@ -1,5 +1,5 @@
 import {Desire, MappedDesires} from "../LootFlags";
-import {Chip, CircularProgress, Tooltip} from "@mui/material";
+import {Chip, CircularProgress} from "@mui/material";
 import {useCallback} from "react";
 import {MarkLootDesire} from "../LootAction";
 import {e} from "Util/Helper/DomEventHelper";
@@ -8,6 +8,7 @@ import {useNewSelf} from "Util/React/core/NewSelfSelector";
 import {getPartyUUIDs} from "Settings/token/TokenSettings";
 import {ItemUUIDViewer} from "Util/Components/ItemViewer/ItemViewer";
 import Styles from "./LootSheetDesireComponent.module.scss"
+import {Tooltip} from "Util/Components/SimpleComponents/SimpleTooltip";
 
 let DESIRE_INFOS: {[key in Desire]: {text: string, name:  string}} = {
     [Desire.NEED]: {
@@ -41,7 +42,7 @@ function DesireButton({desires, desire, selfId, item}: DesireButtonArgs) {
     let onDelete = useCallback(e(async ()=>{
         MarkLootDesire({selfId, lootId: item.uuid, desire: null})
     }), [selfId, item, desire])
-    return <Tooltip title={<DesireTooltip desireInfo={desireInfo} desirers={filtered}/> } >
+    return <Tooltip text={<DesireTooltip desireInfo={desireInfo} desirers={filtered}/> } >
         <Chip
             color={isChecked ? "primary" : (filtered.length > 0 ? "secondary" : undefined)}
             size="small"
@@ -80,6 +81,6 @@ export default function LootSheetDesireComponent({item, desires}: LootSheetDesir
     let desireButtons = Object.keys(DESIRE_INFOS).map(desire=><DesireButton key={desire} desires={xd} desire={desire as any as Desire} selfId={selfId!} item={item}/>)
     return <div>
         {desireButtons}
-        <Tooltip title={<MarkedTooltip desires={xd} />}><CircularProgress variant="determinate" size={18} value={progress} /></Tooltip>
+        <Tooltip text={<MarkedTooltip desires={xd} />}><CircularProgress variant="determinate" size={18} value={progress} /></Tooltip>
     </div>
 }

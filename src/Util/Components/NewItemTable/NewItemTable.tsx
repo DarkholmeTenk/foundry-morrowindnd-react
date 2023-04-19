@@ -20,7 +20,7 @@ export function NewItemTable<D, T, Q>({extraData, columns, items, filter, expand
     let { sliced, PaginationComponent } = usePagination({items: filtered})
     let actionComp = Actions ? <Actions {...extraData} items={items} /> : null
     return <div>
-        <div style={{all: 'initial'}}>
+        <div>
             {FilterComponent}
             <TableContainer className={Styles.itemTable}>
                 <Table size="small">

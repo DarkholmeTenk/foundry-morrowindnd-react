@@ -1,4 +1,4 @@
-import GoldDisplay from "../../../Util/Components/GoldDisplay";
+import GoldDisplay from "Util/Components/GoldDisplay/GoldDisplay";
 import {Input, Typography} from "@mui/material";
 import React, {useCallback, useState} from "react";
 import {addGold, removeGold} from "Util/Helper/GoldHelper";
@@ -9,7 +9,7 @@ import {useMappedSetter, useSafeSetter, useSetter} from "Util/React/update/Updat
 import {PartyActorSelector} from "Util/Components/PartyActorSelector/PartyActorSelector";
 import {getPartyUUIDs} from "Settings/token/TokenSettings";
 import Styles from "./GoldSection.module.scss"
-import {Button} from "Util/Components/SimpleComponents";
+import {Button} from "Util/Components/SimpleComponents/SimpleButton";
 
 export default function GoldSection({npc, disabled}) {
     let [flag, setFlag] = getLootFlag(npc)

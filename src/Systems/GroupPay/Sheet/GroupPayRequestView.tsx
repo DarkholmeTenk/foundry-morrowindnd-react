@@ -1,6 +1,6 @@
 import {GroupPayRequest} from "../Model/GroupPayRequest";
 import {GroupPayRequesterView} from "./GroupPayRequesterView";
-import GoldDisplay from "../../../Util/Components/GoldDisplay";
+import GoldDisplay from "Util/Components/GoldDisplay/GoldDisplay";
 import Styles from "./GroupPaySheet.module.scss"
 
 export function GroupPayRequestView({request}: {request: GroupPayRequest}) {

@@ -5,7 +5,7 @@ import {getterColumn} from "Util/Components/NewItemTable/Util/GetterColumn";
 import {ImageColumn, NameColumn} from "Util/Components/NewItemTable/Item/ItemColumns";
 import {SpellIcon} from "Sheet/SpellSellerSheet/Table/SpellIconColumn";
 import {SpellActionsColumn} from "Sheet/SpellSellerSheet/Table/SpellTableActionsColumn";
-import GoldDisplay from "Util/Components/GoldDisplay";
+import GoldDisplay from "Util/Components/GoldDisplay/GoldDisplay";
 import {getSpellBaseCost} from "Sheet/SpellSellerSheet/SpellCostCalculator";
 import {SpellFilter} from "Sheet/SpellSellerSheet/Table/SpellFilter";
 

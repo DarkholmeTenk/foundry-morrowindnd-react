@@ -1,13 +1,15 @@
 import ItemViewer from "Util/Components/ItemViewer/ItemViewer";
 import {useContext, useState} from "react";
 import {parseGold} from "Util/Helper/GoldHelper";
-import GoldDisplay from "Util/Components/GoldDisplay";
-import {Button} from "Util/Components/SimpleComponents";
+import GoldDisplay from "Util/Components/GoldDisplay/GoldDisplay";
+import {Button} from "Util/Components/SimpleComponents/SimpleButton";
 import Styles from "./RequestUI.module.scss"
 import {createGroupPayMessage} from "Systems/GroupPay/Message/CreateGroupPayMessage";
 import ApplicationContext from "Util/React/core/ApplicationContext";
+import {GroupPayRequester} from "Systems/GroupPay/Model/GroupPayRequest";
+import {GroupPayRequesterView} from "Systems/GroupPay/Sheet/GroupPayRequesterView";
 
-export function RequestUIComponent({actor}: {actor: Actor5e}) {
+export function RequestUIComponent({requester}: {requester: GroupPayRequester}) {
     let [amount, setAmount] = useState("0")
     let [purpose, setPurpose] = useState("")
     let {close} = useContext(ApplicationContext)
@@ -15,14 +17,14 @@ export function RequestUIComponent({actor}: {actor: Actor5e}) {
     let valid = goldAmount > 0 && purpose.trim() !== ""
     let makeRequest = async ()=>{
         if(!valid) return
-        await createGroupPayMessage({requester: {type: "actor", actorId: actor.uuid}, amount: goldAmount, purpose})
+        await createGroupPayMessage({requester, amount: goldAmount, purpose})
         await close()
     }
     return <div>
         <div className={Styles.Header}>
             <div>
                 <h3>Requester</h3>
-                <ItemViewer item={actor} />
+                <GroupPayRequesterView requester={requester} />
             </div>
             <div className="flex-col">
                 <h3>Amount</h3>

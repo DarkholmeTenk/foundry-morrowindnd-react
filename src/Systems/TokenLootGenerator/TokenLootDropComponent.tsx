@@ -6,7 +6,7 @@ import {addItem} from "Util/Helper/ItemTransferHelper";
 import {callRoll} from "Util/Helper/RollHelper";
 import {mergeItemData} from "Util/Helper/ItemHelper";
 import {RollData} from "Systems/RollTable/Rolling/TableHelper";
-import {Button} from "Util/Components/SimpleComponents";
+import {Button} from "Util/Components/SimpleComponents/SimpleButton";
 
 async function getResult(roll: string, qty: string, table: RollTable) {
     let rollRoll = await callRoll(roll)
