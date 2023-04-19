@@ -11,6 +11,7 @@ function isEquipment(i: any): i is ItemEquipment {
 export function MaterialsComponent() {
     let packData = useSuspensePromise("items", ()=>loadPack(ItemPackSetting.value, isEquipment))
     return <div>
+        WIPWIPWIPWIP
         {packData.map((i)=><ItemViewer item={i} key={i.id} />)}
     </div>
 }

@@ -9,6 +9,9 @@ import {useArrayAdder} from "Util/Helper/ArrayReducers";
 import {StateSetter} from "Util/React/update/Updater";
 import {TravelJourneyStepList} from "Systems/Traveller/JourneyBuilder/TravelJourneyStepList";
 import {TravelJourneyDecoratedViewer} from "Systems/Traveller/JourneyBuilder/TravelJourneyDecoratedViewer";
+import {useIsGm} from "Util/React/core/GmContext";
+import {Button} from "Util/Components/SimpleComponents/SimpleButton";
+import {createGroupPayMessage} from "Systems/GroupPay/Message/CreateGroupPayMessage";
 
 interface CtxData {
     token: TokenDocument,
@@ -18,9 +21,19 @@ interface CtxData {
     setSteps: StateSetter<TravelJourneyStep[]>
     decorated: DecoratedJourney | null
 }
-const TravelJourneyContext = createContext<CtxData | undefined>(undefined)
+const TravelJourneyContext = createContext<CtxData>({} as CtxData)
 export function useTravelJourneyContext(): CtxData {
     return useContext(TravelJourneyContext)!
+}
+
+function TravelJourneyPayButton() {
+    let {decorated} = useContext(TravelJourneyContext)
+    let isGm = useIsGm()
+    if(!isGm || !decorated) return null
+    let hours = decorated.decoratedSteps.reduce((p, c)=>p+c.hours, 0)
+    let travelStepsStr = decorated.source.entry.name + ", " + decorated.decoratedSteps.map(d=>d.step.method + " to " + d.to.entry.name).join(", ") +". " + hours + "h"
+    let price = decorated.decoratedSteps.reduce((p,c)=>p+c.price, 0)
+    return <Button onClick={()=>createGroupPayMessage({requester: {type: "dm"}, purpose: "Travel. " + travelStepsStr, amount: price})}>Request Party Money</Button>
 }
 
 function TravelJourneyBuilderContents({token, sceneData}: {token: TokenDocument, sceneData: NoteData[]}) {
@@ -39,7 +52,10 @@ function TravelJourneyBuilderContents({token, sceneData}: {token: TokenDocument,
     if(!decorated) return null
     return <div>
         <TravelJourneyContext.Provider value={ctx} >
-            {starting.entry.name} to {decorated.destination.entry.name}
+            <div className="flex-row">
+                <span>{starting.entry.name} to {decorated.destination.entry.name}</span>
+                <TravelJourneyPayButton />
+            </div>
             {decorated && <>
                 <hr />
                 <TravelJourneyDecoratedViewer />
