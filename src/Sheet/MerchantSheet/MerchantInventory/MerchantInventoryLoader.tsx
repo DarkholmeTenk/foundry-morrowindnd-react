@@ -27,7 +27,7 @@ const Loaders: {[key in MerchantInventorySource['type']]: Loader<MerchantInvento
 
 async function loadSimple(source: MerchantInventorySourceSimple): LoadResult {
     let items = await source.itemIds.mapAsync(loadItem)
-    return items.filter(x=>x).map(i=>({type: "item5e", item: i as Item5e}))
+    return items.filter(x=>x).map(i=>({type: "item5e", item: i as Item5e, qty: source.qty}))
 }
 
 async function loadFilter(source: MerchantInventorySourcePackFilter): LoadResult {
@@ -35,7 +35,8 @@ async function loadFilter(source: MerchantInventorySourcePackFilter): LoadResult
     let items = await loadPack(source.packOverride || SellableItemPacks.value, isItem)
     return items.filter(x=>filterArguments.filterItem(x)).map(item=>({
         type: "item5e",
-        item
+        item,
+        qty: source.qty
     }))
 
 }
@@ -50,11 +51,16 @@ async function loadReferenced(source: ReferencedMerchantInventorySource): LoadRe
 }
 
 export async function loadSellable(source: MerchantInventorySource): Promise<MerchantInventoryItem[]> {
-    if(!source.type) return []
-    let loader = Loaders[source.type]
-    if(!loader) return []
-    let loaded = await loader(source as any)
-    return loaded.filter(x=>x) as MerchantInventoryItem[]
+    try {
+        if (!source.type) return []
+        let loader = Loaders[source.type]
+        if (!loader) return []
+        let loaded = await loader(source as any)
+        return loaded.filter(x => x) as MerchantInventoryItem[]
+    } catch(e) {
+        console.error("Error loading sellable", source, e)
+        return []
+    }
 }
 
 export async function loadSellableId(sellableId: string | undefined) {

@@ -7,6 +7,7 @@ import {onDrop} from "Util/Helper/DropHelper";
 import {isHoldable} from "Util/Helper/ItemHelper";
 import {Button} from "Util/Components/SimpleComponents/SimpleButton";
 
+
 export function MISEditorSimple({value, setValue}: MISEditorProps<MerchantInventorySourceSimple>) {
     let itemIds = value.itemIds
     let setItemIds = useMappedSetter("itemIds", setValue)
@@ -17,7 +18,7 @@ export function MISEditorSimple({value, setValue}: MISEditorProps<MerchantInvent
     return <div onDrop={dropHandler}>
         <span>Items ({itemIds.length}):</span>
         <ul>
-            {itemIds.map((x, i)=><li key={x}>
+            {itemIds.map((x, i)=><li key={x} style={{display: "flex", flexDirection: "row", width: "320px"}}>
                 <ItemUUIDViewer item={x} />
                 <Button onClick={()=>remover(i)} icon="fas fa-trash" />
             </li>)}

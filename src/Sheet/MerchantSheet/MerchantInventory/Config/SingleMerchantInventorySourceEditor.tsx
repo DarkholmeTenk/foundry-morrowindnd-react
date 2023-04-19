@@ -5,10 +5,12 @@ import {
     MerchantInventorySource, MerchantInventorySourcePackFilter,
     MerchantInventorySourceSimple, ReferencedMerchantInventorySource
 } from "Sheet/MerchantSheet/MerchantInventory/Config/MerchantInventoryConfigData";
-import {ReactNode} from "react";
+import {ChangeEvent, ReactNode} from "react";
 import {MISEditorSimple} from "Sheet/MerchantSheet/MerchantInventory/Config/MISEditorSimple";
-import {MISEditorFilter} from "Sheet/MerchantSheet/MerchantInventory/Config/MISEditorFilter";
+import {MISEditorFilter, MISEditorFilterRightPane} from "Sheet/MerchantSheet/MerchantInventory/Config/MISEditorFilter";
 import {MISEditorReferenced} from "Sheet/MerchantSheet/MerchantInventory/Config/MISEditorReferenced";
+import Styles from "./SellableSourceEditor.module.scss"
+import {SuspenseLayer} from "Util/Suspense/SuspenseLoadIndicator";
 
 export interface MISEditorProps<T extends MerchantInventorySource> {
     value: T
@@ -24,11 +26,25 @@ const Editors: {[key in Editable['type']]: EditorSet<MerchantInventorySource & {
         MainPane: MISEditorSimple
     },
     "filter": {
-        MainPane: MISEditorFilter
+        MainPane: MISEditorFilter,
+        RightPane: MISEditorFilterRightPane
     },
     "referenced": {
         MainPane: MISEditorReferenced
     }
+}
+
+function QtyEditor({source, setSource}: {source: MerchantInventorySource, setSource: StateSetter<MerchantInventorySource>}) {
+    if(source.type !== "simple" && source.type !== "filter") return null
+    let onChange = (e: ChangeEvent<HTMLInputElement>) => {
+         let num = e.target.valueAsNumber
+        if(!num || isNaN(num) || num < 1) return
+        setSource(old=>({...old, qty: Math.floor(num)}))
+    }
+    return <div>
+        <label>Qty</label>
+        <input value={source.qty ?? 1} type="number" onChange={onChange} />
+    </div>
 }
 
 interface Props {
@@ -42,13 +58,22 @@ export function SingleMerchantInventorySourceEditor({sellables, setSellable, id,
     if(myParts === null) return null
     let [myPart, setMyPart] = myParts
     const {MainPane, RightPane} = Editors[myPart.type]
-    return <div>
-        <div>
+    return <>
+        <div className={Styles.MainPane}>
             {partKey}
-            <MainPane value={myPart} setValue={setMyPart} />
+            <div className={Styles.Contents}>
+                <SuspenseLayer>
+                    <MainPane value={myPart} setValue={setMyPart} />
+                </SuspenseLayer>
+            </div>
+            <QtyEditor source={myPart} setSource={setMyPart} />
         </div>
-        <div>
-            {RightPane && <RightPane value={myPart} setValue={setMyPart} /> }
-        </div>
-    </div>
+        {RightPane && <div className={Styles.RightPane}>
+            <div className={Styles.Contents}>
+                <SuspenseLayer>
+                    <RightPane value={myPart} setValue={setMyPart} />
+                </SuspenseLayer>
+            </div>
+        </div>}
+    </>
 }

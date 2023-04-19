@@ -1,4 +1,4 @@
-import React, {createContext, useState} from "react";
+import React, {createContext, useMemo, useState} from "react";
 import {Card, CardActions, CardContent, TextField} from "@mui/material";
 import SellableSourceEditor from "Sheet/MerchantSheet/MerchantInventory/Config/SellableSourceEditor";
 import {StoredSellable} from "Sheet/MerchantSheet/MerchantInventory/Settings";
@@ -10,6 +10,7 @@ import {IdentifiableSellableListPane} from "Sheet/MerchantSheet/MerchantInventor
 import {
     SingleMerchantInventorySourceEditor
 } from "Sheet/MerchantSheet/MerchantInventory/Config/SingleMerchantInventorySourceEditor";
+import {StateSetter} from "Util/React/update/Updater";
 
 export const SellableSourceContext = createContext<any>({})
 
@@ -42,6 +43,13 @@ function sanitize(value: StoredSellable): StoredSellable {
     return x
 }
 
+interface Ctx {
+    store: StoredSellable,
+    setStore: StateSetter<StoredSellable>
+    editing?: string
+}
+export const StoredSellableContext = createContext<Ctx>({} as Ctx)
+
 interface Props {
     setting: { value: StoredSellable }
 }
@@ -53,15 +61,20 @@ export default function StoredSellableComponent({setting}) {
         setEditingPart(undefined)
         setEditing(x)
     }
-    return (<div className="flex-row">
-        <div className={Styles.LeftPane}>
-            {!editing && <StoredSellableList value={store} setValue={setStore} setEditing={rSetEditing} /> }
-            {editing && <IdentifiableSellableListPane sellable={store[editing]} setSellables={setStore} setEditingPart={setEditingPart} setEditingIdentifiable={rSetEditing} />}
-            <hr />
-            <Button onClick={save} disabled={!canSave}>Save</Button>
+    let v = useMemo(()=>({store, setStore, editing}), [store, setStore, editing])
+    return <StoredSellableContext.Provider value={v}>
+        <div className="flex-row" style={{height: "100%"}}>
+            <div className={Styles.LeftPane}>
+                <div className={Styles.Contents}>
+                    {!editing && <StoredSellableList value={store} setValue={setStore} setEditing={rSetEditing} /> }
+                    {editing && <IdentifiableSellableListPane sellable={store[editing]} setSellables={setStore} setEditingPart={setEditingPart} setEditingIdentifiable={rSetEditing} />}
+                </div>
+                <hr />
+                <Button onClick={save} disabled={!canSave}>Save</Button>
+            </div>
+            <div className={Styles.PaneContainer}>
+                {(editingPart && editing) ? <SingleMerchantInventorySourceEditor sellables={store} setSellable={setStore} id={editing} partKey={editingPart} /> : null }
+            </div>
         </div>
-        <div>
-            {(editingPart && editing) ? <SingleMerchantInventorySourceEditor sellables={store} setSellable={setStore} id={editing} partKey={editingPart} /> : null }
-        </div>
-    </div>)
+    </StoredSellableContext.Provider>
 }

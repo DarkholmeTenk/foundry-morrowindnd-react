@@ -1,14 +1,21 @@
-.LeftPane {
+.Pane {
   display: flex;
   flex-direction: column;
-  flex: 0 0 220px;
   height: 100%;
+  .Contents {
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+}
+
+.LeftPane {
+  @extend .Pane;
+  flex: 0 0 220px;
   padding: 1rem;
   border-right: 1px solid var(--color-border-light-primary);
   font-size: var(--font-size-12);
 
   .StoredSellableList {
-    flex-grow: 1;
     display: flex;
     flex-direction: column;
     ul {
@@ -43,4 +50,32 @@
       }
     }
   }
+}
+
+.PaneContainer {
+  flex-grow: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+}
+
+.MainPane {
+  @extend .Pane;
+  flex-grow: 1;
+  border-right: 1px solid saddlebrown;
+}
+
+.RightPane {
+  @extend .Pane;
+}
+
+.Filter {
+  input {
+    width: 300px
+  }
+}
+
+.FilterSample {
+  min-width: 350px;
 }
