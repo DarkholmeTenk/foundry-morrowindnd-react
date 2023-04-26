@@ -23,7 +23,14 @@ interface UI {
     notifications: Notifications
 }
 
+interface Config {
+    Canvas: {
+        layers: Record<string, {group: 'interface', layerClass: new ()=>CanvasLayer}>
+    }
+}
+
 declare global {
     let game: Game
     let ui: UI
+    let CONFIG: Config
 }

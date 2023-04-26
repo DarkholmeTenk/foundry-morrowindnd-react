@@ -1,6 +1,7 @@
 import {createContext, PropsWithChildren, useCallback, useContext, useState} from "react";
 import {StateSetter} from "../update/Updater";
 import {Checkbox, FormControlLabel} from "@mui/material";
+import {SimpleCheckbox} from "Util/Components/SimpleComponents/SimpleCheckbox";
 
 type GMInfo = boolean
 
@@ -21,7 +22,7 @@ export function GmContext({state, children}: PropsWithChildren<{state: GMInfo}>)
 export function GmContextControl({state, setState}: {state: GMInfo, setState: StateSetter<GMInfo>}) {
     if(!isReallyGm()) return null
     let toggleGm = useCallback(()=>setState(x=>!x), [setState])
-    return <FormControlLabel control={<Checkbox checked={state} onChange={toggleGm} />} label={state ? "GM" : "Player"} />
+    return <SimpleCheckbox label={state ? "GM" : "Player"} value={state} setValue={setState} />
 }
 
 export function useIsGm(): boolean {

@@ -14,6 +14,8 @@ import {getterColumn} from "Util/Components/NewItemTable/Util/GetterColumn";
 import {LootControls} from "./LootControls";
 import {useNewSelf} from "Util/React/core/NewSelfSelector";
 import {ItemExpander} from "Util/Components/NewItemTable/Item/ItemExpander";
+import {onItemDrop} from "Util/Helper/DropHelper";
+import {addItem} from "Util/Helper/ItemTransferHelper";
 
 const ValueIndColumn = getterColumn<Item>("Value (i)", item=><GoldDisplay value={item.price()} /> )
 const ValueTotalColumn = getterColumn<Item>("Value (t)", item=><GoldDisplay value={item.qty() * item.price()} />)
@@ -43,9 +45,10 @@ export default function LootSheetComponent({npc}) {
 
     let items = npc!.items.filter(i=>i.type !== "spell")
 
+    let drop = onItemDrop((i)=>{if(npc.isOwner) { addItem(npc, i) }})
     let extraData = useMemo(()=>({desires: mappedDesires, self, selfId, npc}), [mappedDesires, self, selfId, npc])
     let splitNGS = useCallback(()=>LootSplitNGS({lootId: npc?.uuid}), [npc])
-    return <div>
+    return <div onDrop={drop}>
         <div className={Style.header} style={{justifyContent: "space-evenly", alignItems: "center", }}>
             <GoldSection npc={npc}
                          disabled={!npc!.isOwner}

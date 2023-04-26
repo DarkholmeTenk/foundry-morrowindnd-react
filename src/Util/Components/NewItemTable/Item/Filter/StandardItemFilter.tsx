@@ -1,6 +1,4 @@
 import React, {useCallback} from "react";
-import {InputAdornment, TextField} from "@mui/material";
-import IconButton from "../../../IconButton";
 import {ItemTypes, SpellSchools} from "../../ItemTypes";
 import {StateSetter} from "Util/React/update/Updater";
 import {ItemTableFilter} from "../../NewItemTableFilters";

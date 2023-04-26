@@ -1,8 +1,9 @@
 import {TokenSettings} from "Settings/token/TokenSettings";
 import {loadActor} from "Util/Identifiers/UuidHelper";
 import {getLootable, lootTokens} from "Systems/TokenLootAggregator/LootAggregator";
+import {ChatTool} from "Systems/Tools/ChatTools";
 
-async function createLootToken() {
+export async function createLootToken() {
     let lootTokenBase = TokenSettings.value.lootTokenBase
     if(!lootTokenBase) return
     let lootActor = await loadActor(lootTokenBase)
@@ -22,6 +23,15 @@ async function createLootToken() {
 
     await lootTokens(token.actor, toLoot)
 }
+
+Hooks.on("getChatTools", (tools: ChatTool[])=>{
+    if(!game.user.isGM) return
+    tools.push({
+        name: "Loot Tokens",
+        icon: "fas fa-people-robbery",
+        onClick: createLootToken
+    })
+})
 
 interface Control {
     name: string,

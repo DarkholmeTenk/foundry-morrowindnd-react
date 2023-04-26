@@ -1,9 +1,10 @@
-import {MenuItem, Select, Slider} from "@mui/material";
+import {Slider} from "@mui/material";
 import {useState} from "react";
 import {StoredSellables} from "../MerchantInventory/Settings";
 import Styles from "./MerchantFlagComponent.module.scss"
 import {DeleteIcon} from "Util/Components/SimpleComponents/IconLibrary";
 import {Button} from "Util/Components/SimpleComponents/SimpleButton";
+import Selector from "Util/Components/Selector/Selector";
 
 export default function MerchantFlagComponent({merchantFlag, setMerchantFlag}) {
     let [buyRate, setBuyRate] = useState(merchantFlag.buyRate)
@@ -21,11 +22,7 @@ export default function MerchantFlagComponent({merchantFlag, setMerchantFlag}) {
             {sellRate}
         </div>
         <div className="flexrow">
-            <Select value={sellables || "_"} onChange={(e)=>setSellable(e.target.value)}>
-                {Object.keys(StoredSellables.value).sort().map(source=><MenuItem value={source} key={source}>
-                    {source}
-                </MenuItem>)}
-            </Select>
+            <Selector values={Object.keys(StoredSellables.value).sort()} value={sellables} setValue={setSellable} includeNull/>
             <Button onClick={()=>setSellable(null)} icon={DeleteIcon} />
         </div>
         <Button onClick={()=>setMerchantFlag({...merchantFlag, sellables, buyRate, sellRate})}>

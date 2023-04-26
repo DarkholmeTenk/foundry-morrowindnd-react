@@ -9,7 +9,7 @@ declare global {
         h: number
     }
 
-    class TokenLayer {
+    class TokenLayer extends PlaceablesLayer {
         controlled: CanvasToken[]
     }
 }

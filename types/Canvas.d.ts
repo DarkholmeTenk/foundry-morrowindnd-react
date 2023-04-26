@@ -2,7 +2,7 @@ export {}
 
 declare global {
     let canvas: {
-        grid: any;
+        grid: GridLayer;
         scene?: Scene
         tokens: TokenLayer
     }

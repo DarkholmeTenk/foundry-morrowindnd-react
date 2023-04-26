@@ -70,10 +70,10 @@ export function onDrop(callback: (i: DocumentBase)=>void) {
     }
 }
 
-export function onItemDrop(callback: (i: Item)=>void) {
+export function onItemDrop(callback: (i: Item5e)=>void) {
     return onDrop(x=>{
         if(x instanceof Item) {
-            callback(x)
+            callback(x as Item5e)
         }
     })
 }

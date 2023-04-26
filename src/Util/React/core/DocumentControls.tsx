@@ -1,8 +1,9 @@
 import {useCallback, useState} from "react";
-import {Button, Popover} from "@mui/material";
+import {Popover} from "@mui/material";
 import {PermissionControls} from "./PermissionControls";
 import {useWatchEntity} from "Util/Helper/EntityHelper";
 import {useIsGm} from "Util/React/core/GmContext";
+import {Button} from "Util/Components/SimpleComponents/SimpleButton";
 
 export type MyDocument = Actor | Item | JournalEntry
 export function DocumentControls<T extends DocumentBase>({doc}: {doc: DocumentBase}) {
@@ -15,7 +16,7 @@ export function DocumentControls<T extends DocumentBase>({doc}: {doc: DocumentBa
     if(!doc) return null
     if(!doc.isOwner && !isGm) return null
     return <>
-        <div><Button onClick={open} size="small">Configure</Button></div>
+        <div><Button onClick={open} >Configure</Button></div>
         <Popover open={isOpen !== undefined} anchorEl={isOpen} onClose={close}>
             Controls:
             <PermissionControls document={doc} />
