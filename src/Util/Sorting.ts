@@ -1,4 +1,4 @@
-type Comparator<T> = (a:T, b: T)=>number
+export type Comparator<T> = (a:T, b: T)=>number
 
 export function chainSort<T>(...comparators: Comparator<T>[]): Comparator<T> {
     return (a,b)=>{

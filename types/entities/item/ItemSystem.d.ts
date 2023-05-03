@@ -23,6 +23,11 @@ declare global {
     type ConsumableEntry = SystemEntry<"consumable", ConsumableData>
 
     interface EquipmentData extends HoldableItemData {
+        armor : {
+            type: string
+            dex?: number
+            value?: number
+        }
     }
 
     type EquipmentEntry = SystemEntry<"equipment", EquipmentData>
@@ -40,16 +45,22 @@ declare global {
 
     type SpellEntry = SystemEntry<"spell", SpellData>
 
-    type UndecoratedEntry = SystemEntry<"backpack" | "feat" | "subclass", BaseItemData>
-    type HoldableUndecoratedEntry = SystemEntry<"loot" | "tool" | "weapon", HoldableItemData>
+    interface WeaponData extends HoldableItemData {
+        weaponType: string
+    }
+    type WeaponEntry = SystemEntry<"weapon", WeaponData>
 
-    type HoldableEntry = HoldableUndecoratedEntry | EquipmentEntry | ConsumableEntry
+    type UndecoratedEntry = SystemEntry<"backpack" | "feat" | "subclass", BaseItemData>
+    type HoldableUndecoratedEntry = SystemEntry<"loot" | "tool", HoldableItemData>
+
+    type HoldableEntry = HoldableUndecoratedEntry | EquipmentEntry | ConsumableEntry | WeaponEntry
 
     export type ItemSystem =
         SpellEntry
         | EquipmentEntry
         | ClassEntry
         | ConsumableEntry
+        | WeaponEntry
         | UndecoratedEntry
         | HoldableUndecoratedEntry
     export type ItemSystemData = ItemSystem["system"]

@@ -12,6 +12,7 @@ import {TravelJourneyDecoratedViewer} from "Systems/Traveller/JourneyBuilder/Tra
 import {useIsGm} from "Util/React/core/GmContext";
 import {Button} from "Util/Components/SimpleComponents/SimpleButton";
 import {createGroupPayMessage} from "Systems/GroupPay/Message/CreateGroupPayMessage";
+import {useCanvasScene} from "Util/Helper/EntityHelper";
 
 interface CtxData {
     token: TokenDocument,
@@ -70,8 +71,8 @@ function TravelJourneyBuilderContents({token, sceneData}: {token: TokenDocument,
 
 export function TravelJourneyBuilder() {
     let actor = useParty()
-    let token = useCanvasToken(canvas?.scene!, actor)
-    let scene = canvas?.scene
+    let scene = useCanvasScene()
+    let token = useCanvasToken(scene, actor)
     let sceneData = scene ? getSceneNoteData(scene) : undefined
     if(!sceneData || sceneData.length == 0 || !token) return <div>Cannot build journey</div>
     return <div>

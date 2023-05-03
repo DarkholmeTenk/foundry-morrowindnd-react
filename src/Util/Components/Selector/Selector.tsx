@@ -1,3 +1,6 @@
+import {FieldProps} from "Util/Components/Input/FieldData";
+import {LabeledField} from "Util/Components/Input/LabeledField";
+
 interface Props<V> {
     values: V[]
     value: V
@@ -21,4 +24,11 @@ export default function Selector<T>({values, value, setValue, labelFunction=(s)=
             return <option key={label} value={label}>{label}</option>
         })}
     </select>
+}
+
+type SFieldProps<T> = FieldProps<T> & Omit<Props<T>, "value" | "setValue" | "label">
+export function SelectorField<T>({values, value, setter, labelFunction=(s)=>""+s, label, includeNull=false}: SFieldProps<T>) {
+    return <LabeledField label={label}>
+        <Selector values={values} value={value} setValue={setter} labelFunction={labelFunction} includeNull={includeNull} />
+    </LabeledField>
 }

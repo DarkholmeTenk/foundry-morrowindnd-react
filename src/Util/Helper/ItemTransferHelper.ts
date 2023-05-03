@@ -12,9 +12,6 @@ export interface ExtraAddItemOptions {
 
 export function fixItemData(itemData: any, options: ExtraAddItemOptions) {
     itemData = deepClone(itemData)
-    // if(itemData.effects && !Array.isArray(itemData.effects)) {
-    //     itemData.effects = Object.values(itemData.effects).map(x=>x)
-    // }
     if(options?.qty) {
         itemData.system.quantity = options.qty
     }

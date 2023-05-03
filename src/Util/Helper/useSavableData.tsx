@@ -1,6 +1,7 @@
 import {StateSetter} from "Util/React/update/Updater";
 import {useEffect, useState} from "react";
 import {useClosingPrevention} from "Util/React/core/MixinContext";
+import {FlagResult} from "Util/Helper/FlagHelper";
 
 export function useSavableData<T>(initialData: T, save: (newValue: T)=>(void | Promise<void>)): [T, StateSetter<T>, ()=>Promise<void>, boolean] {
     let {stopClosing, enableClosing} = useClosingPrevention()
@@ -16,4 +17,9 @@ export function useSavableData<T>(initialData: T, save: (newValue: T)=>(void | P
         return ()=>enableClosing()
     }, [value, saved])
     return [value, setValue, doSave, value!==saved]
+}
+
+export function useSavableFlag<T>(flag: FlagResult<T>) {
+    let [v, s] = flag
+    return useSavableData(v, s)
 }

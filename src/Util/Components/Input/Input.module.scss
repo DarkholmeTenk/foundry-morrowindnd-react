@@ -1,0 +1,43 @@
+.Labeled {
+  display: flex;
+  flex-direction: row;
+  .Label {
+    width: 80px;
+  }
+}
+
+.ColorSpan {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  input {
+    width: 4em;
+    padding: 3px;
+  }
+
+  .r {
+    border: 1px solid saddlebrown;
+    border-top-left-radius: 5px;
+    border-right: 0;
+    border-bottom: 2px red solid;
+  }
+  .g {
+    border: 0;
+    border-top: 1px solid saddlebrown;
+    border-bottom: 2px green solid;
+  }
+  .b {
+    border-top-right-radius: 5px;
+    border: 1px solid saddlebrown;
+    border-left: 0;
+    border-bottom: 2px blue solid;
+  }
+
+  .ColorBlock {
+    height: 90%;
+    aspect-ratio: 1 / 1;
+    border: 1px solid saddlebrown;
+    border-radius: 5px;
+    margin-left: 0.5em;
+  }
+}

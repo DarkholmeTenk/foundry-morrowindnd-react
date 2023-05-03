@@ -1,6 +1,7 @@
 import {Dispatch, SetStateAction, useCallback, useMemo} from "react";
 
 export type UpdateCallback<T> = (oldValue: T)=>T
+export type SetParam<T> = T | UpdateCallback<T>
 export interface BaseUpdater<T> {
     set: (newValue: T)=>void,
     update: (callback: UpdateCallback<T>)=>void
@@ -23,14 +24,18 @@ export function callUpdater<T>(oldValue: T, x: T | UpdateCallback<T>): T {
     }
 }
 
-export function useMappedSetter<T, K extends keyof T, U extends T[K]>(key: K, set: StateSetter<T>): StateSetter<U> {
-    return useCallback((x)=>{
+export function getMappedSetter<T, K extends keyof T, U extends T[K]>(key: K, set: StateSetter<T>): StateSetter<U> {
+    return (x)=>{
         set((oldT)=>{
             let newT = {...oldT}
             newT[key] = callUpdater(oldT[key] as U, x)
             return newT
         })
-    }, [set, key])
+    }
+}
+
+export function useMappedSetter<T, K extends keyof T, U extends T[K]>(key: K, set: StateSetter<T>): StateSetter<U> {
+    return useCallback(getMappedSetter(key, set), [set, key])
 }
 
 export function useSafeSetter<T>(set: StateSetter<T | undefined>, def: T): StateSetter<T> {

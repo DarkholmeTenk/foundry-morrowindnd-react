@@ -7,8 +7,14 @@ export function useParty() {
     return actor
 }
 
-export function useCanvasToken(scene: Scene, actor: Actor | null): TokenDocument | null {
-    let token = actor ? scene.tokens.find(x=>x.actor?.uuid === actor.uuid) as TokenDocument : null
+export function useCanvasToken(scene: Scene | undefined, actor: Actor | null): TokenDocument | null {
+    let token: TokenDocument | undefined = undefined
+    if(actor) {
+        if(actor.token)
+            token = actor.token
+        else if(scene)
+            token = scene.tokens.find(x=>x.actor?.uuid === actor.uuid)
+    }
     useWatchEntity(token)
-    return token
+    return token ?? null
 }

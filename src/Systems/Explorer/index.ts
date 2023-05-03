@@ -1,6 +1,5 @@
-import {TravelCanvasLayer} from "Systems/Traveller/Canvas/canvas";
-import {openToolsApplication} from "Systems/Tools/OpenToolsApplication";
 import {ExplorerLayer} from "Systems/Explorer/ExplorerLayer";
+import {openRegionEditor} from "Systems/Explorer/Regions/Editor/RegionEditor";
 
 Hooks.once("init", canvas => {
     CONFIG.Canvas.layers['ExplorerLayer'] = {group: "interface", layerClass: ExplorerLayer}
@@ -8,15 +7,21 @@ Hooks.once("init", canvas => {
 Hooks.on("getSceneControlButtons", (controls) => {
     let tools = [
         {
-            name: "Mark Region",
-            title: "Plan Travel",
+            name: "select",
+            title: "Select Region",
             icon: "far fa-compass",
         },
         {
-            name: "Tools",
+            name: "z",
             title: "Tools",
-            icon: "fas fa-toolbox",
-            onClick: openToolsApplication
+            icon: "fas fa-toolbox"
+        },
+        {
+            name: "Regions",
+            title: "Regions",
+            icon: "fas fa-map-location",
+            button: true,
+            onClick: openRegionEditor
         }
     ]
     controls.push({

@@ -1,3 +1,5 @@
+import {callUpdater, SetParam} from "Util/React/update/Updater";
+
 export const FLAG_SCOPE = "MorrowinDnDReact"
 export type FlagResult<T> = [T, (t: T)=>Promise<any>]
 
@@ -7,5 +9,5 @@ export default function getFlag<T extends object>(object: DocumentBase, flagId: 
 
     let flag: T = {...defFlag, ...objectFlag}
     // @ts-ignore
-    return [flag, (newFlag)=>object.setFlag(FLAG_SCOPE, flagId, newFlag)]
+    return [flag, (newFlag: SetParam<T>)=>object.setFlag(FLAG_SCOPE, flagId, callUpdater(flag, newFlag))]
 }

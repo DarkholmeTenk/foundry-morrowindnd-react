@@ -1,4 +1,4 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import LogFactory from "../Logging";
 import {useRefresh} from "./useForceUpdate";
 import {useHook} from "./HookHelper";
@@ -42,4 +42,15 @@ export function useWatchEntity<T extends DocumentBase>(entity: Opt<T>, onChange?
         return ()=>Hooks.off(event, hookId)
     }, [uuid, type, refresh])
     return entity ?? undefined
+}
+
+export function useCanvasScene(): Scene | undefined {
+    let [scene, setScene] = useState(canvas.scene)
+    useWatchEntity(scene)
+    useHook("canvasReady", ()=>{
+        setScene((old)=>{
+            if(old?.uuid !== canvas.scene?.uuid) return canvas.scene
+        })
+    }, [])
+    return scene
 }

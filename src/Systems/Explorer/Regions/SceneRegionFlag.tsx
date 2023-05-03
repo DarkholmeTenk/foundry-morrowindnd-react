@@ -1,47 +1,29 @@
-interface RegionType {
+import getFlag from "Util/Helper/FlagHelper";
+
+export interface RegionType {
     id: string,
     name: string,
     parentId?: string,
     color: number
 }
 
-interface RegionBlock {
+export interface RegionBlock {
     start: [number, number]
     end: [number, number]
     region: string
 }
 
-interface SceneRegionFlag {
+export interface SceneRegionFlag {
     regionTypes: RegionType[]
     regionMap: RegionBlock[]
 }
 
-export class SceneRegionData {
-    private regions: Record<string, RegionType>
-    constructor(private data: SceneRegionFlag, private setter: (nv: SceneRegionFlag)=>Promise<void>) {
-        this.regions = {}
-        data.regionTypes.forEach(x=>this.regions[x.id] = x)
-    }
-    getRegion(id: string): RegionType {
-        let x = this.regions[id]
-        return x ?? {id, name: "UNKNOWN", color: 0x00FF00}
-    }
-
-    getBlocks() {
-        return this.data.regionMap
-    }
+export const FallbackRegion: RegionType = {id: "null", name: "UNKNOWN", color: 0xFF0000}
+const DefaultFlag: SceneRegionFlag = {
+    regionTypes: [],
+    regionMap: []
 }
 
-export function getRegionFlag(scene: Scene): SceneRegionData {
-    let data: SceneRegionFlag = {
-        regionTypes: [{
-            id: "id_1",
-            name: "Region",
-            color: 0xFF0000
-        }],
-        regionMap: [
-            {start: [3, 3], end: [6, 10], region: "id_1"}
-        ]
-    }
-    return new SceneRegionData(data, (v)=>Promise.resolve())
+export function getRegionFlag(scene: Scene) {
+    return getFlag(scene, "SceneRegions", DefaultFlag)
 }

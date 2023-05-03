@@ -5,6 +5,7 @@ import {NoteData} from "../Data/NoteData";
 import {calculateDijkstra, DijkstraData} from "./Dijkstra";
 import {Jump} from "./Jumps";
 import {TimeSorter} from "./JumpSorter";
+import {useCanvasScene} from "Util/Helper/EntityHelper";
 
 function name(note: NoteData | undefined) {
     return note?.note?.name ?? note?.entry?.name ?? "Unknown Location"
@@ -51,8 +52,8 @@ function SceneTravelPlanner({party, partyToken, noteData}: SceneTravelPlannerArg
 
 export default function TravelPlanner() {
     let actor = useParty()
-    let token = useCanvasToken(canvas?.scene!, actor)
-    let scene = canvas?.scene
+    let scene = useCanvasScene()
+    let token = useCanvasToken(scene, actor)
     let sceneData = scene ? getSceneNoteData(scene) : undefined
     if(sceneData && sceneData.length > 1) {
         if (actor && token) {
