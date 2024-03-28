@@ -14,6 +14,7 @@ declare global {
     function setProperty(obj: any, key: string, value: any): boolean
     function invertObject<A extends Key, B extends Key>(obj: Record<A,B>): Record<B, A>
     function deepClone<T>(object: T): T
+    function randomID(length? : number): string
 
     interface Number {
         toNearest: (interval?: number, method?: "round" | "ceil" | "floor")=>number

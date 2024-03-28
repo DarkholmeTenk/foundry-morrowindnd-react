@@ -4,7 +4,8 @@ export interface RegionType {
     id: string,
     name: string,
     parentId?: string,
-    color: number
+    color: number,
+    ingredients: string[] | undefined
 }
 
 export interface RegionBlock {
@@ -18,7 +19,7 @@ export interface SceneRegionFlag {
     regionMap: RegionBlock[]
 }
 
-export const FallbackRegion: RegionType = {id: "null", name: "UNKNOWN", color: 0xFF0000}
+export const FallbackRegion: RegionType = {id: "null", name: "UNKNOWN", color: 0xFF0000, ingredients: []}
 const DefaultFlag: SceneRegionFlag = {
     regionTypes: [],
     regionMap: []

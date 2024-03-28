@@ -6,6 +6,19 @@
   }
 }
 
+.ImageSpan {
+  width: 100%;
+  img {
+    height: 24px;
+  }
+  button {
+    width: 120px;
+  }
+
+  display: flex;
+  flex-direction: row;
+}
+
 .ColorSpan {
   display: flex;
   flex-direction: row;
@@ -39,5 +52,27 @@
     border: 1px solid saddlebrown;
     border-radius: 5px;
     margin-left: 0.5em;
+  }
+}
+
+.SplitTaker {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+
+  div {
+    width:50%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  img {
+    height: 1rem;
+  }
+
+  .Row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   }
 }

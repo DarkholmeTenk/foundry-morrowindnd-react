@@ -1,10 +1,13 @@
 import {useArrayUpdater} from "Util/Helper/ArrayReducers";
 import {RegionType} from "Systems/Explorer/Regions/SceneRegionFlag";
-import {StateSetter} from "Util/React/update/Updater";
+import {StateSetter, useMappedSetter, useSafeSetter} from "Util/React/update/Updater";
 import Styles from "Systems/Explorer/Regions/Editor/RegionEditor.module.scss";
 import {getFieldData} from "Util/Components/Input/FieldData";
 import {StringField} from "Util/Components/Input/InputField";
 import {ColorField} from "Util/Components/Input/ColorField";
+import {SplitTypeSelector} from "Util/Components/Input/SplitTypeSelector";
+import {AlchemyRegistry, AlchemySetting} from "Systems/Crafting/Alchemy/Config/AlchemySetting";
+import {LabeledField} from "Util/Components/Input/LabeledField";
 
 interface FormProps {
     region: RegionType,
@@ -14,9 +17,13 @@ interface FormProps {
 
 function RegionEditorForm({region, setRegion, clear}: FormProps) {
     let fields = getFieldData(region, setRegion)
+    let setIngredients = useSafeSetter(useMappedSetter("ingredients", setRegion), [] as string[])
     return <div>
         <StringField {...fields.get("name")} />
         <ColorField {...fields.get("color")} />
+        <LabeledField label="Ingredients">
+            <SplitTypeSelector potential={AlchemySetting.value.items} selected={region.ingredients || []} setSelected={setIngredients} />
+        </LabeledField>
     </div>
 }
 

@@ -6,6 +6,7 @@ import {TravelJourneyBuilder} from "Systems/Traveller/JourneyBuilder/TravelJourn
 import NPCMakerComponent from "Systems/NPCMaker/NPCMakerComponent";
 import {useIsGm} from "Util/React/core/GmContext";
 import {MaterialsComponent} from "Systems/Tools/Materials/MaterialsComponent";
+import {AnywhereAlchemySettingMenu} from "Systems/Crafting/Alchemy/Config/AlchemySetting";
 
 interface  Tool {
     id: string
@@ -34,6 +35,11 @@ const Tools: Tool[] = [
         id: "materials",
         name: "Material Display",
         component: MaterialsComponent
+    },
+    {
+        id: "alchemy",
+        name: "Alchemy Config",
+        component: AnywhereAlchemySettingMenu
     }
 ]
 

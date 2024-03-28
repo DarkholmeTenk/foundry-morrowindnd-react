@@ -12,7 +12,7 @@ declare global {
     type SmartItemData = ItemData & ItemSystem
 
     class Item extends DocumentBase implements ItemData {
-        static create(data: ItemData, context: any): Promise<Item5e>
+        static create(data: Partial<ItemData>, context: any): Promise<Item5e>
         img: string
         type: string
         system: ItemSystemData

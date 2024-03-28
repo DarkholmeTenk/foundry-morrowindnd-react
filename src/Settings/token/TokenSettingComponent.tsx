@@ -1,4 +1,4 @@
-import {Setting} from "Settings/Config";
+import {SettingObject} from "Settings/Config";
 import {TokenSetting} from "Settings/token/TokenSettings";
 import {useCallback, useState} from "react";
 import {Button} from "@mui/material";
@@ -9,7 +9,7 @@ import {useMappedSetter, useSafeSetter} from "Util/React/update/Updater";
 import {PartyActorSelector} from "Util/Components/PartyActorSelector/PartyActorSelector";
 
 interface TokenSettingComponentArgs {
-    setting: Setting<TokenSetting>
+    setting: SettingObject<TokenSetting>
 }
 
 export default function TokenSettingComponent({setting}: TokenSettingComponentArgs) {

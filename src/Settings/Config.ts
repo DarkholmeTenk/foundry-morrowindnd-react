@@ -28,6 +28,7 @@ export interface BaseSettingData<X> {
     type: any
 }
 export class BaseSetting<Y extends RealSettingData<X>, X> {
+    version = 0
     constructor(public readonly data: Y) {}
 
     get value(): X {
@@ -44,19 +45,23 @@ export class BaseSetting<Y extends RealSettingData<X>, X> {
 export interface MySettingData<X> extends BaseSettingData<X> {
     config?: boolean
 }
-export class Setting<X> extends BaseSetting<RealSettingData<X>, X> {
+export class SettingObject<X> extends BaseSetting<RealSettingData<X>, X> {
     constructor(data: MySettingData<X>) {
         super({...data, scope: data.scope ?? "world", config: data.config ?? true})
     }
 
     register() {
+        this.version = 1
         game.settings.register(SettingsModuleKey, this.data.key, {
-            ...this.data
+            ...this.data,
+            onChange: ()=>{
+                this.version++
+            }
         } as any)
     }
 }
-export function setupSetting<X>(data: MySettingData<X>): Setting<X> {
-    return addSetting(new Setting<X>(data))
+export function setupSetting<X>(data: MySettingData<X>): SettingObject<X> {
+    return addSetting(new SettingObject<X>(data))
 }
 
 function init() {

@@ -1,7 +1,10 @@
 import {getGoldValue} from "../Helper/GoldHelper";
 
-export function itemQty(item: Item): number {
-    return item.qty()
+export function itemQty(item: Item | SmartItemData): number {
+    if(item instanceof Item)
+        return item.qty()
+    else
+        return ("quantity" in item.system ? item.system.quantity : undefined) ?? 0
 }
 
 export function itemPrice(item: Item): number {

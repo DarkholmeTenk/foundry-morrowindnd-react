@@ -11,6 +11,8 @@ import {DeleteIcon, EditIcon} from "Util/Components/SimpleComponents/IconLibrary
 import {SuspenseLayer} from "Util/Suspense/SuspenseLoadIndicator";
 import {RegionEditorFormWrap} from "Systems/Explorer/Regions/Editor/RegionEditorForm";
 import {ActiveRegion, ActiveRegionChooser, useActiveRegion} from "Systems/Explorer/Regions/ActiveRegion";
+import {LeftPane, MainPane, PaneView} from "Util/Components/Layout/Panes";
+import {LeftPaneEditorList} from "Util/Components/Layout/LeftPaneEditorList";
 
 let typeSorter: Comparator<RegionType> = chainSort(
     mapSort(x=>x.name, StringSorter),
@@ -36,25 +38,31 @@ function RegionEditorList({regions, setter, setEditing}: ListProps) {
     </ul>
 }
 
+function newRegion(): RegionType {
+    return {
+        id: randomID(),
+        name: "New Region",
+        parentId: undefined,
+        color: 0xFF00FF,
+        ingredients: []
+    }
+}
+
 export function RegionEditorComponent() {
     let scene = useCanvasScene()!
     let [store, setStore, save, canSave] = useSavableFlag(getRegionFlag(scene))
     let [editing, setEditing] = useState<string | undefined>()
     let listSetter = useMappedSetter("regionTypes", setStore)
-    let adder = useArrayAdder(listSetter)
-    return <div className={Styles.RegionEditor}>
-        <div className={Styles.LeftPane}>
+    return <PaneView>
+        <LeftPane>
             <ActiveRegionChooser regions={store.regionTypes} />
-            <div className={Styles.List}>
-                <RegionEditorList regions={store.regionTypes} setter={listSetter} setEditing={setEditing}/>
-            </div>
-            <Button onClick={()=>adder({id: "id_" + Math.random(), name: "Hi", parentId: undefined, color: 0xFF00FF})}>Add New Region</Button>
+            <LeftPaneEditorList list={store.regionTypes} set={listSetter} editing={editing} setEditing={setEditing} addNew={newRegion} />
             <Button onClick={save} disabled={!canSave}>Save</Button>
-        </div>
-        <div className={Styles.MainPane}>
+        </LeftPane>
+        <MainPane>
             <SuspenseLayer>
                 {editing ? <RegionEditorFormWrap regions={store.regionTypes} setter={listSetter} editing={editing} clear={()=>setEditing(undefined)} /> : null }
             </SuspenseLayer>
-        </div>
-    </div>
+        </MainPane>
+    </PaneView>
 }

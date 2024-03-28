@@ -17,6 +17,7 @@ declare global {
         label?: string,
         icon?: string,
         type: typeof FormApplication,
+        onChange?: (value: any)=>void
         restricted?: boolean
     }
 

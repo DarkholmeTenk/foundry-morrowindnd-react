@@ -3,7 +3,10 @@ import {useCallback} from "react";
 
 export type Adder<T> = (newValue: T | T[])=>void
 export type Remover = (slot: number)=>void
-export type Updater<T> = (slot: number, newValue: T | UpdateCallback<T>)=>void
+export type Updater<T> = {
+    (slot: number, newValue: T | UpdateCallback<T>): void,
+    forSlot: (slot: number) => StateSetter<T>
+}
 export function useArrayRemover<T>(setter: StateSetter<T[]>): Remover {
     return useCallback((slot: number)=>{
         setter(original=>{
@@ -22,14 +25,17 @@ export function useArrayAdder<T>(setter: StateSetter<T[]>): Adder<T> {
 }
 
 export function useArrayUpdater<T>(setter: StateSetter<T[]>): Updater<T> {
-    return useCallback((slot, newValue)=>{
+    let x = (slot, newValue)=>{
         setter((original)=>{
             let newTables = [...original]
             let oldValue = newTables[slot]
             newTables[slot] = callUpdater(oldValue, newValue)
             return newTables
         })
-    }, [setter])
+    }
+    let v: Updater<T> = x as Updater<T>
+    v.forSlot = (slot)=>(x)=>v(slot, x)
+    return v
 }
 
 export function useArrayReducers<T>(setter: StateSetter<T[]>): [update: Updater<T>, adder: Adder<T>, remover: Remover] {

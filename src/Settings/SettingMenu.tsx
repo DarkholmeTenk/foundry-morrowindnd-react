@@ -7,11 +7,15 @@ import {
     MySettingData,
     RealSettingData,
     Scope,
-    Setting,
+    SettingObject,
     setupSetting
 } from "./Config";
 
-interface RealSettingMenuData<X> extends RealSettingData<X>, SettingMenuData<X> {
+interface RealSettingMenuData<X> extends Omit<RealSettingData<X>, "type">, SettingMenuData<X> {
+}
+
+export interface SettingProp<T> {
+    setting: SettingObject<T>
 }
 
 interface SettingMenuData<X> extends BaseSettingData<X> {
@@ -19,11 +23,12 @@ interface SettingMenuData<X> extends BaseSettingData<X> {
     icon?: string,
     sheetOptions?: any,
     restricted: boolean,
-    scope: Scope
+    scope: Scope,
+    type: (props: SettingProp<X>)=>JSX.Element
 }
 
 export class SettingMenu<X extends object> extends BaseSetting<RealSettingMenuData<X>, X> {
-    constructor(private readonly setting: Setting<X>, data: SettingMenuData<X>) {
+    constructor(private readonly setting: SettingObject<X>, data: SettingMenuData<X>) {
         super({...data, scope: data.scope ?? "world", config: true});
     }
 
@@ -51,9 +56,13 @@ export class SettingMenu<X extends object> extends BaseSetting<RealSettingMenuDa
             }
         }
 
+        this.version = 1
         game.settings.registerMenu(SettingsModuleKey, this.data.key, {
             ...this.data,
-            type: TempClass
+            type: TempClass,
+            onChange: ()=>{
+                this.version++
+            }
         })
     }
 }
